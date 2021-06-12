@@ -26,7 +26,8 @@ export default function HomePage() {
           />
 
           <div className={styles.grid}>
-            <Link href="/orders">
+            <Link href="/">
+              {/* <Link href="/orders"> */}
               <a className={styles.card}>
                 <VerifiedUserIcon
                   className={classes.settingIcon}
