@@ -1,65 +1,77 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import MainLayout from "../components/layouts/mainLayouts";
+import styles from "../styles/Home.module.css";
+import Link from "next/link";
+import { makeStyles } from "@material-ui/core/styles";
+import SettingsIcon from "@material-ui/icons/Settings";
+import FaceIcon from "@material-ui/icons/Face";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 
-export default function Home() {
+const useMainMenuStyles = makeStyles({
+  settingIcon: {
+    color: "SteelBlue",
+  },
+});
+
+export default function HomePage() {
+  const classes = useMainMenuStyles();
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <MainLayout>
+        <main className={styles.main}>
+          <img
+            src="/logoAlerteMe.png"
+            alt="logo AlerteMe"
+            className={styles.logoMain}
+          />
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+          <div className={styles.grid}>
+            <Link href="/orders">
+              <a className={styles.card}>
+                <VerifiedUserIcon
+                  className={classes.settingIcon}
+                  fontSize="large"
+                ></VerifiedUserIcon>
+                <h3>Análise de Risco</h3>
+                <p>Analisar e Gerir Riscos de Fraude</p>
+              </a>
+            </Link>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+            <Link href="/chargeback">
+              <a className={styles.card}>
+                <ThumbDownIcon
+                  className={classes.settingIcon}
+                  fontSize="large"
+                ></ThumbDownIcon>
+                <h3>Chargeback</h3>
+                <p>Consultar Chargebacks Reportados</p>
+              </a>
+            </Link>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+            <Link href="/client">
+              <a className={styles.card}>
+                <FaceIcon
+                  className={classes.settingIcon}
+                  fontSize="large"
+                ></FaceIcon>
+                <h3>Perfil</h3>
+                <p>Analisar Perfil do Cliente</p>
+              </a>
+            </Link>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+            <Link href="/rules">
+              <a className={styles.card}>
+                <SettingsIcon
+                  className={classes.settingIcon}
+                  fontSize="large"
+                ></SettingsIcon>
+                <h3>Configuração</h3>
+                <p>Definir Perfis e Regras</p>
+              </a>
+            </Link>
+          </div>
+        </main>
+      </MainLayout>
     </div>
-  )
+  );
 }

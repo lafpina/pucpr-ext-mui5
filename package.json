@@ -2,13 +2,19 @@
   "name": "nextjs",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://fraldasdipano.vtexcommercestable.com.br",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/data-grid": "^4.0.0-alpha.31",
+    "@material-ui/icons": "^4.11.2",
+    "moment-timezone": "^0.5.33",
     "next": "10.x",
+    "pagarme": "^4.17.0",
     "react": "17.x",
     "react-dom": "17.x"
   }
