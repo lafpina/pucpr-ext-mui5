@@ -4,18 +4,22 @@ import moment from "moment-timezone";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
-//? API
+//? API components
 const pagarme = require("pagarme");
 import getOrder from "../../components/lib/api/getOrder";
+import getOption from "../../components/lib/api/getOption";
+import getListOrders from "../../components/lib/api/getListOrders";
+import getURL from "../../components/lib/api/getURL";
 //? Customized components
+import setCurrency from "../../components/lib/utils/setCurrency";
+import RiskScoreListTable from "../../components/orders/risk-score-list-table";
+import titleCase from "../../components/lib/utils/titleCase";
 import { isBlackListed } from "../../data/black-list.js";
 import { isWhiteListed } from "../../data/white-list.js";
-import setCurrency from "../../components/lib/utils/setCurrency";
-import RiskScoreList from "../../components/orders/order-feed";
-import getURL from "../../components/lib/api/getURL";
-import getOption from "../../components/lib/api/getOption";
-import titleCase from "../../components/lib/utils/titleCase";
-import getListOrders from "../../components/lib/api/getListOrders";
+import { buildCarrier } from "../../components/orders/build-carrier";
+import { buildFirstLastName } from "../../components/orders/build-first-last-name";
+import { getRiskProfile } from "../../components/orders/get-risk-profile";
+import showMessageError from "../../components/lib/utils/show-message-error";
 
 const useStyles = makeStyles({
   title: {
@@ -42,7 +46,6 @@ function AllOrdersPage(props) {
           className={styles.logoOrders}
         />
       </Typography>
-
       <Typography
         className={classes.description}
         variant="caption"
@@ -60,10 +63,9 @@ function AllOrdersPage(props) {
         ).toFixed(2) + "%"}
         )
       </Typography>
-
       <div>
         {props.eMessage.fetchStatus === 200 ? (
-          <RiskScoreList orders={props.allOrders} />
+          <RiskScoreListTable orders={props.allOrders} />
         ) : (
           showMessageError(props.eMessage, props.eMessage2)
         )}
@@ -72,22 +74,6 @@ function AllOrdersPage(props) {
   );
 }
 
-const showMessageError = (eMessage, eMessage2) => {
-  {
-    console.log("===================== ERROR MESSAGE ================");
-    console.log("STATUS: ", eMessage.fetchStatus);
-    // console.log("URL: ", eMessage.fetchUrl);
-    // console.log("QS: ", eMessage.fetchQs);
-    // console.log("HEADER: ", eMessage.fetchHeader);
-    console.log("====================================================");
-    console.log("===================== ERROR MESSAGE 2 ==============");
-    console.log("STATUS: ", eMessage2.fetchStatus);
-    // console.log("URL: ", eMessage2.fetchUrl);
-    // console.log("HEADER: ", eMessage2.fetchHeader);
-    console.log("====================================================");
-  }
-};
-
 export async function getStaticProps() {
   var eMessage = {
     fetchStatus: "",
@@ -95,14 +81,12 @@ export async function getStaticProps() {
     fetchQs: "",
     fetchHeader: "",
   };
-
   var eMessage2 = {
     fetchStatus: "",
     fetchUrl: "",
     fetchQs: "",
     fetchHeader: "",
   };
-
   var allOrders = [];
   var cleanFeedOrders = [];
 
@@ -136,7 +120,6 @@ export async function getStaticProps() {
   //*-----------------------------------------------------
   //*? Fetch Order based on cleanFeedOrders -> allOrders
   //*-----------------------------------------------------
-
   let i;
   let apiPagarme = "ak_live_i3JdusnggPsU1ymvogfoOfmmkvGfMM";
   let fullName;
@@ -353,10 +336,9 @@ export async function getStaticProps() {
         ],
       });
     } else {
-      console.log("ORDER não encontrada na VTEX");
+      console.log("Pedido não encontrada na VTEX");
     }
   }
-
   //*-----------------------------------------------------
   //*? Return allOrders to the orders page
   //*-----------------------------------------------------
@@ -374,265 +356,3 @@ export async function getStaticProps() {
 }
 
 export default AllOrdersPage;
-
-//? FUNÇÕES QUE IRÃO SE TRANFORMAR EM COMPONENTS
-
-async function getRiskProfile(
-  order,
-  clientName,
-  cardName,
-  clientEmail,
-  carrier,
-  items,
-  gift,
-  payment,
-  cardCountry,
-  cardInstallments,
-  value
-) {
-  var riskProfile = {
-    riskCardHolder: 0,
-    riskCarrier: 0,
-    riskGift: 0,
-    riskPayment: 0,
-    riskCustomKit: 0,
-    riskValue: 0,
-    qtyPurchase: 0,
-    riskHistoryPurchase: 0,
-    riskScore: 100,
-    riskDescription: "Muito Alto",
-    riskKitCustom: " ",
-    riskIsCardHolder: false,
-  };
-
-  // Entrega (5)Entrega Expressa - (15)Retirada na Loja
-
-  if (carrier === "Expressa") {
-    riskProfile.riskScore = riskProfile.riskScore - 5;
-    riskProfile.riskCarrier = -5;
-  } else if (carrier === "Retirada") {
-    riskProfile.riskScore = riskProfile.riskScore - 15;
-    riskProfile.riskCarrier = -15;
-  }
-
-  // Compra para uma lista (20)
-
-  if (gift) {
-    riskProfile.riskScore = riskProfile.riskScore - 20;
-    riskProfile.riskGift = -20;
-  }
-
-  // Compra com Depósito Bancário (30)
-
-  if (payment[0].substr(0, 8) === "Depósito") {
-    riskProfile.riskScore = riskProfile.riskScore - 30;
-    riskProfile.riskPayment = -30;
-  }
-
-  // Compra com Pix (35)
-
-  if (payment[0] === "Pix") {
-    riskProfile.riskScore = riskProfile.riskScore - 35;
-    riskProfile.riskPayment = -35;
-  }
-
-  // Compra com Vale (40)
-
-  if (payment.indexOf("Vale") > -1) {
-    riskProfile.riskScore = riskProfile.riskScore - 35;
-    riskProfile.riskPayment = -35;
-  }
-
-  // Compra Enxoval Customizado (15)
-
-  for (let i = 0; i < items.length; ++i) {
-    if (items[i].refId === "PAC0075") {
-      riskProfile.riskKitCustom = items[i].refId;
-      riskProfile.riskScore = riskProfile.riskScore - 15;
-      riskProfile.riskCustomKit = -15;
-    }
-  }
-
-  // Titular do cartão (15)
-
-  var cliName = titleCase(clientName);
-  var carName = titleCase(cardName);
-
-  let buyerName;
-  let creditCardName;
-  let sizeBuyerName;
-  let sizeCreditCardName;
-
-  if (cardName != " ") {
-    buyerName = cliName.split(" ");
-    creditCardName = carName.split(" ");
-    sizeBuyerName = buyerName.length;
-    sizeCreditCardName = creditCardName.length;
-
-    if (
-      // Primeiro e último nome iguais
-      buyerName[0] == creditCardName[0] &&
-      buyerName[sizeBuyerName - 1] == creditCardName[sizeCreditCardName - 1]
-    ) {
-      riskProfile.riskScore = riskProfile.riskScore - 15;
-      riskProfile.riskCardHolder = -15;
-      riskProfile.riskIsCardHolder = true;
-    } else if (
-      // Último nome iguais
-      buyerName[sizeBuyerName - 1] == creditCardName[sizeCreditCardName - 1]
-    ) {
-      riskProfile.riskScore = riskProfile.riskScore - 10;
-      riskProfile.riskCardHolder = -10;
-    } else if (buyerName[0] == creditCardName[0]) {
-      // Primeiro nome iguais
-      riskProfile.riskScore = riskProfile.riskScore - 5;
-      riskProfile.riskCardHolder = -5;
-    }
-  }
-
-  // Valor < 500 (5)
-
-  if (value < 50000 && items > 3 && cardCountry === "BRAZIL") {
-    riskProfile.riskScore = riskProfile.riskScore - 5;
-    riskProfile.riskValue = -5;
-  }
-
-  // Valor > 1000 à vista (+5)
-
-  if (value > 100000 && cardInstallments == 1) {
-    riskProfile.riskScore = riskProfile.riskScore + 5;
-    riskProfile.riskValue = +5;
-  }
-
-  // Histórico de Compras (10)
-  if (clientEmail > " ") {
-    riskProfile.qtyPurchase = await lookForPurchaseHistory(clientEmail);
-    if (riskProfile.qtyPurchase > 1) {
-      switch (riskProfile.qtyPurchase) {
-        case 2:
-          riskProfile.riskScore = riskProfile.riskScore - 5;
-          riskProfile.riskHistoryPurchase = -5;
-          break;
-        case 3:
-          riskProfile.riskScore = riskProfile.riskScore - 10;
-          riskProfile.riskHistoryPurchase = -10;
-          break;
-        case 4:
-          riskProfile.riskScore = riskProfile.riskScore - 15;
-          riskProfile.riskHistoryPurchase = -15;
-          break;
-        case 5:
-          riskProfile.riskScore = riskProfile.riskScore - 20;
-          riskProfile.riskHistoryPurchase = -20;
-          break;
-        default:
-          riskProfile.riskScore = riskProfile.riskScore - 25;
-          riskProfile.riskHistoryPurchase = -25;
-      }
-    }
-  } else {
-    riskProfile.qtyPurchase = 1;
-  }
-
-  if (riskProfile.riskScore > 100) riskProfile.riskScore = 100;
-
-  riskProfile.riskDescription = determineRisk(riskProfile.riskScore);
-
-  if (clientEmail === "adelina.n.dedel@gmail.com") {
-    console.log("=================( Início )=====================");
-    console.log("Order: ", order);
-    console.log("--------------------------------------------(15)");
-    console.log("clientName: ", cliName);
-    console.log("cardName: ", carName);
-    console.log("riskCardHolder: ", riskProfile.riskCardHolder);
-    console.log("-------------------------(5)Entrega (15)Retirada");
-    console.log("Carrier: ", carrier);
-    console.log("riskCarrier: ", riskProfile.riskCarrier);
-    console.log("--------------------------------------------(20)");
-    console.log("Gift: ", gift);
-    console.log("riskGift: ", riskProfile.riskGift);
-    console.log("-------------------------(30) Depósito (40) Vale");
-    console.log("Payment: ", payment);
-    console.log("riskPayment: ", riskProfile.riskPayment);
-    console.log("--------------------------------------------(15)");
-    console.log("Item Customizado: ", riskProfile.riskkitCustom);
-    console.log("riskCustomKit: ", riskProfile.riskCustomKit);
-    console.log("---------------------------------------------(5)");
-    console.log("Value: ", value);
-    console.log("riskValue: ", riskProfile.riskValue);
-    console.log("cardCountry: ", cardCountry);
-    console.log("cardInstallments: ", cardInstallments);
-    console.log("---------------------------------------------(15)");
-    console.log("Histórico de Compras: ", riskProfile.qtyPurchase);
-    console.log("riskHistoryPurchase: ", riskProfile.riskHistoryPurchase);
-    console.log("-------------------------------------------------");
-    console.log("riskScore ==> ", riskProfile.riskScore);
-    console.log("Avaliação ==> ", riskProfile.riskDescription);
-    console.log("==================( Fim )=======================");
-  }
-
-  return riskProfile;
-}
-
-function determineRisk(riskScore) {
-  switch (riskScore) {
-    case 100:
-      return "Muito Alto";
-    case 95:
-    case 90:
-      return "Alto";
-    case 85:
-    case 80:
-      return "Moderado";
-    case 75:
-    case 70:
-      return "Baixo";
-    default:
-      return "Muito Baixo";
-  }
-}
-
-async function lookForPurchaseHistory(clientEmail) {
-  let qtyPurchase = 0;
-
-  const options3 = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "X-VTEX-API-AppKey": "vtexappkey-fraldasdipano-JUXTLA",
-      "X-VTEX-API-AppToken":
-        "VFFOSPADLSGIHYANORZFQBOHUPFVTHNPMGFKEORFVRQRQXIRUCHYNXQTQXUCJEKEFRVBTQIZZTJYLWRWGOBQAPBPPLTGTPWQGLMYBHXDUHYUNRHUFXVVDUEQPGLIXBGK",
-    },
-  };
-
-  let res3 = await fetch(
-    `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?q=${clientEmail}`,
-    options3
-  );
-
-  if (res3.ok) {
-    const data3 = await res3.json();
-    const clientOrders = JSON.parse(JSON.stringify(data3));
-    qtyPurchase = clientOrders.list.length;
-  } else {
-    qtyPurchase = 0;
-  }
-
-  return qtyPurchase;
-}
-
-function buildFirstLastName(vFirstName, vLastName) {
-  let firstName =
-    vFirstName[0].toUpperCase() + vFirstName.slice(1).toLowerCase();
-  let lastName = vLastName[0].toUpperCase() + vLastName.slice(1).toLowerCase();
-
-  return firstName.concat(" " + lastName);
-}
-
-function buildCarrier(vCarrier) {
-  if (vCarrier === "PAC" || vCarrier === "Sedex") return vCarrier;
-  if (vCarrier.substr(0, 7) === "Entrega") return "Expressa";
-  if (vCarrier.substr(0, 8) === "Retirada") return "Retirada";
-  if (vCarrier.substr(0, 14) === "Não contribuir") return "";
-}

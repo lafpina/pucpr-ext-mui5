@@ -16,8 +16,8 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Badge from "@material-ui/core/Badge";
 //? Customized Components
-import setCurrency from "../../components/lib/utils/setCurrency";
-import MainLayout from "../../components/layouts/mainLayouts";
+import setCurrency from "../lib/utils/setCurrency";
+import MainLayout from "../layouts/mainLayouts";
 import { IconizeStatus } from "./iconization/iconize-status";
 import { IconizePurchaseProfile } from "./iconization/iconize-purchase-profile";
 import { IconizeRiskLevel } from "./iconization/iconize-risk-level";
@@ -246,7 +246,7 @@ function Row(props) {
   );
 }
 
-export default function RiskScoreList(props) {
+export default function RiskScoreListTable(props) {
   const { orders } = props;
   return (
     <MainLayout>
