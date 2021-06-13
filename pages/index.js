@@ -5,7 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import SettingsIcon from "@material-ui/icons/Settings";
 import FaceIcon from "@material-ui/icons/Face";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
-import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import AnnouncementOutlinedIcon from "@material-ui/icons/AnnouncementOutlined";
+
+import { DisplayAlert } from "../components/lib/utils/alerts";
 
 const useMainMenuStyles = makeStyles({
   settingIcon: {
@@ -25,6 +27,8 @@ export default function HomePage() {
             className={styles.logoMain}
           />
 
+          {/* <DisplayAlert type="error" msg="Mensagem de Erro de teste" /> */}
+
           <div className={styles.grid}>
             <Link href="/">
               {/* <Link href="/orders"> */}
@@ -40,10 +44,10 @@ export default function HomePage() {
 
             <Link href="/chargeback">
               <a className={styles.card}>
-                <ThumbDownIcon
+                <AnnouncementOutlinedIcon
                   className={classes.settingIcon}
                   fontSize="large"
-                ></ThumbDownIcon>
+                ></AnnouncementOutlinedIcon>
                 <h3>Chargeback</h3>
                 <p>Consultar Chargebacks Reportados</p>
               </a>

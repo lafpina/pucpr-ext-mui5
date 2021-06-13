@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+//? Material Design
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
@@ -14,281 +14,16 @@ import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-
+import Badge from "@material-ui/core/Badge";
+//? Customized Components
 import setCurrency from "../../components/lib/utils/setCurrency";
 import MainLayout from "../../components/layouts/mainLayouts";
-
-import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
-import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
-import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
-import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
-
-import ExposurePlus1Icon from "@material-ui/icons/ExposurePlus1";
-
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import ScreenShareIcon from "@material-ui/icons/ScreenShare";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import CancelIcon from "@material-ui/icons/Cancel";
-import TimerIcon from "@material-ui/icons/Timer";
-import Badge from "@material-ui/core/Badge";
-
-import HowToRegOutlinedIcon from "@material-ui/icons/HowToRegOutlined"; // Titular
-import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined"; // Não titular
-import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined"; // Depósito
-
-import CardGiftcardOutlinedIcon from "@material-ui/icons/CardGiftcardOutlined"; // Lista
-import TextsmsOutlinedIcon from "@material-ui/icons/TextsmsOutlined"; // Kit Customizado
-
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"; // Cliente novo
-import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined"; // White List
-import LocalFloristOutlinedIcon from "@material-ui/icons/LocalFloristOutlined";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined"; // Cliente VIP;
-import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined"; //Black List
-
-const useStatusStyles = makeStyles({
-  aguardando: {
-    color: "LightGrey",
-  },
-  carencia: {
-    color: "LightGrey",
-  },
-  manuseio: {
-    color: "LightGrey",
-  },
-  preparando: {
-    color: "LightGrey",
-  },
-  faturado: {
-    color: "LightGrey",
-  },
-  cancelado: {
-    color: "LightGrey",
-  },
-});
-
-function IconizeStatus(props) {
-  const classes = useStatusStyles();
-
-  switch (props.status) {
-    case "payment-pending":
-      return <TimerIcon className={classes.aguardando} fontSize={props.size} />;
-    case "window-to-cancel":
-      return (
-        <ScheduleIcon className={classes.carencia} fontSize={props.size} />
-      );
-    case "ready-for-handling":
-      return (
-        <ScreenShareIcon className={classes.manuseio} fontSize={props.size} />
-      );
-    case "handling":
-      return (
-        <ShoppingBasketIcon
-          className={classes.preparando}
-          fontSize={props.size}
-        />
-      );
-    case "invoiced":
-      return (
-        <MonetizationOnIcon
-          className={classes.faturado}
-          fontSize={props.size}
-        />
-      );
-    case "canceled":
-      return <CancelIcon className={classes.cancelado} fontSize={props.size} />;
-    default:
-      return (
-        <ExposurePlus1Icon className={classes.qty6} fontSize={props.size} />
-      );
-  }
-}
-
-const usePurchaseProfileStyles = makeStyles({
-  newClient: {
-    color: "LightSteelBlue",
-  },
-  regularClient: {
-    color: "Plum",
-  },
-  blackListed: {
-    color: "Red",
-  },
-  whiteListed: {
-    color: "Violet",
-  },
-  default: {
-    color: "DarkGray",
-  },
-});
-
-function IconizePurchaseProfile(props) {
-  const classes = usePurchaseProfileStyles();
-
-  if (props.blackListed) {
-    return (
-      <SentimentVeryDissatisfiedOutlinedIcon
-        className={classes.blackListed}
-        fontSize={props.size}
-      />
-    );
-  } else if (props.whiteListed) {
-    return (
-      <LocalFloristOutlinedIcon
-        className={classes.whiteListed}
-        fontSize={props.size}
-      />
-    );
-  } else if (props.qtyPurchase === 1) {
-    return (
-      <ErrorOutlineOutlinedIcon
-        className={classes.newClient}
-        fontSize={props.size}
-      />
-    );
-  } else if (props.qtyPurchase > 1) {
-    return (
-      <FavoriteOutlinedIcon
-        className={classes.regularClient}
-        fontSize={props.size}
-      />
-    );
-  }
-
-  return (
-    <ErrorOutlineOutlinedIcon
-      className={classes.default}
-      fontSize={props.size}
-    />
-  );
-}
-
-const useRiskLevelStyles = makeStyles({
-  veryLowRisk: {
-    color: "LimeGreen",
-  },
-  lowRisk: {
-    color: "MediumSpringGreen",
-  },
-  medRisk: {
-    color: "Gold",
-  },
-  highRisk: {
-    color: "DarkOrange",
-  },
-  veryHighRisk: {
-    color: "Red",
-  },
-  noRisk: {
-    color: "LightSkyBlue",
-  },
-  giftCard: {
-    color: "LightSkyBlue",
-  },
-  kitCustom: {
-    color: "HotPink",
-  },
-});
-
-function IconizeRiskLevel(props) {
-  const classes = useRiskLevelStyles();
-  switch (props.riskLevel) {
-    case "Muito Baixo":
-      return (
-        <SentimentVerySatisfiedIcon
-          className={classes.veryLowRisk}
-          fontSize={props.size}
-        />
-      );
-    case "Baixo":
-      return (
-        <SentimentSatisfiedAltIcon
-          className={classes.lowRisk}
-          fontSize={props.size}
-        />
-      );
-    case "Moderado":
-      return (
-        <SentimentSatisfiedIcon
-          className={classes.medRisk}
-          fontSize={props.size}
-        />
-      );
-    case "Alto":
-      return (
-        <SentimentDissatisfiedIcon
-          className={classes.highRisk}
-          fontSize={props.size}
-        />
-      );
-    case "Muito Alto":
-      return (
-        <SentimentVeryDissatisfiedIcon
-          className={classes.veryHighRisk}
-          fontSize={props.size}
-        />
-      );
-  }
-}
-
-function IconizeCardHolder(props) {
-  const classes = useRiskLevelStyles();
-
-  switch (props.cardHolder) {
-    case "Sim":
-      return (
-        <HowToRegOutlinedIcon
-          className={classes.veryLowRisk}
-          fontSize={props.size}
-        />
-      );
-    case "Não":
-      return (
-        <PeopleAltOutlinedIcon
-          className={classes.highRisk}
-          fontSize={props.size}
-        />
-      );
-    default:
-      return (
-        <PermIdentityOutlinedIcon
-          className={classes.noRisk}
-          fontSize={props.size}
-        />
-      );
-  }
-}
-
-function IconizeGiftCard(props) {
-  const classes = useRiskLevelStyles();
-
-  if (props.giftId > " ") {
-    return (
-      <CardGiftcardOutlinedIcon
-        className={classes.giftCard}
-        fontSize={props.size}
-      />
-    );
-  } else {
-    return " ";
-  }
-}
-
-function IconizeKitCustom(props) {
-  const classes = useRiskLevelStyles();
-
-  if (props.kitCustom > " ") {
-    return (
-      <TextsmsOutlinedIcon
-        className={classes.kitCustom}
-        fontSize={props.size}
-      />
-    );
-  } else {
-    return " ";
-  }
-}
+import { IconizeStatus } from "./iconization/iconize-status";
+import { IconizePurchaseProfile } from "./iconization/iconize-purchase-profile";
+import { IconizeRiskLevel } from "./iconization/iconize-risk-level";
+import { IconizeCardHolder } from "./iconization/iconize-card-holder";
+import { IconizeGiftCard } from "./iconization/iconize-gift-card";
+import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -355,17 +90,6 @@ const useRowStyles = makeStyles({
     },
   },
 });
-
-const setColor = (risk) => {
-  switch (risk) {
-    case 100:
-    case 95:
-    case 90:
-      return "error";
-    default:
-      return "primary";
-  }
-};
 
 function Row(props) {
   const { row } = props;
@@ -522,7 +246,7 @@ function Row(props) {
   );
 }
 
-export default function CollapsibleTable(props) {
+export default function RiskScoreList(props) {
   const { orders } = props;
   return (
     <MainLayout>

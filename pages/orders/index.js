@@ -1,40 +1,23 @@
 import styles from "../../styles/Home.module.css";
-import { isBlackListed } from "../../data/black-list.js";
-import { isWhiteListed } from "../../data/white-list.js";
 import moment from "moment-timezone";
-import setCurrency from "../../components/lib/utils/setCurrency";
-// import OrderList from "../../components/orders/order-list";
+//? Material UI
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
-import CollapsibleTable from "../../components/orders/order-feed";
+//? API
+const pagarme = require("pagarme");
+import getOrder from "../../components/lib/api/getOrder";
+//? Customized components
+import { isBlackListed } from "../../data/black-list.js";
+import { isWhiteListed } from "../../data/white-list.js";
+import setCurrency from "../../components/lib/utils/setCurrency";
+import RiskScoreList from "../../components/orders/order-feed";
 import getURL from "../../components/lib/api/getURL";
 import getOption from "../../components/lib/api/getOption";
 import titleCase from "../../components/lib/utils/titleCase";
 import getListOrders from "../../components/lib/api/getListOrders";
-import getOrder from "../../components/lib/api/getOrder";
-
-const pagarme = require("pagarme");
 
 const useStyles = makeStyles({
-  btnNotify: {
-    backgroundColor: "LightSteelBlue",
-    "&:hover": {
-      backgroundColor: "SteelBlue",
-    },
-  },
-  btnCancel: {
-    backgroundColor: "LightSalmon",
-    "&:hover": {
-      backgroundColor: "Crimson",
-    },
-  },
-  btnBlacklist: {
-    backgroundColor: "black",
-    "&:hover": {
-      backgroundColor: "dimGray",
-    },
-  },
   title: {
     fontSize: 22,
     color: "LightGrey",
@@ -49,10 +32,7 @@ const useStyles = makeStyles({
 });
 
 function AllOrdersPage(props) {
-  //? FRONTEND
-
   const classes = useStyles();
-
   return (
     <Container>
       <Typography className={classes.title} component="h5" align="left">
@@ -61,7 +41,6 @@ function AllOrdersPage(props) {
           alt="logo AlerteMe"
           className={styles.logoOrders}
         />
-        {/* OMS */}
       </Typography>
 
       <Typography
@@ -84,7 +63,7 @@ function AllOrdersPage(props) {
 
       <div>
         {props.eMessage.fetchStatus === 200 ? (
-          <CollapsibleTable orders={props.allOrders} />
+          <RiskScoreList orders={props.allOrders} />
         ) : (
           showMessageError(props.eMessage, props.eMessage2)
         )}
@@ -108,8 +87,6 @@ const showMessageError = (eMessage, eMessage2) => {
     console.log("====================================================");
   }
 };
-
-//? BACKEND
 
 export async function getStaticProps() {
   var eMessage = {
