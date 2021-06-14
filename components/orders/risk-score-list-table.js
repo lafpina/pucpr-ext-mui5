@@ -48,6 +48,17 @@ const StyledBadgeRisk = withStyles((theme) => ({
   },
 }))(Badge);
 
+const StyledBadgeWarning = withStyles((theme) => ({
+  badge: {
+    right: -27,
+    color: "white",
+    backgroundColor: "Orange",
+    top: -14,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}))(Badge);
+
 const StyledBadgeItems = withStyles((theme) => ({
   badge: {
     right: 0,
@@ -208,6 +219,11 @@ function Row(props) {
                 badgeContent={row.score}
                 max={999}
               ></StyledBadgeRisk>
+            ) : row.score > 75 ? (
+              <StyledBadgeWarning
+                badgeContent={row.score}
+                max={999}
+              ></StyledBadgeWarning>
             ) : (
               <StyledBadge badgeContent={row.score} max={999}></StyledBadge>
             )}
