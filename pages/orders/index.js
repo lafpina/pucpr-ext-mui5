@@ -1,5 +1,4 @@
 import styles from "../../styles/Home.module.css";
-import moment from "moment-timezone";
 //? Material UI
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -20,6 +19,7 @@ import { buildCarrier } from "../../components/orders/build-carrier";
 import { buildFirstLastName } from "../../components/orders/build-first-last-name";
 import { getRiskProfile } from "../../components/orders/get-risk-profile";
 import showMessageError from "../../components/lib/utils/show-message-error";
+import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
 
 const useStyles = makeStyles({
   title: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-function AllOrdersPage(props) {
+function OrderListPage(props) {
   const classes = useStyles();
   return (
     <Container>
@@ -243,6 +243,12 @@ export async function getStaticProps() {
 
       carrier = buildCarrier(vOrder.carrier);
 
+      let coupon = " ";
+      if (vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0]) {
+        coupon =
+          vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0].name;
+      }
+
       const riskProfile = await getRiskProfile(
         vOrder.orderId,
         fullName,
@@ -254,7 +260,8 @@ export async function getStaticProps() {
         vOrder.paymentMethod,
         pCardCountry,
         pCardInstallments,
-        vOrder.value
+        vOrder.value,
+        coupon
       );
 
       let payment = vOrder.paymentMethod[0];
@@ -278,12 +285,7 @@ export async function getStaticProps() {
           statistics.totalLowRisk = statistics.totalLowRisk + 1;
       }
 
-      let dt = moment
-        .tz(vOrder.creationDate, "America/Brazil")
-        .format("YYYY-MM-DD HH:mm");
-      let tz = moment(dt).tz("America/Brazil").format("Z");
-      let newDt = moment(dt).subtract(180, "m");
-      let orderDate = newDt.format("DD-MM-YYYY HH:mm");
+      let orderDate = formatTZOrderDate(vOrder.creationDate);
 
       let shippingMethod =
         carrier.indexOf("Retirada") > -1 ? "Retirada" : carrier;
@@ -323,6 +325,7 @@ export async function getStaticProps() {
         blackListed: isBlackListed(pEmailClient, vOrder.cpf) ? true : false,
         whiteListed: isWhiteListed(pEmailClient, vOrder.cpf) ? true : false,
         pix: pix,
+        promo: coupon,
 
         history: [
           {
@@ -355,4 +358,4 @@ export async function getStaticProps() {
   };
 }
 
-export default AllOrdersPage;
+export default OrderListPage;

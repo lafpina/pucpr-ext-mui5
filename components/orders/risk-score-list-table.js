@@ -23,6 +23,7 @@ import { IconizePurchaseProfile } from "./iconization/iconize-purchase-profile";
 import { IconizeRiskLevel } from "./iconization/iconize-risk-level";
 import { IconizeCardHolder } from "./iconization/iconize-card-holder";
 import { IconizeGiftCard } from "./iconization/iconize-gift-card";
+import { IconizePromo } from "./iconization/iconize-promo";
 import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
 
 const StyledBadge = withStyles((theme) => ({
@@ -166,6 +167,19 @@ function Row(props) {
           <IconButton>
             <IconizeKitCustom kitCustom={row.kitCustom} size="medium" />
           </IconButton>
+          <IconButton>
+            <IconizePromo promo={row.promo} size="medium" />
+          </IconButton>
+          <Typography
+            className={classes.description}
+            variant="caption"
+            component="h6"
+            align="center"
+            color="textSecondary"
+            align="center"
+          >
+            {row.promo}
+          </Typography>
         </TableCell>
 
         <TableCell align="center">
@@ -268,12 +282,12 @@ export default function RiskScoreListTable(props) {
               <StyledTableCell align="center"> DATA </StyledTableCell>
               <StyledTableCell align="left">CLIENTE</StyledTableCell>
               <StyledTableCell align="center">PERFIL COMPRA</StyledTableCell>
-              <StyledTableCell align="center">PERFIL PAGAMENTO</StyledTableCell>
+              <StyledTableCell align="center">PERFIL PAG</StyledTableCell>
 
               <StyledTableCell align="center">GIFT</StyledTableCell>
-              <StyledTableCell align="center">KIT</StyledTableCell>
+              <StyledTableCell align="center">PROMO</StyledTableCell>
 
-              <StyledTableCell align="center">PRODUTOS</StyledTableCell>
+              <StyledTableCell align="center">ITENS</StyledTableCell>
               <StyledTableCell align="right">VALOR TOTAL</StyledTableCell>
 
               <StyledTableCell align="left">DESTINO</StyledTableCell>

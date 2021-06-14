@@ -13,7 +13,8 @@ export async function getRiskProfile(
   payment,
   cardCountry,
   cardInstallments,
-  value
+  value,
+  coupon
 ) {
   var riskProfile = {
     riskCardHolder: 0,
@@ -28,7 +29,13 @@ export async function getRiskProfile(
     riskDescription: "Muito Alto",
     riskKitCustom: " ",
     riskIsCardHolder: false,
+    riskCouponDiscount: 0,
   };
+
+  if (coupon > " " && coupon.indexOf("Compre Junto") == -1) {
+    riskProfile.riskScore = riskProfile.riskScore - 15;
+    riskProfile.riskCouponDiscount = -15;
+  }
 
   // Entrega (5)Entrega Expressa - (15)Retirada na Loja
 
@@ -191,8 +198,12 @@ export async function getRiskProfile(
     console.log("Histórico de Compras: ", riskProfile.qtyPurchase);
     console.log("riskHistoryPurchase: ", riskProfile.riskHistoryPurchase);
     console.log("-------------------------------------------------");
+    console.log("Discount ==> ", discount);
+    console.log("riskCouponDiscount ==> ", riskProfile.riskCouponDiscount);
+    console.log("-------------------------------------------------");
     console.log("riskScore ==> ", riskProfile.riskScore);
     console.log("Avaliação ==> ", riskProfile.riskDescription);
+
     console.log("==================( Fim )=======================");
   }
 
