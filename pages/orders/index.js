@@ -20,6 +20,7 @@ import { buildFirstLastName } from "../../components/orders/build-first-last-nam
 import { getRiskProfile } from "../../components/orders/get-risk-profile";
 import showMessageError from "../../components/lib/utils/show-message-error";
 import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
+import { TramRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   title: {
@@ -290,21 +291,26 @@ export async function getStaticProps() {
       let shippingMethod =
         carrier.indexOf("Retirada") > -1 ? "Retirada" : carrier;
 
-      let cardHolder = " ";
-      if (paymentGroup.indexOf("creditCard") > -1) {
-        if (riskProfile.riskIsCardHolder === true) {
-          cardHolder = "Sim";
-        } else if (riskProfile.riskIsCardHolder === false) {
-          cardHolder = "Não";
-        }
-      }
+      let payMethod = {
+        creditCard: false,
+        creditCardHolder: false,
+        giftCard: false,
+        promissory: false,
+        instantPayment: false,
+      };
 
-      let pix = false;
-      if (
-        vtexOrder.paymentData.transactions[0].payments[0].paymentSystemName ==
-        "Pix"
-      ) {
-        pix = true;
+      if (paymentGroup.indexOf("creditCard") > -1) {
+        payMethod.creditCard = true;
+        payMethod.creditCardHolder = riskProfile.riskIsCardHolder;
+      }
+      if (paymentGroup.indexOf("giftCard") > -1) {
+        payMethod.giftCard = true;
+      }
+      if (paymentGroup.indexOf("promissory") > -1) {
+        payMethod.promissory = true;
+      }
+      if (paymentGroup.indexOf("instantPayment") > -1) {
+        payMethod.instantPayment = true;
       }
 
       allOrders.push({
@@ -316,7 +322,6 @@ export async function getStaticProps() {
         valor: vOrder.value,
         giftId: vOrder.giftId,
         destino: vOrder.shippingCity.concat(" " + vOrder.shippingState),
-        cardHolder: cardHolder,
         status: vOrder.status,
         scoreDesc: riskProfile.riskDescription,
         score: riskProfile.riskScore,
@@ -324,7 +329,7 @@ export async function getStaticProps() {
         kitCustom: riskProfile.riskKitCustom,
         blackListed: isBlackListed(pEmailClient, vOrder.cpf) ? true : false,
         whiteListed: isWhiteListed(pEmailClient, vOrder.cpf) ? true : false,
-        pix: pix,
+        payMethod: payMethod,
         promo: coupon,
 
         history: [
@@ -343,8 +348,9 @@ export async function getStaticProps() {
     }
   }
   //*-----------------------------------------------------
-  //*? Return allOrders to the orders page
+  //*? Return to React
   //*-----------------------------------------------------
+  console.log("Regenerando a Página com ISR (Incremental Static Regereration)");
 
   return {
     props: {

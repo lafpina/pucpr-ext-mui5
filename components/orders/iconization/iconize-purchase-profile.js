@@ -3,32 +3,26 @@ import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"; 
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined"; // White List
 import LocalFloristOutlinedIcon from "@material-ui/icons/LocalFloristOutlined";
 import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined"; //Black List
+import PanToolOutlinedIcon from "@material-ui/icons/PanToolOutlined";
+import ErrorIcon from "@material-ui/icons/Error";
 
 export function IconizePurchaseProfile(props) {
   const classes = usePurchaseProfileStyles();
 
   if (props.blackListed) {
-    return (
-      <SentimentVeryDissatisfiedOutlinedIcon
-        className={classes.blackListed}
-        fontSize={props.size}
-      />
-    );
-  } else if (props.whiteListed) {
+    return <ErrorIcon className={classes.blackListed} fontSize={props.size} />;
+  }
+
+  if (props.whiteListed) {
     return (
       <LocalFloristOutlinedIcon
         className={classes.whiteListed}
         fontSize={props.size}
       />
     );
-  } else if (props.qtyPurchase === 1) {
-    return (
-      <ErrorOutlineOutlinedIcon
-        className={classes.newClient}
-        fontSize={props.size}
-      />
-    );
-  } else if (props.qtyPurchase > 1) {
+  }
+
+  if (props.qtyPurchase > 1) {
     return (
       <FavoriteOutlinedIcon
         className={classes.regularClient}
@@ -36,9 +30,10 @@ export function IconizePurchaseProfile(props) {
       />
     );
   }
+
   return (
     <ErrorOutlineOutlinedIcon
-      className={classes.default}
+      className={classes.newClient}
       fontSize={props.size}
     />
   );
@@ -52,7 +47,7 @@ const usePurchaseProfileStyles = makeStyles({
     color: "Plum",
   },
   blackListed: {
-    color: "Red",
+    color: "Black",
   },
   whiteListed: {
     color: "Violet",

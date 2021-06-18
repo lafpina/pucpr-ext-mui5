@@ -1,29 +1,31 @@
+import getOption from "./getOption";
+import getURL from "./getURL";
+
 export async function lookForPurchaseHistory(clientEmail) {
   let qtyPurchase = 0;
+  let qtyInvoiced = 0;
 
-  const options3 = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "X-VTEX-API-AppKey": "vtexappkey-fraldasdipano-JUXTLA",
-      "X-VTEX-API-AppToken":
-        "VFFOSPADLSGIHYANORZFQBOHUPFVTHNPMGFKEORFVRQRQXIRUCHYNXQTQXUCJEKEFRVBTQIZZTJYLWRWGOBQAPBPPLTGTPWQGLMYBHXDUHYUNRHUFXVVDUEQPGLIXBGK",
-    },
-  };
+  let options = getOption("order");
+  let url = getURL("email", clientEmail);
 
-  let res3 = await fetch(
-    `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?q=${clientEmail}`,
-    options3
-  );
+  console.log("options:", options);
+  console.log("url:", url);
 
-  if (res3.ok) {
-    const data3 = await res3.json();
-    const clientOrders = JSON.parse(JSON.stringify(data3));
+  let res = await fetch(url, options);
+
+  if (res.ok) {
+    const data = await res.json();
+    const clientOrders = JSON.parse(JSON.stringify(data));
     qtyPurchase = clientOrders.list.length;
+
+    for (let i = 0; i < qtyPurchase; ++i) {
+      if (clientOrders.list[i].status == "invoiced") {
+        qtyInvoiced = qtyInvoiced + 1;
+      }
+    }
   } else {
-    qtyPurchase = 0;
+    qtyInvoiced = 0;
   }
 
-  return qtyPurchase;
+  return qtyInvoiced;
 }

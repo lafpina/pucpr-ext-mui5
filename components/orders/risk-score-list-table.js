@@ -25,6 +25,7 @@ import { IconizeCardHolder } from "./iconization/iconize-card-holder";
 import { IconizeGiftCard } from "./iconization/iconize-gift-card";
 import { IconizePromo } from "./iconization/iconize-promo";
 import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
+import { IconizePaymentOption } from "./iconization/iconize-payment-option";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -120,13 +121,22 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
+
+        {/* Order */}
+
         <TableCell component="th" align="center" scope="row">
           {row.order}
         </TableCell>
         <TableCell align="center" size="small" classes="">
           {row.dataCompra}
         </TableCell>
+
+        {/* Client */}
+
         <TableCell align="left">{row.cliente}</TableCell>
+
+        {/* Purchase Profile */}
+
         <TableCell align="center">
           <IconButton>
             {row.qtyPurchase > 1 ? (
@@ -145,19 +155,16 @@ function Row(props) {
             />
           </IconButton>
         </TableCell>
+
+        {/* Payment Option */}
+
         <TableCell align="center">
-          {row.pix > " " ? (
-            <Badge color="error" variant="dot">
-              <IconButton>
-                <IconizeCardHolder cardHolder={row.cardHolder} size="medium" />
-              </IconButton>
-            </Badge>
-          ) : (
-            <IconButton>
-              <IconizeCardHolder cardHolder={row.cardHolder} size="medium" />
-            </IconButton>
-          )}
+          <IconButton>
+            <IconizePaymentOption payMethod={row.payMethod} size="medium" />
+          </IconButton>
         </TableCell>
+
+        {/* Gift */}
 
         <TableCell align="center">
           <IconButton>
@@ -174,6 +181,9 @@ function Row(props) {
             {row.giftId}
           </Typography>
         </TableCell>
+
+        {/* Promo */}
+
         <TableCell align="center">
           <IconButton>
             <IconizeKitCustom kitCustom={row.kitCustom} size="medium" />
@@ -193,6 +203,8 @@ function Row(props) {
           </Typography>
         </TableCell>
 
+        {/* Items */}
+
         <TableCell align="center">
           <IconButton>
             <StyledBadgeItems
@@ -202,15 +214,23 @@ function Row(props) {
           </IconButton>
         </TableCell>
 
+        {/* Value */}
+
         <TableCell align="right">{setCurrency(row.valor)}</TableCell>
 
+        {/* Shipping To */}
+
         <TableCell align="left">{row.destino}</TableCell>
+
+        {/* Status */}
 
         <TableCell align="center">
           <IconButton>
             <IconizeStatus status={row.status} size="medium" />
           </IconButton>
         </TableCell>
+
+        {/* Score */}
 
         <TableCell align="center">
           <IconButton>
@@ -298,7 +318,7 @@ export default function RiskScoreListTable(props) {
               <StyledTableCell align="center"> DATA </StyledTableCell>
               <StyledTableCell align="left">CLIENTE</StyledTableCell>
               <StyledTableCell align="center">PERFIL COMPRA</StyledTableCell>
-              <StyledTableCell align="center">PERFIL PAG</StyledTableCell>
+              <StyledTableCell align="center">PAGAMENTO</StyledTableCell>
 
               <StyledTableCell align="center">GIFT</StyledTableCell>
               <StyledTableCell align="center">PROMO</StyledTableCell>

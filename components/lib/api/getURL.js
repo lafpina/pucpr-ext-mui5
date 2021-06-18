@@ -6,8 +6,11 @@ function getURL(fetchTarget, filter) {
     case "order":
       return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders/${filter}`;
 
+    case "email":
+      return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?q=${filter}`;
+
     case "list":
-      return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=40&page=1";
+      return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=30&page=1";
   }
 }
 
