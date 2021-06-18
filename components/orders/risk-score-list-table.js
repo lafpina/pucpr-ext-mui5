@@ -49,6 +49,17 @@ const StyledBadgeRisk = withStyles((theme) => ({
   },
 }))(Badge);
 
+const StyledBadgeIncompleteOrders = withStyles((theme) => ({
+  badge: {
+    right: -27,
+    color: "white",
+    backgroundColor: "NavajoWhite",
+    top: -14,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}))(Badge);
+
 const StyledBadgeWarning = withStyles((theme) => ({
   badge: {
     right: -27,
@@ -75,7 +86,7 @@ const StyledBadgeHist = withStyles((theme) => ({
   badge: {
     right: -27,
     color: "white",
-    backgroundColor: "SkyBlue",
+    backgroundColor: "LightBlue",
     top: -14,
     border: `2px solid ${theme.palette.background.paper}`,
     padding: "0 4px",
@@ -160,6 +171,14 @@ function Row(props) {
 
         <TableCell align="center">
           <IconButton>
+            {row.incompleteOrders > 0 ? (
+              <StyledBadgeIncompleteOrders
+                badgeContent={row.incompleteOrders}
+              ></StyledBadgeIncompleteOrders>
+            ) : (
+              " "
+            )}
+
             <IconizePaymentOption payMethod={row.payMethod} size="medium" />
           </IconButton>
         </TableCell>

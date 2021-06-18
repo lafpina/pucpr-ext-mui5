@@ -331,6 +331,7 @@ export async function getStaticProps() {
         whiteListed: isWhiteListed(pEmailClient, vOrder.cpf) ? true : false,
         payMethod: payMethod,
         promo: coupon,
+        incompleteOrders: riskProfile.riskIncompleteOrders,
 
         history: [
           {

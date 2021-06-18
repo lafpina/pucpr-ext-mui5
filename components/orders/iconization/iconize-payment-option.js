@@ -161,7 +161,7 @@ export function IconizePaymentOption(props) {
 
 const usePaymentStyles = makeStyles({
   creditCardHolder: {
-    color: "MediumSpringGreen",
+    color: "Aquamarine",
   },
   creditCard: {
     color: "Tomato",
@@ -173,6 +173,6 @@ const usePaymentStyles = makeStyles({
     color: "RosyBrown",
   },
   instantPayment: {
-    color: "DarkOrange",
+    color: "MediumAquamarine",
   },
 });

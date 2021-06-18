@@ -11,6 +11,9 @@ function getURL(fetchTarget, filter) {
 
     case "list":
       return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=30&page=1";
+
+    case "incompleteOrders":
+      return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?incompleteOrders=${filter}`;
   }
 }
 

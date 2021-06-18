@@ -1,6 +1,7 @@
 import { determineRisk } from "../../components/orders/determine-risk";
 import { lookForPurchaseHistory } from "../../components/lib/api/lookfor-purchase-history";
 import titleCase from "../../components/lib/utils/titleCase";
+import { getIncompleteOrders } from "../../components/lib/api/getIncompleteOrders";
 
 export async function getRiskProfile(
   order,
@@ -30,7 +31,20 @@ export async function getRiskProfile(
     riskKitCustom: " ",
     riskIsCardHolder: false,
     riskCouponDiscount: 0,
+    riskIncompleteOrders: 0,
   };
+
+  riskProfile.riskIncompleteOrders = await getIncompleteOrders(clientName);
+
+  if (riskProfile.riskIncompleteOrders == 2) {
+    riskProfile.riskScore = riskProfile.riskScore + 5;
+  } else if (riskProfile.riskIncompleteOrders == 3) {
+    riskProfile.riskScore = riskProfile.riskScore + 10;
+  } else if (riskProfile.riskIncompleteOrders == 4) {
+    riskProfile.riskScore = riskProfile.riskScore + 15;
+  } else if (riskProfile.riskIncompleteOrders > 4) {
+    riskProfile.riskScore = riskProfile.riskScore + 30;
+  }
 
   if (coupon > " " && coupon.indexOf("Compre Junto") == -1) {
     riskProfile.riskScore = riskProfile.riskScore - 15;

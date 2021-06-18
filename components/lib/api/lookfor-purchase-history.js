@@ -8,9 +8,6 @@ export async function lookForPurchaseHistory(clientEmail) {
   let options = getOption("order");
   let url = getURL("email", clientEmail);
 
-  console.log("options:", options);
-  console.log("url:", url);
-
   let res = await fetch(url, options);
 
   if (res.ok) {
