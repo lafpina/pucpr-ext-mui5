@@ -4,221 +4,196 @@ import titleCase from "../../components/lib/utils/titleCase";
 import { getIncompleteOrders } from "../../components/lib/api/getIncompleteOrders";
 
 export async function getRiskProfile(
-  order,
+  orderId,
   clientName,
   cardName,
   clientEmail,
   carrier,
   items,
   gift,
-  payment,
+  payMethod,
   cardCountry,
   cardInstallments,
   value,
   coupon
 ) {
   var riskProfile = {
-    riskCardHolder: 0,
-    riskCarrier: 0,
-    riskGift: 0,
-    riskPayment: 0,
-    riskCustomKit: 0,
-    riskValue: 0,
+    incompleteOrders: 0,
+    couponDiscount: 0,
+    carrier: 0,
+    gift: 0,
+    payment: 0,
+    customKit: 0,
+    historyPurchase: 0,
     qtyPurchase: 0,
-    riskHistoryPurchase: 0,
-    riskScore: 100,
-    riskDescription: "Muito Alto",
-    riskKitCustom: " ",
-    riskIsCardHolder: false,
-    riskCouponDiscount: 0,
-    riskIncompleteOrders: 0,
+    value: 0,
+    kitCustom: " ",
+    score: 100,
+    description: "Muito Alto",
+    cardHolder: 0,
+    isCardHolder: {
+      yes: false,
+      maybe: false,
+      no: false,
+    },
   };
 
-  riskProfile.riskIncompleteOrders = await getIncompleteOrders(clientName);
+  //? Titular do cartão (cardHolder)
 
-  if (riskProfile.riskIncompleteOrders == 2) {
-    riskProfile.riskScore = riskProfile.riskScore + 5;
-  } else if (riskProfile.riskIncompleteOrders == 3) {
-    riskProfile.riskScore = riskProfile.riskScore + 10;
-  } else if (riskProfile.riskIncompleteOrders == 4) {
-    riskProfile.riskScore = riskProfile.riskScore + 15;
-  } else if (riskProfile.riskIncompleteOrders > 4) {
-    riskProfile.riskScore = riskProfile.riskScore + 30;
+  var nomeCadastro = titleCase(clientName).split(" ");
+  var nomeCartao = titleCase(cardName).split(" ");
+
+  var qtyInstance = 0;
+
+  nomeCartao.forEach(verifyBuyer);
+
+  function verifyBuyer(item) {
+    if (nomeCadastro.indexOf(item) > -1) {
+      qtyInstance++;
+    }
   }
+
+  if (qtyInstance > 1) {
+    riskProfile.score = riskProfile.score - 10;
+    riskProfile.cardHolder = -10;
+    riskProfile.isCardHolder.yes = true;
+  } else if (qtyInstance == 1) {
+    riskProfile.score = riskProfile.score - 5;
+    riskProfile.cardHolder = -5;
+    riskProfile.isCardHolder.maybe = true;
+  } else {
+    riskProfile.isCardHolder.no = true;
+  }
+
+  //? Tentativas de compra antes da efetivação da compra atual (incompleteOrders)
+
+  riskProfile.incompleteOrders = await getIncompleteOrders(clientName);
+
+  if (riskProfile.incompleteOrders == 2) {
+    riskProfile.score = riskProfile.score + 5;
+  } else if (riskProfile.incompleteOrders == 3) {
+    riskProfile.score = riskProfile.score + 10;
+  } else if (riskProfile.incompleteOrders == 4) {
+    riskProfile.score = riskProfile.score + 15;
+  } else if (riskProfile.incompleteOrders > 4) {
+    riskProfile.score = riskProfile.score + 30;
+  }
+
+  //? Cupom de desconto (couponDiscount)
 
   if (coupon > " " && coupon.indexOf("Compre Junto") == -1) {
-    riskProfile.riskScore = riskProfile.riskScore - 15;
-    riskProfile.riskCouponDiscount = -15;
+    riskProfile.score = riskProfile.score - 15;
+    riskProfile.couponDiscount = -15;
   }
 
-  // Entrega (5)Entrega Expressa - (15)Retirada na Loja
+  //? Entrega (carrier)
 
   if (carrier === "Expressa") {
-    riskProfile.riskScore = riskProfile.riskScore - 5;
-    riskProfile.riskCarrier = -5;
+    riskProfile.score = riskProfile.score - 5;
+    riskProfile.carrier = -5;
   } else if (carrier === "Retirada") {
-    riskProfile.riskScore = riskProfile.riskScore - 15;
-    riskProfile.riskCarrier = -15;
+    riskProfile.score = riskProfile.score - 15;
+    riskProfile.carrier = -15;
   }
 
-  // Compra para uma lista (20)
+  //? Compra para uma lista (gift)
 
   if (gift) {
-    riskProfile.riskScore = riskProfile.riskScore - 20;
-    riskProfile.riskGift = -20;
+    riskProfile.score = riskProfile.score - 20;
+    riskProfile.gift = -20;
   }
 
-  // Compra com Depósito Bancário (30)
+  //? Método de Pagamento (payment)
 
-  if (payment[0].substr(0, 8) === "Depósito") {
-    riskProfile.riskScore = riskProfile.riskScore - 30;
-    riskProfile.riskPayment = -30;
+  if (payMethod.promissory) {
+    riskProfile.score = riskProfile.score - 30;
+    riskProfile.payment = -30;
   }
 
-  // Compra com Pix (35)
-
-  if (payment[0] === "Pix") {
-    riskProfile.riskScore = riskProfile.riskScore - 35;
-    riskProfile.riskPayment = -35;
+  if (payMethod.instantPayment) {
+    riskProfile.score = riskProfile.score - 35;
+    riskProfile.payment = -35;
   }
 
-  // Compra com Vale (40)
-
-  if (payment.indexOf("Vale") > -1) {
-    riskProfile.riskScore = riskProfile.riskScore - 35;
-    riskProfile.riskPayment = -35;
+  if (payMethod.giftCard) {
+    riskProfile.score = riskProfile.score - 35;
+    riskProfile.payment = -35;
   }
 
-  // Compra Enxoval Customizado (15)
+  //? Compra Enxoval Customizado (customKit)
 
   for (let i = 0; i < items.length; ++i) {
     if (items[i].refId === "PAC0075") {
-      riskProfile.riskKitCustom = items[i].refId;
-      riskProfile.riskScore = riskProfile.riskScore - 15;
-      riskProfile.riskCustomKit = -15;
+      riskProfile.kitCustom = items[i].refId;
+      riskProfile.score = riskProfile.score - 15;
+      riskProfile.customKit = -15;
     }
   }
 
-  // Titular do cartão (15)
+  //? Histórico de Compras (historyPurchase)
 
-  var cliName = titleCase(clientName);
-  var carName = titleCase(cardName);
-
-  let buyerName;
-  let creditCardName;
-  let sizeBuyerName;
-  let sizeCreditCardName;
-
-  if (cardName != " ") {
-    buyerName = cliName.split(" ");
-    creditCardName = carName.split(" ");
-    sizeBuyerName = buyerName.length;
-    sizeCreditCardName = creditCardName.length;
-
-    if (
-      // Primeiro e último nome iguais
-      buyerName[0] == creditCardName[0] &&
-      buyerName[sizeBuyerName - 1] == creditCardName[sizeCreditCardName - 1]
-    ) {
-      riskProfile.riskScore = riskProfile.riskScore - 15;
-      riskProfile.riskCardHolder = -15;
-      riskProfile.riskIsCardHolder = true;
-    } else if (
-      // Último nome iguais
-      buyerName[sizeBuyerName - 1] == creditCardName[sizeCreditCardName - 1]
-    ) {
-      riskProfile.riskScore = riskProfile.riskScore - 10;
-      riskProfile.riskCardHolder = -10;
-    } else if (buyerName[0] == creditCardName[0]) {
-      // Primeiro nome iguais
-      riskProfile.riskScore = riskProfile.riskScore - 5;
-      riskProfile.riskCardHolder = -5;
-    }
-  }
-
-  // Valor < 500 (5)
-
-  if (value < 50000 && items > 3 && cardCountry === "BRAZIL") {
-    riskProfile.riskScore = riskProfile.riskScore - 5;
-    riskProfile.riskValue = -5;
-  }
-
-  // Valor > 1000 à vista (+5)
-
-  if (value > 100000 && cardInstallments == 1) {
-    riskProfile.riskScore = riskProfile.riskScore + 5;
-    riskProfile.riskValue = +5;
-  }
-
-  // Histórico de Compras (10)
   if (clientEmail > " ") {
     riskProfile.qtyPurchase = await lookForPurchaseHistory(clientEmail);
-    if (riskProfile.qtyPurchase > 1) {
+    if (riskProfile.qtyPurchase > 0) {
       switch (riskProfile.qtyPurchase) {
+        case 1:
+          riskProfile.score = riskProfile.score - 5;
+          riskProfile.historyPurchase = -5;
+          break;
         case 2:
-          riskProfile.riskScore = riskProfile.riskScore - 5;
-          riskProfile.riskHistoryPurchase = -5;
+          riskProfile.score = riskProfile.score - 10;
+          riskProfile.historyPurchase = -10;
           break;
         case 3:
-          riskProfile.riskScore = riskProfile.riskScore - 10;
-          riskProfile.riskHistoryPurchase = -10;
+          riskProfile.score = riskProfile.score - 15;
+          riskProfile.historyPurchase = -15;
           break;
         case 4:
-          riskProfile.riskScore = riskProfile.riskScore - 15;
-          riskProfile.riskHistoryPurchase = -15;
+          riskProfile.score = riskProfile.score - 20;
+          riskProfile.historyPurchase = -20;
           break;
         case 5:
-          riskProfile.riskScore = riskProfile.riskScore - 20;
-          riskProfile.riskHistoryPurchase = -20;
+          riskProfile.score = riskProfile.score - 25;
+          riskProfile.historyPurchase = -25;
           break;
         default:
-          riskProfile.riskScore = riskProfile.riskScore - 25;
-          riskProfile.riskHistoryPurchase = -25;
+          riskProfile.score = riskProfile.score - 30;
+          riskProfile.historyPurchase = -30;
       }
     }
-  } else {
-    riskProfile.qtyPurchase = 1;
   }
 
-  if (riskProfile.riskScore > 100) riskProfile.riskScore = 100;
+  //? Relação valor e condição de pagamento (value)
 
-  riskProfile.riskDescription = determineRisk(riskProfile.riskScore);
+  if (value < 50000 && items > 3 && cardCountry === "BRAZIL") {
+    riskProfile.score = riskProfile.score - 5;
+    riskProfile.value = -5;
+  }
 
-  if (clientEmail === "adelina.n.dedel@gmail.com") {
-    console.log("=================( Início )=====================");
-    console.log("Order: ", order);
-    console.log("--------------------------------------------(15)");
-    console.log("clientName: ", cliName);
-    console.log("cardName: ", carName);
-    console.log("riskCardHolder: ", riskProfile.riskCardHolder);
-    console.log("-------------------------(5)Entrega (15)Retirada");
-    console.log("Carrier: ", carrier);
-    console.log("riskCarrier: ", riskProfile.riskCarrier);
-    console.log("--------------------------------------------(20)");
-    console.log("Gift: ", gift);
-    console.log("riskGift: ", riskProfile.riskGift);
-    console.log("-------------------------(30) Depósito (40) Vale");
-    console.log("Payment: ", payment);
-    console.log("riskPayment: ", riskProfile.riskPayment);
-    console.log("--------------------------------------------(15)");
-    console.log("Item Customizado: ", riskProfile.riskkitCustom);
-    console.log("riskCustomKit: ", riskProfile.riskCustomKit);
-    console.log("---------------------------------------------(5)");
-    console.log("Value: ", value);
-    console.log("riskValue: ", riskProfile.riskValue);
-    console.log("cardCountry: ", cardCountry);
-    console.log("cardInstallments: ", cardInstallments);
-    console.log("---------------------------------------------(15)");
-    console.log("Histórico de Compras: ", riskProfile.qtyPurchase);
-    console.log("riskHistoryPurchase: ", riskProfile.riskHistoryPurchase);
-    console.log("-------------------------------------------------");
-    console.log("Discount ==> ", discount);
-    console.log("riskCouponDiscount ==> ", riskProfile.riskCouponDiscount);
-    console.log("-------------------------------------------------");
-    console.log("riskScore ==> ", riskProfile.riskScore);
-    console.log("Avaliação ==> ", riskProfile.riskDescription);
+  if (value > 100000 && !payMethod.giftCard) {
+    // primeira compra
+    if (riskProfile.qtyPurchase === 0) {
+      riskProfile.score = riskProfile.score + 5;
+      riskProfile.value = +5;
+    }
+    // pagamento em uma única parcela
+    if (cardInstallments === 1) {
+      riskProfile.score = riskProfile.score + 5;
+      riskProfile.value = +5;
+    }
+    // pagamento com a menor parcela
+    if (cardInstallments === 6) {
+      riskProfile.score = riskProfile.score + 5;
+      riskProfile.value = +5;
+    }
+  }
 
-    console.log("==================( Fim )=======================");
+  if (riskProfile.score > 100) riskProfile.score = 100;
+
+  riskProfile.description = determineRisk(riskProfile.score);
+
+  if (orderId === "v953999frdp-01") {
+    console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
   }
 
   return riskProfile;

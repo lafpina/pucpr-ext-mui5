@@ -21,6 +21,7 @@ import { getRiskProfile } from "../../components/orders/get-risk-profile";
 import showMessageError from "../../components/lib/utils/show-message-error";
 import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
 import { TramRounded } from "@material-ui/icons";
+import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
 const useStyles = makeStyles({
   title: {
@@ -53,7 +54,7 @@ function OrderListPage(props) {
         component="h6"
         align="center"
         color="textSecondary"
-        gutterBottom="true"
+        // gutterBottom="true"
         align="right"
       >
         Últimos {props.statistics.totalOrders} pedidos -{" "}
@@ -75,7 +76,8 @@ function OrderListPage(props) {
   );
 }
 
-export async function getStaticProps() {
+// export async function getStaticProps() {
+export async function getServerSideProps() {
   var eMessage = {
     fetchStatus: "",
     fetchUrl: "",
@@ -216,8 +218,9 @@ export async function getStaticProps() {
 
       let carrier = " ";
       if (
-        vtexOrder.paymentData.transactions.length > 0 &&
-        vOrder.creditCardGroup.indexOf("creditCard") > -1
+        vtexOrder.paymentData.transactions.length > 0
+        // vtexOrder.paymentData.transactions.length > 0 &&
+        // vOrder.creditCardGroup.indexOf("creditCard") > -1
       ) {
         //*-----------------------------------------------------
         //*? Fetch Pagarme based on TID -> transactions
@@ -227,13 +230,26 @@ export async function getStaticProps() {
           .connect({ api_key: apiPagarme })
           .then((client) => client.transactions.find({ id: pagarmeTid }))
           .then((transaction) => {
-            pCardHolder = transaction.card_holder_name;
-            pEmailClient = transaction.customer.email;
-            pCardCountry = transaction.card.country;
-            pCardInstallments = transaction.installments;
+            transaction.card_holder_name
+              ? (pCardHolder = transaction.card_holder_name)
+              : (pCardHolder = " ");
+            transaction.customer.email
+              ? (pEmailClient = transaction.customer.email)
+              : (pEmailClient = " ");
+            transaction.card.country
+              ? (pCardCountry = transaction.card.country)
+              : (pCardCountry = " ");
+            transaction.installments
+              ? (pCardInstallments = transaction.installments)
+              : (pCardInstallments = " ");
           })
           .catch((e) => {
-            console.log("Erro fetch Pagarme: ", vOrder.orderId, vOrder.tid, e);
+            console.log(
+              "Erro fetch Pagarme: ",
+              vOrder.orderId,
+              vOrder.tid,
+              e.TypeError
+            );
           });
       }
 
@@ -250,6 +266,27 @@ export async function getStaticProps() {
           vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0].name;
       }
 
+      let payMethod = {
+        isCreditCardHolder: {
+          yes: false,
+          maybe: false,
+          no: false,
+        },
+        giftCard: false,
+        promissory: false,
+        instantPayment: false,
+      };
+
+      if (paymentGroup.indexOf("giftCard") > -1) {
+        payMethod.giftCard = true;
+      }
+      if (paymentGroup.indexOf("promissory") > -1) {
+        payMethod.promissory = true;
+      }
+      if (paymentGroup.indexOf("instantPayment") > -1) {
+        payMethod.instantPayment = true;
+      }
+
       const riskProfile = await getRiskProfile(
         vOrder.orderId,
         fullName,
@@ -258,12 +295,16 @@ export async function getStaticProps() {
         carrier,
         vOrder.items,
         vOrder.giftId,
-        vOrder.paymentMethod,
+        payMethod,
         pCardCountry,
         pCardInstallments,
         vOrder.value,
         coupon
       );
+
+      if (paymentGroup.indexOf("creditCard") > -1) {
+        payMethod.isCreditCardHolder = riskProfile.isCardHolder;
+      }
 
       let payment = vOrder.paymentMethod[0];
       if (vOrder.paymentMethod[1]) {
@@ -272,7 +313,7 @@ export async function getStaticProps() {
 
       statistics.totalOrders = statistics.totalOrders + 1;
 
-      switch (riskProfile.riskScore) {
+      switch (riskProfile.score) {
         case 100:
         case 95:
         case 90:
@@ -291,28 +332,6 @@ export async function getStaticProps() {
       let shippingMethod =
         carrier.indexOf("Retirada") > -1 ? "Retirada" : carrier;
 
-      let payMethod = {
-        creditCard: false,
-        creditCardHolder: false,
-        giftCard: false,
-        promissory: false,
-        instantPayment: false,
-      };
-
-      if (paymentGroup.indexOf("creditCard") > -1) {
-        payMethod.creditCard = true;
-        payMethod.creditCardHolder = riskProfile.riskIsCardHolder;
-      }
-      if (paymentGroup.indexOf("giftCard") > -1) {
-        payMethod.giftCard = true;
-      }
-      if (paymentGroup.indexOf("promissory") > -1) {
-        payMethod.promissory = true;
-      }
-      if (paymentGroup.indexOf("instantPayment") > -1) {
-        payMethod.instantPayment = true;
-      }
-
       allOrders.push({
         order: vOrder.orderId.substr(1, 6) + "           " + shippingMethod,
         cliente: fullName.substr(0, 25),
@@ -323,15 +342,15 @@ export async function getStaticProps() {
         giftId: vOrder.giftId,
         destino: vOrder.shippingCity.concat(" " + vOrder.shippingState),
         status: vOrder.status,
-        scoreDesc: riskProfile.riskDescription,
-        score: riskProfile.riskScore,
+        scoreDesc: riskProfile.description,
+        score: riskProfile.score,
         riskProfile: riskProfile,
-        kitCustom: riskProfile.riskKitCustom,
+        kitCustom: riskProfile.kitCustom,
         blackListed: isBlackListed(pEmailClient, vOrder.cpf) ? true : false,
         whiteListed: isWhiteListed(pEmailClient, vOrder.cpf) ? true : false,
         payMethod: payMethod,
         promo: coupon,
-        incompleteOrders: riskProfile.riskIncompleteOrders,
+        incompleteOrders: riskProfile.incompleteOrders,
 
         history: [
           {
@@ -351,7 +370,7 @@ export async function getStaticProps() {
   //*-----------------------------------------------------
   //*? Return to React
   //*-----------------------------------------------------
-  console.log("Regenerando a Página com ISR (Incremental Static Regereration)");
+  console.log("Retornando ao React");
 
   return {
     props: {
@@ -361,7 +380,7 @@ export async function getStaticProps() {
       eMessage2,
       statistics,
     },
-    revalidate: 120, // 2 minutos
+    // revalidate: 120, // 2 minutos
   };
 }
 

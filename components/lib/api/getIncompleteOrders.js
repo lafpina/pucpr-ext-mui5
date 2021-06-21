@@ -31,8 +31,5 @@ export async function getIncompleteOrders(clientName) {
     qtyIncompleteOrders = 0;
   }
 
-  console.log("Cliente:", clientName);
-  console.log("Incomplete:", qtyIncompleteOrders);
-
   return qtyIncompleteOrders;
 }
