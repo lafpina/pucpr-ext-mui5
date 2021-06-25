@@ -138,7 +138,10 @@ function Row(props) {
         <TableCell component="th" align="center" scope="row">
           {row.order}
         </TableCell>
-        <TableCell align="center" size="small" classes="">
+
+        {/* Data */}
+
+        <TableCell align="center" size="small">
           {row.dataCompra}
         </TableCell>
 
@@ -337,7 +340,7 @@ export default function RiskScoreListTable(props) {
               <StyledTableCell align="center"> DATA </StyledTableCell>
               <StyledTableCell align="left">CLIENTE</StyledTableCell>
               <StyledTableCell align="center">PERFIL COMPRA</StyledTableCell>
-              <StyledTableCell align="center">PAGAMENTO</StyledTableCell>
+              <StyledTableCell align="center">MEIO</StyledTableCell>
 
               <StyledTableCell align="center">GIFT</StyledTableCell>
               <StyledTableCell align="center">PROMO</StyledTableCell>

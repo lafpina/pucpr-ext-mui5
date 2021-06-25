@@ -290,6 +290,7 @@ export async function getServerSideProps() {
       const riskProfile = await getRiskProfile(
         vOrder.orderId,
         fullName,
+        vOrder.cpf,
         pCardHolder,
         pEmailClient,
         carrier,
@@ -335,7 +336,7 @@ export async function getServerSideProps() {
       allOrders.push({
         order: vOrder.orderId.substr(1, 6) + "           " + shippingMethod,
         cliente: fullName.substr(0, 25),
-        qtyPurchase: riskProfile.qtyPurchase,
+        qtyPurchase: riskProfile.historyPurchase.qty,
         dataCompra: orderDate.substr(0, 5) + " " + orderDate.substr(11, 5), // dd-mm hh-mm
         items: vOrder.items.length,
         valor: vOrder.value,
