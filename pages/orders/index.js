@@ -54,7 +54,6 @@ function OrderListPage(props) {
         component="h6"
         align="center"
         color="textSecondary"
-        // gutterBottom="true"
         align="right"
       >
         Últimos {props.statistics.totalOrders} pedidos -{" "}
@@ -113,7 +112,8 @@ export async function getServerSideProps() {
   //   eMessage.error = res.ok;
   // }
 
-  let orderList = await getListOrders(); // Fetch VTEX API - GET LIST ORDERS
+  //! Fetch LIST ORDER
+  let orderList = await getListOrders();
 
   if (orderList) {
     eMessage.fetchStatus = 200;
@@ -154,6 +154,7 @@ export async function getServerSideProps() {
 
     url = getURL("order", orderParm);
 
+    //! Fetch GET ORDER
     vtexOrder = await getOrder(url, options);
 
     if (vtexOrder) {

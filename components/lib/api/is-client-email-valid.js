@@ -12,10 +12,12 @@ async function isClientEmailValid(email) {
     const result = JSON.parse(JSON.stringify(data));
     // Access and use your preferred validation result objects
 
-    // console.log("email:", email);
-    // console.log(result.format_valid);
-    // console.log(result.smtp_check);
-    // console.log(result.score);
+    console.log("----------------------");
+    console.log("email:", email);
+    console.log(result.format_valid);
+    console.log(result.smtp_check);
+    console.log(result.score);
+    console.log("----------------------");
 
     if (!result.format_valid || !result.smtp_check) {
       return false;

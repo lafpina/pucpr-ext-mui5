@@ -201,8 +201,7 @@ export async function getRiskProfile(
     }
   }
 
-  const cpfStatusOk = isClientCPFValid(cpf);
-  if (!cpfStatusOk) {
+  if (!isClientCPFValid(cpf)) {
     isCpfValid = false;
     riskProfile.cpfScore = +100;
     riskProfile.score = riskProfile.score + 100;
