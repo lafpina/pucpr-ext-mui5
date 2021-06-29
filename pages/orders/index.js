@@ -1,4 +1,6 @@
 import styles from "../../styles/Home.module.css";
+import Image from "next/image";
+// import MainLayout from "../../components/layouts/mainLayouts";
 //? Material UI
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -42,10 +44,12 @@ function OrderListPage(props) {
   return (
     <Container>
       <Typography className={classes.title} component="h5" align="left">
-        <img
+        <Image
           src="/logoAlerteMe.png"
           alt="logo AlerteMe"
           className={styles.logoOrders}
+          width={80}
+          heigth={50}
         />
       </Typography>
       <Typography

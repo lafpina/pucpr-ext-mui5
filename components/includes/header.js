@@ -8,6 +8,8 @@ const Header = () => (
     <meta name="keywords" content="e-commerce alerteme monitoramento" />
     <meta name="author" content="Luiz Pina" />
 
+    <meta name="viewport" content="initial-scale=1.0, with=device-width" />
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"

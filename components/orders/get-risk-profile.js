@@ -96,14 +96,14 @@ export async function getRiskProfile(
     riskProfile.couponDiscount = -15;
   }
 
-  //? Entrega (carrier)
+  //? Entrega (carrier
 
   if (carrier === "Expressa") {
-    riskProfile.score = riskProfile.score - 5;
-    riskProfile.carrier = -5;
+    riskProfile.score = riskProfile.score + 10;
+    riskProfile.carrier = +10;
   } else if (carrier === "Retirada") {
-    riskProfile.score = riskProfile.score - 15;
-    riskProfile.carrier = -15;
+    riskProfile.score = riskProfile.score + 10;
+    riskProfile.carrier = +10;
   }
 
   //? Compra para uma lista (gift)

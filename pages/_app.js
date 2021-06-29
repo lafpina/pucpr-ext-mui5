@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+// Allow us to customize the body HTML document
+import MainLayout from "../components/layouts/mainLayouts";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <MainLayout>
+      <Component {...pageProps} />;
+    </MainLayout>
+  );
 }
 
-export default MyApp
+export default MyApp;
