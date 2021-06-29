@@ -48,8 +48,8 @@ function OrderListPage(props) {
           src="/logoAlerteMe.png"
           alt="logo AlerteMe"
           className={styles.logoOrders}
-          width={80}
-          heigth={50}
+          width={96}
+          height={45}
         />
       </Typography>
       <Typography

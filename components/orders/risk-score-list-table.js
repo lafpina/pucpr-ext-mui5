@@ -321,45 +321,43 @@ function Row(props) {
 export default function RiskScoreListTable(props) {
   const { orders } = props;
   return (
-    <MainLayout>
-      <TableContainer component={Paper}>
-        <Table stickyHeader aria-label="collapsible table">
-          <caption>
-            {<IconizeRiskLevel riskLevel={"Muito Baixo"} size="small" />} Muito
-            baixo
-            {<IconizeRiskLevel riskLevel={"Baixo"} size="small" />} Baixo
-            {<IconizeRiskLevel riskLevel={"Moderado"} size="small" />} Moderado
-            {<IconizeRiskLevel riskLevel={"Alto"} size="small" />} Alto
-            {<IconizeRiskLevel riskLevel={"Muito Alto"} size="small" />} Muito
-            alto
-          </caption>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell />
-              <StyledTableCell align="center">PEDIDO</StyledTableCell>
-              <StyledTableCell align="center"> DATA </StyledTableCell>
-              <StyledTableCell align="left">CLIENTE</StyledTableCell>
-              <StyledTableCell align="center">PERFIL COMPRA</StyledTableCell>
-              <StyledTableCell align="center">MEIO</StyledTableCell>
+    <TableContainer component={Paper}>
+      <Table stickyHeader aria-label="collapsible table">
+        <caption>
+          {<IconizeRiskLevel riskLevel={"Muito Baixo"} size="small" />} Muito
+          baixo
+          {<IconizeRiskLevel riskLevel={"Baixo"} size="small" />} Baixo
+          {<IconizeRiskLevel riskLevel={"Moderado"} size="small" />} Moderado
+          {<IconizeRiskLevel riskLevel={"Alto"} size="small" />} Alto
+          {<IconizeRiskLevel riskLevel={"Muito Alto"} size="small" />} Muito
+          alto
+        </caption>
+        <TableHead>
+          <TableRow>
+            <StyledTableCell />
+            <StyledTableCell align="center">PEDIDO</StyledTableCell>
+            <StyledTableCell align="center"> DATA </StyledTableCell>
+            <StyledTableCell align="left">CLIENTE</StyledTableCell>
+            <StyledTableCell align="center">PERFIL COMPRA</StyledTableCell>
+            <StyledTableCell align="center">MEIO</StyledTableCell>
 
-              <StyledTableCell align="center">GIFT</StyledTableCell>
-              <StyledTableCell align="center">PROMO</StyledTableCell>
+            <StyledTableCell align="center">GIFT</StyledTableCell>
+            <StyledTableCell align="center">PROMO</StyledTableCell>
 
-              <StyledTableCell align="center">ITENS</StyledTableCell>
-              <StyledTableCell align="right">VALOR TOTAL</StyledTableCell>
+            <StyledTableCell align="center">ITENS</StyledTableCell>
+            <StyledTableCell align="right">VALOR TOTAL</StyledTableCell>
 
-              <StyledTableCell align="left">DESTINO</StyledTableCell>
-              <StyledTableCell align="center">STATUS</StyledTableCell>
-              <StyledTableCell align="center">SCORE</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {orders.map((order) => (
-              <Row key={order.order} row={order} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </MainLayout>
+            <StyledTableCell align="left">DESTINO</StyledTableCell>
+            <StyledTableCell align="center">STATUS</StyledTableCell>
+            <StyledTableCell align="center">SCORE</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {orders.map((order) => (
+            <Row key={order.order} row={order} />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
