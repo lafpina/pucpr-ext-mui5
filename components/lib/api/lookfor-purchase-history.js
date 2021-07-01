@@ -5,6 +5,7 @@ export async function lookForPurchaseHistory(clientEmail) {
   let historyPurchaseProfile = {
     qty: 0,
     value: 0,
+    giftHistory: false,
   };
 
   let qtyPurchase = 0;
@@ -27,12 +28,18 @@ export async function lookForPurchaseHistory(clientEmail) {
         historyPurchaseProfile.qty = historyPurchaseProfile.qty + 1;
         historyPurchaseProfile.value =
           historyPurchaseProfile.value + clientOrders.list[i].totalValue;
+        console.log("History Gift:", clientOrders.list[i].paymentNames);
+        if (clientOrders.list[i].paymentNames.indexOf("Vale") > -1) {
+          console.log("BINGO!!!!!");
+          historyPurchaseProfile.giftHistory = true;
+        }
       }
     }
   } else {
     qtyInvoiced = 0;
     historyPurchaseProfile.qty = 0;
     historyPurchaseProfile.value = 0;
+    historyPurchaseProfile.giftHistory = false;
   }
 
   // return qtyInvoiced;

@@ -11,9 +11,9 @@ export function IconizeKitCustom(props) {
         fontSize={props.size}
       />
     );
-  } else {
-    return " ";
   }
+
+  return null;
 }
 
 const kitCustomStyles = makeStyles({

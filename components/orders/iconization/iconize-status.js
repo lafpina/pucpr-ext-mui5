@@ -55,7 +55,7 @@ const useStatusStyles = makeStyles({
     color: "LightGrey",
   },
   preparando: {
-    color: "LightGrey",
+    color: "Tan",
   },
   faturado: {
     color: "LightGrey",

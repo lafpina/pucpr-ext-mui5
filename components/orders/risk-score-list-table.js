@@ -26,6 +26,7 @@ import { IconizeGiftCard } from "./iconization/iconize-gift-card";
 import { IconizePromo } from "./iconization/iconize-promo";
 import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
 import { IconizePaymentOption } from "./iconization/iconize-payment-option";
+import { Tab } from "@material-ui/icons";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -153,7 +154,7 @@ function Row(props) {
 
         <TableCell align="center">
           <IconButton>
-            {row.qtyPurchase > 1 ? (
+            {row.qtyPurchase > 0 ? (
               <StyledBadgeHist
                 badgeContent={row.qtyPurchase}
                 max={999}
@@ -209,17 +210,15 @@ function Row(props) {
         <TableCell align="center">
           <IconButton>
             <IconizeKitCustom kitCustom={row.kitCustom} size="medium" />
-          </IconButton>
-          <IconButton>
             <IconizePromo promo={row.promo} size="medium" />
           </IconButton>
+
           <Typography
             className={classes.description}
             variant="caption"
-            component="h6"
-            align="center"
+            // component="h6"
+            // align="center"
             color="textSecondary"
-            align="center"
           >
             {row.promo}
           </Typography>
@@ -289,6 +288,7 @@ function Row(props) {
                     <TableCell align="left">Email</TableCell>
                     <TableCell align="left">TEL</TableCell>
                     <TableCell align="left">Pagamento</TableCell>
+                    <TableCell align="center">País</TableCell>
                     <TableCell align="center">Parcelas</TableCell>
                     <TableCell align="left">Titular do Cartão</TableCell>
                   </TableRow>
@@ -302,6 +302,9 @@ function Row(props) {
                       </TableCell>
                       <TableCell align="left">{historyRow.phone}</TableCell>
                       <TableCell align="left">{historyRow.pagamento}</TableCell>
+                      <TableCell align="center">
+                        {historyRow.cardCountry}
+                      </TableCell>
                       <TableCell align="center">
                         {historyRow.parcelas}
                       </TableCell>

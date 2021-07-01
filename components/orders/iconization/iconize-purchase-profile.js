@@ -22,7 +22,7 @@ export function IconizePurchaseProfile(props) {
     );
   }
 
-  if (props.qtyPurchase > 1) {
+  if (props.qtyPurchase > 0) {
     return (
       <FavoriteOutlinedIcon
         className={classes.regularClient}
@@ -44,7 +44,7 @@ const usePurchaseProfileStyles = makeStyles({
     color: "LightSteelBlue",
   },
   regularClient: {
-    color: "Plum",
+    color: "Pink",
   },
   blackListed: {
     color: "Black",

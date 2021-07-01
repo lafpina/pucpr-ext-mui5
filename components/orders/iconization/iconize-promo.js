@@ -9,7 +9,7 @@ export function IconizePromo(props) {
       <LocalOfferOutlinedIcon className={classes.promo} fontSize={props.size} />
     );
   } else {
-    return " ";
+    return null;
   }
 }
 

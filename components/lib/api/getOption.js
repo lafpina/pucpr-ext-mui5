@@ -30,6 +30,17 @@ function getOption(fetchTarget) {
         },
       };
       break;
+    case "masterdata":
+      return {
+        method: parmMethod,
+        headers: {
+          Accept: "application/vnd.vtex.ds.v10+json",
+          "Content-Type": parmContentType,
+          "X-VTEX-API-AppKey": parmAppKey,
+          "X-VTEX-API-AppToken": parmAppToken,
+        },
+      };
+      break;
   }
 }
 

@@ -14,6 +14,9 @@ function getURL(fetchTarget, filter) {
 
     case "incompleteOrders":
       return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?incompleteOrders=${filter}`;
+
+    case "masterdata":
+      return `http://api.vtexcrm.com.br/fraldasdipano/dataentities/CL/search/?userId=${filter}&_fields=email`;
   }
 }
 

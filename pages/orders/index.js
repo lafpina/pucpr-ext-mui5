@@ -11,6 +11,7 @@ import getOrder from "../../components/lib/api/getOrder";
 import getOption from "../../components/lib/api/getOption";
 import getListOrders from "../../components/lib/api/getListOrders";
 import getURL from "../../components/lib/api/getURL";
+import getMasterdataEmail from "../../components/lib/api/getMasterdataEmail";
 //? Customized components
 import setCurrency from "../../components/lib/utils/setCurrency";
 import RiskScoreListTable from "../../components/orders/risk-score-list-table";
@@ -238,9 +239,9 @@ export async function getServerSideProps() {
             transaction.card_holder_name
               ? (pCardHolder = transaction.card_holder_name)
               : (pCardHolder = " ");
-            transaction.customer.email
-              ? (pEmailClient = transaction.customer.email)
-              : (pEmailClient = " ");
+            // transaction.customer.email
+            //   ? (pEmailClient = transaction.customer.email)
+            //   : (pEmailClient = " ");
             transaction.card.country
               ? (pCardCountry = transaction.card.country)
               : (pCardCountry = " ");
@@ -292,12 +293,19 @@ export async function getServerSideProps() {
         payMethod.instantPayment = true;
       }
 
+      //! Fetch MASTERDATA
+      let userProfileId = vtexOrder.clientProfileData.userProfileId;
+
+      let options2 = getOption("masterdata");
+      let url2 = getURL("masterdata", userProfileId);
+      let vtexClientEmail = await getMasterdataEmail(url2, options2);
+
       const riskProfile = await getRiskProfile(
         vOrder.orderId,
         fullName,
         vOrder.cpf,
         pCardHolder,
-        pEmailClient,
+        vtexClientEmail[0].email,
         carrier,
         vOrder.items,
         vOrder.giftId,
@@ -305,7 +313,8 @@ export async function getServerSideProps() {
         pCardCountry,
         pCardInstallments,
         vOrder.value,
-        coupon
+        coupon,
+        vOrder.phone
       );
 
       if (paymentGroup.indexOf("creditCard") > -1) {
@@ -361,9 +370,11 @@ export async function getServerSideProps() {
         history: [
           {
             cpf: vOrder.cpf,
-            emailCliente: pEmailClient,
+            // emailCliente: pEmailClient,
+            emailCliente: vtexClientEmail[0].email,
             phone: vOrder.phone,
             pagamento: payment,
+            cardCountry: titleCase(pCardCountry),
             parcelas: pCardInstallments,
             titular: titleCase(pCardHolder),
           },
