@@ -1,5 +1,23 @@
 const WHITE_LIST = [
   {
+    whitedEmail: "tatianalomelino@gmail.com",
+    whitedCPF: "07813986733",
+    whitedName: "Tatiana Braganca",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "ma.wainstok@gmail.com",
+    whitedCPF: "10543574717",
+    whitedName: "Mayra Wainstok",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "spatuzza1@yahoo.com.br",
+    whitedCPF: "14745012810",
+    whitedName: "Alexandre Spatuzza",
+    isWhiteListed: true,
+  },
+  {
     whitedEmail: "barbara@schwermann.eu",
     whitedCPF: "57573697368",
     whitedName: "Barbara Schwermann",

@@ -28,9 +28,8 @@ export async function lookForPurchaseHistory(clientEmail) {
         historyPurchaseProfile.qty = historyPurchaseProfile.qty + 1;
         historyPurchaseProfile.value =
           historyPurchaseProfile.value + clientOrders.list[i].totalValue;
-        console.log("History Gift:", clientOrders.list[i].paymentNames);
+
         if (clientOrders.list[i].paymentNames.indexOf("Vale") > -1) {
-          console.log("BINGO!!!!!");
           historyPurchaseProfile.giftHistory = true;
         }
       }

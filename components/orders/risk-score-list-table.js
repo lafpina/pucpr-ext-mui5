@@ -122,7 +122,7 @@ function Row(props) {
   const classes = useRowStyles();
 
   return (
-    <React.Fragment>
+    <>
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton
@@ -317,7 +317,7 @@ function Row(props) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </>
   );
 }
 

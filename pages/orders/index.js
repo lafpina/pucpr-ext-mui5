@@ -26,6 +26,13 @@ import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
 import { TramRounded } from "@material-ui/icons";
 import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
+import PrimarySearchAppBar from "../../components/layouts/appNavBar";
+import Dashboard from "@material-ui/icons/Dashboard";
+
+// import Dashboard from "../../templates/Dashboard";
+
+import orderScore from "../../helper/orders/order-score";
+
 const useStyles = makeStyles({
   title: {
     fontSize: 22,
@@ -44,6 +51,9 @@ function OrderListPage(props) {
   const classes = useStyles();
   return (
     <Container>
+      {/* <Dashboard /> */}
+      {/* <PrimarySearchAppBar /> */}
+
       <Typography className={classes.title} component="h5" align="left">
         <Image
           src="/logoAlerteMe.png"
@@ -156,6 +166,9 @@ export async function getServerSideProps() {
 
   for (i = 0; i < cleanFeedOrders.length; ++i) {
     let orderParm = cleanFeedOrders[i].orderId;
+
+    //? testando orderScore
+    let orderScoreDetail = await orderScore(orderParm);
 
     url = getURL("order", orderParm);
 
@@ -300,6 +313,11 @@ export async function getServerSideProps() {
       let url2 = getURL("masterdata", userProfileId);
       let vtexClientEmail = await getMasterdataEmail(url2, options2);
 
+      let totalItemsValue = vtexOrder.totals.find((id) => id.id == "Items");
+      let totalShippingValue = vtexOrder.totals.find(
+        (id) => id.id == "Shipping"
+      );
+
       const riskProfile = await getRiskProfile(
         vOrder.orderId,
         fullName,
@@ -314,7 +332,9 @@ export async function getServerSideProps() {
         pCardInstallments,
         vOrder.value,
         coupon,
-        vOrder.phone
+        vOrder.phone,
+        totalItemsValue,
+        totalShippingValue
       );
 
       if (paymentGroup.indexOf("creditCard") > -1) {
@@ -349,7 +369,7 @@ export async function getServerSideProps() {
 
       allOrders.push({
         order: vOrder.orderId.substr(1, 6) + "           " + shippingMethod,
-        cliente: fullName.substr(0, 25),
+        cliente: fullName.substr(0, 35),
         qtyPurchase: riskProfile.historyPurchase.qty,
         dataCompra: orderDate.substr(0, 5) + " " + orderDate.substr(11, 5), // dd-mm hh-mm
         items: vOrder.items.length,

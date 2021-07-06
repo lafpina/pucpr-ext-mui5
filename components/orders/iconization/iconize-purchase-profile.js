@@ -3,7 +3,6 @@ import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"; 
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined"; // White List
 import LocalFloristOutlinedIcon from "@material-ui/icons/LocalFloristOutlined";
 import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined"; //Black List
-import PanToolOutlinedIcon from "@material-ui/icons/PanToolOutlined";
 import ErrorIcon from "@material-ui/icons/Error";
 
 export function IconizePurchaseProfile(props) {
@@ -50,7 +49,7 @@ const usePurchaseProfileStyles = makeStyles({
     color: "Black",
   },
   whiteListed: {
-    color: "Violet",
+    color: "SteelBlue",
   },
   default: {
     color: "DarkGray",

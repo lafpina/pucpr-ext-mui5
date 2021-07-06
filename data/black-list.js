@@ -1,5 +1,11 @@
 const BLACK_LIST = [
   {
+    blackedEmail: "marianascg@gmail.com",
+    blackedCPF: "11886821720",
+    blackedName: "Mariana Santos Camara Gomes",
+    isBlackListed: true,
+  },
+  {
     blackedEmail: "lindalbenesferreira@yahoo.com",
     blackedCPF: "78321719287",
     blackedName: "Lindalbenes F Santos",

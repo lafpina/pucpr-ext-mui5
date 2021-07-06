@@ -19,7 +19,9 @@ export async function getRiskProfile(
   cardInstallments,
   value,
   coupon,
-  phoneNumber
+  phoneNumber,
+  totalItemsValue,
+  totalShippingValue
 ) {
   var riskProfile = {
     incompleteOrders: 0,
@@ -48,9 +50,22 @@ export async function getRiskProfile(
     },
     foreignCreditCard: false,
     foreignCreditCardScore: 0,
+    shippingRateScore: 0,
     score: 100,
     description: "Muito Alto",
   };
+
+  //? Relação entre preço do frete e valor total de produtos comprados
+
+  let shippingRate = (
+    (totalShippingValue.value / totalItemsValue.value) *
+    100
+  ).toFixed(2);
+
+  if (shippingRate > 50.0) {
+    riskProfile.score = riskProfile.score + 5;
+    riskProfile.shippingRateScore = +5;
+  }
 
   //? Titular do cartão (cardHolder)
 
@@ -102,13 +117,15 @@ export async function getRiskProfile(
 
   //? Entrega (carrier)
 
-  if (carrier === "Expressa" || carrier === "Retirada") {
-    if (phoneNumber.substr(3, 2) != "11") {
-      riskProfile.score = riskProfile.score + 10;
-      riskProfile.carrier = +10;
-    } else {
-      riskProfile.score = riskProfile.score + 5;
-      riskProfile.carrier = +5;
+  if (!payMethod.giftCard) {
+    if (carrier === "Expressa" || carrier === "Retirada") {
+      if (phoneNumber.substr(3, 2) != "11") {
+        riskProfile.score = riskProfile.score + 10;
+        riskProfile.carrier = +10;
+      } else {
+        riskProfile.score = riskProfile.score + 5;
+        riskProfile.carrier = +5;
+      }
     }
   }
 
@@ -244,9 +261,9 @@ export async function getRiskProfile(
 
   riskProfile.description = determineRisk(riskProfile.score);
 
-  if (orderId === "v955575frdp-01") {
-    console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
-  }
+  // if (orderId === "v956181frdp-01") {
+  //   console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
+  // }
 
   return riskProfile;
 }
