@@ -168,7 +168,9 @@ export async function getServerSideProps() {
     let orderParm = cleanFeedOrders[i].orderId;
 
     //? testando orderScore
-    let orderScoreDetail = await orderScore(orderParm);
+    // if (orderParm === "v956604frdp-01") {
+    //   const riskScoreObject = await orderScore(orderParm);
+    // }
 
     url = getURL("order", orderParm);
 

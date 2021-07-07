@@ -27,7 +27,7 @@ export default function HomePage() {
           alt="logo AlerteMe"
           className={styles.logoMain}
           width={100}
-          height={50}
+          height={47}
         />
 
         {/* <DisplayAlert type="error" msg="Mensagem de Erro de teste" /> */}
