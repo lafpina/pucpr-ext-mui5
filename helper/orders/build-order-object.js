@@ -1,6 +1,6 @@
 import buildPagarmeObject from "./build-pagarme-object";
 import getMasterdataClientEmail from "./get-masterdata-client-email";
-import { formatGiftDetail } from "./formaters";
+import { formatGiftDetail, formatPayMethod } from "./formaters";
 import { formatPaymentGroup } from "./formaters";
 import { formatPaymentMethod } from "./formaters";
 import { formatClientName } from "./formaters";
@@ -17,27 +17,40 @@ const buildOrderObject = async (vtexOrder) => {
     vtexOrder.paymentData.transactions[0].payments[0].tid
   );
 
+  let paymentGroupObject = formatPaymentGroup(vtexOrder);
+
   let orderObject = {
+    // Transaction
     orderId: vtexOrder.orderId,
-    tid: vtexOrder.paymentData.transactions[0].payments[0].tid,
+    tid: paymentGroupObject.tid,
     creationDate: vtexOrder.creationDate,
+    //Value
     value: vtexOrder.value,
-    paymentGroup: formatPaymentGroup(vtexOrder),
+    totalItemsValue: vtexOrder.totals.find((id) => id.id == "Items"),
+    totalShippingValue: vtexOrder.totals.find((id) => id.id == "Shipping"),
+    // Payment
+    paymentGroup: paymentGroupObject.group,
+    paymentGroupActive: paymentGroupObject.paymentActive,
     paymentMethod: formatPaymentMethod(vtexOrder),
+    // Pagarme Card Info
     cardHolder: pagarmeObject.cardHolder,
     cardCountry: pagarmeObject.cardCountry,
     cardInstallments: pagarmeObject.cardInstallments,
     coupon: formatCoupon(vtexOrder),
+    // Delivery
     carrier: formatCarrier(vtexOrder),
     shippingCity: vtexOrder.shippingData.address.city,
     shippingState: vtexOrder.shippingData.address.state,
     status: vtexOrder.status,
+    // Client Data
     clientName: formatClientName(vtexOrder),
     clientEmail: clientEmail,
     cpf: vtexOrder.clientProfileData.document,
     phone: vtexOrder.clientProfileData.phone,
+    // Gift
     giftName: giftDetail.name,
     giftId: giftDetail.id,
+    // Products
     items: vtexOrder.items,
   };
 

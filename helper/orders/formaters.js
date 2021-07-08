@@ -25,23 +25,6 @@ export const formatPaymentMethod = (vtexOrder) => {
   return paymentMethod;
 };
 
-//? Payment Group (ex: Credit Card, Instant Payment(Pix), Gift Card(Vale), Promissory(Deposit))
-export const formatPaymentGroup = (vtexOrder) => {
-  let paymentGroup = [];
-  let pagarmeTid = "";
-  for (
-    let i = 0;
-    i < vtexOrder.paymentData.transactions[0].payments.length;
-    ++i
-  ) {
-    paymentGroup[i] = vtexOrder.paymentData.transactions[0].payments[i].group;
-    if (paymentGroup[i] === "creditCard") {
-      pagarmeTid = vtexOrder.paymentData.transactions[0].payments[i].tid;
-    }
-  }
-  return paymentGroup;
-};
-
 export const formatClientName = (vtexOrder) => {
   let clientFirstName = vtexOrder.clientProfileData.firstName;
   let clientLastName = vtexOrder.clientProfileData.lastName;
@@ -70,28 +53,43 @@ export const formatCoupon = (vtexOrder) => {
   return coupon;
 };
 
-//! Precisa verificar se PayMethod não está redundante!
-export const payMethod = (paymentGroup) => {
-  let payMethod = {
-    isCreditCardHolder: {
-      yes: false,
-      maybe: false,
-      no: false,
+//? Payment Group (ex: Credit Card, Instant Payment(Pix), Gift Card(Vale), Promissory(Deposit))
+export const formatPaymentGroup = (vtexOrder) => {
+  let paymentGroupObject = {
+    group: [],
+    tid: null,
+    paymentActive: {
+      creditCard: false,
+      giftCard: false,
+      promissory: false,
+      instantPayment: false,
     },
-    giftCard: false,
-    promissory: false,
-    instantPayment: false,
   };
 
-  if (paymentGroup.indexOf("giftCard") > -1) {
-    payMethod.giftCard = true;
+  for (
+    let i = 0;
+    i < vtexOrder.paymentData.transactions[0].payments.length;
+    ++i
+  ) {
+    paymentGroupObject.group[i] =
+      vtexOrder.paymentData.transactions[0].payments[i].group;
+    // if one of transactions has a TID by nature (credit card or pix) than catch it.
+    if (paymentGroupObject.group[i] === "creditCard" || "pix") {
+      paymentGroupObject.tid =
+        vtexOrder.paymentData.transactions[0].payments[i].tid;
+    }
+    if (paymentGroupObject.group[i] === "creditCard") {
+      paymentGroupObject.paymentActive.crediCard = true;
+    }
+    if (paymentGroupObject.group[i] === "giftCard") {
+      paymentGroupObject.paymentActive.giftCard = true;
+    }
+    if (paymentGroupObject.group[i] === "promissory") {
+      paymentGroupObject.paymentActive.promissory = true;
+    }
+    if (paymentGroupObject.group[i] === "instantPayment") {
+      paymentGroupObject.paymentActive.instantPayment = true;
+    }
   }
-  if (paymentGroup.indexOf("promissory") > -1) {
-    payMethod.promissory = true;
-  }
-  if (paymentGroup.indexOf("instantPayment") > -1) {
-    payMethod.instantPayment = true;
-  }
-
-  return payMethod;
+  return paymentGroupObject;
 };
