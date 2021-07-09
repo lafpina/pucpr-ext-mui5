@@ -2,27 +2,42 @@ import { lookForPurchaseHistory } from "../../components/lib/api/lookfor-purchas
 import titleCase from "../../components/lib/utils/titleCase";
 import { getIncompleteOrders } from "../../components/lib/api/getIncompleteOrders";
 import isClientEmailValid from "../../components/lib/api/is-client-email-valid";
-import isClientCPFValid from "../lib/utils/is-client-cpf-valid";
+import isClientCPFValid from "../../components/lib/utils/is-client-cpf-valid";
 
 export const buildRiskScoreObject = async (orderObject) => {
-  riskScoreObject = initializeScores();
+  let riskScoreObject = initializeScores();
   //? Down Score Rules (Decrease the chance of fraud suspection)
-  applyCardHolderScoreRule();
-  applyCouponDiscountScoreRule();
-  applyGiftScoreRule();
-  applyPaymentMethodScoreRule();
-  applyCustomProductScoreRule();
-  applyHistoryPurchaseScoreRule();
+  riskScoreObject = applyCardHolderScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 1");
+  riskScoreObject = applyCouponDiscountScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 2");
+  riskScoreObject = applyGiftScoreRule(riskScoreObject);
+  console.log("Regra 3");
+  riskScoreObject = applyPaymentMethodScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 4");
+  riskScoreObject = applyCustomProductScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 5");
+  riskScoreObject = applyHistoryPurchaseScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 6");
   //? Up Score Rules (Increase the chance of fraud suspection)
-  applyShippingRateScoreRule();
-  applyIncompleteOrdersScoreRule();
-  applyCarrierScoreRule();
-  applyCardCountryScoreRule();
+  riskScoreObject = applyShippingRateScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 7");
+  riskScoreObject = applyIncompleteOrdersScoreRule(riskScoreObject);
+  console.log("Regra 8");
+  riskScoreObject = applyCarrierScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 9");
+  riskScoreObject = applyForeignCardScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 10");
   //? Up or Down Score Rules
-  applyPaymentValueScoreRule();
+  riskScoreObject = applyPaymentValueScoreRule(orderObject, riskScoreObject);
+  console.log("Regra 11");
   //? Higher Score to its max value
-  applyDocumentScoreRule(); // CPF
-  applyEmailScoreRule(); // Email
+  riskScoreObject = applyDocumentScoreRule(orderObject, riskScoreObject); // CPF
+  console.log("Regra 12");
+  riskScoreObject = applyEmailScoreRule(orderObject, riskScoreObject); // Email
+  console.log("Regra 13");
+
+  console.log(riskScoreObject);
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
 
@@ -30,7 +45,7 @@ export const buildRiskScoreObject = async (orderObject) => {
 };
 
 const initializeScores = () => {
-  const riskScoreObject = {
+  var riskScoreObject = {
     incompleteOrders: {
       qty: 0,
       score: 0,
@@ -94,33 +109,20 @@ const initializeScores = () => {
   return riskScoreObject;
 };
 
-const applyShippingRateScoreRule = () => {
-  // Scores negatively depending on the rate between total product value and shipping cost
-  let shippingRate = (
-    (totalShippingValue.value / totalItemsValue.value) *
-    100
-  ).toFixed(2);
-
-  if (shippingRate > 30.0) {
-    riskScoreObject.final += 5;
-    riskScoreObject.shippingRate.score = 5;
-  }
-};
-
-const applyCardHolderScoreRule = () => {
+const applyCardHolderScoreRule = (orderObject, riskScoreObject) => {
   // Score positively depending on matches between client data and card data
-  var nomeCadastro = titleCase(clientName).split(" ");
-  var nomeCartao = titleCase(cardName).split(" ");
+  var nomeCadastro = titleCase(orderObject.clientName).split(" ");
+  var nomeCartao = titleCase(orderObject.cardHolder).split(" ");
 
   var qtyInstance = 0;
-
-  nomeCartao.forEach(verifyBuyer);
 
   const verifyBuyer = (item) => {
     if (nomeCadastro.indexOf(item) > -1) {
       qtyInstance++;
     }
   };
+
+  nomeCartao.forEach(verifyBuyer);
 
   if (qtyInstance > 1) {
     riskScoreObject.final -= -10;
@@ -133,9 +135,37 @@ const applyCardHolderScoreRule = () => {
   } else {
     riskScoreObject.cardHolder.no = false;
   }
+
+  return riskScoreObject;
 };
 
-const applyIncompleteOrdersScoreRule = () => {
+const applyCouponDiscountScoreRule = (orderObject, riskScoreObject) => {
+  // Any coupon of discount other than Compre Junto will score positively
+  if (
+    orderObject.coupon > " " &&
+    orderObject.coupon.indexOf("Compre Junto") == -1
+  ) {
+    riskScoreObject.final += -15;
+    riskScoreObject.couponDiscount.score = -15;
+  }
+  return riskScoreObject;
+};
+
+const applyShippingRateScoreRule = (orderObject, riskScoreObject) => {
+  // Scores negatively depending on the rate between total product value and shipping cost
+  let shippingRate = (
+    (orderObject.totalShippingValue.value / orderObject.totalItemsValue.value) *
+    100
+  ).toFixed(2);
+
+  if (shippingRate > 30.0) {
+    riskScoreObject.final += 5;
+    riskScoreObject.shippingRate.score = 5;
+  }
+  return riskScoreObject;
+};
+
+const applyIncompleteOrdersScoreRule = async (riskScoreObject) => {
   // Any incompete order will be scored negatively
   riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(clientName);
 
@@ -152,22 +182,12 @@ const applyIncompleteOrdersScoreRule = () => {
     riskScoreObject.final += 30;
     riskScoreObject.incompleteOrders.score = 30;
   }
+  return orderRiskObject;
 };
 
-const applyCouponDiscountScoreRule = () => {
-  // Any coupon of discount other than Compre Junto will score positively
-  if (
-    orderObject.coupon > " " &&
-    orderObject.coupon.indexOf("Compre Junto") == -1
-  ) {
-    riskScoreObject.final += -15;
-    riskScoreObject.couponDiscount.score = -15;
-  }
-};
-
-const applyCarrierScoreRule = () => {
+const applyCarrierScoreRule = (orderObject, riskScoreObject) => {
   // Carrier express and pickup store score negatively
-  if (!orderObject.payMethod.giftCard) {
+  if (!orderObject.paymentGroup.giftCard) {
     if (
       orderObject.carrier === "Expressa" ||
       orderObject.carrier === "Retirada"
@@ -181,43 +201,48 @@ const applyCarrierScoreRule = () => {
       }
     }
   }
+  return riskScoreObject;
 };
 
-const applyGiftScoreRule = () => {
+const applyGiftScoreRule = (riskScoreObject) => {
   // Scores positively in the case of it's a Guest List Order identified by a List ID
   if (riskScoreObject.giftId) {
     riskScoreObject.final += -20;
     riskScoreObject.giftGuest.score = -20;
   }
+  return riskScoreObject;
 };
 
-const applyPaymentMethodScoreRule = () => {
+const applyPaymentMethodScoreRule = (orderObject, riskScoreObject) => {
   // Score positively whether it's a deposit, pix or giftCard payment method
-  if (paymentGroupObject.paymentActive.promissory) {
+
+  if (orderObject.paymentGroupActive.promissory) {
     riskScoreObject.final += -30;
     riskScoreObject.promissory.score = -30;
   }
-  if (paymentGroupObject.paymentActive.instantPayment) {
+  if (orderObject.paymentGroupActive.instantPayment) {
     riskScoreObject.final += -35;
     riskScoreObject.instantPayment.score = -35;
   }
-  if (paymentGroupObject.paymentActive.giftCard) {
+  if (orderObject.paymentGroupActive.giftCard) {
     riskScoreObject.final += -35;
     riskScoreObject.giftCard.score = -35;
   }
+  return riskScoreObject;
 };
 
-const applyCustomProductScoreRule = () => {
+const applyCustomProductScoreRule = (orderObject, riskScoreObject) => {
   // Score positively if the order is for a customized product
-  for (let i = 0; i < riskScoreObject.items.length; ++i) {
-    if (items[i].refId === "PAC0075") {
+  for (let i = 0; i < orderObject.items.length; ++i) {
+    if (orderObject.items[i].refId === "PAC0075") {
       riskScoreObject.final += -10;
       riskScoreObject.customProduct.score = -10;
     }
   }
+  return riskScoreObject;
 };
 
-const applyHistoryPurchaseScoreRule = async () => {
+const applyHistoryPurchaseScoreRule = async (orderObject, riskScoreObject) => {
   // Score positively based on the history of purchase
 
   if (orderObject.clientEmail > " ") {
@@ -258,9 +283,10 @@ const applyHistoryPurchaseScoreRule = async () => {
       }
     }
   }
+  return riskScoreObject;
 };
 
-const applyPaymentValueScoreRule = () => {
+const applyPaymentValueScoreRule = (orderObject, riskScoreObject) => {
   // Fist it scores positively for payment whose value is acceptable as a risk, as long as it's
   // a national card
   if (orderObject.value <= 40000 && orderObject.cardCountry === "BRAZIL") {
@@ -271,10 +297,9 @@ const applyPaymentValueScoreRule = () => {
     // fist buying, one installment, or by the less installment payment allowed
     if (
       orderObject.value > 100000 &&
-      !paymentGroupObject.paymentActive.giftCard &&
-      !paymentGroupObject.paymentActive.promissory
+      orderObject.paymentGroupObject.creditCard
     ) {
-      // fisrt buying
+      // first buying
       if (orderObject.historyPurchase.qty === 0) {
         riskScoreObject.final += 5;
         riskScoreObject.paymentValue.score += 5;
@@ -291,25 +316,28 @@ const applyPaymentValueScoreRule = () => {
       }
     }
   }
+  return riskScoreObject;
 };
 
-const applyCardHolderScoreRule = () => {
-  // Socre megatively for foreign credit card
+const applyForeignCardScoreRule = (orderObject, riskScoreObject) => {
+  // Socre negatively for foreign credit card
   if (orderObject.cardCountry !== "BRAZIL") {
     riskScoreObject.final += 5;
     riskScoreObject.foreignCreditCard.score = +5;
   }
+  return riskScoreObject;
 };
 
-const applyDocumentScoreRule = () => {
+const applyDocumentScoreRule = (orderObject, riskScoreObject) => {
   // set final score to its max if document is invalid
   if (!isClientCPFValid(orderObject.cpf)) {
     riskScoreObject.valirdCPF.score = 100;
     riskScoreObject.final = 100;
   }
+  return riskScoreObject;
 };
 
-const applyEmailScoreRule = () => {
+const applyEmailScoreRule = (orderObject, riskScoreObject) => {
   // set final socre to its max if e-mail is invalid
   // if (riskProfile.score > 85) {
   //   if (clientEmail) {

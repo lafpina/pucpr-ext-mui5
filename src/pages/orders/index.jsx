@@ -16,8 +16,8 @@ import getMasterdataEmail from "../../components/lib/api/getMasterdataEmail";
 import setCurrency from "../../components/lib/utils/setCurrency";
 import RiskScoreListTable from "../../components/orders/risk-score-list-table";
 import titleCase from "../../components/lib/utils/titleCase";
-import { isBlackListed } from "../../data/black-list.js";
-import { isWhiteListed } from "../../data/white-list.js";
+import { isBlackListed } from "../../../data/black-list.js";
+import { isWhiteListed } from "../../../data/white-list.js";
 import { buildCarrier } from "../../components/orders/build-carrier";
 import { buildFirstLastName } from "../../components/orders/build-first-last-name";
 import { getRiskProfile } from "../../components/orders/get-risk-profile";
@@ -168,7 +168,7 @@ export async function getServerSideProps() {
     let orderParm = cleanFeedOrders[i].orderId;
 
     //? testando orderScore
-    // if (orderParm === "v956644frdp-01") {
+    // if (orderParm === "v956841frdp-01") {
     //   const riskScoreObject = await orderScore(orderParm);
     // }
 
@@ -215,6 +215,7 @@ export async function getServerSideProps() {
         value: vtexOrder.value,
         shippingCity: vtexOrder.shippingData.address.city,
         shippingState: vtexOrder.shippingData.address.state,
+        shippingPostalCode: vtexOrder.shippingData.address.postalCode,
         status: vtexOrder.status,
         cpf: vtexOrder.clientProfileData.document,
         phone: vtexOrder.clientProfileData.phone,
@@ -233,7 +234,6 @@ export async function getServerSideProps() {
       };
 
       pCardHolder = " ";
-      pEmailClient = " ";
       pCardCountry = " ";
       pCardInstallments = " ";
 
@@ -369,6 +369,11 @@ export async function getServerSideProps() {
       let shippingMethod =
         carrier.indexOf("Retirada") > -1 ? "Retirada" : carrier;
 
+      let cardFlag = payment;
+      let lastDigits =
+        vtexOrder.paymentData.transactions[0].payments[0].lastDigits;
+      let blackedCard = cardFlag.concat(lastDigits);
+
       allOrders.push({
         order: vOrder.orderId.substr(1, 6) + "           " + shippingMethod,
         cliente: fullName.substr(0, 35),
@@ -383,7 +388,15 @@ export async function getServerSideProps() {
         score: riskProfile.score,
         riskProfile: riskProfile,
         kitCustom: riskProfile.kitCustom,
-        blackListed: isBlackListed(pEmailClient, vOrder.cpf) ? true : false,
+        blackListed: isBlackListed(
+          vtexClientEmail[0].email,
+          vOrder.cpf,
+          vOrder.shippingPostalCode,
+          vOrder.phone,
+          blackedCard
+        )
+          ? true
+          : false,
         whiteListed: isWhiteListed(pEmailClient, vOrder.cpf) ? true : false,
         payMethod: payMethod,
         promo: coupon,

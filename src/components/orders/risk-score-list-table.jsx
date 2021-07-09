@@ -255,12 +255,12 @@ function Row(props) {
 
         <TableCell align="center">
           <IconButton>
-            {row.score > 85 ? (
+            {row.score > 80 ? (
               <StyledBadgeRisk
                 badgeContent={row.score}
                 max={999}
               ></StyledBadgeRisk>
-            ) : row.score > 75 ? (
+            ) : row.score > 70 ? (
               <StyledBadgeWarning
                 badgeContent={row.score}
                 max={999}

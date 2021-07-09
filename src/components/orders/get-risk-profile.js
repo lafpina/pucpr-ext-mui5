@@ -158,8 +158,8 @@ export async function getRiskProfile(
   for (let i = 0; i < items.length; ++i) {
     if (items[i].refId === "PAC0075") {
       riskProfile.kitCustom = items[i].refId;
-      riskProfile.score = riskProfile.score - 10;
-      riskProfile.customKit = -10;
+      riskProfile.score = riskProfile.score - 5;
+      riskProfile.customKit = -5;
     }
   }
 
@@ -261,9 +261,9 @@ export async function getRiskProfile(
 
   riskProfile.description = determineRisk(riskProfile.score);
 
-  if (orderId === "v956782frdp-01") {
-    console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
-  }
+  // if (orderId === "v956782frdp-01") {
+  //   console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
+  // }
 
   return riskProfile;
 }

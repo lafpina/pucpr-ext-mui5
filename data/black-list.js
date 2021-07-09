@@ -1,131 +1,240 @@
 const BLACK_LIST = [
   {
+    blackedName: "Luiz Antonio de Assunção Sousa",
+    blackedEmail: "luizantoniodeassuncaosousa@gmail.com",
+    blackedCPF: "36154300263",
+    blackedPhone: "+5594992001452",
+    blackedPostalCode: "68390-000",
+    blackedCreditCard: "visa1904",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Rodrigo Avelino da Silva",
+    blackedEmail: "rodrigoavelinodasilva33@gmail.com",
+    blackedCPF: "00524732108",
+    blackedPhone: "+5594991032218",
+    blackedPostalCode: "68390-000",
+    blackedCreditCard: "0942-mastercard",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Roberto Tavares dos Santos Junior",
+    blackedEmail: "robertojunior271@hotmail.com",
+    blackedCPF: "98804081104",
+    blackedPhone: "+5594991066230",
+    blackedPostalCode: "68390-000",
+    blackedCreditCard: "7375-visa",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Juliana Costa",
     blackedEmail: "junpereira@hotmail.com",
     blackedCPF: "33369154811",
-    blackedName: "Juliana Costa",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Mariana Santos Camara Gomes",
     blackedEmail: "marianascg@gmail.com",
     blackedCPF: "11886821720",
-    blackedName: "Mariana Santos Camara Gomes",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Lindalbenes F Santos",
     blackedEmail: "lindalbenesferreira@yahoo.com",
     blackedCPF: "78321719287",
-    blackedName: "Lindalbenes F Santos",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Antonio Fabio Lima de Castro",
     blackedEmail: "antonofabiodcastro@gmail.com",
     blackedCPF: "02959023374",
-    blackedName: "Antonio Fabio Lima de Castro",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Elaine Viera de souza",
     blackedEmail: "meudia2402@gmail.com",
     blackedCPF: "99310112115",
-    blackedName: "Elaine Viera de souza",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Milena Wachlevski",
     blackedEmail: "milenawm@yahoo.com",
     blackedCPF: "02594355976",
-    blackedName: "Milena Wachlevski",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Ana Celia Ferreira",
     blackedEmail: "anaceliaferreira1963@gmail.com",
     blackedCPF: "27835103249",
-    blackedName: "Ana Celia Ferreira",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Itatiani Antun",
     blackedEmail: "mafort1982@yahoo.com.br",
     cblackedCPF: "08902959724",
-    blackedName: "Itatiani Antun",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Thayná Cavalcanti",
     blackedEmail: "thaynafariasfigueira@hotmail.com",
     blackedCPF: "11794121412",
-    blackedName: "Thayná Cavalcanti",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Patricia Sistherenn",
     blackedEmail: "patricia_sistherenn@hotmail.com",
     blackedCPF: "60008745374",
-    blackedName: "Patricia Sistherenn",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Milena Monteiro",
     blackedEmail: "milenamonteiro1@hotmail.com",
     blackedCPF: "04362984577",
-    blackedName: "Milena Monteiro",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Sandra Paiva",
     blackedEmail: "adrianafachinii4@gmail.com",
     blackedCPF: "004787824899",
-    blackedName: "Sandra Paiva",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Fabio Leme",
     blackedEmail: "leme@ymail.com",
     cblackedCPF: "033915381802",
-    blackedName: "Fabio Leme",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     bisBlackListed: true,
   },
   {
+    blackedName: "Gustavo Santos Silva",
     blackedEmail: "gustavossesportes@gmail.com",
     blackedCPF: "06124988674",
-    blackedName: "Gustavo Santos Silva",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Thainá Silveira",
     blackedEmail: "thai.mnhos@gmail.com",
     blackedCPF: "15455482777",
-    blackedName: "Thainá Silveira",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     bisBlackListed: true,
   },
   {
+    blackedName: "	Giovane Gonçalves Silva",
     blackedEmail: "giovanesilva2800@gmail.com",
     blackedCPF: "06080254611",
-    blackedName: "	Giovane Gonçalves Silva",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "1) Alice Melo - 2) Elisa Azevedo",
     blackedEmail: "elisagran@gmail.com",
     blackedCPF: "12968714791",
-    blackedName: "1) Alice Melo - 2) Elisa Azevedo",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Vanessa Abdala",
     blackedEmail: "vnabdala@gmail.com",
     blackedCPF: "29715961843",
-    blackedName: "Vanessa Abdala",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
   {
+    blackedName: "Francisca Melo",
     blackedEmail: "jeane@cidadeverde.com",
     blackedCPF: "55175627368",
-    blackedName: "Francisca Melo",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedCreditCard: "",
     isBlackListed: true,
   },
 ];
 
-export function isBlackListed(parmEmail, parmCPF) {
+export function isBlackListed(
+  parmEmail,
+  parmCPF,
+  parmCEP,
+  parmPhone,
+  parmCard
+) {
+  console.log(parmEmail, parmCPF, parmCEP, parmPhone, parmCard);
+
   let blackedParm = false;
 
-  if (parmEmail > " ") {
-    blackedParm = BLACK_LIST.find(
-      (bl) => bl.blackedEmail == parmEmail && bl.isBlackListed
-    );
-  }
-  blackedParm = BLACK_LIST.find(
+  let isBlackedEmail = BLACK_LIST.find(
+    (bl) => bl.blackedEmail == parmEmail && bl.isBlackListed
+  );
+  let isBlackedCPF = BLACK_LIST.find(
     (bl) => bl.blackedCPF == parmCPF && bl.isBlackListed
   );
+  let isBlackedCEP = BLACK_LIST.find(
+    (bl) => bl.blackedPostalCode == parmCEP && bl.isBlackListed
+  );
+  let isBlackedPhone = BLACK_LIST.find(
+    (bl) => bl.blackedPhone == parmPhone && bl.isBlackListed
+  );
+  let isBlackedCard = BLACK_LIST.find(
+    (bl) => bl.blackedCreditCard == parmCard && bl.isBlackListed
+  );
+
+  if (
+    isBlackedEmail ||
+    isBlackedCPF ||
+    isBlackedCEP ||
+    isBlackedPhone ||
+    isBlackedCard
+  ) {
+    blackedParm = true;
+  }
   return blackedParm;
 }
 

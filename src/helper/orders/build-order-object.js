@@ -1,6 +1,6 @@
 import buildPagarmeObject from "./build-pagarme-object";
 import getMasterdataClientEmail from "./get-masterdata-client-email";
-import { formatGiftDetail, formatPayMethod } from "./formaters";
+import { formatGiftDetail } from "./formaters";
 import { formatPaymentGroup } from "./formaters";
 import { formatPaymentMethod } from "./formaters";
 import { formatClientName } from "./formaters";

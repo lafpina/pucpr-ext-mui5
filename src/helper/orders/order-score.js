@@ -2,6 +2,7 @@ import getOption from "../../helper/vtex-apis/get-option";
 import getURL from "../../helper/vtex-apis/get-url";
 import getOrder from "../../helper/vtex-apis/get-order";
 import buildOrderObject from "./build-order-object";
+import { buildRiskScoreObject } from "./build-risk-score-object";
 
 const orderScore = async (order) => {
   let url = getURL("order", order);
@@ -13,6 +14,7 @@ const orderScore = async (order) => {
     const orderObject = await buildOrderObject(vtexOrder);
     // Get score based on the order object
     const riskScoreObject = await buildRiskScoreObject(orderObject);
+    console.log(riskScoreObject);
     return riskScoreObject;
   } else {
     console.log("Pedido não encontrado na VTEX");

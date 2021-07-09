@@ -1,14 +1,14 @@
 export function determineRisk(riskScore) {
   switch (riskScore) {
     case 100:
-      return "Muito Alto";
     case 95:
+      return "Muito Alto";
     case 90:
-      return "Alto";
     case 85:
+      return "Alto";
     case 80:
-      return "Moderado";
     case 75:
+      return "Moderado";
     case 70:
       return "Baixo";
     default:
