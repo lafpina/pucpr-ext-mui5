@@ -1,10 +1,31 @@
 const BLACK_LIST = [
   {
+    blackedName: "Adelcio Pereira da silva",
+    blackedEmail: "adelciopereiradasilva4@gmail.com",
+    blackedCPF: "13175564100",
+    blackedPhone: "+5594991908363",
+    blackedPostalCode: "68390-000",
+    blackState: "PA",
+    blackedCreditCard: "visa6294",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Adelcio Pereira da silva",
+    blackedEmail: "adelciopereiradasilva4@gmail.com",
+    blackedCPF: "13175564100",
+    blackedPhone: "+5594991908363",
+    blackedPostalCode: "68390-000",
+    blackState: "PA",
+    blackedCreditCard: "visa6269",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Luiz Antonio de Assunção Sousa",
     blackedEmail: "luizantoniodeassuncaosousa@gmail.com",
     blackedCPF: "36154300263",
     blackedPhone: "+5594992001452",
     blackedPostalCode: "68390-000",
+    blackState: "PA",
     blackedCreditCard: "visa1904",
     isBlackListed: true,
   },
@@ -14,6 +35,7 @@ const BLACK_LIST = [
     blackedCPF: "00524732108",
     blackedPhone: "+5594991032218",
     blackedPostalCode: "68390-000",
+    blackState: "PA",
     blackedCreditCard: "0942-mastercard",
     isBlackListed: true,
   },
@@ -23,6 +45,7 @@ const BLACK_LIST = [
     blackedCPF: "98804081104",
     blackedPhone: "+5594991066230",
     blackedPostalCode: "68390-000",
+    blackState: "PA",
     blackedCreditCard: "7375-visa",
     isBlackListed: true,
   },
@@ -32,6 +55,7 @@ const BLACK_LIST = [
     blackedCPF: "33369154811",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -41,6 +65,7 @@ const BLACK_LIST = [
     blackedCPF: "11886821720",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -50,6 +75,7 @@ const BLACK_LIST = [
     blackedCPF: "78321719287",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -59,6 +85,7 @@ const BLACK_LIST = [
     blackedCPF: "02959023374",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -68,6 +95,7 @@ const BLACK_LIST = [
     blackedCPF: "99310112115",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -77,6 +105,7 @@ const BLACK_LIST = [
     blackedCPF: "02594355976",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -86,6 +115,7 @@ const BLACK_LIST = [
     blackedCPF: "27835103249",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -95,6 +125,7 @@ const BLACK_LIST = [
     cblackedCPF: "08902959724",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -104,6 +135,7 @@ const BLACK_LIST = [
     blackedCPF: "11794121412",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -113,6 +145,7 @@ const BLACK_LIST = [
     blackedCPF: "60008745374",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -122,6 +155,7 @@ const BLACK_LIST = [
     blackedCPF: "04362984577",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -131,6 +165,7 @@ const BLACK_LIST = [
     blackedCPF: "004787824899",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -140,6 +175,7 @@ const BLACK_LIST = [
     cblackedCPF: "033915381802",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     bisBlackListed: true,
   },
@@ -149,6 +185,7 @@ const BLACK_LIST = [
     blackedCPF: "06124988674",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -158,6 +195,7 @@ const BLACK_LIST = [
     blackedCPF: "15455482777",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     bisBlackListed: true,
   },
@@ -167,6 +205,7 @@ const BLACK_LIST = [
     blackedCPF: "06080254611",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -176,6 +215,7 @@ const BLACK_LIST = [
     blackedCPF: "12968714791",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -185,6 +225,7 @@ const BLACK_LIST = [
     blackedCPF: "29715961843",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -194,6 +235,7 @@ const BLACK_LIST = [
     blackedCPF: "55175627368",
     blackedPhone: "",
     blackedPostalCode: "",
+    blackState: "",
     blackedCreditCard: "",
     isBlackListed: true,
   },
@@ -204,10 +246,9 @@ export function isBlackListed(
   parmCPF,
   parmCEP,
   parmPhone,
-  parmCard
+  parmCard,
+  parmState
 ) {
-  console.log(parmEmail, parmCPF, parmCEP, parmPhone, parmCard);
-
   let blackedParm = false;
 
   let isBlackedEmail = BLACK_LIST.find(
@@ -225,13 +266,17 @@ export function isBlackListed(
   let isBlackedCard = BLACK_LIST.find(
     (bl) => bl.blackedCreditCard == parmCard && bl.isBlackListed
   );
+  let isBlackedState = BLACK_LIST.find(
+    (bl) => bl.blackedState == parmState && bl.isBlackListed
+  );
 
   if (
     isBlackedEmail ||
     isBlackedCPF ||
     isBlackedCEP ||
     isBlackedPhone ||
-    isBlackedCard
+    isBlackedCard ||
+    isBlackedState
   ) {
     blackedParm = true;
   }

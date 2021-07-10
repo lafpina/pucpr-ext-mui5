@@ -287,10 +287,13 @@ function Row(props) {
                     <TableCell align="left">CPF</TableCell>
                     <TableCell align="left">Email</TableCell>
                     <TableCell align="left">TEL</TableCell>
+                    <TableCell align="left">CEP</TableCell>
+                    <TableCell align="center">Estado</TableCell>
                     <TableCell align="left">Pagamento</TableCell>
                     <TableCell align="center">País</TableCell>
-                    <TableCell align="center">Parcelas</TableCell>
-                    <TableCell align="left">Titular do Cartão</TableCell>
+                    <TableCell align="center">Parc</TableCell>
+                    <TableCell align="center">Cartão</TableCell>
+                    <TableCell align="left">Titular</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -301,6 +304,8 @@ function Row(props) {
                         {historyRow.emailCliente}
                       </TableCell>
                       <TableCell align="left">{historyRow.phone}</TableCell>
+                      <TableCell align="left">{historyRow.postalCode}</TableCell>
+                      <TableCell align="center">{historyRow.state}</TableCell>
                       <TableCell align="left">{historyRow.pagamento}</TableCell>
                       <TableCell align="center">
                         {historyRow.cardCountry}
@@ -308,6 +313,7 @@ function Row(props) {
                       <TableCell align="center">
                         {historyRow.parcelas}
                       </TableCell>
+                      <TableCell align="center">{historyRow.cardLastDigits}</TableCell>
                       <TableCell align="left">{historyRow.titular}</TableCell>
                     </TableRow>
                   ))}

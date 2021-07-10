@@ -73,13 +73,14 @@ export const formatPaymentGroup = (vtexOrder) => {
   ) {
     paymentGroupObject.group[i] =
       vtexOrder.paymentData.transactions[0].payments[i].group;
+
     // if one of transactions has a TID by nature (credit card or pix) than catch it.
     if (paymentGroupObject.group[i] === "creditCard" || "pix") {
       paymentGroupObject.tid =
         vtexOrder.paymentData.transactions[0].payments[i].tid;
     }
     if (paymentGroupObject.group[i] === "creditCard") {
-      paymentGroupObject.paymentActive.crediCard = true;
+      paymentGroupObject.paymentActive.creditCard = true;
     }
     if (paymentGroupObject.group[i] === "giftCard") {
       paymentGroupObject.paymentActive.giftCard = true;

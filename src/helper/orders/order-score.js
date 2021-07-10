@@ -14,7 +14,7 @@ const orderScore = async (order) => {
     const orderObject = await buildOrderObject(vtexOrder);
     // Get score based on the order object
     const riskScoreObject = await buildRiskScoreObject(orderObject);
-    console.log(riskScoreObject);
+
     return riskScoreObject;
   } else {
     console.log("Pedido não encontrado na VTEX");

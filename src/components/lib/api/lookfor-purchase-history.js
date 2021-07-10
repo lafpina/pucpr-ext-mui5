@@ -23,18 +23,16 @@ export async function lookForPurchaseHistory(clientEmail) {
 
     for (let i = 0; i < qtyPurchase; ++i) {
       if (clientOrders.list[i].status == "invoiced") {
-        qtyInvoiced = qtyInvoiced + 1;
-
-        historyPurchaseProfile.qty = historyPurchaseProfile.qty + 1;
-        historyPurchaseProfile.value =
-          historyPurchaseProfile.value + clientOrders.list[i].totalValue;
-
+        qtyInvoiced += 1;
+        historyPurchaseProfile.qty += 1;
+        historyPurchaseProfile.value += clientOrders.list[i].totalValue;
         if (clientOrders.list[i].paymentNames.indexOf("Vale") > -1) {
           historyPurchaseProfile.giftHistory = true;
         }
       }
     }
   } else {
+    console.log("Error lookForPurchaseHistory:", clientEmail, res);
     qtyInvoiced = 0;
     historyPurchaseProfile.qty = 0;
     historyPurchaseProfile.value = 0;

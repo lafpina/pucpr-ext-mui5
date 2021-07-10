@@ -1,5 +1,11 @@
 const WHITE_LIST = [
   {
+    whitedEmail: "brunofrep@gmail.com",
+    whitedCPF: "22118417837",
+    whitedName: "Carla e bruno Da silva",
+    isWhiteListed: true,
+  },
+  {
     whitedEmail: "claucorsetti@yahoo.com.br",
     whitedCPF: "11035653702",
     whitedName: "Claudia Martins",

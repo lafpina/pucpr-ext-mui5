@@ -19,6 +19,8 @@ const buildOrderObject = async (vtexOrder) => {
 
   let paymentGroupObject = formatPaymentGroup(vtexOrder);
 
+  console.log("Payment Group Object:", paymentGroupObject);
+
   let orderObject = {
     // Transaction
     orderId: vtexOrder.orderId,
@@ -44,7 +46,7 @@ const buildOrderObject = async (vtexOrder) => {
     status: vtexOrder.status,
     // Client Data
     clientName: formatClientName(vtexOrder),
-    clientEmail: clientEmail,
+    clientEmail: clientEmail[0].email,
     cpf: vtexOrder.clientProfileData.document,
     phone: vtexOrder.clientProfileData.phone,
     // Gift

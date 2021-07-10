@@ -6,38 +6,31 @@ import isClientCPFValid from "../../components/lib/utils/is-client-cpf-valid";
 
 export const buildRiskScoreObject = async (orderObject) => {
   let riskScoreObject = initializeScores();
-  //? Down Score Rules (Decrease the chance of fraud suspection)
-  riskScoreObject = applyCardHolderScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 1");
-  riskScoreObject = applyCouponDiscountScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 2");
-  riskScoreObject = applyGiftScoreRule(riskScoreObject);
-  console.log("Regra 3");
-  riskScoreObject = applyPaymentMethodScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 4");
-  riskScoreObject = applyCustomProductScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 5");
-  riskScoreObject = applyHistoryPurchaseScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 6");
-  //? Up Score Rules (Increase the chance of fraud suspection)
-  riskScoreObject = applyShippingRateScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 7");
-  riskScoreObject = applyIncompleteOrdersScoreRule(riskScoreObject);
-  console.log("Regra 8");
-  riskScoreObject = applyCarrierScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 9");
-  riskScoreObject = applyForeignCardScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 10");
-  //? Up or Down Score Rules
-  riskScoreObject = applyPaymentValueScoreRule(orderObject, riskScoreObject);
-  console.log("Regra 11");
-  //? Higher Score to its max value
-  riskScoreObject = applyDocumentScoreRule(orderObject, riskScoreObject); // CPF
-  console.log("Regra 12");
-  riskScoreObject = applyEmailScoreRule(orderObject, riskScoreObject); // Email
-  console.log("Regra 13");
 
-  console.log(riskScoreObject);
+  //? Down Score Rules (Decrease the chance of fraud suspection)
+
+  if (orderObject.paymentGroupActive.creditCard) {
+    riskScoreObject = applyCardHolderRule(orderObject, riskScoreObject);
+    riskScoreObject = applyForeignCardRule(orderObject, riskScoreObject);
+  }
+  riskScoreObject = applyCouponDiscountRule(orderObject, riskScoreObject);
+  riskScoreObject = applyGiftRule(orderObject, riskScoreObject);
+  riskScoreObject = applyPaymentMethodRule(orderObject, riskScoreObject);
+  riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
+  riskScoreObject = await applyHistPurchaseRule(orderObject, riskScoreObject);
+
+  //? Up Score Rules (Increase the chance of fraud suspection)
+
+  riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
+  riskScoreObject = await applyIncompOrdersRule(orderObject, riskScoreObject);
+  riskScoreObject = applyCarrierRule(orderObject, riskScoreObject);
+
+  //? Up or Down Score Rules
+  riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
+
+  //? Higher Score to its max value
+  riskScoreObject = applyDocumentRule(orderObject, riskScoreObject); // CPF
+  //riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
 
@@ -78,9 +71,10 @@ const initializeScores = () => {
       score: 0,
     },
     historyPurchase: {
-      qty: 0,
-      value: 0,
-      giftHistory: 0,
+      profile: {
+        qty: 0,
+        value: 0,
+      },
       score: 0,
     },
     paymentValue: {
@@ -108,8 +102,8 @@ const initializeScores = () => {
   };
   return riskScoreObject;
 };
-
-const applyCardHolderScoreRule = (orderObject, riskScoreObject) => {
+// Rule 1
+const applyCardHolderRule = (orderObject, riskScoreObject) => {
   // Score positively depending on matches between client data and card data
   var nomeCadastro = titleCase(orderObject.clientName).split(" ");
   var nomeCartao = titleCase(orderObject.cardHolder).split(" ");
@@ -125,11 +119,11 @@ const applyCardHolderScoreRule = (orderObject, riskScoreObject) => {
   nomeCartao.forEach(verifyBuyer);
 
   if (qtyInstance > 1) {
-    riskScoreObject.final -= -10;
+    riskScoreObject.final -= 10;
     riskScoreObject.cardHolder.score = -10;
     riskScoreObject.cardHolder.yes = true;
   } else if (qtyInstance == 1) {
-    riskScoreObject.final -= -5;
+    riskScoreObject.final -= 5;
     riskScoreObject.cardHolder.score = -5;
     riskScoreObject.cardHolder.maybe = true;
   } else {
@@ -138,20 +132,115 @@ const applyCardHolderScoreRule = (orderObject, riskScoreObject) => {
 
   return riskScoreObject;
 };
+// Rule 2
+const applyForeignCardRule = (orderObject, riskScoreObject) => {
+  // Socre negatively for foreign credit card
 
-const applyCouponDiscountScoreRule = (orderObject, riskScoreObject) => {
+  if (orderObject.cardCountry !== "BRAZIL") {
+    riskScoreObject.final += 5;
+    riskScoreObject.foreignCreditCard.score = 5;
+  }
+  return riskScoreObject;
+};
+// Rule 3
+const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
   // Any coupon of discount other than Compre Junto will score positively
   if (
     orderObject.coupon > " " &&
     orderObject.coupon.indexOf("Compre Junto") == -1
   ) {
-    riskScoreObject.final += -15;
+    riskScoreObject.final -= 15;
     riskScoreObject.couponDiscount.score = -15;
   }
   return riskScoreObject;
 };
+// Rule 4
+const applyGiftRule = (orderObject, riskScoreObject) => {
+  // Scores positively in the case of it's a Guest List Order identified by a List ID
+  if (orderObject.giftId) {
+    riskScoreObject.final += -20;
+    riskScoreObject.giftGuest.score = -20;
+  }
+  return riskScoreObject;
+};
+// Rule 5
+const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
+  // Score positively whether it's a deposit, pix or giftCard payment method
 
-const applyShippingRateScoreRule = (orderObject, riskScoreObject) => {
+  if (orderObject.paymentGroupActive.promissory) {
+    riskScoreObject.final -= 30;
+    riskScoreObject.paymentMethod.promissory.score = -30;
+  }
+  if (orderObject.paymentGroupActive.instantPayment) {
+    riskScoreObject.final -= 35;
+    riskScoreObject.paymentMethod.instantPayment.score = -35;
+  }
+  if (orderObject.paymentGroupActive.giftCard) {
+    riskScoreObject.final -= 35;
+    riskScoreObject.paymentMethod.giftCard.score = -35;
+  }
+  return riskScoreObject;
+};
+// Rule 6
+const applyCustomProductRule = (orderObject, riskScoreObject) => {
+  // Score positively if the order is for a customized product
+  for (let i = 0; i < orderObject.items.length; ++i) {
+    if (orderObject.items[i].refId === "PAC0075") {
+      riskScoreObject.final -= 5;
+      riskScoreObject.customProduct.score = -5;
+    }
+  }
+  return riskScoreObject;
+};
+// Rule 7
+const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
+  // Score positively based on the history of purchase
+
+  if (orderObject.clientEmail > " ") {
+    let historyPurchase = await lookForPurchaseHistory(orderObject.clientEmail);
+
+    console.log("==>", historyPurchase, orderObject.clientEmail);
+
+    riskScoreObject.historyPurchase.profile.qty = historyPurchase.qty;
+    riskScoreObject.historyPurchase.profile.value = historyPurchase.value;
+
+    if (riskScoreObject.historyPurchase.profile.qty > 0) {
+      if (riskScoreObject.historyPurchase.profile.giftHistory) {
+        riskScoreObject.final -= 40;
+        riskProfile.historyPurchase.score = -40;
+      } else if (riskScoreObject.historyPurchase.profile.value > 40000) {
+        switch (riskScoreObject.historyPurchase.profile.qty) {
+          case 1:
+            riskScoreObject.final -= 5;
+            riskScoreObject.historyPurchase.score = -5;
+            break;
+          case 2:
+            riskScoreObject.final -= 10;
+            riskScoreObject.historyPurchase.score = -10;
+            break;
+          case 3:
+            riskScoreObject.final -= 15;
+            riskScoreObject.historyPurchase.score = -15;
+            break;
+          case 4:
+            riskScoreObject.final -= 20;
+            riskScoreObject.historyPurchase.score = -20;
+            break;
+          case 5:
+            riskScoreObject.final -= 25;
+            riskScoreObject.historyPurchase.score = -25;
+            break;
+          default:
+            riskScoreObject.final -= 30;
+            riskScoreObject.historyPurchase.score = -30;
+        }
+      }
+    }
+  }
+  return riskScoreObject;
+};
+// Rule 8
+const applyShippingRateRule = (orderObject, riskScoreObject) => {
   // Scores negatively depending on the rate between total product value and shipping cost
   let shippingRate = (
     (orderObject.totalShippingValue.value / orderObject.totalItemsValue.value) *
@@ -164,10 +253,12 @@ const applyShippingRateScoreRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-
-const applyIncompleteOrdersScoreRule = async (riskScoreObject) => {
+// Rule 9
+const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
   // Any incompete order will be scored negatively
-  riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(clientName);
+  riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(
+    orderObject.clientName
+  );
 
   if (riskScoreObject.incompleteOrders.qty == 2) {
     riskScoreObject.final += 5;
@@ -182,10 +273,10 @@ const applyIncompleteOrdersScoreRule = async (riskScoreObject) => {
     riskScoreObject.final += 30;
     riskScoreObject.incompleteOrders.score = 30;
   }
-  return orderRiskObject;
+  return riskScoreObject;
 };
-
-const applyCarrierScoreRule = (orderObject, riskScoreObject) => {
+// Rule 10
+const applyCarrierRule = (orderObject, riskScoreObject) => {
   // Carrier express and pickup store score negatively
   if (!orderObject.paymentGroup.giftCard) {
     if (
@@ -203,95 +294,13 @@ const applyCarrierScoreRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-
-const applyGiftScoreRule = (riskScoreObject) => {
-  // Scores positively in the case of it's a Guest List Order identified by a List ID
-  if (riskScoreObject.giftId) {
-    riskScoreObject.final += -20;
-    riskScoreObject.giftGuest.score = -20;
-  }
-  return riskScoreObject;
-};
-
-const applyPaymentMethodScoreRule = (orderObject, riskScoreObject) => {
-  // Score positively whether it's a deposit, pix or giftCard payment method
-
-  if (orderObject.paymentGroupActive.promissory) {
-    riskScoreObject.final += -30;
-    riskScoreObject.promissory.score = -30;
-  }
-  if (orderObject.paymentGroupActive.instantPayment) {
-    riskScoreObject.final += -35;
-    riskScoreObject.instantPayment.score = -35;
-  }
-  if (orderObject.paymentGroupActive.giftCard) {
-    riskScoreObject.final += -35;
-    riskScoreObject.giftCard.score = -35;
-  }
-  return riskScoreObject;
-};
-
-const applyCustomProductScoreRule = (orderObject, riskScoreObject) => {
-  // Score positively if the order is for a customized product
-  for (let i = 0; i < orderObject.items.length; ++i) {
-    if (orderObject.items[i].refId === "PAC0075") {
-      riskScoreObject.final += -10;
-      riskScoreObject.customProduct.score = -10;
-    }
-  }
-  return riskScoreObject;
-};
-
-const applyHistoryPurchaseScoreRule = async (orderObject, riskScoreObject) => {
-  // Score positively based on the history of purchase
-
-  if (orderObject.clientEmail > " ") {
-    orderObject.historyPurchase.qty = await lookForPurchaseHistory(
-      orderObject.clientEmail
-    );
-
-    if (orderObject.historyPurchase.qty > 0) {
-      if (riskScoreObject.historyPurchase.giftHistory) {
-        riskScoreObject.final += -40;
-        riskProfile.historyPurchaseScore = -40;
-      } else if (orderObject.historyPurchase.value > 40000) {
-        switch (orderObject.historyPurchase.qty) {
-          case 1:
-            riskScoreObject.final += -5;
-            riskScoreObject.historyPurchase.score = -5;
-            break;
-          case 2:
-            riskScoreObject.final += -10;
-            riskScoreObject.historyPurchase.score = -10;
-            break;
-          case 3:
-            riskScoreObject.final += -15;
-            riskScoreObject.historyPurchase.score = -15;
-            break;
-          case 4:
-            riskScoreObject.final += -20;
-            riskScoreObject.historyPurchase.score = -20;
-            break;
-          case 5:
-            riskScoreObject.final += -25;
-            riskScoreObject.historyPurchase.score = -25;
-            break;
-          default:
-            riskScoreObject.final += -30;
-            riskScoreObject.historyPurchase.score = -30;
-        }
-      }
-    }
-  }
-  return riskScoreObject;
-};
-
-const applyPaymentValueScoreRule = (orderObject, riskScoreObject) => {
+// Rule 11
+const applyPaymentValueRule = (orderObject, riskScoreObject) => {
   // Fist it scores positively for payment whose value is acceptable as a risk, as long as it's
   // a national card
   if (orderObject.value <= 40000 && orderObject.cardCountry === "BRAZIL") {
-    riskScoreObject.final += -15;
-    riskScoreObject.paymentValue.score += -15;
+    riskScoreObject.final -= 15;
+    riskScoreObject.paymentValue.score -= 15;
   } else {
     // Otherwise, for values over a ceiling limit, it gets evaluated by either
     // fist buying, one installment, or by the less installment payment allowed
@@ -318,17 +327,8 @@ const applyPaymentValueScoreRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-
-const applyForeignCardScoreRule = (orderObject, riskScoreObject) => {
-  // Socre negatively for foreign credit card
-  if (orderObject.cardCountry !== "BRAZIL") {
-    riskScoreObject.final += 5;
-    riskScoreObject.foreignCreditCard.score = +5;
-  }
-  return riskScoreObject;
-};
-
-const applyDocumentScoreRule = (orderObject, riskScoreObject) => {
+// Rule 12
+const applyDocumentRule = (orderObject, riskScoreObject) => {
   // set final score to its max if document is invalid
   if (!isClientCPFValid(orderObject.cpf)) {
     riskScoreObject.valirdCPF.score = 100;
@@ -336,8 +336,8 @@ const applyDocumentScoreRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-
-const applyEmailScoreRule = (orderObject, riskScoreObject) => {
+// Rule 13
+const applyEmailRule = (orderObject, riskScoreObject) => {
   // set final socre to its max if e-mail is invalid
   // if (riskProfile.score > 85) {
   //   if (clientEmail) {
