@@ -34,7 +34,9 @@ export async function getRiskProfile(
     historyPurchase: {
       qty: 0,
       value: 0,
-      giftHistory: 0,
+      isGiftHistory: false,
+      isPromissoryHistory: false,
+      isPixHistory: false,
     },
     value: 0,
     kitCustom: " ",
@@ -69,29 +71,31 @@ export async function getRiskProfile(
 
   //? Titular do cartão (cardHolder)
 
-  var nomeCadastro = titleCase(clientName).split(" ");
-  var nomeCartao = titleCase(cardName).split(" ");
+  if (payMethod.creditCard) {
+    var nomeCadastro = titleCase(clientName).split(" ");
+    var nomeCartao = titleCase(cardName).split(" ");
 
-  var qtyInstance = 0;
+    var qtyInstance = 0;
 
-  nomeCartao.forEach(verifyBuyer);
+    nomeCartao.forEach(verifyBuyer);
 
-  function verifyBuyer(item) {
-    if (nomeCadastro.indexOf(item) > -1) {
-      qtyInstance++;
+    function verifyBuyer(item) {
+      if (nomeCadastro.indexOf(item) > -1) {
+        qtyInstance++;
+      }
     }
-  }
 
-  if (qtyInstance > 1) {
-    riskProfile.score = riskProfile.score - 10;
-    riskProfile.cardHolder = -10;
-    riskProfile.isCardHolder.yes = true;
-  } else if (qtyInstance == 1) {
-    riskProfile.score = riskProfile.score - 5;
-    riskProfile.cardHolder = -5;
-    riskProfile.isCardHolder.maybe = true;
-  } else {
-    riskProfile.isCardHolder.no = true;
+    if (qtyInstance > 1) {
+      riskProfile.score = riskProfile.score - 10;
+      riskProfile.cardHolder = -10;
+      riskProfile.isCardHolder.yes = true;
+    } else if (qtyInstance == 1) {
+      riskProfile.score = riskProfile.score - 5;
+      riskProfile.cardHolder = -5;
+      riskProfile.isCardHolder.maybe = true;
+    } else {
+      riskProfile.isCardHolder.no = true;
+    }
   }
 
   //? Tentativas de compra antes da efetivação da compra atual (incompleteOrders)
@@ -169,34 +173,43 @@ export async function getRiskProfile(
     riskProfile.historyPurchase = await lookForPurchaseHistory(clientEmail);
 
     if (riskProfile.historyPurchase.qty > 0) {
-      if (riskProfile.historyPurchase.giftHistory) {
+      if (riskProfile.historyPurchase.isGiftHistory) {
         riskProfile.score = riskProfile.score - 40;
-        riskProfile.historyPurchaseScore = -40;
-      } else if (riskProfile.historyPurchase.value > 40000) {
+        riskProfile.historyPurchaseScore -= 40;
+      }
+      if (riskProfile.historyPurchase.isPromissoryHistory) {
+        riskProfile.score = riskProfile.score - 30;
+        riskProfile.historyPurchaseScore -= 30;
+      }
+      if (riskProfile.historyPurchase.isPixHistory) {
+        riskProfile.score = riskProfile.score - 30;
+        riskProfile.historyPurchaseScore -= 30;
+      }
+      if (riskProfile.historyPurchase.value > 10000) {
         switch (riskProfile.historyPurchase.qty) {
           case 1:
             riskProfile.score = riskProfile.score - 5;
-            riskProfile.historyPurchaseScore = -5;
+            riskProfile.historyPurchaseScore -= 5;
             break;
           case 2:
             riskProfile.score = riskProfile.score - 10;
-            riskProfile.historyPurchaseScore = -10;
+            riskProfile.historyPurchaseScore -= 10;
             break;
           case 3:
             riskProfile.score = riskProfile.score - 15;
-            riskProfile.historyPurchaseScore = -15;
+            riskProfile.historyPurchaseScore -= 15;
             break;
           case 4:
             riskProfile.score = riskProfile.score - 20;
-            riskProfile.historyPurchaseScore = -20;
+            riskProfile.historyPurchaseScore -= 20;
             break;
           case 5:
             riskProfile.score = riskProfile.score - 25;
-            riskProfile.historyPurchaseScore = -25;
+            riskProfile.historyPurchaseScore -= 25;
             break;
           default:
             riskProfile.score = riskProfile.score - 30;
-            riskProfile.historyPurchaseScore = -30;
+            riskProfile.historyPurchaseScore -= 30;
         }
       }
     }
@@ -204,9 +217,14 @@ export async function getRiskProfile(
 
   //? Relação valor e condição de pagamento (value)
 
-  if (value <= 40000 && cardCountry === "BRAZIL") {
-    riskProfile.score = riskProfile.score - 15;
-    riskProfile.value = -15;
+  if (value <= 40000) {
+    if (
+      !payMethod.creditCard ||
+      (payMethod.creditCard && cardCountry === "BRAZIL")
+    ) {
+      riskProfile.score = riskProfile.score - 15;
+      riskProfile.value = -15;
+    }
   }
 
   if (value > 100000 && !payMethod.giftCard && !payMethod.promissory) {
@@ -229,10 +247,12 @@ export async function getRiskProfile(
 
   //? Cartão Extrangeiro
 
-  if (cardCountry != "BRAZIL") {
-    riskProfile.score = riskProfile.score + 5;
-    riskProfile.foreignCreditCardScore = +5;
-    riskProfile.foreignCreditCard = true;
+  if (payMethod.creditCard) {
+    if (cardCountry != "BRAZIL" && cardCountry != " ") {
+      riskProfile.score = riskProfile.score + 5;
+      riskProfile.foreignCreditCardScore = +5;
+      riskProfile.foreignCreditCard = true;
+    }
   }
 
   //? CPF
@@ -257,13 +277,17 @@ export async function getRiskProfile(
   //   }
   // }
 
-  if (riskProfile.score > 100) riskProfile.score = 100;
+  if (riskProfile.score > 100) {
+    riskProfile.score = 100;
+  } else if (riskProfile.score < 5) {
+    riskProfile.score = 1;
+  }
 
   riskProfile.description = determineRisk(riskProfile.score);
 
-  // if (orderId === "v957083frdp-01") {
-  //   console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
-  // }
+  if (orderId === "v957091frdp-01") {
+    console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
+  }
 
   return riskProfile;
 }

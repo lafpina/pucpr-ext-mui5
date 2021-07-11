@@ -233,9 +233,7 @@ export function IconizePaymentOption(props) {
     );
   }
 
-  return (
-    <SaveAltOutlinedIcon className={classes.promissory} fontSize={props.size} />
-  );
+  return null
 }
 
 const usePaymentStyles = makeStyles({

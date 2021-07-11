@@ -74,6 +74,8 @@ const initializeScores = () => {
       profile: {
         qty: 0,
         value: 0,
+        isGiftHistory: false,
+        isPixHistory: false,
       },
       score: 0,
     },
@@ -136,7 +138,7 @@ const applyCardHolderRule = (orderObject, riskScoreObject) => {
 const applyForeignCardRule = (orderObject, riskScoreObject) => {
   // Socre negatively for foreign credit card
 
-  if (orderObject.cardCountry !== "BRAZIL") {
+  if (orderObject.cardCountry !== "BRAZIL" && orderObject.cardCountry !== " ") {
     riskScoreObject.final += 5;
     riskScoreObject.foreignCreditCard.score = 5;
   }
@@ -197,42 +199,61 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
   // Score positively based on the history of purchase
 
   if (orderObject.clientEmail > " ") {
-    let historyPurchase = await lookForPurchaseHistory(orderObject.clientEmail);
+    riskScoreObject.historyPurchase = await lookForPurchaseHistory(
+      orderObject.clientEmail
+    );
 
-    console.log("==>", historyPurchase, orderObject.clientEmail);
-
-    riskScoreObject.historyPurchase.profile.qty = historyPurchase.qty;
-    riskScoreObject.historyPurchase.profile.value = historyPurchase.value;
+    console.log(
+      "==>",
+      riskScoreObject.historyPurchase,
+      orderObject.clientEmail
+    );
 
     if (riskScoreObject.historyPurchase.profile.qty > 0) {
-      if (riskScoreObject.historyPurchase.profile.giftHistory) {
-        riskScoreObject.final -= 40;
-        riskProfile.historyPurchase.score = -40;
-      } else if (riskScoreObject.historyPurchase.profile.value > 40000) {
+      // History has at least one purchase for a gift list
+      if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
+        riskScoreObject.final -= 30;
+        riskProfile.historyPurchase.score = -30;
+      }
+      if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
+        riskScoreObject.final -= 20;
+        riskProfile.historyPurchase.score = -20;
+      }
+      if (riskScoreObject.historyPurchase.profile.isPixHistory) {
+        riskScoreObject.final -= 20;
+        riskProfile.historyPurchase.score = -20;
+      }
+      // Client has bought over 1.000 before this transaction
+      if (riskScoreObject.historyPurchase.profile.value > 100000) {
+        riskScoreObject.final -= 10;
+        riskProfile.historyPurchase.score -= 10;
+      }
+      // Client has bought at least 400 before this transaction
+      if (riskScoreObject.historyPurchase.profile.value > 40000) {
         switch (riskScoreObject.historyPurchase.profile.qty) {
           case 1:
             riskScoreObject.final -= 5;
-            riskScoreObject.historyPurchase.score = -5;
+            riskScoreObject.historyPurchase.score -= 5;
             break;
           case 2:
             riskScoreObject.final -= 10;
-            riskScoreObject.historyPurchase.score = -10;
+            riskScoreObject.historyPurchase.score -= 10;
             break;
           case 3:
             riskScoreObject.final -= 15;
-            riskScoreObject.historyPurchase.score = -15;
+            riskScoreObject.historyPurchase.score -= 15;
             break;
           case 4:
             riskScoreObject.final -= 20;
-            riskScoreObject.historyPurchase.score = -20;
+            riskScoreObject.historyPurchase.score -= 20;
             break;
           case 5:
             riskScoreObject.final -= 25;
-            riskScoreObject.historyPurchase.score = -25;
+            riskScoreObject.historyPurchase.score -= 25;
             break;
           default:
             riskScoreObject.final -= 30;
-            riskScoreObject.historyPurchase.score = -30;
+            riskScoreObject.historyPurchase.score -= 30;
         }
       }
     }

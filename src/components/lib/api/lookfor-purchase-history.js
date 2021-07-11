@@ -1,3 +1,4 @@
+import { FlareSharp } from "@material-ui/icons";
 import getOption from "./getOption";
 import getURL from "./getURL";
 
@@ -5,7 +6,9 @@ export async function lookForPurchaseHistory(clientEmail) {
   let historyPurchaseProfile = {
     qty: 0,
     value: 0,
-    giftHistory: false,
+    isGiftHistory: false,
+    isPromissoryHistory: false,
+    isPixHistory: false,
   };
 
   let qtyPurchase = 0;
@@ -26,8 +29,22 @@ export async function lookForPurchaseHistory(clientEmail) {
         qtyInvoiced += 1;
         historyPurchaseProfile.qty += 1;
         historyPurchaseProfile.value += clientOrders.list[i].totalValue;
+
         if (clientOrders.list[i].paymentNames.indexOf("Vale") > -1) {
-          historyPurchaseProfile.giftHistory = true;
+          historyPurchaseProfile.isGiftHistory = true;
+        }
+
+        if (
+          clientOrders.list[i].paymentNames.indexOf(
+            "Depósito",
+            "Boleto Bancário"
+          ) > -1
+        ) {
+          historyPurchaseProfile.isPromissoryHistory = true;
+        }
+
+        if (clientOrders.list[i].paymentNames.indexOf("Pix") > -1) {
+          historyPurchaseProfile.isPixHistory = true;
         }
       }
     }
@@ -36,7 +53,9 @@ export async function lookForPurchaseHistory(clientEmail) {
     qtyInvoiced = 0;
     historyPurchaseProfile.qty = 0;
     historyPurchaseProfile.value = 0;
-    historyPurchaseProfile.giftHistory = false;
+    historyPurchaseProfile.isGiftHistory = false;
+    historyPurchaseProfile.isPromissoryHistory = false;
+    historyPurchaseProfile.isPixHistory = false;
   }
 
   // return qtyInvoiced;
