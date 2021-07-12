@@ -168,10 +168,10 @@ export async function getServerSideProps() {
     let orderParm = cleanFeedOrders[i].orderId;
 
     //? testando orderScore
-    if (orderParm === "v957083frdp-01") {
-      const riskScoreObject = await orderScore(orderParm);
-      console.log(riskScoreObject)
-    }
+    //  if (orderParm == "v957091frdp-01") {
+    //    const riskScoreObject = await orderScore(orderParm);
+    //  }
+
 
     url = getURL("order", orderParm);
 
@@ -290,6 +290,7 @@ export async function getServerSideProps() {
       }
 
       let payMethod = {
+        creditCard: false, 
         isCreditCardHolder: {
           yes: false,
           maybe: false,
@@ -300,6 +301,9 @@ export async function getServerSideProps() {
         instantPayment: false,
       };
 
+      if (paymentGroup.indexOf("creditCard") > -1) {
+        payMethod.creditCard = true;
+      }
       if (paymentGroup.indexOf("giftCard") > -1) {
         payMethod.giftCard = true;
       }
@@ -375,6 +379,7 @@ export async function getServerSideProps() {
       let lastDigits =
         vtexOrder.paymentData.transactions[0].payments[0].lastDigits;
       let blackedCard = cardFlag.concat(lastDigits);
+
 
       allOrders.push({
         order: vOrder.orderId.substr(1, 6) + "           " + shippingMethod,

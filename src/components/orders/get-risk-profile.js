@@ -285,9 +285,9 @@ export async function getRiskProfile(
 
   riskProfile.description = determineRisk(riskProfile.score);
 
-  if (orderId === "v957091frdp-01") {
-    console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
-  }
+  // if (orderId === "v957321frdp-01") {
+  //   console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
+  // }
 
   return riskProfile;
 }

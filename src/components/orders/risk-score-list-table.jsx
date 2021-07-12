@@ -15,7 +15,7 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Badge from "@material-ui/core/Badge";
-//? Customized Components
+//? Customized Components Row
 import setCurrency from "../lib/utils/setCurrency";
 import MainLayout from "../layouts/mainLayouts";
 import { IconizeStatus } from "./iconization/iconize-status";
@@ -27,6 +27,19 @@ import { IconizePromo } from "./iconization/iconize-promo";
 import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
 import { IconizePaymentOption } from "./iconization/iconize-payment-option";
 import { Tab } from "@material-ui/icons";
+//? Customized Components Title
+import { IconizeTitleOrder } from "./iconization/iconize-title";
+import { IconizeTitleDate } from "./iconization/iconize-title";
+import { IconizeTitleClient } from "./iconization/iconize-title";
+import { IconizeTitleProfile } from "./iconization/iconize-title";
+import { IconizeTitlePayment } from "./iconization/iconize-title";
+import { IconizeTitleGift } from "./iconization/iconize-title";
+import { IconizeTitlePromo } from "./iconization/iconize-title";
+import { IconizeTitleItems } from "./iconization/iconize-title";
+import { IconizeTitleValue } from "./iconization/iconize-title";
+import { IconizeTitleDestination } from "./iconization/iconize-title";
+import { IconizeTitleStatus } from "./iconization/iconize-title";
+import { IconizeTitleScore } from "./iconization/iconize-title";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -238,6 +251,7 @@ function Row(props) {
         {/* Value */}
 
         <TableCell align="right">{setCurrency(row.valor)}</TableCell>
+        {/* <TableCell align="right">{setCurrency(row.totalShippingValue)}</TableCell> */}
 
         {/* Shipping To */}
 
@@ -275,7 +289,7 @@ function Row(props) {
       </TableRow>
 
       <TableRow>
-        <TableCell style={{ paddingBottom: 1, paddingTop: 1 }} colSpan={17}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={17}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" color="textSecondary" component="div">
@@ -292,7 +306,7 @@ function Row(props) {
                     <TableCell align="left">Pagamento</TableCell>
                     <TableCell align="center">País</TableCell>
                     <TableCell align="center">Parc</TableCell>
-                    <TableCell align="center">Cartão</TableCell>
+                    {/* <TableCell align="center">Cartão</TableCell> */}
                     <TableCell align="left">Titular</TableCell>
                   </TableRow>
                 </TableHead>
@@ -313,7 +327,7 @@ function Row(props) {
                       <TableCell align="center">
                         {historyRow.parcelas}
                       </TableCell>
-                      <TableCell align="center">{historyRow.cardLastDigits}</TableCell>
+                      {/* <TableCell align="center">{historyRow.cardLastDigits}</TableCell> */}
                       <TableCell align="left">{historyRow.titular}</TableCell>
                     </TableRow>
                   ))}
@@ -344,21 +358,22 @@ export default function RiskScoreListTable(props) {
         <TableHead>
           <TableRow>
             <StyledTableCell />
-            <StyledTableCell align="center">PEDIDO</StyledTableCell>
-            <StyledTableCell align="center"> DATA </StyledTableCell>
-            <StyledTableCell align="left">CLIENTE</StyledTableCell>
-            <StyledTableCell align="center">PERFIL COMPRA</StyledTableCell>
-            <StyledTableCell align="center">MEIO</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleOrder size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleDate size="medium" />} </StyledTableCell>
+            <StyledTableCell align="left">{<IconizeTitleClient size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleProfile size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitlePayment size="medium" />}</StyledTableCell>
 
-            <StyledTableCell align="center">GIFT</StyledTableCell>
-            <StyledTableCell align="center">PROMO</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleGift size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitlePromo size="medium" />}</StyledTableCell>
 
-            <StyledTableCell align="center">ITENS</StyledTableCell>
-            <StyledTableCell align="right">VALOR TOTAL</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleItems size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleValue size="medium" />}</StyledTableCell>
+            {/* <StyledTableCell align="center">{<IconizeTitleValue size="medium" />}</StyledTableCell>           */}
 
-            <StyledTableCell align="left">DESTINO</StyledTableCell>
-            <StyledTableCell align="center">STATUS</StyledTableCell>
-            <StyledTableCell align="center">SCORE</StyledTableCell>
+            <StyledTableCell align="left">{<IconizeTitleDestination size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleStatus size="medium" />}</StyledTableCell>
+            <StyledTableCell align="right">{<IconizeTitleScore size="medium" />}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

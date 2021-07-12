@@ -1,3 +1,38 @@
+//? Credit Card Last 4 Digits
+export const formatLast4Digits = (vtexOrder) => {
+  // get all the payment methods used in the order
+  let paymentMethod = [];
+  let vtexPaymentDataLen =
+    vtexOrder.paymentData.transactions[0].payments.length;
+  for (let i = 0; i < vtexPaymentDataLen; ++i) {
+    if (
+      vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
+        "Pix" &&
+      vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
+        "Vale" &&
+      vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
+        "Boleto Bancário" &&
+      vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
+        "Depósito"
+    ) {
+      paymentMethod[i] = vtexOrder.paymentData.transactions[0].payments[
+        i
+      ].paymentSystemName.concat(
+        vtexOrder.paymentData.transactions[0].payments[i].lastDigits
+      );
+    } else {
+      paymentMethod[i] =
+        vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName;
+    }
+  }
+
+  let allPaymentsOrderWith4Digits = paymentMethod.toString();
+
+  console.log("All Payments Order:", allPaymentsOrderWith4Digits);
+
+  return allPaymentsOrderWith4Digits;
+};
+
 //? Gift (ID da Lista, Nome da Lista)
 export const formatGiftDetail = (vtexOrder) => {
   let giftDetail = {

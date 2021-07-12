@@ -6,6 +6,7 @@ import { formatPaymentMethod } from "./formaters";
 import { formatClientName } from "./formaters";
 import { formatCarrier } from "./formaters";
 import { formatCoupon } from "./formaters";
+import { formatLast4Digits } from "./formaters";
 
 const buildOrderObject = async (vtexOrder) => {
   let giftDetail = formatGiftDetail(vtexOrder);
@@ -18,8 +19,6 @@ const buildOrderObject = async (vtexOrder) => {
   );
 
   let paymentGroupObject = formatPaymentGroup(vtexOrder);
-
-  console.log("Payment Group Object:", paymentGroupObject);
 
   let orderObject = {
     // Transaction
@@ -38,11 +37,13 @@ const buildOrderObject = async (vtexOrder) => {
     cardHolder: pagarmeObject.cardHolder,
     cardCountry: pagarmeObject.cardCountry,
     cardInstallments: pagarmeObject.cardInstallments,
+    cardLastDigits: formatLast4Digits(vtexOrder),
     coupon: formatCoupon(vtexOrder),
     // Delivery
     carrier: formatCarrier(vtexOrder),
     shippingCity: vtexOrder.shippingData.address.city,
     shippingState: vtexOrder.shippingData.address.state,
+    shippingPostalCode: vtexOrder.shippingData.address.postalCode,
     status: vtexOrder.status,
     // Client Data
     clientName: formatClientName(vtexOrder),

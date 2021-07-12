@@ -24,7 +24,7 @@ import { getRiskProfile } from "../../components/orders/get-risk-profile";
 import showMessageError from "../../components/lib/utils/show-message-error";
 import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
 import { TramRounded } from "@material-ui/icons";
-import { gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
+import { gridCheckboxSelectionColDef, gridColumnsTotalWidthSelector } from "@material-ui/data-grid";
 
 import PrimarySearchAppBar from "../../components/layouts/appNavBar";
 import Dashboard from "@material-ui/icons/Dashboard";
@@ -32,6 +32,9 @@ import Dashboard from "@material-ui/icons/Dashboard";
 // import Dashboard from "../../templates/Dashboard";
 
 import orderScore from "../../helper/orders/order-score";
+import buildOrderObject from "../../helper/orders/build-order-object";
+import { buildRiskScoreObject } from "../../helper/orders/build-risk-score-object";
+
 
 const useStyles = makeStyles({
   title: {
@@ -63,7 +66,7 @@ function OrderListPage(props) {
           height={45}
         />
       </Typography>
-      <Typography
+      {/* <Typography
         className={classes.description}
         variant="caption"
         component="h6"
@@ -78,7 +81,7 @@ function OrderListPage(props) {
           (props.statistics.totalHighRisk / props.statistics.totalOrders) * 100
         ).toFixed(2) + "%"}
         )
-      </Typography>
+      </Typography> */}
       <div>
         {props.eMessage.fetchStatus === 200 ? (
           <RiskScoreListTable orders={props.allOrders} />
@@ -107,26 +110,6 @@ export async function getServerSideProps() {
   var allOrders = [];
   var cleanFeedOrders = [];
 
-  //*-----------------------------------------------------
-  //*? Fetch Feed -> cleanFeedOrders
-  //*-----------------------------------------------------
-
-  // let url, options;
-
-  // url = getURL("feed");
-  // options = getOption("feed");
-
-  // let res = await fetch(url, options);
-  // let data = await res.json();
-
-  // if (res.ok) {
-  //   eMessage.fetchStatus = res.status;
-  //   cleanFeedOrders = JSON.parse(JSON.stringify(data));
-  // } else {
-  //   allOrders = [];
-  //   eMessage.error = res.ok;
-  // }
-
   //! Fetch LIST ORDER
   let orderList = await getListOrders();
 
@@ -138,25 +121,8 @@ export async function getServerSideProps() {
   //*-----------------------------------------------------
   //*? Fetch Order based on cleanFeedOrders -> allOrders
   //*-----------------------------------------------------
-  let i;
-  let apiPagarme = "ak_live_i3JdusnggPsU1ymvogfoOfmmkvGfMM";
-  let fullName;
-  let giftId;
-  let giftName;
-  let pCardHolder;
-  let pEmailClient;
-  let pCardCountry;
-  let pCardInstallments;
 
-  let options = getOption("order");
-
-  let url;
-  let vtexOrder;
-  let vOrder = {};
-
-  let statistics = {};
-
-  statistics = {
+  let statistics = {
     totalHighRisk: 0,
     totalMediumRisk: 0,
     totalLowRisk: 0,
@@ -164,265 +130,83 @@ export async function getServerSideProps() {
     totalOrders: 0,
   };
 
-  for (i = 0; i < cleanFeedOrders.length; ++i) {
+  let options = getOption("order");
+
+  for (let i = 0; i < cleanFeedOrders.length; ++i) {
     let orderParm = cleanFeedOrders[i].orderId;
-
-    //? testando orderScore
-    //  if (orderParm == "v957091frdp-01") {
-    //    const riskScoreObject = await orderScore(orderParm);
-    //  }
-
-
-    url = getURL("order", orderParm);
+    let url = getURL("order", orderParm);
 
     //! Fetch GET ORDER
-    vtexOrder = await getOrder(url, options);
+    let vtexOrder = await getOrder(url, options);
 
     if (vtexOrder) {
-      giftId = "";
-      giftName = "";
-      if (vtexOrder.giftRegistryData) {
-        giftId = vtexOrder.giftRegistryData.giftRegistryId;
-        giftName = vtexOrder.giftRegistryData.description;
+      const orderObject = await buildOrderObject(vtexOrder);
+      const riskScoreObject = await buildRiskScoreObject(orderObject);
+
+      let paymentOption = {
+        creditCard: orderObject.paymentGroupActive.creditCard,
+        isCreditCardHolder: riskScoreObject.cardHolder,
+        giftCard: orderObject.paymentGroupActive.giftCard,
+        promissory: orderObject.paymentGroupActive.promissory,
+        instantPayment: orderObject.paymentGroupActive.instantPayment
       }
 
-      let paymentMethod = [];
-      for (
-        let i = 0;
-        i < vtexOrder.paymentData.transactions[0].payments.length;
-        ++i
-      ) {
-        paymentMethod[i] =
-          vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName;
+      if (orderObject.orderId == "v957355frdp-01") {
+        console.log("-------------------------------------")
+        console.log("Cliente:", orderObject.clientName)
+        console.log("Payment Option:", paymentOption)
+        console.log("Card Holder:", orderObject.cardHolder)
+
+        console.log("----------")
+
+        console.log(orderObject)
+        console.log(riskScoreObject)
+
       }
-
-      let paymentGroup = [];
-      let pagarmeTid = "";
-      for (
-        let i = 0;
-        i < vtexOrder.paymentData.transactions[0].payments.length;
-        ++i
-      ) {
-        paymentGroup[i] =
-          vtexOrder.paymentData.transactions[0].payments[i].group;
-        if (paymentGroup[i] === "creditCard") {
-          pagarmeTid = vtexOrder.paymentData.transactions[0].payments[i].tid;
-        }
-      }
-
-      vOrder = {
-        orderId: vtexOrder.orderId,
-        creationDate: vtexOrder.creationDate,
-        value: vtexOrder.value,
-        shippingCity: vtexOrder.shippingData.address.city,
-        shippingState: vtexOrder.shippingData.address.state,
-        shippingPostalCode: vtexOrder.shippingData.address.postalCode,
-        state: vtexOrder.shippingData.address.state,
-        status: vtexOrder.status,
-        cpf: vtexOrder.clientProfileData.document,
-        phone: vtexOrder.clientProfileData.phone,
-        cardBrand:
-          vtexOrder.paymentData.transactions[0].payments[0].paymentSystemName,
-        items: vtexOrder.items,
-        tid: vtexOrder.paymentData.transactions[0].payments[0].tid,
-        creditCardGroup: paymentGroup,
-        giftId: giftId,
-        giftName: giftName,
-        clientFirstName: vtexOrder.clientProfileData.firstName,
-        clientLastName: vtexOrder.clientProfileData.lastName,
-        carrier: vtexOrder.shippingData.logisticsInfo[0].selectedSla,
-        payment: vtexOrder.paymentData.transactions[0].payments[0].group,
-        paymentMethod: paymentMethod,
-      };
-
-      pCardHolder = " ";
-      pCardCountry = " ";
-      pCardInstallments = " ";
-
-      let carrier = " ";
-      if (
-        vtexOrder.paymentData.transactions.length > 0
-        // vtexOrder.paymentData.transactions.length > 0 &&
-        // vOrder.creditCardGroup.indexOf("creditCard") > -1
-      ) {
-        //*-----------------------------------------------------
-        //*? Fetch Pagarme based on TID -> transactions
-        //*-----------------------------------------------------
-
-        await pagarme.client
-          .connect({ api_key: apiPagarme })
-          .then((client) => client.transactions.find({ id: pagarmeTid }))
-          .then((transaction) => {
-            transaction.card_holder_name
-              ? (pCardHolder = transaction.card_holder_name)
-              : (pCardHolder = " ");
-            // transaction.customer.email
-            //   ? (pEmailClient = transaction.customer.email)
-            //   : (pEmailClient = " ");
-            transaction.card.country
-              ? (pCardCountry = transaction.card.country)
-              : (pCardCountry = " ");
-            transaction.installments
-              ? (pCardInstallments = transaction.installments)
-              : (pCardInstallments = " ");
-          })
-          .catch((e) => {
-            console.log(
-              "Erro fetch Pagarme: ",
-              vOrder.orderId,
-              vOrder.tid,
-              e.TypeError
-            );
-          });
-      }
-
-      fullName = buildFirstLastName(
-        vOrder.clientFirstName,
-        vOrder.clientLastName
-      );
-
-      carrier = buildCarrier(vOrder.carrier);
-
-      let coupon = " ";
-      if (vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0]) {
-        coupon =
-          vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0].name;
-      }
-
-      let payMethod = {
-        creditCard: false, 
-        isCreditCardHolder: {
-          yes: false,
-          maybe: false,
-          no: false,
-        },
-        giftCard: false,
-        promissory: false,
-        instantPayment: false,
-      };
-
-      if (paymentGroup.indexOf("creditCard") > -1) {
-        payMethod.creditCard = true;
-      }
-      if (paymentGroup.indexOf("giftCard") > -1) {
-        payMethod.giftCard = true;
-      }
-      if (paymentGroup.indexOf("promissory") > -1) {
-        payMethod.promissory = true;
-      }
-      if (paymentGroup.indexOf("instantPayment") > -1) {
-        payMethod.instantPayment = true;
-      }
-
-      //! Fetch MASTERDATA
-      let userProfileId = vtexOrder.clientProfileData.userProfileId;
-
-      let options2 = getOption("masterdata");
-      let url2 = getURL("masterdata", userProfileId);
-      let vtexClientEmail = await getMasterdataEmail(url2, options2);
-
-      let totalItemsValue = vtexOrder.totals.find((id) => id.id == "Items");
-      let totalShippingValue = vtexOrder.totals.find(
-        (id) => id.id == "Shipping"
-      );
-
-      const riskProfile = await getRiskProfile(
-        vOrder.orderId,
-        fullName,
-        vOrder.cpf,
-        pCardHolder,
-        vtexClientEmail[0].email,
-        carrier,
-        vOrder.items,
-        vOrder.giftId,
-        payMethod,
-        pCardCountry,
-        pCardInstallments,
-        vOrder.value,
-        coupon,
-        vOrder.phone,
-        totalItemsValue,
-        totalShippingValue
-      );
-
-      if (paymentGroup.indexOf("creditCard") > -1) {
-        payMethod.isCreditCardHolder = riskProfile.isCardHolder;
-      }
-
-      let payment = vOrder.paymentMethod[0];
-      if (vOrder.paymentMethod[1]) {
-        payment = payment + " " + vOrder.paymentMethod[1];
-      }
-
-      statistics.totalOrders = statistics.totalOrders + 1;
-
-      switch (riskProfile.score) {
-        case 100:
-        case 95:
-        case 90:
-          statistics.totalHighRisk = statistics.totalHighRisk + 1;
-          statistics.totalAmountRisk =
-            statistics.totalAmountRisk + vOrder.value;
-        case 85:
-        case 80:
-          statistics.totalMediumRisk = statistics.totalMediumRisk + 1;
-        default:
-          statistics.totalLowRisk = statistics.totalLowRisk + 1;
-      }
-
-      let orderDate = formatTZOrderDate(vOrder.creationDate);
-
-      let shippingMethod =
-        carrier.indexOf("Retirada") > -1 ? "Retirada" : carrier;
-
-      let cardFlag = payment;
-      let lastDigits =
-        vtexOrder.paymentData.transactions[0].payments[0].lastDigits;
-      let blackedCard = cardFlag.concat(lastDigits);
-
 
       allOrders.push({
-        order: vOrder.orderId.substr(1, 6) + "           " + shippingMethod,
-        cliente: fullName.substr(0, 35),
-        qtyPurchase: riskProfile.historyPurchase.qty,
-        dataCompra: orderDate.substr(0, 5) + " " + orderDate.substr(11, 5), // dd-mm hh-mm
-        items: vOrder.items.length,
-        valor: vOrder.value,
-        giftId: vOrder.giftId,
-        destino: vOrder.shippingCity.concat(" " + vOrder.shippingState),
-        status: vOrder.status,
-        scoreDesc: riskProfile.description,
-        score: riskProfile.score,
-        riskProfile: riskProfile,
-        kitCustom: riskProfile.kitCustom,
+        order: orderObject.orderId.substr(1, 6) + "           " + orderObject.carrier,
+        cliente: orderObject.clientName.substr(0, 35),
+        qtyPurchase: riskScoreObject.historyPurchase.profile.qty,
+        dataCompra: orderObject.creationDate.substr(0, 5) + " " + orderObject.creationDate.substr(11, 5), // dd-mm hh-mm
+        items: orderObject.items.length,
+        valor: orderObject.value,
+        giftId: orderObject.giftId,
+        destino: orderObject.shippingCity,
+        status: orderObject.status,
+        scoreDesc: riskScoreObject.description,
+        score: riskScoreObject.final,
+        riskProfile: riskScoreObject,
+        kitCustom: riskScoreObject.customProduct.score,
         blackListed: isBlackListed(
-          vtexClientEmail[0].email,
-          vOrder.cpf,
-          vOrder.shippingPostalCode,
-          vOrder.phone,
-          blackedCard,
-          vOrder.state
+          orderObject.clientEmail,
+          orderObject.cpf,
+          orderObject.shippingPostalCode,
+          orderObject.phone,
+          orderObject.cardLastDigits,
+          orderObject.shippingState
         )
           ? true
           : false,
-        whiteListed: isWhiteListed(pEmailClient, vOrder.cpf) ? true : false,
-        payMethod: payMethod,
-        promo: coupon,
-        incompleteOrders: riskProfile.incompleteOrders,
+        whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf) ? true : false,
+        payMethod: paymentOption,
+        promo: orderObject.coupon,
+        incompleteOrders: riskScoreObject.incompleteOrders.qty,
 
         history: [
           {
-            cpf: vOrder.cpf,
-            // emailCliente: pEmailClient,
-            emailCliente: vtexClientEmail[0].email,
-            phone: vOrder.phone,
-            pagamento: payment,
-            postalCode: vOrder.shippingPostalCode,
-            state: vOrder.state,
-            cardCountry: titleCase(pCardCountry),
-            cardLastDigits: lastDigits,
-            parcelas: pCardInstallments,
-            titular: titleCase(pCardHolder),
+            cpf: orderObject.cpf,
+            emailCliente: orderObject.clientEmail,
+            phone: orderObject.phone,
+            pagamento: orderObject.cardLastDigits,
+            parcelas: orderObject.cardInstallments,
+            postalCode: orderObject.shippingPostalCode,
+            state: orderObject.shippingState,
+            cardCountry: titleCase(orderObject.cardCountry),
+            // cardLastDigits: orderObject.cardLastDigits,
+            parcelas: orderObject.cardInstallments,
+            // titular: " "
+            titular: orderObject.cardHolder != null ? titleCase(orderObject.cardHolder) : "" ,
           },
         ],
       });

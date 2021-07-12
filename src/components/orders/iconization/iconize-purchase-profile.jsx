@@ -5,6 +5,7 @@ import LocalFloristOutlinedIcon from "@material-ui/icons/LocalFloristOutlined";
 import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined"; //Black List
 import ErrorIcon from "@material-ui/icons/Error";
 import FaceIcon from '@material-ui/icons/Face';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 
 export function IconizePurchaseProfile(props) {
@@ -16,7 +17,7 @@ export function IconizePurchaseProfile(props) {
 
   if (props.whiteListed) {
     return (
-      <FaceIcon
+      <FavoriteOutlinedIcon
         className={classes.whiteListed}
         fontSize={props.size}
       />
@@ -25,7 +26,7 @@ export function IconizePurchaseProfile(props) {
 
   if (props.qtyPurchase > 0) {
     return (
-      <FavoriteOutlinedIcon
+      <CheckCircleOutlineIcon
         className={classes.regularClient}
         fontSize={props.size}
       />
@@ -42,16 +43,16 @@ export function IconizePurchaseProfile(props) {
 
 const usePurchaseProfileStyles = makeStyles({
   newClient: {
-    color: "LightSteelBlue",
+    color: "Gold",
   },
   regularClient: {
-    color: "Pink",
+    color: "PowderBlue",
   },
   blackListed: {
-    color: "Black",
+    color: "DimGray",
   },
   whiteListed: {
-    color: "Orchid",
+    color: "Pink",
   },
   default: {
     color: "DarkGray",

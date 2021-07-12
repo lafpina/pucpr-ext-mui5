@@ -3,6 +3,7 @@ import titleCase from "../../components/lib/utils/titleCase";
 import { getIncompleteOrders } from "../../components/lib/api/getIncompleteOrders";
 import isClientEmailValid from "../../components/lib/api/is-client-email-valid";
 import isClientCPFValid from "../../components/lib/utils/is-client-cpf-valid";
+import { determineRisk } from "../../components/orders/determine-risk";
 
 export const buildRiskScoreObject = async (orderObject) => {
   let riskScoreObject = initializeScores();
@@ -33,6 +34,8 @@ export const buildRiskScoreObject = async (orderObject) => {
   //riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
+
+  riskScoreObject.description = determineRisk(riskScoreObject.final);
 
   return riskScoreObject;
 };
@@ -75,6 +78,7 @@ const initializeScores = () => {
         qty: 0,
         value: 0,
         isGiftHistory: false,
+        isPromissoryHistory: false,
         isPixHistory: false,
       },
       score: 0,
@@ -101,7 +105,9 @@ const initializeScores = () => {
       score: 0,
     },
     final: 100,
+    description: " ",
   };
+
   return riskScoreObject;
 };
 // Rule 1
@@ -129,7 +135,7 @@ const applyCardHolderRule = (orderObject, riskScoreObject) => {
     riskScoreObject.cardHolder.score = -5;
     riskScoreObject.cardHolder.maybe = true;
   } else {
-    riskScoreObject.cardHolder.no = false;
+    riskScoreObject.cardHolder.no = true;
   }
 
   return riskScoreObject;
@@ -199,37 +205,31 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
   // Score positively based on the history of purchase
 
   if (orderObject.clientEmail > " ") {
-    riskScoreObject.historyPurchase = await lookForPurchaseHistory(
-      orderObject.clientEmail
-    );
-
-    console.log(
-      "==>",
-      riskScoreObject.historyPurchase,
+    riskScoreObject.historyPurchase.profile = await lookForPurchaseHistory(
       orderObject.clientEmail
     );
 
     if (riskScoreObject.historyPurchase.profile.qty > 0) {
       // History has at least one purchase for a gift list
       if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
-        riskScoreObject.final -= 30;
-        riskProfile.historyPurchase.score = -30;
+        riskScoreObject.final -= 40;
+        riskScoreObject.historyPurchase.score = -40;
       }
       if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
-        riskScoreObject.final -= 20;
-        riskProfile.historyPurchase.score = -20;
+        riskScoreObject.final -= 30;
+        riskScoreObject.historyPurchaseScore -= 30;
       }
       if (riskScoreObject.historyPurchase.profile.isPixHistory) {
-        riskScoreObject.final -= 20;
-        riskProfile.historyPurchase.score = -20;
+        riskScoreObject.final -= 30;
+        riskScoreObject.historyPurchaseScore -= 30;
       }
       // Client has bought over 1.000 before this transaction
       if (riskScoreObject.historyPurchase.profile.value > 100000) {
         riskScoreObject.final -= 10;
-        riskProfile.historyPurchase.score -= 10;
+        riskScoreObject.historyPurchase.score -= 10;
       }
-      // Client has bought at least 400 before this transaction
-      if (riskScoreObject.historyPurchase.profile.value > 40000) {
+      // Client has bought at least 100 before this transaction
+      if (riskScoreObject.historyPurchase.profile.value > 10000) {
         switch (riskScoreObject.historyPurchase.profile.qty) {
           case 1:
             riskScoreObject.final -= 5;
@@ -325,10 +325,7 @@ const applyPaymentValueRule = (orderObject, riskScoreObject) => {
   } else {
     // Otherwise, for values over a ceiling limit, it gets evaluated by either
     // fist buying, one installment, or by the less installment payment allowed
-    if (
-      orderObject.value > 100000 &&
-      orderObject.paymentGroupObject.creditCard
-    ) {
+    if (orderObject.value > 100000 && orderObject.paymentGroup.creditCard) {
       // first buying
       if (orderObject.historyPurchase.qty === 0) {
         riskScoreObject.final += 5;
@@ -360,12 +357,12 @@ const applyDocumentRule = (orderObject, riskScoreObject) => {
 // Rule 13
 const applyEmailRule = (orderObject, riskScoreObject) => {
   // set final socre to its max if e-mail is invalid
-  // if (riskProfile.score > 85) {
+  // if (riskScoreObject.score > 85) {
   //   if (clientEmail) {
   //     if (!isClientEmailValid(clientEmail)) {
   //       isEmailValid = false;
-  //       riskProfile.emailScore = +100;
-  //       riskProfile.score = riskProfile.score + 100;
+  //       riskScoreObject.emailScore = +100;
+  //       riskScoreObject.score = riskScoreObject.score + 100;
   //       console.log(`email ${clientEmail} não é válido`);
   //     }
   //   }
