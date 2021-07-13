@@ -1,5 +1,6 @@
 import buildPagarmeObject from "./build-pagarme-object";
 import getMasterdataClientEmail from "./get-masterdata-client-email";
+import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
 import { formatGiftDetail } from "./formaters";
 import { formatPaymentGroup } from "./formaters";
 import { formatPaymentMethod } from "./formaters";
@@ -8,23 +9,52 @@ import { formatCarrier } from "./formaters";
 import { formatCoupon } from "./formaters";
 import { formatLast4Digits } from "./formaters";
 
+/*
+paymentData.transactions[0].payments[0].paymentSystemName  //Mastercard, Vale
+paymentData.transactions[0].payments[0].group  //creditCard
+paymentData.transactions[0].payments[0].installments
+paymentData.transactions[0].payments[0].tid  
+paymentData.transactions[0].payments[0].lastDigits
+paymentData.transactions[0].payments[0].value
+paymentData.transactions[0].payments[0].giftCardId  // Id: a490f3a5-5c23-4ed1-8c05-3e58ea77603a_5387
+paymentData.transactions[0].payments[0].giftCardCaption // Nome do Chá
+*/
+
 const buildOrderObject = async (vtexOrder) => {
   let giftDetail = formatGiftDetail(vtexOrder);
-
   let clientEmail = await getMasterdataClientEmail(vtexOrder);
-
-  let pagarmeObject = await buildPagarmeObject(
-    vtexOrder.orderId,
-    vtexOrder.paymentData.transactions[0].payments[0].tid
-  );
-
   let paymentGroupObject = formatPaymentGroup(vtexOrder);
+
+  let pagarmeObject = {
+    cardHolder: " ",
+    cardCountry: " ",
+    cardInstallments: " ",
+  };
+
+  let hasCreditCard = false;
+  let tid = 0;
+  for (
+    let i = 0;
+    i < vtexOrder.paymentData.transactions[0].payments.length;
+    ++i
+  ) {
+    if (
+      vtexOrder.paymentData.transactions[0].payments[i].group == "creditCard"
+    ) {
+      tid = vtexOrder.paymentData.transactions[0].payments[i].tid;
+      hasCreditCard = true;
+    }
+  }
+
+  if (hasCreditCard) {
+    pagarmeObject = await buildPagarmeObject(vtexOrder.orderId, tid);
+  }
 
   let orderObject = {
     // Transaction
     orderId: vtexOrder.orderId,
+    creationDate: formatTZOrderDate(vtexOrder.creationDate),
     tid: paymentGroupObject.tid,
-    creationDate: vtexOrder.creationDate,
     //Value
     value: vtexOrder.value,
     totalItemsValue: vtexOrder.totals.find((id) => id.id == "Items"),

@@ -1,6 +1,6 @@
 const pagarme = require("pagarme");
 
-const buildPagarmeObject = async (vtexOrderId, vtexTID) => {
+const buildPagarmeObject = async (vtexOrderId, vtexTid) => {
   let pagarmeObject = {
     cardHolder: " ",
     cardCountry: " ",
@@ -9,14 +9,14 @@ const buildPagarmeObject = async (vtexOrderId, vtexTID) => {
 
   await pagarme.client
     .connect({ api_key: "ak_live_i3JdusnggPsU1ymvogfoOfmmkvGfMM" })
-    .then((client) => client.transactions.find({ id: vtexTID }))
+    .then((client) => client.transactions.find({ id: vtexTid }))
     .then((transaction) => {
       pagarmeObject.cardHolder = transaction.card_holder_name;
       pagarmeObject.cardCountry = transaction.card.country;
       pagarmeObject.cardInstallments = transaction.installments;
     })
     .catch((e) => {
-      console.log("Erro fetch Pagarme: ", vtexOrderId, vtexTID, e.TypeError);
+      console.log("Erro fetch Pagarme: ", vtexOrderId, vtexTid, e.TypeError);
     });
   return pagarmeObject;
 };

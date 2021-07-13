@@ -66,28 +66,10 @@ function OrderListPage(props) {
           height={45}
         />
       </Typography>
-      {/* <Typography
-        className={classes.description}
-        variant="caption"
-        component="h6"
-        align="center"
-        color="textSecondary"
-        align="right"
-      >
-        Últimos {props.statistics.totalOrders} pedidos -{" "}
-        {props.statistics.totalHighRisk} Suspeito(s) - Risco de{" "}
-        {setCurrency(props.statistics.totalAmountRisk)} (
-        {parseFloat(
-          (props.statistics.totalHighRisk / props.statistics.totalOrders) * 100
-        ).toFixed(2) + "%"}
-        )
-      </Typography> */}
       <div>
-        {props.eMessage.fetchStatus === 200 ? (
+        {props.eMessage.fetchListOrder === 200 ? (
           <RiskScoreListTable orders={props.allOrders} />
-        ) : (
-          showMessageError(props.eMessage, props.eMessage2)
-        )}
+        ) : "Problema encontrado. Consulte o Developer"}
       </div>
     </Container>
   );
@@ -95,41 +77,24 @@ function OrderListPage(props) {
 
 // export async function getStaticProps() {
 export async function getServerSideProps() {
-  var eMessage = {
-    fetchStatus: "",
-    fetchUrl: "",
-    fetchQs: "",
-    fetchHeader: "",
-  };
-  var eMessage2 = {
-    fetchStatus: "",
-    fetchUrl: "",
-    fetchQs: "",
-    fetchHeader: "",
-  };
   var allOrders = [];
   var cleanFeedOrders = [];
+
+  let eMessage = {
+    fetchListOrder: 0,
+  }
 
   //! Fetch LIST ORDER
   let orderList = await getListOrders();
 
   if (orderList) {
-    eMessage.fetchStatus = 200;
+    eMessage.fetchListOrder = 200;
     cleanFeedOrders = orderList.list;
   }
 
   //*-----------------------------------------------------
   //*? Fetch Order based on cleanFeedOrders -> allOrders
   //*-----------------------------------------------------
-
-  let statistics = {
-    totalHighRisk: 0,
-    totalMediumRisk: 0,
-    totalLowRisk: 0,
-    totalAmountRisk: 0,
-    totalOrders: 0,
-  };
-
   let options = getOption("order");
 
   for (let i = 0; i < cleanFeedOrders.length; ++i) {
@@ -151,18 +116,10 @@ export async function getServerSideProps() {
         instantPayment: orderObject.paymentGroupActive.instantPayment
       }
 
-      if (orderObject.orderId == "v957355frdp-01") {
-        console.log("-------------------------------------")
-        console.log("Cliente:", orderObject.clientName)
-        console.log("Payment Option:", paymentOption)
-        console.log("Card Holder:", orderObject.cardHolder)
-
-        console.log("----------")
-
-        console.log(orderObject)
-        console.log(riskScoreObject)
-
-      }
+      // if (orderObject.orderId == "v957355frdp-01") {
+      //   console.log(orderObject)
+      //   console.log(riskScoreObject)
+      // }
 
       allOrders.push({
         order: orderObject.orderId.substr(1, 6) + "           " + orderObject.carrier,
@@ -203,9 +160,7 @@ export async function getServerSideProps() {
             postalCode: orderObject.shippingPostalCode,
             state: orderObject.shippingState,
             cardCountry: titleCase(orderObject.cardCountry),
-            // cardLastDigits: orderObject.cardLastDigits,
             parcelas: orderObject.cardInstallments,
-            // titular: " "
             titular: orderObject.cardHolder != null ? titleCase(orderObject.cardHolder) : "" ,
           },
         ],
@@ -221,11 +176,8 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      cleanFeedOrders,
-      allOrders,
       eMessage,
-      eMessage2,
-      statistics,
+      allOrders,
     },
     // revalidate: 120, // 2 minutos
   };

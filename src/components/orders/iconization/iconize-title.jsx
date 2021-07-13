@@ -13,6 +13,7 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import FaceIcon from '@material-ui/icons/Face';
 import CreditCardTwoToneIcon from '@material-ui/icons/CreditCardTwoTone';
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
 
 
 export function IconizeTitleOrder(props) {
@@ -98,7 +99,7 @@ export function IconizeTitleOrder(props) {
   export function IconizeTitleValue(props) {
     const classes = useIconizeTitleOrderStyles();
     return (
-      <MonetizationOnTwoToneIcon
+      <MonetizationOnOutlinedIcon
           className={classes.iconizeTitle}
           fontSize={props.size}
         />

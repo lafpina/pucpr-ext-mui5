@@ -163,6 +163,41 @@ function Row(props) {
 
         <TableCell align="left">{row.cliente}</TableCell>
 
+        {/* Items */}
+
+        <TableCell align="center">
+          <IconButton>
+            <StyledBadgeItems
+              badgeContent={row.items}
+              max={100}
+            ></StyledBadgeItems>
+          </IconButton>
+        </TableCell>
+
+        {/* Value */}
+
+        <TableCell align="right">{setCurrency(row.valor)}</TableCell>
+
+        {/* Payment Option */}
+
+        <TableCell align="center">
+          <IconButton>
+            {row.incompleteOrders > 0 ? (
+              <StyledBadgeIncompleteOrders
+                badgeContent={row.incompleteOrders}
+              ></StyledBadgeIncompleteOrders>
+            ) : (
+              " "
+            )}
+
+            <IconizePaymentOption payMethod={row.payMethod} size="medium" />
+          </IconButton>
+        </TableCell>        
+
+        {/* Shipping To */}
+
+        <TableCell align="left">{row.destino}</TableCell>
+
         {/* Purchase Profile */}
 
         <TableCell align="center">
@@ -184,21 +219,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
 
-        {/* Payment Option */}
 
-        <TableCell align="center">
-          <IconButton>
-            {row.incompleteOrders > 0 ? (
-              <StyledBadgeIncompleteOrders
-                badgeContent={row.incompleteOrders}
-              ></StyledBadgeIncompleteOrders>
-            ) : (
-              " "
-            )}
-
-            <IconizePaymentOption payMethod={row.payMethod} size="medium" />
-          </IconButton>
-        </TableCell>
 
         {/* Gift */}
 
@@ -237,25 +258,11 @@ function Row(props) {
           </Typography>
         </TableCell>
 
-        {/* Items */}
 
-        <TableCell align="center">
-          <IconButton>
-            <StyledBadgeItems
-              badgeContent={row.items}
-              max={100}
-            ></StyledBadgeItems>
-          </IconButton>
-        </TableCell>
 
-        {/* Value */}
 
-        <TableCell align="right">{setCurrency(row.valor)}</TableCell>
-        {/* <TableCell align="right">{setCurrency(row.totalShippingValue)}</TableCell> */}
 
-        {/* Shipping To */}
 
-        <TableCell align="left">{row.destino}</TableCell>
 
         {/* Status */}
 
@@ -359,19 +366,18 @@ export default function RiskScoreListTable(props) {
           <TableRow>
             <StyledTableCell />
             <StyledTableCell align="center">{<IconizeTitleOrder size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitleDate size="medium" />} </StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleDate size="medium" />}</StyledTableCell>
             <StyledTableCell align="left">{<IconizeTitleClient size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitleProfile size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitlePayment size="medium" />}</StyledTableCell>
-
-            <StyledTableCell align="center">{<IconizeTitleGift size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitlePromo size="medium" />}</StyledTableCell>
 
             <StyledTableCell align="center">{<IconizeTitleItems size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitleValue size="medium" />}</StyledTableCell>
-            {/* <StyledTableCell align="center">{<IconizeTitleValue size="medium" />}</StyledTableCell>           */}
-
+            <StyledTableCell align="right">{<IconizeTitleValue size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitlePayment size="medium" />}</StyledTableCell>
             <StyledTableCell align="left">{<IconizeTitleDestination size="medium" />}</StyledTableCell>
+
+            <StyledTableCell align="center">{<IconizeTitleProfile size="medium" />}</StyledTableCell>
+ 
+            <StyledTableCell align="center">{<IconizeTitleGift size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitlePromo size="medium" />}</StyledTableCell>
             <StyledTableCell align="center">{<IconizeTitleStatus size="medium" />}</StyledTableCell>
             <StyledTableCell align="right">{<IconizeTitleScore size="medium" />}</StyledTableCell>
           </TableRow>
