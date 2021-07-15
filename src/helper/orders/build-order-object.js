@@ -50,6 +50,14 @@ const buildOrderObject = async (vtexOrder) => {
     pagarmeObject = await buildPagarmeObject(vtexOrder.orderId, tid);
   }
 
+  let itemName = [];
+  for (let i = 0; i < vtexOrder.items.length; ++i) {
+    itemName[i] =
+      vtexOrder.items.length > 1
+        ? ` (${i + 1}) ${vtexOrder.items[i].name} ` + "\n"
+        : `${vtexOrder.items[i].name}`;
+  }
+
   let orderObject = {
     // Transaction
     orderId: vtexOrder.orderId,
@@ -75,6 +83,7 @@ const buildOrderObject = async (vtexOrder) => {
     shippingState: vtexOrder.shippingData.address.state,
     shippingPostalCode: vtexOrder.shippingData.address.postalCode,
     status: vtexOrder.status,
+    statusDescription: vtexOrder.statusDescription,
     // Client Data
     clientName: formatClientName(vtexOrder),
     clientEmail: clientEmail[0].email,
@@ -85,6 +94,7 @@ const buildOrderObject = async (vtexOrder) => {
     giftId: giftDetail.id,
     // Products
     items: vtexOrder.items,
+    itemName: itemName,
   };
 
   return orderObject;

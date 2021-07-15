@@ -26,7 +26,7 @@ import { IconizeGiftCard } from "./iconization/iconize-gift-card";
 import { IconizePromo } from "./iconization/iconize-promo";
 import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
 import { IconizePaymentOption } from "./iconization/iconize-payment-option";
-import { Tab } from "@material-ui/icons";
+import { Style, Tab } from "@material-ui/icons";
 //? Customized Components Title
 import { IconizeTitleOrder } from "./iconization/iconize-title";
 import { IconizeTitleDate } from "./iconization/iconize-title";
@@ -40,72 +40,31 @@ import { IconizeTitleValue } from "./iconization/iconize-title";
 import { IconizeTitleDestination } from "./iconization/iconize-title";
 import { IconizeTitleStatus } from "./iconization/iconize-title";
 import { IconizeTitleScore } from "./iconization/iconize-title";
+//? Customized Components Badge Styles
+import { StyledBadge } from "./badgezation/styled-badge"
+import { StyledBadgeRisk } from "./badgezation/styled-badge"
+import { StyledBadgeIncompleteOrders } from "./badgezation/styled-badge"
+import { StyledBadgeWarning } from "./badgezation/styled-badge"
+import { StyledBadgeItems } from "./badgezation/styled-badge"
+import { StyledBadgeHist } from "./badgezation/styled-badge"
 
-const StyledBadge = withStyles((theme) => ({
-  badge: {
-    right: -27,
-    color: "white",
-    backgroundColor: "SteelBlue",
-    top: -14,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-}))(Badge);
+import Tooltip from '@material-ui/core/Tooltip';
+import Fade from '@material-ui/core/Fade';
 
-const StyledBadgeRisk = withStyles((theme) => ({
-  badge: {
-    right: -27,
-    color: "white",
-    backgroundColor: "Tomato",
-    top: -14,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-}))(Badge);
 
-const StyledBadgeIncompleteOrders = withStyles((theme) => ({
-  badge: {
-    right: -27,
-    color: "white",
-    backgroundColor: "NavajoWhite",
-    top: -14,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-}))(Badge);
 
-const StyledBadgeWarning = withStyles((theme) => ({
-  badge: {
-    right: -27,
-    color: "white",
-    backgroundColor: "Orange",
-    top: -14,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-}))(Badge);
+import { useState } from "react";
 
-const StyledBadgeItems = withStyles((theme) => ({
-  badge: {
-    right: 0,
-    color: "white",
-    backgroundColor: "LightSteelBlue",
-    top: 0,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "1 4px",
-  },
-}))(Badge);
 
-const StyledBadgeHist = withStyles((theme) => ({
-  badge: {
-    right: -27,
-    color: "white",
-    backgroundColor: "LightBlue",
-    top: -14,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-}))(Badge);
+
+<>
+  <StyledBadge />
+  <StyledBadgeRisk />
+  <StyledBadgeIncompleteOrders />
+  <StyledBadgeWarning />
+  <StyledBadgeItems />
+  <StyledBadgeHist />
+</>
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -129,10 +88,31 @@ const useRowStyles = makeStyles({
   },
 });
 
+const StyledTooltip = withStyles({
+  tooltip: {
+    color: "Ivory",
+    backgroundColor: "LightSlateGray",
+    fontSize: 12,
+  }
+})(Tooltip);
+
+
+const LightTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.
+    palette.primary.light,
+    color: "Ivory",
+    boxShadow: theme.shadows[4],
+    fontSize: 13,
+  }
+}))(Tooltip);
+
+
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+
 
   return (
     <>
@@ -167,10 +147,18 @@ function Row(props) {
 
         <TableCell align="center">
           <IconButton>
-            <StyledBadgeItems
-              badgeContent={row.items}
-              max={100}
-            ></StyledBadgeItems>
+            <LightTooltip 
+              title={row.itemName} 
+              placement="right-end" 
+              interactive 
+              TransitionComponent={Fade} 
+              TransitionProps={{ timeout: 600 }} 
+              aria-label="Itens">
+              <StyledBadgeItems
+                badgeContent={row.items}
+                max={100}
+              ></StyledBadgeItems>
+            </LightTooltip>
           </IconButton>
         </TableCell>
 
@@ -181,17 +169,19 @@ function Row(props) {
         {/* Payment Option */}
 
         <TableCell align="center">
-          <IconButton>
-            {row.incompleteOrders > 0 ? (
-              <StyledBadgeIncompleteOrders
-                badgeContent={row.incompleteOrders}
-              ></StyledBadgeIncompleteOrders>
-            ) : (
-              " "
-            )}
+          <LightTooltip title={row.creditCard} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
+            <IconButton>
+              {row.incompleteOrders > 0 ? (
+                <StyledBadgeIncompleteOrders
+                  badgeContent={row.incompleteOrders}
+                ></StyledBadgeIncompleteOrders>
+              ) : (
+                " "
+              )}
 
-            <IconizePaymentOption payMethod={row.payMethod} size="medium" />
-          </IconButton>
+              <IconizePaymentOption payMethod={row.payMethod} size="medium" />
+            </IconButton>
+          </LightTooltip>
         </TableCell>        
 
         {/* Shipping To */}
@@ -201,32 +191,34 @@ function Row(props) {
         {/* Purchase Profile */}
 
         <TableCell align="center">
-          <IconButton>
-            {row.qtyPurchase > 0 ? (
-              <StyledBadgeHist
-                badgeContent={row.qtyPurchase}
-                max={999}
-              ></StyledBadgeHist>
-            ) : (
-              ""
-            )}
-            <IconizePurchaseProfile
-              qtyPurchase={row.qtyPurchase}
-              blackListed={row.blackListed}
-              whiteListed={row.whiteListed}
-              size="medium"
-            />
-          </IconButton>
+          <LightTooltip title={"Histórico total de compras de  " + setCurrency(row.valuePurchase)} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
+            <IconButton>
+              {row.qtyPurchase > 0 ? (
+                <StyledBadgeHist
+                  badgeContent={row.qtyPurchase}
+                  max={999}
+                ></StyledBadgeHist>
+              ) : (
+                ""
+              )}
+              <IconizePurchaseProfile
+                qtyPurchase={row.qtyPurchase}
+                blackListed={row.blackListed}
+                whiteListed={row.whiteListed}
+                size="medium"
+              />
+            </IconButton>
+          </LightTooltip>
         </TableCell>
-
-
 
         {/* Gift */}
 
         <TableCell align="center">
-          <IconButton>
-            <IconizeGiftCard giftId={row.giftId} size="medium" />
-          </IconButton>
+          <LightTooltip title={row.giftName} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+            <IconButton>
+              <IconizeGiftCard giftId={row.giftId} size="medium" />
+            </IconButton>
+          </LightTooltip>
           <Typography
             className={classes.description}
             variant="caption"
@@ -258,30 +250,27 @@ function Row(props) {
           </Typography>
         </TableCell>
 
-
-
-
-
-
-
         {/* Status */}
 
         <TableCell align="center">
-          <IconButton>
-            <IconizeStatus status={row.status} size="medium" />
-          </IconButton>
+          <LightTooltip title={row.statusDescription} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+            <IconButton>
+              <IconizeStatus status={row.status} size="medium" />
+            </IconButton>
+          </LightTooltip>  
         </TableCell>
 
         {/* Score */}
 
         <TableCell align="center">
+        <LightTooltip title={row.riskAnalysisResult} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
           <IconButton>
             {row.score > 80 ? (
               <StyledBadgeRisk
                 badgeContent={row.score}
                 max={999}
               ></StyledBadgeRisk>
-            ) : row.score > 70 ? (
+            ) : row.score > 60 ? (
               <StyledBadgeWarning
                 badgeContent={row.score}
                 max={999}
@@ -292,6 +281,7 @@ function Row(props) {
 
             <IconizeRiskLevel riskLevel={row.scoreDesc} size="medium" />
           </IconButton>
+         </LightTooltip>
         </TableCell>
       </TableRow>
 

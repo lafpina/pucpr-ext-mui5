@@ -8,32 +8,24 @@ import { determineRisk } from "../../components/orders/determine-risk";
 export const buildRiskScoreObject = async (orderObject) => {
   let riskScoreObject = initializeScores();
 
-  //? Down Score Rules (Decrease the chance of fraud suspection)
-
   if (orderObject.paymentGroupActive.creditCard) {
     riskScoreObject = applyCardHolderRule(orderObject, riskScoreObject);
     riskScoreObject = applyForeignCardRule(orderObject, riskScoreObject);
+    riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
+    riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
   }
   riskScoreObject = applyCouponDiscountRule(orderObject, riskScoreObject);
   riskScoreObject = applyGiftRule(orderObject, riskScoreObject);
   riskScoreObject = applyPaymentMethodRule(orderObject, riskScoreObject);
   riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
   riskScoreObject = await applyHistPurchaseRule(orderObject, riskScoreObject);
-
-  //? Up Score Rules (Increase the chance of fraud suspection)
-
-  riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
   riskScoreObject = await applyIncompOrdersRule(orderObject, riskScoreObject);
   riskScoreObject = applyCarrierRule(orderObject, riskScoreObject);
-
-  //? Up or Down Score Rules
-  riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
-
-  //? Higher Score to its max value
   riskScoreObject = applyDocumentRule(orderObject, riskScoreObject); // CPF
   //riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
+  if (riskScoreObject.final < 1) riskScoreObject.final = 1;
 
   riskScoreObject.description = determineRisk(riskScoreObject.final);
 
@@ -176,12 +168,12 @@ const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
   // Score positively whether it's a deposit, pix or giftCard payment method
 
   if (orderObject.paymentGroupActive.promissory) {
-    riskScoreObject.final -= 30;
-    riskScoreObject.paymentMethod.promissory.score = -30;
+    riskScoreObject.final -= 40;
+    riskScoreObject.paymentMethod.promissory.score = -40;
   }
   if (orderObject.paymentGroupActive.instantPayment) {
-    riskScoreObject.final -= 35;
-    riskScoreObject.paymentMethod.instantPayment.score = -35;
+    riskScoreObject.final -= 40;
+    riskScoreObject.paymentMethod.instantPayment.score = -40;
   }
   if (orderObject.paymentGroupActive.giftCard) {
     riskScoreObject.final -= 35;
