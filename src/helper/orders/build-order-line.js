@@ -1,4 +1,4 @@
-import titleCase from "../../components/lib/utils/titleCase";
+import titleCase from "../lib/utils/titleCase";
 import { isBlackListed } from "../../../data/black-list";
 import { isWhiteListed } from "../../../data/white-list";
 
@@ -16,8 +16,7 @@ export const buildOrderLine = (
   };
 
   let orderLine = {
-    order:
-      orderObject.orderId.substr(1, 6) + "           " + orderObject.carrier,
+    order: orderObject.orderId.substr(1, 6),
     cliente: orderObject.clientName.substr(0, 35),
     qtyPurchase: riskScoreObject.historyPurchase.profile.qty,
     valuePurchase: riskScoreObject.historyPurchase.profile.value,
@@ -30,7 +29,9 @@ export const buildOrderLine = (
     valor: orderObject.value,
     giftId: orderObject.giftId,
     giftName: orderObject.giftName,
-    destino: orderObject.shippingCity,
+    destino: orderObject.carrier
+      ? orderObject.shippingCity + " (" + orderObject.carrier + ")"
+      : orderObject.shippingCity,
     status: orderObject.status,
     statusDescription: orderObject.statusDescription,
     scoreDesc: riskScoreObject.description,

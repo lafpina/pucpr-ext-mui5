@@ -14,12 +14,13 @@ import FaceIcon from '@material-ui/icons/Face';
 import CreditCardTwoToneIcon from '@material-ui/icons/CreditCardTwoTone';
 import MonetizationOnTwoToneIcon from '@material-ui/icons/MonetizationOnTwoTone';
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
+import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
 
 
 export function IconizeTitleOrder(props) {
     const classes = useIconizeTitleOrderStyles();
     return (
-        <ShoppingCartIcon
+        <SystemUpdateAltOutlinedIcon
           className={classes.iconizeTitle}
           fontSize={props.size}
         />
@@ -89,7 +90,7 @@ export function IconizeTitleOrder(props) {
   export function IconizeTitleItems(props) {
     const classes = useIconizeTitleOrderStyles();
     return (
-      <ListIcon 
+      <ShoppingCartIcon
           className={classes.iconizeTitle}
           fontSize={props.size}
         />

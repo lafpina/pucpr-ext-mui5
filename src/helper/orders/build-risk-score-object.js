@@ -1,9 +1,9 @@
-import { lookForPurchaseHistory } from "../../components/lib/api/lookfor-purchase-history";
-import titleCase from "../../components/lib/utils/titleCase";
-import { getIncompleteOrders } from "../../components/lib/api/getIncompleteOrders";
-import isClientEmailValid from "../../components/lib/api/is-client-email-valid";
-import isClientCPFValid from "../../components/lib/utils/is-client-cpf-valid";
-import { determineRisk } from "../../components/orders/determine-risk";
+import { lookForPurchaseHistory } from "../lib/api/lookfor-purchase-history";
+import titleCase from "../lib/utils/titleCase";
+import { getIncompleteOrders } from "../lib/api/getIncompleteOrders";
+import isClientEmailValid from "../lib/api/is-client-email-valid";
+import isClientCPFValid from "../lib/utils/is-client-cpf-valid";
+import { determineRisk } from "../lib/utils/determine-risk";
 
 export const buildRiskScoreObject = async (orderObject) => {
   let riskScoreObject = initializeScores();

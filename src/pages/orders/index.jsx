@@ -7,10 +7,10 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
 
 //? API components
-import getOrder from "../../components/lib/api/getOrder";
-import getOption from "../../components/lib/api/getOption";
-import getListOrders from "../../components/lib/api/getListOrders";
-import getURL from "../../components/lib/api/getURL";
+import getOrder from "../../helper/lib/api/getOrder";
+import getOption from "../../helper/lib/api/getOption";
+import getListOrders from "../../helper/lib/api/getListOrders";
+import getURL from "../../helper/lib/api/getURL";
 
 //? Customized components
 import RiskScoreListTable from "../../components/orders/risk-score-list-table";
@@ -21,7 +21,7 @@ import { buildOrderLine } from "../../helper/orders/build-order-line"
 import { buildRiskAnalysys } from "../../helper/orders/build-risk-analysis"
 
 //? Lab
-// import PrimarySearchAppBar from "../../components/layouts/appNavBar";
+import PrimarySearchAppBar from "../../components/layouts/appNavBar";
 // import Dashboard from "@material-ui/icons/Dashboard";
 // import Dashboard from "../../templates/Dashboard";
 
@@ -45,9 +45,9 @@ function OrderListPage(props) {
   return (
     <Container>
       {/* <Dashboard /> */}
-      {/* <PrimarySearchAppBar /> */}
+      <PrimarySearchAppBar />
 
-      <Typography className={classes.title} component="h5" align="left">
+      {/* <Typography className={classes.title} component="h5" align="left">
         <Image
           src="/logoAlerteMe.png"
           alt="logo AlerteMe"
@@ -55,12 +55,20 @@ function OrderListPage(props) {
           width={96}
           height={45}
         />
-      </Typography>
-      <div>
+      </Typography> */}
+      <>
         {props.eMessage.fetchListOrder === 200 ? (
           <RiskScoreListTable orders={props.allOrders} />
+
+        // Incluir aqui as demais react components da página
+
+
+
+
+
+
         ) : "Problema encontrado. Contacte o Desenvolvedor!"}
-      </div>
+      </>
     </Container>
   );
 }
@@ -102,8 +110,6 @@ export async function getServerSideProps() {
       const riskScoreObject = await buildRiskScoreObject(orderObject);
       const riskAnalysisResult = buildRiskAnalysys(riskScoreObject)
       const orderLine = buildOrderLine(orderObject, riskScoreObject, riskAnalysisResult)
-
-
       allOrders.push(orderLine)
 
       // if (orderObject.orderId == "v957699frdp-01") {

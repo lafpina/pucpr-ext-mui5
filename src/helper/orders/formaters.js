@@ -28,8 +28,6 @@ export const formatLast4Digits = (vtexOrder) => {
 
   let allPaymentsOrderWith4Digits = paymentMethod.toString();
 
-  console.log("All Payments Order:", allPaymentsOrderWith4Digits);
-
   return allPaymentsOrderWith4Digits;
 };
 

@@ -8,7 +8,7 @@ import FaceIcon from "@material-ui/icons/Face";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import AnnouncementOutlinedIcon from "@material-ui/icons/AnnouncementOutlined";
 
-import { DisplayAlert } from "../components/lib/utils/alerts";
+// import { DisplayAlert } from "../components/lib/utils/alerts";
 
 const useMainMenuStyles = makeStyles({
   settingIcon: {

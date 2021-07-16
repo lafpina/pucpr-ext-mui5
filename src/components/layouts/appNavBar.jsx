@@ -1,5 +1,5 @@
 import React from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
+import { fade, makeStyles, withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,10 +15,15 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
+import ErrorOutlinedIcon from '@material-ui/icons/ErrorOutlined';
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
+
 import styles from "../../styles/Home.module.css";
 import Image from "next/image";
 
+
 const useStyles = makeStyles((theme) => ({
+
   grow: {
     flexGrow: 1,
   },
@@ -166,7 +171,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" color="primary">
+      <AppBar style={{ background: '#cacaca' }} position="static" color="primary">
         <Toolbar>
           <IconButton
             edge="start"
@@ -179,7 +184,7 @@ export default function PrimarySearchAppBar() {
           <Typography className={classes.title} variant="h6" noWrap>
             AlerteMe
             {/* <Image
-              src="/logoAlerteMe.png"
+              src="/logoAlerteMe.png"S
               alt="logo AlerteMe"
               className={styles.logoOrders}
               width={84}
@@ -201,16 +206,25 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
+            {/* Whitelist */}
+            <IconButton aria-label="whitelist" color="inherit">
+              <Badge badgeContent={0} color="secondary">
+                <FavoriteOutlinedIcon  />
               </Badge>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
+            {/* Blacklist */}
+            <IconButton aria-label="blacklist" color="inherit">
+              <Badge badgeContent={0} color="secondary">
+                <ErrorOutlinedIcon  />
+              </Badge>
+            </IconButton>
+            {/* Notification */}
+            <IconButton aria-label="notification" color="inherit">
+              <Badge badgeContent={0} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               edge="end"
               aria-label="account of current user"

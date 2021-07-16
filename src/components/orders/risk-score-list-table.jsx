@@ -15,8 +15,10 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Badge from "@material-ui/core/Badge";
+import Tooltip from '@material-ui/core/Tooltip';
+import Fade from '@material-ui/core/Fade';
 //? Customized Components Row
-import setCurrency from "../lib/utils/setCurrency";
+import setCurrency from "../../helper/lib/utils/setCurrency";
 import MainLayout from "../layouts/mainLayouts";
 import { IconizeStatus } from "./iconization/iconize-status";
 import { IconizePurchaseProfile } from "./iconization/iconize-purchase-profile";
@@ -47,15 +49,6 @@ import { StyledBadgeIncompleteOrders } from "./badgezation/styled-badge"
 import { StyledBadgeWarning } from "./badgezation/styled-badge"
 import { StyledBadgeItems } from "./badgezation/styled-badge"
 import { StyledBadgeHist } from "./badgezation/styled-badge"
-
-import Tooltip from '@material-ui/core/Tooltip';
-import Fade from '@material-ui/core/Fade';
-
-
-
-import { useState } from "react";
-
-
 
 <>
   <StyledBadge />
@@ -88,23 +81,13 @@ const useRowStyles = makeStyles({
   },
 });
 
-const StyledTooltip = withStyles({
-  tooltip: {
-    color: "Ivory",
-    backgroundColor: "LightSlateGray",
-    fontSize: 12,
-  }
-})(Tooltip);
-
-
 const LightTooltip = withStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.
-    palette.primary.light,
-    color: "Ivory",
-    boxShadow: theme.shadows[4],
-    fontSize: 13,
-  }
+    tooltip: {
+        backgroundColor: theme.palette.action.active,
+        color: "Ivory",
+        boxShadow: theme.shadows[4],
+        fontSize: 13,
+    }
 }))(Tooltip);
 
 
@@ -263,7 +246,7 @@ function Row(props) {
         {/* Score */}
 
         <TableCell align="center">
-        <LightTooltip title={row.riskAnalysisResult} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+        <LightTooltip title={`Risco ${row.scoreDesc}`} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
           <IconButton>
             {row.score > 80 ? (
               <StyledBadgeRisk

@@ -1,6 +1,6 @@
 import buildPagarmeObject from "./build-pagarme-object";
 import getMasterdataClientEmail from "./get-masterdata-client-email";
-import formatTZOrderDate from "../../components/lib/utils/format-tz-order-date";
+import formatTZOrderDate from "../lib/utils/format-tz-order-date";
 import { formatGiftDetail } from "./formaters";
 import { formatPaymentGroup } from "./formaters";
 import { formatPaymentMethod } from "./formaters";
