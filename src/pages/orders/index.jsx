@@ -45,7 +45,11 @@ function OrderListPage(props) {
   return (
     <Container>
       {/* <Dashboard /> */}
-      <PrimarySearchAppBar />
+      <PrimarySearchAppBar 
+        notificationBlackList = {props.notificationBlackList} 
+        notificatiopnWhiteList = {props.notificationWhiteList} 
+        notificationAlerts = {props.notificationAlerts}
+      />
 
       {/* <Typography className={classes.title} component="h5" align="left">
         <Image
@@ -98,6 +102,10 @@ export async function getServerSideProps() {
   //*-----------------------------------------------------
   let options = getOption("order");
 
+  let notificationBlackList = 0
+  let notificationWhiteList = 0
+  let notificationAlerts = 0
+
   for (let i = 0; i < cleanFeedOrders.length; ++i) {
     let orderParm = cleanFeedOrders[i].orderId;
     let url = getURL("order", orderParm);
@@ -112,7 +120,11 @@ export async function getServerSideProps() {
       const orderLine = buildOrderLine(orderObject, riskScoreObject, riskAnalysisResult)
       allOrders.push(orderLine)
 
-      // if (orderObject.orderId == "v957699frdp-01") {
+      notificationBlackList += allOrders[i].blackListedQty
+      notificationWhiteList += allOrders[i].whiteListedQty
+      notificationAlerts += allOrders[i].alertsQty
+
+      // if (orderObject.orderId == "v958149frdp-01") {
       //   console.log(orderLine)
       // }
 
@@ -129,6 +141,9 @@ export async function getServerSideProps() {
     props: {
       eMessage,
       allOrders,
+      notificationBlackList,
+      notificationWhiteList,
+      notificationAlerts
     },
     // revalidate: 120, // 2 minutos
   };

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "next/link"
 //? Material Design
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -85,7 +86,7 @@ const LightTooltip = withStyles(theme => ({
     tooltip: {
         backgroundColor: theme.palette.action.active,
         color: "Ivory",
-        boxShadow: theme.shadows[4],
+        boxShadow: theme.shadows[2],
         fontSize: 13,
     }
 }))(Tooltip);
@@ -132,7 +133,7 @@ function Row(props) {
           <IconButton>
             <LightTooltip 
               title={row.itemName} 
-              placement="right-end" 
+              placement="bottom-end" 
               interactive 
               TransitionComponent={Fade} 
               TransitionProps={{ timeout: 600 }} 
@@ -152,7 +153,7 @@ function Row(props) {
         {/* Payment Option */}
 
         <TableCell align="center">
-          <LightTooltip title={row.creditCard} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
+          <LightTooltip title={row.creditCard} placement="top" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
             <IconButton>
               {row.incompleteOrders > 0 ? (
                 <StyledBadgeIncompleteOrders
@@ -174,7 +175,7 @@ function Row(props) {
         {/* Purchase Profile */}
 
         <TableCell align="center">
-          <LightTooltip title={"Histórico total de compras de  " + setCurrency(row.valuePurchase)} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
+          <LightTooltip title={row.valuePurchase ? "Histórico total de compras de  " + setCurrency(row.valuePurchase) : "Primeira compra" } placement="right-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
             <IconButton>
               {row.qtyPurchase > 0 ? (
                 <StyledBadgeHist
@@ -197,7 +198,7 @@ function Row(props) {
         {/* Gift */}
 
         <TableCell align="center">
-          <LightTooltip title={row.giftName} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+          <LightTooltip title={row.giftName} placement="right" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
             <IconButton>
               <IconizeGiftCard giftId={row.giftId} size="medium" />
             </IconButton>
@@ -236,7 +237,7 @@ function Row(props) {
         {/* Status */}
 
         <TableCell align="center">
-          <LightTooltip title={row.statusDescription} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+          <LightTooltip title={row.statusDescription} placement="left-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
             <IconButton>
               <IconizeStatus status={row.status} size="medium" />
             </IconButton>
@@ -245,26 +246,25 @@ function Row(props) {
 
         {/* Score */}
 
-        <TableCell align="center">
-        <LightTooltip title={`Risco ${row.scoreDesc}`} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
-          <IconButton>
-            {row.score > 80 ? (
-              <StyledBadgeRisk
-                badgeContent={row.score}
-                max={999}
-              ></StyledBadgeRisk>
-            ) : row.score > 60 ? (
-              <StyledBadgeWarning
-                badgeContent={row.score}
-                max={999}
-              ></StyledBadgeWarning>
-            ) : (
-              <StyledBadge badgeContent={row.score} max={999}></StyledBadge>
-            )}
-
-            <IconizeRiskLevel riskLevel={row.scoreDesc} size="medium" />
-          </IconButton>
-         </LightTooltip>
+        <TableCell align="left">
+          <LightTooltip title={`Risco ${row.scoreDesc}`} placement="left" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+            <IconButton>
+              {row.score > 80 ? (
+                <StyledBadgeRisk
+                  badgeContent={row.score}
+                  max={999}
+                ></StyledBadgeRisk>
+              ) : row.score > 60 ? (
+                <StyledBadgeWarning
+                  badgeContent={row.score}
+                  max={999}
+                ></StyledBadgeWarning>
+              ) : (
+                <StyledBadge badgeContent={row.score} max={999}></StyledBadge>
+              )}
+              <IconizeRiskLevel riskLevel={row.scoreDesc} size="medium" />
+            </IconButton>
+          </LightTooltip>
         </TableCell>
       </TableRow>
 

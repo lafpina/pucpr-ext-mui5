@@ -38,6 +38,7 @@ export const buildOrderLine = (
     score: riskScoreObject.final,
     riskProfile: riskScoreObject,
     kitCustom: riskScoreObject.customProduct.score,
+    promo: orderObject.coupon,
     blackListed: isBlackListed(
       orderObject.clientEmail,
       orderObject.cpf,
@@ -51,8 +52,11 @@ export const buildOrderLine = (
     whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf)
       ? true
       : false,
+    blackListedQty: riskScoreObject.blackListed.qty,
+    whiteListedQty: riskScoreObject.whiteListed.qty,
+    alertsQty: riskScoreObject.alerts.qty,
     payMethod: paymentOption,
-    promo: orderObject.coupon,
+
     incompleteOrders: riskScoreObject.incompleteOrders.qty,
     creditCard: orderObject.cardLastDigits,
     riskAnalysisResult: riskAnalysisResult,

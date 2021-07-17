@@ -1,5 +1,16 @@
 const BLACK_LIST = [
   {
+    blackedName: "Edeberto Nuss correa",
+    blackedEmail: "dbertocorreanuss@hotmail.com",
+    blackedCPF: "46931112791",
+    blackedPhone: "+5594991236327",
+    blackedPostalCode: "68390-000",
+    blackedState: "PA",
+    blackedCreditCard: "Mastercard8119",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Luana Silva Araujo",
     blackedEmail: "luadavi@hotmail.com",
     blackedCPF: "01783090529",

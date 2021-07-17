@@ -4,7 +4,8 @@ import TextsmsOutlinedIcon from "@material-ui/icons/TextsmsOutlined"; // Kit Cus
 export function IconizeKitCustom(props) {
   const classes = kitCustomStyles();
 
-  if (props.kitCustom > " ") {
+  if (props.kitCustom < 0) {
+
     return (
       <TextsmsOutlinedIcon
         className={classes.kitCustom}

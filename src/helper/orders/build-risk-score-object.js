@@ -1,9 +1,12 @@
 import { lookForPurchaseHistory } from "../lib/api/lookfor-purchase-history";
+import formatTZOrderDate from "../lib/utils/format-tz-order-date";
 import titleCase from "../lib/utils/titleCase";
 import { getIncompleteOrders } from "../lib/api/getIncompleteOrders";
 import isClientEmailValid from "../lib/api/is-client-email-valid";
 import isClientCPFValid from "../lib/utils/is-client-cpf-valid";
 import { determineRisk } from "../lib/utils/determine-risk";
+import { isBlackListed } from "../../../data/black-list";
+import { isWhiteListed } from "../../../data/white-list";
 
 export const buildRiskScoreObject = async (orderObject) => {
   let riskScoreObject = initializeScores();
@@ -23,11 +26,15 @@ export const buildRiskScoreObject = async (orderObject) => {
   riskScoreObject = applyCarrierRule(orderObject, riskScoreObject);
   riskScoreObject = applyDocumentRule(orderObject, riskScoreObject); // CPF
   //riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
+  riskScoreObject = applyBlackListRule(orderObject, riskScoreObject);
+  riskScoreObject = applyWhiteListRule(orderObject, riskScoreObject);
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
   if (riskScoreObject.final < 1) riskScoreObject.final = 1;
 
   riskScoreObject.description = determineRisk(riskScoreObject.final);
+
+  riskScoreObject = applyAlertsRule(riskScoreObject.final, riskScoreObject);
 
   return riskScoreObject;
 };
@@ -72,6 +79,7 @@ const initializeScores = () => {
         isGiftHistory: false,
         isPromissoryHistory: false,
         isPixHistory: false,
+        dateFirstBuy: " ",
       },
       score: 0,
     },
@@ -94,6 +102,18 @@ const initializeScores = () => {
       score: 0,
     },
     shippingRate: {
+      score: 0,
+    },
+    blackListed: {
+      qty: 0,
+      score: 0,
+    },
+    whiteListed: {
+      qty: 0,
+      score: 0,
+    },
+    alerts: {
+      qty: 0,
       score: 0,
     },
     final: 100,
@@ -176,7 +196,7 @@ const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
     riskScoreObject.paymentMethod.instantPayment.score = -40;
   }
   if (orderObject.paymentGroupActive.giftCard) {
-    riskScoreObject.final -= 35;
+    riskScoreObject.final -= 40;
     riskScoreObject.paymentMethod.giftCard.score = -35;
   }
   return riskScoreObject;
@@ -202,10 +222,28 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
     );
 
     if (riskScoreObject.historyPurchase.profile.qty > 0) {
+      const createDate = orderObject.creationDate.substr(0, 10);
+      const now = convertDate(createDate); // Data da compra atual
+
+      const past = new Date(
+        riskScoreObject.historyPurchase.profile.dateFirstBuy.substr(0, 10)
+      ); // Data da primeira compra
+
+      const diff = Math.abs(now.getTime() - past.getTime()); // Subtrai uma data pela outra
+      const days = Math.ceil(diff / (1000 * 60 * 60 * 24)); // Divide o total pelo total de milisegundos correspondentes a 1 dia. (1000 milisegundos = 1 segundo).
+
+      if (
+        days > 90 &&
+        !isBlackListed(orderObject.clientEmail, orderObject.cpf)
+      ) {
+        riskScoreObject.final -= 20;
+        riskScoreObject.historyPurchase.score -= 20;
+      }
+
       // History has at least one purchase for a gift list
       if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
         riskScoreObject.final -= 40;
-        riskScoreObject.historyPurchase.score = -40;
+        riskScoreObject.historyPurchase.score -= -40;
       }
       if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
         riskScoreObject.final -= 30;
@@ -359,4 +397,52 @@ const applyEmailRule = (orderObject, riskScoreObject) => {
   //     }
   //   }
   // }
+};
+
+const applyBlackListRule = (orderObject, riskScoreObject) => {
+  if (
+    isBlackListed(
+      orderObject.clientEmail,
+      orderObject.cpf,
+      orderObject.shippingPostalCode,
+      orderObject.phone,
+      orderObject.cardLastDigits,
+      orderObject.shippingState
+    )
+  ) {
+    riskScoreObject.blackListed.qty += 1;
+  }
+
+  return riskScoreObject;
+};
+
+const applyWhiteListRule = (orderObject, riskScoreObject) => {
+  if (isWhiteListed(orderObject.clientEmail, orderObject.cpf)) {
+    riskScoreObject.whiteListed.qty += 1;
+  }
+
+  return riskScoreObject;
+};
+
+const applyAlertsRule = (finalScore, riskScoreObject) => {
+  if (finalScore > 80) {
+    riskScoreObject.alerts.qty += 1;
+  }
+
+  return riskScoreObject;
+};
+
+const convertDate = (date) => {
+  // ex date: "DD-MM-AAAA HH:mm"
+
+  // Precisamos quebrar a string para retornar cada parte
+  const dataSplit = date.split("-");
+  const day = dataSplit[0]; // DD
+  const month = dataSplit[1]; // MM
+  const year = dataSplit[2]; // AAAA
+
+  const data = new Date(year, month - 1, day);
+
+  // Retorna o objeto Date, lembrando que o mês começa em 0, então fazemos -1.
+  return new Date(year, month - 1, day);
 };

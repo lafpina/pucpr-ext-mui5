@@ -18,8 +18,11 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import ErrorOutlinedIcon from '@material-ui/icons/ErrorOutlined';
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 
+import Avatar from '@material-ui/core/Avatar';
+
 import styles from "../../styles/Home.module.css";
 import Image from "next/image";
+import ImageAvatars from "./ImageAvatars";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -87,7 +90,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -171,7 +175,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ background: '#cacaca' }} position="static" color="primary">
+      <AppBar style={{ background: '#9aa4a8' }} position="fixed" color="primary">
         <Toolbar>
           <IconButton
             edge="start"
@@ -182,14 +186,14 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            AlerteMe
-            {/* <Image
-              src="/logoAlerteMe.png"S
+            {/* AlerteMe */}
+            <Image
+              src="/logo_alerteme_dashboard.png"
               alt="logo AlerteMe"
               className={styles.logoOrders}
               width={84}
-              height={40}
-            /> */}
+              height={41}
+            />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -206,21 +210,24 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/* Whitelist */}
+            
+            {/* Notification Whitelist */}
             <IconButton aria-label="whitelist" color="inherit">
-              <Badge badgeContent={0} color="secondary">
+              <Badge badgeContent={props.notificationWhiteList} color="secondary">
                 <FavoriteOutlinedIcon  />
               </Badge>
             </IconButton>
-            {/* Blacklist */}
+
+            {/* Notification Blacklist */}
             <IconButton aria-label="blacklist" color="inherit">
-              <Badge badgeContent={0} color="secondary">
+              <Badge badgeContent={props.notificationBlackList} color="secondary">
                 <ErrorOutlinedIcon  />
               </Badge>
             </IconButton>
-            {/* Notification */}
+            
+            {/* Notification Alerts */}
             <IconButton aria-label="notification" color="inherit">
-              <Badge badgeContent={0} color="secondary">
+              <Badge badgeContent={props.notificationAlerts} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -233,7 +240,8 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <ImageAvatars />
+              {/* <AccountCircle /> */}
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>

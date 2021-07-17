@@ -10,8 +10,6 @@ export function IconizePaymentOption(props) {
 
   //? Bloco giftCard
 
-  console.log(props)
-
   if (props.payMethod.giftCard && props.payMethod.isCreditCardHolder.no) {
     return (
       <>

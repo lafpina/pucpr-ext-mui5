@@ -9,6 +9,7 @@ export async function lookForPurchaseHistory(clientEmail) {
     isGiftHistory: false,
     isPromissoryHistory: false,
     isPixHistory: false,
+    dateFirstBuy: " ",
   };
 
   let qtyPurchase = 0;
@@ -23,6 +24,9 @@ export async function lookForPurchaseHistory(clientEmail) {
     const data = await res.json();
     const clientOrders = JSON.parse(JSON.stringify(data));
     qtyPurchase = clientOrders.list.length;
+
+    historyPurchaseProfile.dateFirstBuy =
+      clientOrders.list[qtyPurchase - 1].creationDate;
 
     for (let i = 0; i < qtyPurchase; ++i) {
       if (clientOrders.list[i].status == "invoiced") {
