@@ -1,20 +1,34 @@
 function getURL(fetchTarget, filter) {
+  const parmEnv = "vtexcommercestable";
+  const parmAcc = "fraldasdipano";
+  const parmPerPage = 5;
+
+  // Os parâmetros abaixo estão corretos mas não retorna a lista
+  // const startDate = "2021-07-17";
+  // const endDate = "2021-07-17";
+  // const fCreateDate = `creationDate%3A%5B${startDate}T02%3A00%3A00.000Z%20TO%20${endDate}T01%3A59%3A59.999Z%5D`;
+
   switch (fetchTarget) {
     case "feed":
-      return "https://fraldasdipano.vtexcommercestable.com.br/api/orders/feed";
+      return `https://${parmAcc}.${parmEnv}.com.br/api/orders/feed`;
 
     case "order":
-      return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders/${filter}`;
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders/${filter}`;
 
     case "email":
-      return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?q=${filter}`;
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?q=${filter}`;
 
     case "list":
-      return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=30&page=1";
+      // Não retorna a lista por alguma razão. Ivestigar.
+      // return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?f_creationDate=${fCreateDate}`;
+
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=${parmPerPage}&page=1`;
+
+    // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=30&page=1";
     // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?f_status=invoiced";
 
     case "incompleteOrders":
-      return `https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?incompleteOrders=${filter}`;
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=${filter}`;
 
     case "masterdata":
       return `http://api.vtexcrm.com.br/fraldasdipano/dataentities/CL/search/?userId=${filter}&_fields=email`;

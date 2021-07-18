@@ -23,7 +23,7 @@ import { buildRiskAnalysys } from "../../helper/orders/build-risk-analysis"
 //? Lab
 import PrimarySearchAppBar from "../../components/layouts/appNavBar";
 // import Dashboard from "@material-ui/icons/Dashboard";
-// import Dashboard from "../../templates/Dashboard";
+import Dashboard from "../../templates/Dashboard";
 
 
 const useStyles = makeStyles({
@@ -43,13 +43,19 @@ const useStyles = makeStyles({
 function OrderListPage(props) {
   const classes = useStyles();
   return (
-    <Container>
-      {/* <Dashboard /> */}
-      <PrimarySearchAppBar 
+    <>
+      <Dashboard 
+        orders={props.allOrders} 
+        notificationBlackList={props.notificationBlackList} 
+        notificatiopnWhiteList={props.notificationWhiteList} 
+        notificationAlerts={props.notificationAlerts}
+        totalRiskAmount={props.totalRiskAmount} 
+      />
+      {/* <PrimarySearchAppBar 
         notificationBlackList = {props.notificationBlackList} 
         notificatiopnWhiteList = {props.notificationWhiteList} 
         notificationAlerts = {props.notificationAlerts}
-      />
+      /> */}
 
       {/* <Typography className={classes.title} component="h5" align="left">
         <Image
@@ -60,20 +66,15 @@ function OrderListPage(props) {
           height={45}
         />
       </Typography> */}
-      <>
+      {/* <>
         {props.eMessage.fetchListOrder === 200 ? (
           <RiskScoreListTable orders={props.allOrders} />
 
         // Incluir aqui as demais react components da página
 
-
-
-
-
-
         ) : "Problema encontrado. Contacte o Desenvolvedor!"}
-      </>
-    </Container>
+      </> */}
+    </>
   );
 }
 
@@ -89,6 +90,11 @@ export async function getServerSideProps() {
     fetchListOrder: 0,
   }
 
+  let notificationBlackList = 0
+  let notificationWhiteList = 0
+  let notificationAlerts = 0
+  let totalRiskAmount = 0
+
   //! Fetch LIST ORDER
   let orderList = await getListOrders();
 
@@ -101,10 +107,6 @@ export async function getServerSideProps() {
   //*? Fetch Order based on cleanFeedOrders -> allOrders
   //*-----------------------------------------------------
   let options = getOption("order");
-
-  let notificationBlackList = 0
-  let notificationWhiteList = 0
-  let notificationAlerts = 0
 
   for (let i = 0; i < cleanFeedOrders.length; ++i) {
     let orderParm = cleanFeedOrders[i].orderId;
@@ -123,6 +125,12 @@ export async function getServerSideProps() {
       notificationBlackList += allOrders[i].blackListedQty
       notificationWhiteList += allOrders[i].whiteListedQty
       notificationAlerts += allOrders[i].alertsQty
+
+      if (riskScoreObject.final > 80) {
+        
+        totalRiskAmount += orderObject.value 
+        console.log("totalRiskAmount:", totalRiskAmount)
+      }
 
       // if (orderObject.orderId == "v958149frdp-01") {
       //   console.log(orderLine)
@@ -143,7 +151,8 @@ export async function getServerSideProps() {
       allOrders,
       notificationBlackList,
       notificationWhiteList,
-      notificationAlerts
+      notificationAlerts,
+      totalRiskAmount
     },
     // revalidate: 120, // 2 minutos
   };

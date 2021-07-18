@@ -18,25 +18,33 @@ import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
+import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
-import Deposits from "./Deposits";
+
 import Orders from "./Orders";
+
+import ImageAvatars from "../components/layouts/ImageAvatars";
+import RiskScoreListTable from "../components/orders/risk-score-list-table";
+import TotalRiskAmount from "./TotalRiskAmount";
+import Image from "next/Image";
+import styles from "../styles/Home.module.css";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+        Dipano
       </Link>{" "}
       {new Date().getFullYear()}
-      {"."}
+      {". Todos os direitos reservados."}
     </Typography>
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 215;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: 35,
   },
   menuButtonHidden: {
     display: "none",
@@ -117,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -134,6 +142,7 @@ export default function Dashboard() {
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
+        style={{ background: "#4e575a" }}
       >
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -148,6 +157,7 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography
             component="h1"
             variant="h6"
@@ -155,13 +165,38 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            {/* Dashboard */}
+            <Image
+              src="/logo_alerteme_dashboard.png"
+              alt="logo AlerteMe"
+              className={styles.logoOrders}
+              width={90}
+              height={44}
+            />
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+
+          {/* Notification Whitelist */}
+          <IconButton aria-label="whitelist" color="inherit">
+            <Badge badgeContent={props.notificationWhiteList} color="secondary">
+              <FavoriteOutlinedIcon />
+            </Badge>
+          </IconButton>
+
+          {/* Notification Blacklist */}
+          <IconButton aria-label="blacklist" color="inherit">
+            <Badge badgeContent={props.notificationBlackList} color="secondary">
+              <ErrorOutlinedIcon />
+            </Badge>
+          </IconButton>
+
+          {/* Notification Alerts */}
+          <IconButton aria-label="notification" color="inherit">
+            <Badge badgeContent={props.notificationAlerts} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
+
+          <ImageAvatars />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -191,16 +226,19 @@ export default function Dashboard() {
                 <Chart />
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
+
+            {/* Total Risk Amount */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <TotalRiskAmount value={props.totalRiskAmount} />
               </Paper>
             </Grid>
+
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                {/* <Orders /> */}
+                <RiskScoreListTable orders={props.orders} />
               </Paper>
             </Grid>
           </Grid>

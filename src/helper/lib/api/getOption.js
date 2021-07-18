@@ -2,6 +2,11 @@ function getOption(fetchTarget) {
   const parmMethod = "GET";
   const parmAccept = "application/json";
   const parmContentType = "application/json";
+
+  // const startDate = "2021-07-17";
+  // const endDate = "2021-07-17";
+  // const fCreateDate = `creationDate%3A%5B${startDate}T02%3A00%3A00.000Z%20TO%20${endDate}T01%3A59%3A59.999Z%5D`;
+
   const parmAppKey = "vtexappkey-fraldasdipano-JUXTLA";
   const parmAppToken =
     "VFFOSPADLSGIHYANORZFQBOHUPFVTHNPMGFKEORFVRQRQXIRUCHYNXQTQXUCJEKEFRVBTQIZZTJYLWRWGOBQAPBPPLTGTPWQGLMYBHXDUHYUNRHUFXVVDUEQPGLIXBGK";
@@ -11,6 +16,9 @@ function getOption(fetchTarget) {
       return {
         method: parmMethod,
         qs: { maxlot: "10" },
+        // qs: {
+        //   f_creationDate: fCreateDate,
+        // },
         headers: {
           Accept: parmAccept,
           "Content-Type": parmContentType,
@@ -22,6 +30,9 @@ function getOption(fetchTarget) {
     case "order":
       return {
         method: parmMethod,
+        // qs: {
+        //   f_creationDate: fCreateDate,
+        // },
         headers: {
           Accept: parmAccept,
           "Content-Type": parmContentType,

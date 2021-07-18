@@ -51,6 +51,8 @@ import { StyledBadgeWarning } from "./badgezation/styled-badge"
 import { StyledBadgeItems } from "./badgezation/styled-badge"
 import { StyledBadgeHist } from "./badgezation/styled-badge"
 
+import Title from "../../templates/Title"
+
 <>
   <StyledBadge />
   <StyledBadgeRisk />
@@ -64,10 +66,10 @@ const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.action.hover,
     color: theme.palette.warning.dark,
-    fontSize: 14,
+    fontSize: 12,
   },
   body: {
-    fontSize: 14,
+    fontSize: 12,
     color: theme.palette.info.light,
   },
 }))(TableCell);
@@ -76,7 +78,7 @@ const useRowStyles = makeStyles({
   root: {
     "& > *": {
       borderBottom: "unset",
-      fontSize: 15,
+      fontSize: 13,
       color: "Gray",
     },
   },
@@ -91,11 +93,24 @@ const LightTooltip = withStyles(theme => ({
     }
 }))(Tooltip);
 
+const useStyles = makeStyles((theme) => ({
+  seeMore: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
+
+function preventDefault(event) {
+  event.preventDefault();
+}
+
+
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+
 
 
   return (
@@ -217,7 +232,7 @@ function Row(props) {
 
         {/* Promo */}
 
-        <TableCell align="center">
+        {/* <TableCell align="center">
           <IconButton>
             <IconizeKitCustom kitCustom={row.kitCustom} size="medium" />
             <IconizePromo promo={row.promo} size="medium" />
@@ -232,7 +247,7 @@ function Row(props) {
           >
             {row.promo}
           </Typography>
-        </TableCell>
+        </TableCell> */}
 
         {/* Status */}
 
@@ -283,7 +298,7 @@ function Row(props) {
                     <TableCell align="left">TEL</TableCell>
                     <TableCell align="left">CEP</TableCell>
                     <TableCell align="center">Estado</TableCell>
-                    <TableCell align="left">Pagamento</TableCell>
+                    {/* <TableCell align="left">Pagamento</TableCell> */}
                     <TableCell align="center">País</TableCell>
                     <TableCell align="center">Parc</TableCell>
                     {/* <TableCell align="center">Cartão</TableCell> */}
@@ -300,7 +315,7 @@ function Row(props) {
                       <TableCell align="left">{historyRow.phone}</TableCell>
                       <TableCell align="left">{historyRow.postalCode}</TableCell>
                       <TableCell align="center">{historyRow.state}</TableCell>
-                      <TableCell align="left">{historyRow.pagamento}</TableCell>
+                      {/* <TableCell align="left">{historyRow.pagamento}</TableCell> */}
                       <TableCell align="center">
                         {historyRow.cardCountry}
                       </TableCell>
@@ -323,17 +338,20 @@ function Row(props) {
 
 export default function RiskScoreListTable(props) {
   const { orders } = props;
+  const classes = useStyles()
   return (
+    <>
+    <Title>Pedidos Recentes</Title>
     <TableContainer component={Paper}>
       <Table stickyHeader aria-label="collapsible table">
         <caption>
-          {<IconizeRiskLevel riskLevel={"Muito Baixo"} size="small" />} Muito
+          {/* {<IconizeRiskLevel riskLevel={"Muito Baixo"} size="small" />} Muito
           baixo
           {<IconizeRiskLevel riskLevel={"Baixo"} size="small" />} Baixo
           {<IconizeRiskLevel riskLevel={"Moderado"} size="small" />} Moderado
           {<IconizeRiskLevel riskLevel={"Alto"} size="small" />} Alto
           {<IconizeRiskLevel riskLevel={"Muito Alto"} size="small" />} Muito
-          alto
+          alto */}
         </caption>
         <TableHead>
           <TableRow>
@@ -350,7 +368,7 @@ export default function RiskScoreListTable(props) {
             <StyledTableCell align="center">{<IconizeTitleProfile size="medium" />}</StyledTableCell>
  
             <StyledTableCell align="center">{<IconizeTitleGift size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitlePromo size="medium" />}</StyledTableCell>
+            {/* <StyledTableCell align="center">{<IconizeTitlePromo size="medium" />}</StyledTableCell> */}
             <StyledTableCell align="center">{<IconizeTitleStatus size="medium" />}</StyledTableCell>
             <StyledTableCell align="right">{<IconizeTitleScore size="medium" />}</StyledTableCell>
           </TableRow>
@@ -362,5 +380,12 @@ export default function RiskScoreListTable(props) {
         </TableBody>
       </Table>
     </TableContainer>
+    {/* <div className={classes.seeMore}>
+      <Link color="primary" href="#" onClick={preventDefault}>
+        See more orders
+      </Link>
+    </div> */}
+    </>
   );
+
 }

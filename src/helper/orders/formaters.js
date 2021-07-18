@@ -18,7 +18,7 @@ export const formatLast4Digits = (vtexOrder) => {
       paymentMethod[i] = vtexOrder.paymentData.transactions[0].payments[
         i
       ].paymentSystemName.concat(
-        vtexOrder.paymentData.transactions[0].payments[i].lastDigits
+        " ****" + vtexOrder.paymentData.transactions[0].payments[i].lastDigits
       );
     } else {
       paymentMethod[i] =

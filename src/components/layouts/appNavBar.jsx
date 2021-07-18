@@ -175,7 +175,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar style={{ background: '#9aa4a8' }} position="fixed" color="primary">
+      <AppBar style={{ background: '#4e575a' }} position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -183,7 +183,7 @@ export default function PrimarySearchAppBar(props) {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             {/* AlerteMe */}
