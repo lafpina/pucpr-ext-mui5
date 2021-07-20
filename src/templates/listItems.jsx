@@ -53,35 +53,23 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Chargebacks" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary="Configurações" />
-    </ListItem>
   </div>
 );
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Cadastro</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <FavoriteOutlinedIcon />
-      </ListItemIcon>
-      <ListItemText primary="VIP" />
-    </ListItem>
+    <ListSubheader inset>Administração</ListSubheader>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Evangelistas" />
+      <ListItemText primary="Cadastros" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <ErrorOutlinedIcon />
+        <LayersIcon />
       </ListItemIcon>
-      <ListItemText primary="Restrições" />
+      <ListItemText primary="Configurações" />
     </ListItem>
   </div>
 );

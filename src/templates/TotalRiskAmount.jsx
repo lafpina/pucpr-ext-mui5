@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -18,20 +18,18 @@ const useStyles = makeStyles({
 
 export default function TotalRiskAmount(props) {
   const classes = useStyles();
+
   return (
     <>
-      <Title>Total em Risco</Title>
+      <Title>Risco</Title>
+
       <Typography component="p" variant="h4">
         {setCurrency(props.value)}
       </Typography>
       <Typography color="textSecondary" className={classes.riskValueContext}>
-        {/* {let dataAtual = new Date()}
-        {dataAtual.getDate() +
-          " de " +
-          (dataAtual.getMonth() + 1) +
-          " de " +
-          dataAtual.getFullYear()} */}
-        17 de Setembro de 2021
+
+        {props.todayDate}
+
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>

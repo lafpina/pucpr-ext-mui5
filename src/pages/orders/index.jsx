@@ -12,13 +12,13 @@ import getOption from "../../helper/lib/api/getOption";
 import getListOrders from "../../helper/lib/api/getListOrders";
 import getURL from "../../helper/lib/api/getURL";
 
-//? Customized components
+//? Helpers
 import RiskScoreListTable from "../../components/orders/risk-score-list-table";
 import buildOrderObject from "../../helper/orders/build-order-object";
 import { buildRiskScoreObject } from "../../helper/orders/build-risk-score-object";
 import { buildOrderLine } from "../../helper/orders/build-order-line"
-
 import { buildRiskAnalysys } from "../../helper/orders/build-risk-analysis"
+import getTodayDate from "../../helper/lib/utils/get-today-date";
 
 //? Lab
 import PrimarySearchAppBar from "../../components/layouts/appNavBar";
@@ -50,6 +50,7 @@ function OrderListPage(props) {
         notificatiopnWhiteList={props.notificationWhiteList} 
         notificationAlerts={props.notificationAlerts}
         totalRiskAmount={props.totalRiskAmount} 
+        todayDate={props.todayDate}
       />
       {/* <PrimarySearchAppBar 
         notificationBlackList = {props.notificationBlackList} 
@@ -127,9 +128,7 @@ export async function getServerSideProps() {
       notificationAlerts += allOrders[i].alertsQty
 
       if (riskScoreObject.final > 80) {
-        
-        totalRiskAmount += orderObject.value 
-        console.log("totalRiskAmount:", totalRiskAmount)
+         totalRiskAmount += orderObject.value 
       }
 
       // if (orderObject.orderId == "v958149frdp-01") {
@@ -140,6 +139,10 @@ export async function getServerSideProps() {
       console.log("Pedido não encontrada na VTEX");
     }
   } 
+
+  const todayDate = getTodayDate(3)
+
+
   //*-----------------------------------------------------
   //*? Return to React
   //*-----------------------------------------------------
@@ -152,7 +155,8 @@ export async function getServerSideProps() {
       notificationBlackList,
       notificationWhiteList,
       notificationAlerts,
-      totalRiskAmount
+      totalRiskAmount,
+      todayDate
     },
     // revalidate: 120, // 2 minutos
   };

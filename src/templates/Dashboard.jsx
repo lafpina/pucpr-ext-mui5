@@ -14,7 +14,6 @@ import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -30,21 +29,9 @@ import RiskScoreListTable from "../components/orders/risk-score-list-table";
 import TotalRiskAmount from "./TotalRiskAmount";
 import Image from "next/Image";
 import styles from "../styles/Home.module.css";
+import Copyright from "./Copyright";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Dipano
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {". Todos os direitos reservados."}
-    </Typography>
-  );
-}
-
-const drawerWidth = 215;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -171,13 +158,13 @@ export default function Dashboard(props) {
               alt="logo AlerteMe"
               className={styles.logoOrders}
               width={90}
-              height={44}
+              height={43}
             />
           </Typography>
 
           {/* Notification Whitelist */}
           <IconButton aria-label="whitelist" color="inherit">
-            <Badge badgeContent={props.notificationWhiteList} color="secondary">
+            <Badge badgeContent={props.notificationWhiteList} color="primary">
               <FavoriteOutlinedIcon />
             </Badge>
           </IconButton>
@@ -191,7 +178,7 @@ export default function Dashboard(props) {
 
           {/* Notification Alerts */}
           <IconButton aria-label="notification" color="inherit">
-            <Badge badgeContent={props.notificationAlerts} color="secondary">
+            <Badge badgeContent={props.notificationAlerts} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -230,7 +217,7 @@ export default function Dashboard(props) {
             {/* Total Risk Amount */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <TotalRiskAmount value={props.totalRiskAmount} />
+                <TotalRiskAmount value={props.totalRiskAmount} todayDate={props.todayDate} />
               </Paper>
             </Grid>
 

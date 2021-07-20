@@ -111,8 +111,6 @@ function Row(props) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
-
-
   return (
     <>
       <TableRow className={classes.root}>
@@ -148,7 +146,7 @@ function Row(props) {
           <IconButton>
             <LightTooltip 
               title={row.itemName} 
-              placement="bottom-end" 
+              placement="top-end"
               interactive 
               TransitionComponent={Fade} 
               TransitionProps={{ timeout: 600 }} 
@@ -190,7 +188,7 @@ function Row(props) {
         {/* Purchase Profile */}
 
         <TableCell align="center">
-          <LightTooltip title={row.valuePurchase ? "Histórico total de compras de  " + setCurrency(row.valuePurchase) : "Primeira compra" } placement="right-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
+          <LightTooltip title={row.valuePurchase ? "Histórico total de compras de  " + setCurrency(row.valuePurchase) : "Primeira compra" } placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} arrow aria-label="Cartão">
             <IconButton>
               {row.qtyPurchase > 0 ? (
                 <StyledBadgeHist
@@ -213,7 +211,7 @@ function Row(props) {
         {/* Gift */}
 
         <TableCell align="center">
-          <LightTooltip title={row.giftName} placement="right" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+          <LightTooltip title={row.giftName} placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
             <IconButton>
               <IconizeGiftCard giftId={row.giftId} size="medium" />
             </IconButton>
@@ -252,7 +250,7 @@ function Row(props) {
         {/* Status */}
 
         <TableCell align="center">
-          <LightTooltip title={row.statusDescription} placement="left-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+          <LightTooltip title={row.statusDescription} placement="top-end" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
             <IconButton>
               <IconizeStatus status={row.status} size="medium" />
             </IconButton>
@@ -262,7 +260,15 @@ function Row(props) {
         {/* Score */}
 
         <TableCell align="left">
-          <LightTooltip title={`Risco ${row.scoreDesc}`} placement="left" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Itens">
+          <LightTooltip 
+          title={`Risco ${row.scoreDesc}`} 
+          placement="top-end"
+          arrow  
+          interactive 
+          TransitionComponent={Fade} 
+          TransitionProps={{ timeout: 600 }} 
+          aria-label="score" 
+        >
             <IconButton>
               {row.score > 80 ? (
                 <StyledBadgeRisk
@@ -341,10 +347,10 @@ export default function RiskScoreListTable(props) {
   const classes = useStyles()
   return (
     <>
-    <Title>Pedidos Recentes</Title>
+    <Title>Recentes</Title>
     <TableContainer component={Paper}>
       <Table stickyHeader aria-label="collapsible table">
-        <caption>
+        {/* <caption> */}
           {/* {<IconizeRiskLevel riskLevel={"Muito Baixo"} size="small" />} Muito
           baixo
           {<IconizeRiskLevel riskLevel={"Baixo"} size="small" />} Baixo
@@ -352,7 +358,7 @@ export default function RiskScoreListTable(props) {
           {<IconizeRiskLevel riskLevel={"Alto"} size="small" />} Alto
           {<IconizeRiskLevel riskLevel={"Muito Alto"} size="small" />} Muito
           alto */}
-        </caption>
+        {/* </caption> */}
         <TableHead>
           <TableRow>
             <StyledTableCell />
@@ -387,5 +393,4 @@ export default function RiskScoreListTable(props) {
     </div> */}
     </>
   );
-
 }
