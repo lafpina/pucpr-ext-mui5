@@ -7,6 +7,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import FaceIcon from "@material-ui/icons/Face";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import AnnouncementOutlinedIcon from "@material-ui/icons/AnnouncementOutlined";
+import { LogoAlerteMe } from "../helper/utils/LogoAlerteMe";
 
 // import { DisplayAlert } from "../components/lib/utils/alerts";
 
@@ -22,13 +23,8 @@ export default function HomePage() {
     <div className={styles.container}>
       {/* <MainLayout> */}
       <main className={styles.main}>
-        <Image
-          src="/logoAlerteMe.png"
-          alt="logo AlerteMe"
-          className={styles.logoMain}
-          width={100}
-          height={47}
-        />
+
+      <LogoAlerteMe size={"large"} color={"blue"} />
 
         {/* <DisplayAlert type="error" msg="Mensagem de Erro de teste" /> */}
 

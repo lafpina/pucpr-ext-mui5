@@ -1,6 +1,6 @@
 import styles from "../../styles/Home.module.css";
-import Header from "../includes/header";
-import Footer from "../includes/footer";
+import Header from "../includes/Header";
+import Footer from "../includes/Footer";
 
 const MainLayout = (props) => (
   <>

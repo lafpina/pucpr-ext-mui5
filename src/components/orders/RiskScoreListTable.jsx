@@ -19,39 +19,38 @@ import Badge from "@material-ui/core/Badge";
 import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 //? Customized Components Row
-import setCurrency from "../../helper/lib/utils/setCurrency";
+import setCurrency from "../../helper/utils/setCurrency";
 import MainLayout from "../layouts/mainLayouts";
-import { IconizeStatus } from "./iconization/iconize-status";
-import { IconizePurchaseProfile } from "./iconization/iconize-purchase-profile";
-import { IconizeRiskLevel } from "./iconization/iconize-risk-level";
-import { IconizeCardHolder } from "./iconization/iconize-card-holder";
-import { IconizeGiftCard } from "./iconization/iconize-gift-card";
-import { IconizePromo } from "./iconization/iconize-promo";
-import { IconizeKitCustom } from "./iconization/iconize-kit-custom";
-import { IconizePaymentOption } from "./iconization/iconize-payment-option";
+import { IconizeStatus } from "./iconization/IconizeStatus";
+import { IconizePurchaseProfile } from "./iconization/IconizePurchaseProfile";
+import { IconizeRiskLevel } from "./iconization/IconizeRiskLevel";
+import { IconizeCardHolder } from "./iconization/IconizeCardHolder";
+import { IconizeGiftCard } from "./iconization/IconizeGiftCard";
+import { IconizePromo } from "./iconization/IconizePromo";
+import { IconizeKitCustom } from "./iconization/IconizeKitCustom";
+import { IconizePaymentOption } from "./iconization/IconizePaymentOption";
 import { Style, Tab } from "@material-ui/icons";
 //? Customized Components Title
-import { IconizeTitleOrder } from "./iconization/iconize-title";
-import { IconizeTitleDate } from "./iconization/iconize-title";
-import { IconizeTitleClient } from "./iconization/iconize-title";
-import { IconizeTitleProfile } from "./iconization/iconize-title";
-import { IconizeTitlePayment } from "./iconization/iconize-title";
-import { IconizeTitleGift } from "./iconization/iconize-title";
-import { IconizeTitlePromo } from "./iconization/iconize-title";
-import { IconizeTitleItems } from "./iconization/iconize-title";
-import { IconizeTitleValue } from "./iconization/iconize-title";
-import { IconizeTitleDestination } from "./iconization/iconize-title";
-import { IconizeTitleStatus } from "./iconization/iconize-title";
-import { IconizeTitleScore } from "./iconization/iconize-title";
+import { IconizeTitleOrder } from "./iconization/IconizeTitle";
+import { IconizeTitleDate } from "./iconization/IconizeTitle";
+import { IconizeTitleClient } from "./iconization/IconizeTitle";
+import { IconizeTitleProfile } from "./iconization/IconizeTitle";
+import { IconizeTitlePayment } from "./iconization/IconizeTitle";
+import { IconizeTitleGift } from "./iconization/IconizeTitle";
+import { IconizeTitleItems } from "./iconization/IconizeTitle";
+import { IconizeTitleValue } from "./iconization/IconizeTitle";
+import { IconizeTitleDestination } from "./iconization/IconizeTitle";
+import { IconizeTitleStatus } from "./iconization/IconizeTitle";
+import { IconizeTitleScore } from "./iconization/IconizeTitle";
 //? Customized Components Badge Styles
-import { StyledBadge } from "./badgezation/styled-badge"
-import { StyledBadgeRisk } from "./badgezation/styled-badge"
-import { StyledBadgeIncompleteOrders } from "./badgezation/styled-badge"
-import { StyledBadgeWarning } from "./badgezation/styled-badge"
-import { StyledBadgeItems } from "./badgezation/styled-badge"
-import { StyledBadgeHist } from "./badgezation/styled-badge"
+import { StyledBadge } from "./badgezation/StyledBadge"
+import { StyledBadgeRisk } from "./badgezation/StyledBadge"
+import { StyledBadgeIncompleteOrders } from "./badgezation/StyledBadge"
+import { StyledBadgeWarning } from "./badgezation/StyledBadge"
+import { StyledBadgeItems } from "./badgezation/StyledBadge"
+import { StyledBadgeHist } from "./badgezation/StyledBadge"
 
-import Title from "../../templates/Title"
+import Title from "../templates/Title"
 
 <>
   <StyledBadge />

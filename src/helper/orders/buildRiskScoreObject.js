@@ -1,10 +1,10 @@
-import { lookForPurchaseHistory } from "../lib/api/lookfor-purchase-history";
-import formatTZOrderDate from "../lib/utils/format-tz-order-date";
-import titleCase from "../lib/utils/titleCase";
-import { getIncompleteOrders } from "../lib/api/getIncompleteOrders";
-import isClientEmailValid from "../lib/api/is-client-email-valid";
-import isClientCPFValid from "../lib/utils/is-client-cpf-valid";
-import { determineRisk } from "../lib/utils/determine-risk";
+import { lookForPurchaseHistory } from "../api/lookForPurchaseHistory";
+import formatTZOrderDate from "../utils/formatTZOrderDate";
+import titleCase from "../utils/titleCase";
+import { getIncompleteOrders } from "../api/getIncompleteOrders";
+import isClientEmailValid from "../api/isClientEmailValid";
+import isClientCPFValid from "../utils/isClientCpfValid";
+import { determineRisk } from "../utils/determineRisk";
 import { isBlackListed } from "../../../data/black-list";
 import { isWhiteListed } from "../../../data/white-list";
 

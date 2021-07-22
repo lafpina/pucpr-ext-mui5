@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -19,17 +19,18 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems, secondaryListItems } from "./ListItems";
 import Chart from "./Chart";
 
-import Orders from "./Orders";
-
-import ImageAvatars from "../components/layouts/ImageAvatars";
-import RiskScoreListTable from "../components/orders/risk-score-list-table";
+import { Tooltip } from "@material-ui/core";
+import Fade from '@material-ui/core/Fade';
+import ImageAvatars from "../../components/layouts/ImageAvatars";
+import RiskScoreListTable from "../../components/orders/riskScoreListTable";
 import TotalRiskAmount from "./TotalRiskAmount";
-import Image from "next/Image";
-import styles from "../styles/Home.module.css";
+// import Image from "next/Image";
+import styles from "../../styles/Home.module.css";
 import Copyright from "./Copyright";
+import { LogoAlerteMe } from "../../helper/utils/LogoAlerteMe"
 
 const drawerWidth = 200;
 
@@ -112,6 +113,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const LightTooltip = withStyles(theme => ({
+  tooltip: {
+      backgroundColor: theme.palette.action.active,
+      color: "Ivory",
+      boxShadow: theme.shadows[2],
+      fontSize: 13,
+  }
+}))(Tooltip);
+
 export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -129,7 +139,8 @@ export default function Dashboard(props) {
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
-        style={{ background: "#4e575a" }}
+        // style={{ background: "#4e575a" }}
+        style={{ background: "#dadada" }}
       >
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -145,6 +156,8 @@ export default function Dashboard(props) {
             <MenuIcon />
           </IconButton>
 
+          <LogoAlerteMe size={"medium"} color={"blue"} />
+
           <Typography
             component="h1"
             variant="h6"
@@ -153,39 +166,41 @@ export default function Dashboard(props) {
             className={classes.title}
           >
             {/* Dashboard */}
-            <Image
-              src="/logo_alerteme_dashboard.png"
-              alt="logo AlerteMe"
-              className={styles.logoOrders}
-              width={90}
-              height={43}
-            />
+
           </Typography>
 
           {/* Notification Whitelist */}
+          <LightTooltip title="VIP" placement="bottom" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
           <IconButton aria-label="whitelist" color="inherit">
             <Badge badgeContent={props.notificationWhiteList} color="primary">
               <FavoriteOutlinedIcon />
             </Badge>
           </IconButton>
+          </LightTooltip>
 
           {/* Notification Blacklist */}
+          <LightTooltip title="Retrições" placement="bottom" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
           <IconButton aria-label="blacklist" color="inherit">
             <Badge badgeContent={props.notificationBlackList} color="secondary">
               <ErrorOutlinedIcon />
             </Badge>
           </IconButton>
+          </LightTooltip>
 
           {/* Notification Alerts */}
+          <LightTooltip title="Alto Risco" placement="bottom" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
           <IconButton aria-label="notification" color="inherit">
             <Badge badgeContent={props.notificationAlerts} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-
+          </LightTooltip>
           <ImageAvatars />
         </Toolbar>
       </AppBar>
+
+      {/* Menu */} 
+
       <Drawer
         variant="permanent"
         classes={{
@@ -198,16 +213,26 @@ export default function Dashboard(props) {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+
         <Divider />
+
         <List>{mainListItems}</List>
+
         <Divider />
+
         <List>{secondaryListItems}</List>
+
       </Drawer>
+
+      {/* Components Area */}
+
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+
             {/* Chart */}
+
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <Chart />
@@ -215,6 +240,7 @@ export default function Dashboard(props) {
             </Grid>
 
             {/* Total Risk Amount */}
+
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <TotalRiskAmount value={props.totalRiskAmount} todayDate={props.todayDate} />
@@ -222,12 +248,13 @@ export default function Dashboard(props) {
             </Grid>
 
             {/* Recent Orders */}
+
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                {/* <Orders /> */}
                 <RiskScoreListTable orders={props.orders} />
               </Paper>
             </Grid>
+
           </Grid>
           <Box pt={4}>
             <Copyright />

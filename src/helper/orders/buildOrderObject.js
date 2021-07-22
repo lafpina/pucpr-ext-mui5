@@ -1,6 +1,6 @@
-import buildPagarmeObject from "./build-pagarme-object";
-import getMasterdataClientEmail from "./get-masterdata-client-email";
-import formatTZOrderDate from "../lib/utils/format-tz-order-date";
+import buildPagarmeObject from "./buildPagarmeObject";
+import getMasterdataClientEmail from "./getMasterdataClientEmail";
+import formatTZOrderDate from "../utils/formatTZOrderDate";
 import { formatGiftDetail } from "./formaters";
 import { formatPaymentGroup } from "./formaters";
 import { formatPaymentMethod } from "./formaters";
@@ -57,6 +57,9 @@ const buildOrderObject = async (vtexOrder) => {
         ? ` (${i + 1}) ${vtexOrder.items[i].name} ` + "\n"
         : `${vtexOrder.items[i].name}`;
   }
+
+  // console.log(formatTZOrderDate(vtexOrder.creationDate));
+  // console.log(vtexOrder.creationDate);
 
   let orderObject = {
     // Transaction

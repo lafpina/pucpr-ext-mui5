@@ -50,7 +50,7 @@ export default function Chart() {
               position="left"
               style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
             >
-              Risco ($)
+              Volume ($)
             </Label>
           </YAxis>
           <Line

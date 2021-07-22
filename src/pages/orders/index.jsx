@@ -1,30 +1,21 @@
-import styles from "../../styles/Home.module.css";
-import Image from "next/image";
-
 //? Material UI
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core";
 
 //? API components
-import getOrder from "../../helper/lib/api/getOrder";
-import getOption from "../../helper/lib/api/getOption";
-import getListOrders from "../../helper/lib/api/getListOrders";
-import getURL from "../../helper/lib/api/getURL";
+import getOrder from "../../helper/api/getOrder";
+import getOption from "../../helper/api/getOption";
+import getListOrders from "../../helper/api/getListOrders";
+import getURL from "../../helper/api/getURL";
 
 //? Helpers
-import RiskScoreListTable from "../../components/orders/risk-score-list-table";
-import buildOrderObject from "../../helper/orders/build-order-object";
-import { buildRiskScoreObject } from "../../helper/orders/build-risk-score-object";
-import { buildOrderLine } from "../../helper/orders/build-order-line"
-import { buildRiskAnalysys } from "../../helper/orders/build-risk-analysis"
-import getTodayDate from "../../helper/lib/utils/get-today-date";
+import buildOrderObject from "../../helper/orders/buildOrderObject";
+import { buildRiskScoreObject } from "../../helper/orders/buildRiskScoreObject";
+import { buildOrderLine } from "../../helper/orders/buildOrderLine"
+import { buildRiskAnalysys } from "../../helper/orders/buildRiskAnalysis"
+import getTodayDate from "../../helper/utils/getTodayDate";
 
 //? Lab
-import PrimarySearchAppBar from "../../components/layouts/appNavBar";
-// import Dashboard from "@material-ui/icons/Dashboard";
-import Dashboard from "../../templates/Dashboard";
-
+import Dashboard from "../../components/templates/Dashboard"
 
 const useStyles = makeStyles({
   title: {
@@ -52,29 +43,6 @@ function OrderListPage(props) {
         totalRiskAmount={props.totalRiskAmount} 
         todayDate={props.todayDate}
       />
-      {/* <PrimarySearchAppBar 
-        notificationBlackList = {props.notificationBlackList} 
-        notificatiopnWhiteList = {props.notificationWhiteList} 
-        notificationAlerts = {props.notificationAlerts}
-      /> */}
-
-      {/* <Typography className={classes.title} component="h5" align="left">
-        <Image
-          src="/logoAlerteMe.png"
-          alt="logo AlerteMe"
-          className={styles.logoOrders}
-          width={96}
-          height={45}
-        />
-      </Typography> */}
-      {/* <>
-        {props.eMessage.fetchListOrder === 200 ? (
-          <RiskScoreListTable orders={props.allOrders} />
-
-        // Incluir aqui as demais react components da página
-
-        ) : "Problema encontrado. Contacte o Desenvolvedor!"}
-      </> */}
     </>
   );
 }
@@ -125,12 +93,13 @@ export async function getServerSideProps() {
 
       notificationBlackList += allOrders[i].blackListedQty
       notificationWhiteList += allOrders[i].whiteListedQty
-      notificationAlerts += allOrders[i].alertsQty
 
-      if (riskScoreObject.final > 80) {
-         totalRiskAmount += orderObject.value 
+      if (allOrders[i].status !== "canceled") {
+        notificationAlerts += allOrders[i].alertsQty
+        if (riskScoreObject.final > 80) {
+          totalRiskAmount += orderObject.value 
+       }
       }
-
       // if (orderObject.orderId == "v958149frdp-01") {
       //   console.log(orderLine)
       // }
@@ -141,6 +110,22 @@ export async function getServerSideProps() {
   } 
 
   const todayDate = getTodayDate(3)
+
+  let totalValue = allOrders.reduce((prevVal, elem) => prevVal + elem.valor, 0)
+
+
+  // let totVal0003 = allOrders.filter((order) => {
+  //   order.creationTime.getHours() >"23" && order.creationTime.getHours() < "03"
+  // })
+
+  // console.log("Total Value:", totalValue)
+  // console.log("Total 00:00 - 03:00:", totVal0003)
+  // console.log(allOrders[0])
+
+
+  // dogsAgeSum = animais.filter((animal) => animal.tipo === 'cao')
+  // .map((cao) => cao.idade *= 7)
+  // .reduce((total, cao) => total += cao)
 
 
   //*-----------------------------------------------------

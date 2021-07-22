@@ -1,8 +1,8 @@
 // import getOption from "../vtex-apis/get-option";
 // import getURL from "../vtex-apis/get-url";
 
-import getOption from "../lib/api/getOption";
-import getURL from "../lib/api/getURL";
+import getOption from "../api/getOption";
+import getURL from "../api/getURL";
 
 const getMasterdataClientEmail = async (vtexOrder) => {
   let vtexEmail = [];

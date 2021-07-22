@@ -1,4 +1,4 @@
-import titleCase from "../lib/utils/titleCase";
+import titleCase from "../utils/titleCase";
 import { isBlackListed } from "../../../data/black-list";
 import { isWhiteListed } from "../../../data/white-list";
 
@@ -20,6 +20,7 @@ export const buildOrderLine = (
     cliente: orderObject.clientName.substr(0, 35),
     qtyPurchase: riskScoreObject.historyPurchase.profile.qty,
     valuePurchase: riskScoreObject.historyPurchase.profile.value,
+    // creationTime: Date(orderObject.creationDate).getHours(),
     dataCompra:
       orderObject.creationDate.substr(0, 5) +
       " " +
