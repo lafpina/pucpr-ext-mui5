@@ -16,7 +16,7 @@ export default function ImageAvatars() {
 
   return (
     <div className={classes.root}>
-      <Avatar alt="" src="/Lu.jpg" />
+      <Avatar alt="" src="/avatars/LuFace.jpg" />
     </div>
   );
 }

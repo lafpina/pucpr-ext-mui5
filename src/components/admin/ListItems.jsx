@@ -10,8 +10,6 @@ import BarChartIcon from "@material-ui/icons/BarChart";
 import LayersIcon from "@material-ui/icons/Layers";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
-import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
-import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import ViewQuiltIcon from "@material-ui/icons/ViewQuilt";
 
@@ -23,30 +21,35 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Feed" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <ShoppingBasketIcon />
       </ListItemIcon>
       <ListItemText primary="Pedido" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Cliente" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <ViewQuiltIcon />
       </ListItemIcon>
       <ListItemText primary="Produto" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <BarChartIcon />
@@ -65,11 +68,13 @@ export const secondaryListItems = (
       </ListItemIcon>
       <ListItemText primary="Cadastros" />
     </ListItem>
+
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary="Configurações" />
     </ListItem>
+    
   </div>
 );

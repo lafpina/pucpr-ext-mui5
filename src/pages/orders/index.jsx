@@ -15,7 +15,7 @@ import { buildRiskAnalysys } from "../../helper/orders/buildRiskAnalysis"
 import getTodayDate from "../../helper/utils/getTodayDate";
 
 //? Lab
-import Dashboard from "../../components/templates/Dashboard"
+import Dashboard from "../../components/admin/Dashboard"
 
 const useStyles = makeStyles({
   title: {
@@ -38,7 +38,7 @@ function OrderListPage(props) {
       <Dashboard 
         orders={props.allOrders} 
         notificationBlackList={props.notificationBlackList} 
-        notificatiopnWhiteList={props.notificationWhiteList} 
+        notificationWhiteList={props.notificationWhiteList} 
         notificationAlerts={props.notificationAlerts}
         totalRiskAmount={props.totalRiskAmount} 
         todayDate={props.todayDate}

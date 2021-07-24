@@ -24,13 +24,14 @@ import Chart from "./Chart";
 
 import { Tooltip } from "@material-ui/core";
 import Fade from '@material-ui/core/Fade';
-import ImageAvatars from "../../components/layouts/ImageAvatars";
-import RiskScoreListTable from "../../components/orders/riskScoreListTable";
+import ImageAvatars from "./ImageAvatars";
+import RiskScoreListTable from "../orders/riskScoreListTable";
 import TotalRiskAmount from "./TotalRiskAmount";
 // import Image from "next/Image";
 import styles from "../../styles/Home.module.css";
 import Copyright from "./Copyright";
-import { LogoAlerteMe } from "../../helper/utils/LogoAlerteMe"
+import { LogoAlerteMe } from "../utils/LogoAlerteMe"
+import Link from "next/link"
 
 const drawerWidth = 200;
 
@@ -111,6 +112,10 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+
+  seeMore: {
+    marginTop: theme.spacing(3),
+  },
 }));
 
 const LightTooltip = withStyles(theme => ({
@@ -121,6 +126,10 @@ const LightTooltip = withStyles(theme => ({
       fontSize: 13,
   }
 }))(Tooltip);
+
+function preventDefault(event) {
+  event.preventDefault();
+}
 
 export default function Dashboard(props) {
   const classes = useStyles();
@@ -140,7 +149,9 @@ export default function Dashboard(props) {
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
         // style={{ background: "#4e575a" }}
-        style={{ background: "#dadada" }}
+        style={{ background: "#e4e4e4" }}
+        // style={{ background: "#c9c9c9" }}
+        
       >
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -156,7 +167,7 @@ export default function Dashboard(props) {
             <MenuIcon />
           </IconButton>
 
-          <LogoAlerteMe size={"medium"} color={"blue"} />
+          {/* <LogoAlerteMe size={"medium"} color={"blue"} /> */}
 
           <Typography
             component="h1"
@@ -165,7 +176,7 @@ export default function Dashboard(props) {
             noWrap
             className={classes.title}
           >
-            {/* Dashboard */}
+            Dashboard
 
           </Typography>
 
@@ -195,7 +206,10 @@ export default function Dashboard(props) {
             </Badge>
           </IconButton>
           </LightTooltip>
+
+          {/* Avatar */}
           <ImageAvatars />
+          
         </Toolbar>
       </AppBar>
 
@@ -256,6 +270,13 @@ export default function Dashboard(props) {
             </Grid>
 
           </Grid>
+
+          <div className={classes.seeMore}>
+            <Link color="primary" href="#" onClick={preventDefault}>
+              Ver mais Pedidos
+            </Link>
+          </div>
+
           <Box pt={4}>
             <Copyright />
           </Box>

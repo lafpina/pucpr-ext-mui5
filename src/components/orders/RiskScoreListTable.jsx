@@ -26,7 +26,7 @@ import { IconizePurchaseProfile } from "./iconization/IconizePurchaseProfile";
 import { IconizeRiskLevel } from "./iconization/IconizeRiskLevel";
 import { IconizeCardHolder } from "./iconization/IconizeCardHolder";
 import { IconizeGiftCard } from "./iconization/IconizeGiftCard";
-import { IconizePromo } from "./iconization/IconizePromo";
+// import { IconizePromo } from "./iconization/IconizePromo";
 import { IconizeKitCustom } from "./iconization/IconizeKitCustom";
 import { IconizePaymentOption } from "./iconization/IconizePaymentOption";
 import { Style, Tab } from "@material-ui/icons";
@@ -42,6 +42,7 @@ import { IconizeTitleValue } from "./iconization/IconizeTitle";
 import { IconizeTitleDestination } from "./iconization/IconizeTitle";
 import { IconizeTitleStatus } from "./iconization/IconizeTitle";
 import { IconizeTitleScore } from "./iconization/IconizeTitle";
+// import { IconizeTitlePromo } from "./iconization/IconizeTitle";
 //? Customized Components Badge Styles
 import { StyledBadge } from "./badgezation/StyledBadge"
 import { StyledBadgeRisk } from "./badgezation/StyledBadge"
@@ -50,7 +51,7 @@ import { StyledBadgeWarning } from "./badgezation/StyledBadge"
 import { StyledBadgeItems } from "./badgezation/StyledBadge"
 import { StyledBadgeHist } from "./badgezation/StyledBadge"
 
-import Title from "../templates/Title"
+import Title from "../admin/Title"
 
 <>
   <StyledBadge />
@@ -91,18 +92,6 @@ const LightTooltip = withStyles(theme => ({
         fontSize: 13,
     }
 }))(Tooltip);
-
-const useStyles = makeStyles((theme) => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-}));
-
-
-function preventDefault(event) {
-  event.preventDefault();
-}
-
 
 
 function Row(props) {
@@ -343,7 +332,7 @@ function Row(props) {
 
 export default function RiskScoreListTable(props) {
   const { orders } = props;
-  const classes = useStyles()
+  // const classes = useStyles()
   return (
     <>
     <Title>Recentes</Title>
@@ -385,11 +374,6 @@ export default function RiskScoreListTable(props) {
         </TableBody>
       </Table>
     </TableContainer>
-    {/* <div className={classes.seeMore}>
-      <Link color="primary" href="#" onClick={preventDefault}>
-        See more orders
-      </Link>
-    </div> */}
     </>
   );
 }
