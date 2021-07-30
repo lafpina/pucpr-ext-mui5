@@ -177,7 +177,6 @@ function Row(props) {
 
         <TableCell align="center">
           <LightTooltip title={row.valuePurchase ? "Histórico total de compras de  " + setCurrency(row.valuePurchase) : "Primeira compra" } placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} arrow aria-label="Cartão">
-            <IconButton>
               {row.qtyPurchase > 0 ? (
                 <StyledBadgeHist
                   badgeContent={row.qtyPurchase}
@@ -350,21 +349,21 @@ export default function RiskScoreListTable(props) {
         <TableHead>
           <TableRow>
             <StyledTableCell />
-            <StyledTableCell align="center">{<IconizeTitleOrder size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitleDate size="medium" />}</StyledTableCell>
-            <StyledTableCell align="left">{<IconizeTitleClient size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleOrder size="default" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleDate size="default" />}</StyledTableCell>
+            <StyledTableCell align="left">{<IconizeTitleClient size="default" />}</StyledTableCell>
 
-            <StyledTableCell align="center">{<IconizeTitleItems size="medium" />}</StyledTableCell>
-            <StyledTableCell align="right">{<IconizeTitleValue size="medium" />}</StyledTableCell>
-            <StyledTableCell align="center">{<IconizeTitlePayment size="medium" />}</StyledTableCell>
-            <StyledTableCell align="left">{<IconizeTitleDestination size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleItems size="default" />}</StyledTableCell>
+            <StyledTableCell align="right">{<IconizeTitleValue size="default" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitlePayment size="default" />}</StyledTableCell>
+            <StyledTableCell align="left">{<IconizeTitleDestination size="default" />}</StyledTableCell>
 
-            <StyledTableCell align="center">{<IconizeTitleProfile size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleProfile size="default" />}</StyledTableCell>
  
-            <StyledTableCell align="center">{<IconizeTitleGift size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleGift size="default" />}</StyledTableCell>
             {/* <StyledTableCell align="center">{<IconizeTitlePromo size="medium" />}</StyledTableCell> */}
-            <StyledTableCell align="center">{<IconizeTitleStatus size="medium" />}</StyledTableCell>
-            <StyledTableCell align="right">{<IconizeTitleScore size="medium" />}</StyledTableCell>
+            <StyledTableCell align="center">{<IconizeTitleStatus size="default" />}</StyledTableCell>
+            <StyledTableCell align="right">{<IconizeTitleScore size="default" />}</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

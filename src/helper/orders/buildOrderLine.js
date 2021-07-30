@@ -15,6 +15,17 @@ export const buildOrderLine = (
     instantPayment: orderObject.paymentGroupActive.instantPayment,
   };
 
+  let blackedResult = isBlackListed(
+    orderObject.clientEmail,
+    orderObject.cpf,
+    orderObject.shippingPostalCode,
+    orderObject.phone,
+    orderObject.cardLastDigits,
+    orderObject.shippingState,
+    orderObject.shippingCity,
+    orderObject.cardCountry
+  );
+
   let orderLine = {
     order: orderObject.orderId.substr(1, 6),
     cliente: orderObject.clientName.substr(0, 35),
@@ -40,16 +51,8 @@ export const buildOrderLine = (
     riskProfile: riskScoreObject,
     kitCustom: riskScoreObject.customProduct.score,
     promo: orderObject.coupon,
-    blackListed: isBlackListed(
-      orderObject.clientEmail,
-      orderObject.cpf,
-      orderObject.shippingPostalCode,
-      orderObject.phone,
-      orderObject.cardLastDigits,
-      orderObject.shippingState
-    )
-      ? true
-      : false,
+    blackListed: blackedResult.isBlacked,
+    blackedProfile: JSON.stringify(blackedResult.profile),
     whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf)
       ? true
       : false,

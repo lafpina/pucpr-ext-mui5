@@ -91,6 +91,12 @@ export async function getServerSideProps() {
       const orderLine = buildOrderLine(orderObject, riskScoreObject, riskAnalysisResult)
       allOrders.push(orderLine)
 
+      console.log(" ")
+      console.log(orderLine.order + " " + orderLine.cliente)
+      if (orderLine.blackListed) console.log(orderLine.blackedProfile)
+      console.log(" ")
+
+
       notificationBlackList += allOrders[i].blackListedQty
       notificationWhiteList += allOrders[i].whiteListedQty
 
@@ -100,8 +106,9 @@ export async function getServerSideProps() {
           totalRiskAmount += orderObject.value 
        }
       }
-      // if (orderObject.orderId == "v958149frdp-01") {
+      // if (orderObject.orderId == "v960119frdp-01") {
       //   console.log(orderLine)
+      //   console.log(riskAnalysisResult)
       // }
 
     } else {

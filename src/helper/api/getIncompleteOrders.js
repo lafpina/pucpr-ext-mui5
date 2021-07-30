@@ -18,12 +18,24 @@ export async function getIncompleteOrders(clientName) {
     const incompleteOrders = JSON.parse(JSON.stringify(data));
 
     totalIncompleteOrders = incompleteOrders.list.length;
+
     for (let i = 0; i < totalIncompleteOrders; ++i) {
       incompleteName = titleCase(incompleteOrders.list[i].clientName);
       buyerName = titleCase(clientName);
 
       if (incompleteName === buyerName) {
         qtyIncompleteOrders = qtyIncompleteOrders + 1;
+        console.log("------------------------------------");
+        console.log(incompleteOrders.list[i].clientName);
+        console.log("Tentativa: ", qtyIncompleteOrders);
+        console.log("Posição: ", i + 1);
+        console.log("------------------------------------");
+        console.log(incompleteOrders.list[i].orderId);
+        console.log(incompleteOrders.list[i].creationDate);
+        console.log(incompleteOrders.list[i].paymentNames);
+        console.log(incompleteOrders.list[i].totalItems);
+        console.log(incompleteOrders.list[i].totalValue);
+        console.log("------------------------------------");
       }
     }
   } else {

@@ -133,7 +133,7 @@ function preventDefault(event) {
 
 export default function Dashboard(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -149,8 +149,8 @@ export default function Dashboard(props) {
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
         // style={{ background: "#4e575a" }}
-        style={{ background: "#e4e4e4" }}
-        // style={{ background: "#c9c9c9" }}
+        // style={{ background: "#e4e4e4" }}
+        style={{ background: "#4d6e8a" }}
         
       >
         <Toolbar className={classes.toolbar}>

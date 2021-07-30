@@ -1,12 +1,118 @@
 const BLACK_LIST = [
   {
+    blackedName: "Ana paula Araujo",
+    blackedEmail: "lilianahiguchi4@gmail.com",
+    blackedCPF: "36125227871",
+    blackedPhone: "+5513997283035",
+    blackedPostalCode: "11347-210",
+    blackedState: "",
+    blackedCity: "São Vicente",
+    blackedCreditCard: "Visa ****3110",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Célia Aparecida de oliveira",
+    blackedEmail: "mhh1132000@gmail.com",
+    blackedCPF: "01445921693",
+    blackedPhone: "+5513996604516",
+    blackedPostalCode: "11347-020",
+    blackedState: "",
+    blackedCity: "São Vicente",
+    blackedCreditCard: "Mastercard ****1901",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Wellington Ferreira da silva",
+    blackedEmail: "",
+    blackedCPF: "",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "Mastercard ****9039",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Robinson De almeida",
+    blackedEmail: "robisondealmeida2@gmail.com",
+    blackedCPF: "02900132916",
+    blackedPhone: "+5548999429718",
+    blackedPostalCode: "89245-000",
+    blackedState: "",
+    blackedCity: "Araquari",
+    blackedCreditCard: "Mastercard ****6455",
+    blackedCardCountry: "Antigua And Barbuda",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Rute Ferreira da silva",
+    blackedEmail: "silva1132000@gmail.com",
+    blackedCPF: "19536281848",
+    blackedPhone: "+5513996604516",
+    blackedPostalCode: "11347-020",
+    blackedState: "",
+    blackedCity: "São Vicente",
+    blackedCreditCard: "Visa ****5087",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Anísio Martins",
+    blackedEmail: "tubaraolucca11@gmail.com",
+    blackedCPF: "44194536649",
+    blackedPhone: "+5513997098223",
+    blackedPostalCode: "13407-450",
+    blackedState: "",
+    blackedCity: "São Vicente",
+    blackedCreditCard: "Visa ****6089",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Wellington Ferreira da silva",
+    blackedEmail: "wf1132000@gmail.com",
+    blackedCPF: "07697022524",
+    blackedPhone: "+5513996604516",
+    blackedPostalCode: "11347-020",
+    blackedState: "",
+    blackedCity: "São Vicente",
+    blackedCreditCard: "Elo ****5376",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Manasses Vieira",
+    blackedEmail: "marlonbezerradecarvalhovieiram@gmail.com",
+    blackedCPF: "12810476438",
+    blackedPhone: "+5579998269941",
+    blackedPostalCode: "58090-270",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "Mastercard ****1196",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Edeberto Nuss correa",
     blackedEmail: "dbertocorreanuss@hotmail.com",
     blackedCPF: "46931112791",
     blackedPhone: "+5594991236327",
     blackedPostalCode: "68390-000",
     blackedState: "PA",
-    blackedCreditCard: "Mastercard8119",
+    blackedCity: "",
+    blackedCreditCard: "Mastercard ****8119",
+    blackedCardCountry: "",
     blackedDescription: "Suspeita de Fraude",
     isBlackListed: true,
   },
@@ -17,7 +123,9 @@ const BLACK_LIST = [
     blackedPhone: "+5571991234373",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "Pós-venda",
     isBlackListed: true,
   },
@@ -28,7 +136,9 @@ const BLACK_LIST = [
     blackedPhone: "+5594991908363",
     blackedPostalCode: "68390-000",
     blackedState: "PA",
-    blackedCreditCard: "visa6294",
+    blackedCity: "",
+    blackedCreditCard: "Visa ****6294",
+    blackedCardCountry: "",
     blackedDescription: "Suspeita de fraude",
     isBlackListed: true,
   },
@@ -39,7 +149,9 @@ const BLACK_LIST = [
     blackedPhone: "+5594991908363",
     blackedPostalCode: "68390-000",
     blackedState: "PA",
-    blackedCreditCard: "visa6269",
+    blackedCity: "",
+    blackedCreditCard: "Visa ****6269",
+    blackedCardCountry: "",
     blackedDescription: "Suspeita de fraude",
     isBlackListed: true,
   },
@@ -50,7 +162,9 @@ const BLACK_LIST = [
     blackedPhone: "+5594992001452",
     blackedPostalCode: "68390-000",
     blackedState: "PA",
-    blackedCreditCard: "visa1904",
+    blackedCity: "",
+    blackedCreditCard: "Visa ****1904",
+    blackedCardCountry: "",
     blackedDescription: "Suspeita de fraude",
     isBlackListed: true,
   },
@@ -61,7 +175,9 @@ const BLACK_LIST = [
     blackedPhone: "+5594991032218",
     blackedPostalCode: "68390-000",
     blackedState: "PA",
-    blackedCreditCard: "0942-mastercard",
+    blackedCity: "",
+    blackedCreditCard: "Mastercard ****0942",
+    blackedCardCountry: "",
     blackedDescription: "Suspeita de fraude",
     isBlackListed: true,
   },
@@ -72,7 +188,9 @@ const BLACK_LIST = [
     blackedPhone: "+5594991066230",
     blackedPostalCode: "68390-000",
     blackedState: "PA",
-    blackedCreditCard: "7375-visa",
+    blackedCity: "",
+    blackedCreditCard: "Visa ****7375",
+    blackedCardCountry: "",
     blackedDescription: "Suspeita de fraude",
     isBlackListed: true,
   },
@@ -83,7 +201,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "PROCON",
     isBlackListed: true,
   },
@@ -94,7 +214,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -105,7 +227,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -116,7 +240,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -127,7 +253,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -138,7 +266,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -149,7 +279,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -160,7 +292,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -171,7 +305,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -182,7 +318,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -193,7 +331,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -204,7 +344,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -215,7 +357,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     bisBlackListed: true,
   },
@@ -226,7 +370,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -237,7 +383,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     bisBlackListed: true,
   },
@@ -248,7 +396,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -259,7 +409,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -270,7 +422,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -281,7 +435,9 @@ const BLACK_LIST = [
     blackedPhone: "",
     blackedPostalCode: "",
     blackedState: "",
+    blackedCity: "",
     blackedCreditCard: "",
+    blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,
   },
@@ -293,10 +449,10 @@ export function isBlackListed(
   parmCEP,
   parmPhone,
   parmCard,
-  parmState
+  parmState,
+  parmCity,
+  parmCardCountry
 ) {
-  let blackedParm = false;
-
   let isBlackedEmail = BLACK_LIST.find(
     (bl) => bl.blackedEmail == parmEmail && bl.isBlackListed
   );
@@ -315,18 +471,64 @@ export function isBlackListed(
   let isBlackedState = BLACK_LIST.find(
     (bl) => bl.blackedState == parmState && bl.isBlackListed
   );
+  let isBlackedCity = BLACK_LIST.find(
+    (bl) => bl.blackedCity == parmCity && parmCity > " " && bl.isBlackListed
+  );
+  let isBlackedCardCountry = BLACK_LIST.find(
+    (bl) => bl.blackedCardCountry == parmCardCountry && bl.isBlackListed
+  );
 
-  if (
-    isBlackedEmail ||
-    isBlackedCPF ||
-    isBlackedCEP ||
-    isBlackedPhone ||
-    isBlackedCard ||
-    isBlackedState
-  ) {
-    blackedParm = true;
+  let isBlacked = false;
+  let blackListProfile = {
+    isEmail: false,
+    isCPF: false,
+    isCEP: false,
+    isPhone: false,
+    isCard: false,
+    isState: false,
+    isCity: false,
+    isCardCountry: false,
+  };
+
+  if (isBlackedEmail) {
+    blackListProfile.isEmail = true;
+    isBlacked = true;
   }
-  return blackedParm;
+  if (isBlackedCPF) {
+    blackListProfile.isCPF = true;
+    isBlacked = true;
+  }
+  if (isBlackedCEP) {
+    blackListProfile.isCEP = true;
+    isBlacked = true;
+  }
+  if (isBlackedPhone) {
+    blackListProfile.isPhone = true;
+    isBlacked = true;
+  }
+  if (isBlackedCard) {
+    blackListProfile.isCard = true;
+    isBlacked = true;
+  }
+  if (isBlackedState) {
+    blackListProfile.isState = true;
+    isBlacked = true;
+  }
+  if (isBlackedCity) {
+    blackListProfile.isCity = true;
+    isBlacked = true;
+  }
+  if (isBlackedCardCountry) {
+    blackListProfile.isCardCountry = true;
+    isBlacked = true;
+  }
+
+  let blackedResult = {
+    isBlacked: isBlacked,
+    profile: blackListProfile,
+  };
+
+  return blackedResult;
 }
 
 export function getAllBlackListSet() {

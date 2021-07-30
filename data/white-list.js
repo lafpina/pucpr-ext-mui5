@@ -1,5 +1,35 @@
 const WHITE_LIST = [
   {
+    whitedEmail: "gysaholanda@yahoo.com.br",
+    whitedCPF: "03437538470",
+    whitedName: "Gyselle Holanda",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "jubond@gmail.com",
+    whitedCPF: "33272526889",
+    whitedName: "Juliana Mandelbaum",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "julianasalazar.ju@gmail.com",
+    whitedCPF: "10794552722",
+    whitedName: "Juliana Salazar",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "claripark@gmail.com",
+    whitedCPF: "21705009875",
+    whitedName: "Clarice Park",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "lucianajesus@hotmail.com",
+    whitedCPF: "28785455830",
+    whitedName: "Luciana Jesus",
+    isWhiteListed: true,
+  },
+  {
     whitedEmail: "filipescherrer@outlook.com",
     whitedCPF: "13249956708",
     whitedName: "Filipe Scherrer",

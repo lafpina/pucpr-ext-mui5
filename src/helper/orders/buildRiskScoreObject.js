@@ -7,6 +7,7 @@ import isClientCPFValid from "../utils/isClientCpfValid";
 import { determineRisk } from "../utils/determineRisk";
 import { isBlackListed } from "../../../data/black-list";
 import { isWhiteListed } from "../../../data/white-list";
+import { isPhoneAreaCodeOk } from "../../../data/area-code-list";
 
 export const buildRiskScoreObject = async (orderObject) => {
   let riskScoreObject = initializeScores();
@@ -25,7 +26,8 @@ export const buildRiskScoreObject = async (orderObject) => {
   riskScoreObject = await applyIncompOrdersRule(orderObject, riskScoreObject);
   riskScoreObject = applyCarrierRule(orderObject, riskScoreObject);
   riskScoreObject = applyDocumentRule(orderObject, riskScoreObject); // CPF
-  //riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
+  riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
+  riskScoreObject = applyAreaCodeRule(orderObject, riskScoreObject);
   riskScoreObject = applyBlackListRule(orderObject, riskScoreObject);
   riskScoreObject = applyWhiteListRule(orderObject, riskScoreObject);
 
@@ -104,6 +106,9 @@ const initializeScores = () => {
     shippingRate: {
       score: 0,
     },
+    areaCode: {
+      score: 0,
+    },
     blackListed: {
       qty: 0,
       score: 0,
@@ -122,7 +127,7 @@ const initializeScores = () => {
 
   return riskScoreObject;
 };
-// Rule 1
+//? Rule 1
 const applyCardHolderRule = (orderObject, riskScoreObject) => {
   // Score positively depending on matches between client data and card data
   var nomeCadastro = titleCase(orderObject.clientName).split(" ");
@@ -152,7 +157,7 @@ const applyCardHolderRule = (orderObject, riskScoreObject) => {
 
   return riskScoreObject;
 };
-// Rule 2
+//? Rule 2
 const applyForeignCardRule = (orderObject, riskScoreObject) => {
   // Socre negatively for foreign credit card
 
@@ -162,7 +167,7 @@ const applyForeignCardRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 3
+//? Rule 3
 const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
   // Any coupon of discount other than Compre Junto will score positively
   if (
@@ -174,7 +179,7 @@ const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 4
+//? Rule 4
 const applyGiftRule = (orderObject, riskScoreObject) => {
   // Scores positively in the case of it's a Guest List Order identified by a List ID
   if (orderObject.giftId) {
@@ -183,7 +188,7 @@ const applyGiftRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 5
+//? Rule 5
 const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
   // Score positively whether it's a deposit, pix or giftCard payment method
 
@@ -201,7 +206,7 @@ const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 6
+//? Rule 6
 const applyCustomProductRule = (orderObject, riskScoreObject) => {
   // Score positively if the order is for a customized product
   for (let i = 0; i < orderObject.items.length; ++i) {
@@ -212,7 +217,7 @@ const applyCustomProductRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 7
+//? Rule 7
 const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
   // Score positively based on the history of purchase
 
@@ -232,10 +237,18 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
       const diff = Math.abs(now.getTime() - past.getTime()); // Subtrai uma data pela outra
       const days = Math.ceil(diff / (1000 * 60 * 60 * 24)); // Divide o total pelo total de milisegundos correspondentes a 1 dia. (1000 milisegundos = 1 segundo).
 
-      if (
-        days > 90 &&
-        !isBlackListed(orderObject.clientEmail, orderObject.cpf)
-      ) {
+      let blackedResult = isBlackListed(
+        orderObject.clientEmail,
+        orderObject.cpf,
+        orderObject.shippingPostalCode,
+        orderObject.phone,
+        orderObject.cardLastDigits,
+        orderObject.shippingState,
+        orderObject.shippingCity,
+        orderObject.cardCountry
+      );
+
+      if (days > 90 && !blackedResult.isBlacked) {
         riskScoreObject.final -= 20;
         riskScoreObject.historyPurchase.score -= 20;
       }
@@ -290,7 +303,7 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 8
+//? Rule 8
 const applyShippingRateRule = (orderObject, riskScoreObject) => {
   // Scores negatively depending on the rate between total product value and shipping cost
   let shippingRate = (
@@ -304,7 +317,7 @@ const applyShippingRateRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 9
+//? Rule 9
 const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
   // Any incompete order will be scored negatively
   riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(
@@ -326,7 +339,7 @@ const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 10
+//? Rule 10
 const applyCarrierRule = (orderObject, riskScoreObject) => {
   // Carrier express and pickup store score negatively
   if (!orderObject.paymentGroup.giftCard) {
@@ -345,7 +358,7 @@ const applyCarrierRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 11
+//? Rule 11
 const applyPaymentValueRule = (orderObject, riskScoreObject) => {
   // Fist it scores positively for payment whose value is acceptable as a risk, as long as it's
   // a national card
@@ -375,18 +388,48 @@ const applyPaymentValueRule = (orderObject, riskScoreObject) => {
   }
   return riskScoreObject;
 };
-// Rule 12
+//? Rule 12
 const applyDocumentRule = (orderObject, riskScoreObject) => {
   // set final score to its max if document is invalid
   if (!isClientCPFValid(orderObject.cpf)) {
-    riskScoreObject.valirdCPF.score = 100;
+    riskScoreObject.validCPF.score = 100;
     riskScoreObject.final = 100;
   }
   return riskScoreObject;
 };
-// Rule 13
+//? Rule 13
 const applyEmailRule = (orderObject, riskScoreObject) => {
-  // set final socre to its max if e-mail is invalid
+  // In case client email contains numbers risk increases in 5%
+  const regex = /[0-9]/;
+  const emailFirstPart = orderObject.clientEmail.split("@", 1);
+
+  if (regex.test(emailFirstPart)) {
+    riskScoreObject.validEmail.score += 5;
+    riskScoreObject.final += 5;
+  }
+
+  // In case email client doesnt contain any portion of the name risk increases in 5%
+  const cliName = titleCase(orderObject.clientName).split(" ");
+
+  let qtyInstance = 0;
+  const email = emailFirstPart.toString();
+  const verifyNameEmail = (name) => {
+    const clientNamePortion = name.toString().toLowerCase();
+    if (email.includes(clientNamePortion)) {
+      qtyInstance++;
+    }
+  };
+
+  cliName.forEach(verifyNameEmail);
+
+  if (qtyInstance === 0) {
+    riskScoreObject.validEmail.score += 5;
+    riskScoreObject.final += 5;
+  }
+
+  return riskScoreObject;
+
+  // set final score to its max if e-mail is invalid
   // if (riskScoreObject.score > 85) {
   //   if (clientEmail) {
   //     if (!isClientEmailValid(clientEmail)) {
@@ -399,19 +442,34 @@ const applyEmailRule = (orderObject, riskScoreObject) => {
   // }
 };
 
-const applyBlackListRule = (orderObject, riskScoreObject) => {
+//? Rule 14
+const applyAreaCodeRule = (orderObject, riskScoreObject) => {
   if (
-    isBlackListed(
-      orderObject.clientEmail,
-      orderObject.cpf,
-      orderObject.shippingPostalCode,
-      orderObject.phone,
-      orderObject.cardLastDigits,
+    !isPhoneAreaCodeOk(
+      orderObject.phone.substr(3, 2),
       orderObject.shippingState
     )
   ) {
-    riskScoreObject.blackListed.qty += 1;
+    riskScoreObject.areaCode.score += 5;
+    riskScoreObject.final += 5;
   }
+
+  return riskScoreObject;
+};
+
+const applyBlackListRule = (orderObject, riskScoreObject) => {
+  let blackedResult = isBlackListed(
+    orderObject.clientEmail,
+    orderObject.cpf,
+    orderObject.shippingPostalCode,
+    orderObject.phone,
+    orderObject.cardLastDigits,
+    orderObject.shippingState,
+    orderObject.shippingCity,
+    orderObject.cardCountry
+  );
+
+  if (blackedResult.isBlacked) riskScoreObject.blackListed.qty += 1;
 
   return riskScoreObject;
 };

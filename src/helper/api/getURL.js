@@ -1,7 +1,7 @@
 function getURL(fetchTarget, filter) {
   const parmEnv = "vtexcommercestable";
   const parmAcc = "fraldasdipano";
-  const parmPerPage = 10;
+  const parmPerPage = 30;
 
   // Os parâmetros abaixo estão corretos mas não retorna a lista
   // const startDate = "2021-07-17";
@@ -28,6 +28,7 @@ function getURL(fetchTarget, filter) {
     // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?f_status=invoiced";
 
     case "incompleteOrders":
+      // return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true?q=${filter}`;
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=${filter}`;
 
     case "masterdata":
