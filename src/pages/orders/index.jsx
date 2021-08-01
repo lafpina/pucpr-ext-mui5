@@ -92,7 +92,7 @@ export async function getServerSideProps() {
       allOrders.push(orderLine)
 
       console.log(" ")
-      console.log(orderLine.order + " " + orderLine.cliente)
+      console.log(orderLine.orderId + " " + orderLine.cliente)
       if (orderLine.blackListed) console.log(orderLine.blackedProfile)
       console.log(" ")
 

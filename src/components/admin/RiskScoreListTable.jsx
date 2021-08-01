@@ -20,38 +20,38 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fade from '@material-ui/core/Fade';
 //? Customized Components Row
 import setCurrency from "../../helper/utils/setCurrency";
-import MainLayout from "../layouts/mainLayouts";
-import { IconizeStatus } from "./iconization/IconizeStatus";
-import { IconizePurchaseProfile } from "./iconization/IconizePurchaseProfile";
-import { IconizeRiskLevel } from "./iconization/IconizeRiskLevel";
-import { IconizeCardHolder } from "./iconization/IconizeCardHolder";
-import { IconizeGiftCard } from "./iconization/IconizeGiftCard";
+import MainLayout from "../includes/mainLayouts";
+import { IconizeStatus } from "../includes/iconization/IconizeStatus";
+import { IconizePurchaseProfile } from "../includes/iconization/IconizePurchaseProfile";
+import { IconizeRiskLevel } from "../includes/iconization/IconizeRiskLevel";
+import { IconizeCardHolder } from "../includes/iconization/IconizeCardHolder";
+import { IconizeGiftCard } from "../includes/iconization/IconizeGiftCard";
 // import { IconizePromo } from "./iconization/IconizePromo";
-import { IconizeKitCustom } from "./iconization/IconizeKitCustom";
-import { IconizePaymentOption } from "./iconization/IconizePaymentOption";
+import { IconizeKitCustom } from "../includes/iconization/IconizeKitCustom";
+import { IconizePaymentOption } from "../includes/iconization/IconizePaymentOption";
 import { Style, Tab } from "@material-ui/icons";
 //? Customized Components Title
-import { IconizeTitleOrder } from "./iconization/IconizeTitle";
-import { IconizeTitleDate } from "./iconization/IconizeTitle";
-import { IconizeTitleClient } from "./iconization/IconizeTitle";
-import { IconizeTitleProfile } from "./iconization/IconizeTitle";
-import { IconizeTitlePayment } from "./iconization/IconizeTitle";
-import { IconizeTitleGift } from "./iconization/IconizeTitle";
-import { IconizeTitleItems } from "./iconization/IconizeTitle";
-import { IconizeTitleValue } from "./iconization/IconizeTitle";
-import { IconizeTitleDestination } from "./iconization/IconizeTitle";
-import { IconizeTitleStatus } from "./iconization/IconizeTitle";
-import { IconizeTitleScore } from "./iconization/IconizeTitle";
-// import { IconizeTitlePromo } from "./iconization/IconizeTitle";
+import { IconizeTitleOrder } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleDate } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleClient } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleProfile } from "../includes/iconization/IconizeTitle";
+import { IconizeTitlePayment } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleGift } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleItems } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleValue } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleDestination } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleStatus } from "../includes/iconization/IconizeTitle";
+import { IconizeTitleScore } from "../includes/iconization/IconizeTitle";
+// import { IconizeTitlePromo } from "../iconization/IconizeTitle";
 //? Customized Components Badge Styles
-import { StyledBadge } from "./badgezation/StyledBadge"
-import { StyledBadgeRisk } from "./badgezation/StyledBadge"
-import { StyledBadgeIncompleteOrders } from "./badgezation/StyledBadge"
-import { StyledBadgeWarning } from "./badgezation/StyledBadge"
-import { StyledBadgeItems } from "./badgezation/StyledBadge"
-import { StyledBadgeHist } from "./badgezation/StyledBadge"
+import { StyledBadge } from "../includes/badgezation/StyledBadge"
+import { StyledBadgeRisk } from "../includes/badgezation/StyledBadge"
+import { StyledBadgeIncompleteOrders } from "../includes/badgezation/StyledBadge"
+import { StyledBadgeWarning } from "../includes/badgezation/StyledBadge"
+import { StyledBadgeItems } from "../includes/badgezation/StyledBadge"
+import { StyledBadgeHist } from "../includes/badgezation/StyledBadge"
 
-import Title from "../admin/Title"
+import Title from "../includes/Title"
 
 <>
   <StyledBadge />
@@ -115,7 +115,7 @@ function Row(props) {
         {/* Order */}
 
         <TableCell component="th" align="center" scope="row">
-          {row.order}
+          {row.orderId}
         </TableCell>
 
         {/* Data */}
@@ -176,7 +176,8 @@ function Row(props) {
         {/* Purchase Profile */}
 
         <TableCell align="center">
-          <LightTooltip title={row.valuePurchase ? "Histórico total de compras de  " + setCurrency(row.valuePurchase) : "Primeira compra" } placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} arrow aria-label="Cartão">
+          <LightTooltip title={row.valuePurchase ? "Histórico total de compras de  " + setCurrency(row.valuePurchase) : "Primeira compra" } placement="top-end" interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} arrow aria-label="Profile">
+            <IconButton>
               {row.qtyPurchase > 0 ? (
                 <StyledBadgeHist
                   badgeContent={row.qtyPurchase}
@@ -334,18 +335,8 @@ export default function RiskScoreListTable(props) {
   // const classes = useStyles()
   return (
     <>
-    <Title>Recentes</Title>
     <TableContainer component={Paper}>
       <Table stickyHeader aria-label="collapsible table">
-        {/* <caption> */}
-          {/* {<IconizeRiskLevel riskLevel={"Muito Baixo"} size="small" />} Muito
-          baixo
-          {<IconizeRiskLevel riskLevel={"Baixo"} size="small" />} Baixo
-          {<IconizeRiskLevel riskLevel={"Moderado"} size="small" />} Moderado
-          {<IconizeRiskLevel riskLevel={"Alto"} size="small" />} Alto
-          {<IconizeRiskLevel riskLevel={"Muito Alto"} size="small" />} Muito
-          alto */}
-        {/* </caption> */}
         <TableHead>
           <TableRow>
             <StyledTableCell />
@@ -368,7 +359,7 @@ export default function RiskScoreListTable(props) {
         </TableHead>
         <TableBody>
           {orders.map((order) => (
-            <Row key={order.order} row={order} />
+            <Row key={order.orderId} row={order} />
           ))}
         </TableBody>
       </Table>

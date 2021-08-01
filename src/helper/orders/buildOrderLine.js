@@ -27,7 +27,7 @@ export const buildOrderLine = (
   );
 
   let orderLine = {
-    order: orderObject.orderId.substr(1, 6),
+    orderId: orderObject.orderId.substr(1, 6),
     cliente: orderObject.clientName.substr(0, 35),
     qtyPurchase: riskScoreObject.historyPurchase.profile.qty,
     valuePurchase: riskScoreObject.historyPurchase.profile.value,

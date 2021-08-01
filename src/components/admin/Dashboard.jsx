@@ -24,14 +24,16 @@ import Chart from "./Chart";
 
 import { Tooltip } from "@material-ui/core";
 import Fade from '@material-ui/core/Fade';
-import ImageAvatars from "./ImageAvatars";
-import RiskScoreListTable from "../orders/riskScoreListTable";
+import ImageAvatars from "../includes/ImageAvatars";
+import RiskScoreListTable from "./riskScoreListTable";
 import TotalRiskAmount from "./TotalRiskAmount";
 // import Image from "next/Image";
 import styles from "../../styles/Home.module.css";
-import Copyright from "./Copyright";
-import { LogoAlerteMe } from "../utils/LogoAlerteMe"
+import Copyright from "../includes/Copyright";
+import { LogoAlerteMe } from "../includes/LogoAlerteMe"
 import Link from "next/link"
+
+import Title from "../includes/Title";
 
 const drawerWidth = 200;
 
@@ -120,7 +122,8 @@ const useStyles = makeStyles((theme) => ({
 
 const LightTooltip = withStyles(theme => ({
   tooltip: {
-      backgroundColor: theme.palette.action.active,
+      backgroundColor: theme.palette.error.light,
+      // backgroundColor: theme.palette.action.active,
       color: "Ivory",
       boxShadow: theme.shadows[2],
       fontSize: 13,
@@ -247,35 +250,36 @@ export default function Dashboard(props) {
 
             {/* Chart */}
 
-            <Grid item xs={12} md={8} lg={9}>
+            {/* <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <Chart />
               </Paper>
-            </Grid>
+            </Grid> */}
 
             {/* Total Risk Amount */}
 
-            <Grid item xs={12} md={4} lg={3}>
+            {/* <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <TotalRiskAmount value={props.totalRiskAmount} todayDate={props.todayDate} />
               </Paper>
-            </Grid>
+            </Grid> */}
 
             {/* Recent Orders */}
 
             <Grid item xs={12}>
               <Paper className={classes.paper}>
+                {/* <Title>Recentes</Title> */}
                 <RiskScoreListTable orders={props.orders} />
               </Paper>
             </Grid>
 
           </Grid>
 
-          <div className={classes.seeMore}>
+          {/* <div className={classes.seeMore}>
             <Link color="primary" href="#" onClick={preventDefault}>
               Ver mais Pedidos
             </Link>
-          </div>
+          </div> */}
 
           <Box pt={4}>
             <Copyright />

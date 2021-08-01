@@ -1,5 +1,18 @@
 const BLACK_LIST = [
   {
+    blackedName: "",
+    blackedEmail: "",
+    blackedCPF: "",
+    blackedPhone: "",
+    blackedPostalCode: "36820-000",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "",
+    blackedCardCountry: "",
+    blackedDescription: "",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Ana paula Araujo",
     blackedEmail: "lilianahiguchi4@gmail.com",
     blackedCPF: "36125227871",

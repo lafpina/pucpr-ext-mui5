@@ -1,5 +1,5 @@
 // Allow us to customize the body HTML document
-import MainLayout from "../components/layouts/mainLayouts";
+import MainLayout from "../components/includes/mainLayouts";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {

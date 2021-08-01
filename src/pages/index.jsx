@@ -7,7 +7,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import FaceIcon from "@material-ui/icons/Face";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import AnnouncementOutlinedIcon from "@material-ui/icons/AnnouncementOutlined";
-import { LogoAlerteMe } from "../components/utils/LogoAlerteMe";
+import { LogoAlerteMe } from "../components/includes/LogoAlerteMe";
 
 // import { DisplayAlert } from "../components/lib/utils/alerts";
 
