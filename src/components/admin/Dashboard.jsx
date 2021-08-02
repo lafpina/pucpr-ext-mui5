@@ -19,13 +19,14 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
-import { mainListItems, secondaryListItems } from "./ListItems";
+import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
 import Chart from "./Chart";
 
 import { Tooltip } from "@material-ui/core";
 import Fade from '@material-ui/core/Fade';
 import ImageAvatars from "../includes/ImageAvatars";
-import RiskScoreListTable from "./riskScoreListTable";
+import Orders from "./Orders";
+import NewOrders from "./NewOrders";
 import TotalRiskAmount from "./TotalRiskAmount";
 // import Image from "next/Image";
 import styles from "../../styles/Home.module.css";
@@ -233,11 +234,11 @@ export default function Dashboard(props) {
 
         <Divider />
 
-        <List>{mainListItems}</List>
+        <List>{PrimaryMenuOptions}</List>
 
         <Divider />
 
-        <List>{secondaryListItems}</List>
+        <List>{SecondaryMenuOptions}</List>
 
       </Drawer>
 
@@ -269,7 +270,8 @@ export default function Dashboard(props) {
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 {/* <Title>Recentes</Title> */}
-                <RiskScoreListTable orders={props.orders} />
+                {/* <Orders orders={props.orders} /> */}
+                <NewOrders orders={props.orders} />
               </Paper>
             </Grid>
 

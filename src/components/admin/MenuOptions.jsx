@@ -13,7 +13,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import ViewQuiltIcon from "@material-ui/icons/ViewQuilt";
 
-export const mainListItems = (
+export const PrimaryMenuOptions = (
   <div>
     <ListItem button>
       <ListItemIcon>
@@ -59,7 +59,7 @@ export const mainListItems = (
   </div>
 );
 
-export const secondaryListItems = (
+export const SecondaryMenuOptions = (
   <div>
     <ListSubheader inset>Administração</ListSubheader>
     <ListItem button>
