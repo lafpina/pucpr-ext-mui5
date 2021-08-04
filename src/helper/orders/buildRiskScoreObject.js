@@ -2,6 +2,7 @@ import { lookForPurchaseHistory } from "../api/lookForPurchaseHistory";
 import formatTZOrderDate from "../utils/formatTZOrderDate";
 import titleCase from "../utils/titleCase";
 import { getIncompleteOrders } from "../api/getIncompleteOrders";
+import { getIncompleteOrdersByCpf } from "../api/getIncompleteOrdersByCpf";
 import isClientEmailValid from "../api/isClientEmailValid";
 import isClientCPFValid from "../utils/isClientCpfValid";
 import { determineRisk } from "../utils/determineRisk";
@@ -17,11 +18,12 @@ export const buildRiskScoreObject = async (orderObject) => {
     riskScoreObject = applyForeignCardRule(orderObject, riskScoreObject);
     riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
     riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
+    riskScoreObject = applyShoppingTimeRule(orderObject, riskScoreObject);
   }
   riskScoreObject = applyCouponDiscountRule(orderObject, riskScoreObject);
   riskScoreObject = applyGiftRule(orderObject, riskScoreObject);
   riskScoreObject = applyPaymentMethodRule(orderObject, riskScoreObject);
-  riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
+  // riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
   riskScoreObject = await applyHistPurchaseRule(orderObject, riskScoreObject);
   riskScoreObject = await applyIncompOrdersRule(orderObject, riskScoreObject);
   riskScoreObject = applyCarrierRule(orderObject, riskScoreObject);
@@ -109,6 +111,9 @@ const initializeScores = () => {
     areaCode: {
       score: 0,
     },
+    shoppingTime: {
+      score: 0,
+    },
     blackListed: {
       qty: 0,
       score: 0,
@@ -183,8 +188,8 @@ const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
 const applyGiftRule = (orderObject, riskScoreObject) => {
   // Scores positively in the case of it's a Guest List Order identified by a List ID
   if (orderObject.giftId) {
-    riskScoreObject.final += -20;
-    riskScoreObject.giftGuest.score = -20;
+    riskScoreObject.final -= 30;
+    riskScoreObject.giftGuest.score = -30;
   }
   return riskScoreObject;
 };
@@ -193,16 +198,16 @@ const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
   // Score positively whether it's a deposit, pix or giftCard payment method
 
   if (orderObject.paymentGroupActive.promissory) {
-    riskScoreObject.final -= 40;
-    riskScoreObject.paymentMethod.promissory.score = -40;
+    riskScoreObject.final -= 50;
+    riskScoreObject.paymentMethod.promissory.score = -50;
   }
   if (orderObject.paymentGroupActive.instantPayment) {
-    riskScoreObject.final -= 40;
-    riskScoreObject.paymentMethod.instantPayment.score = -40;
+    riskScoreObject.final -= 50;
+    riskScoreObject.paymentMethod.instantPayment.score = -50;
   }
   if (orderObject.paymentGroupActive.giftCard) {
-    riskScoreObject.final -= 40;
-    riskScoreObject.paymentMethod.giftCard.score = -35;
+    riskScoreObject.final -= 50;
+    riskScoreObject.paymentMethod.giftCard.score = -50;
   }
   return riskScoreObject;
 };
@@ -223,7 +228,8 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
 
   if (orderObject.clientEmail > " ") {
     riskScoreObject.historyPurchase.profile = await lookForPurchaseHistory(
-      orderObject.clientEmail
+      // orderObject.clientEmail
+      orderObject.cpf
     );
 
     if (riskScoreObject.historyPurchase.profile.qty > 0) {
@@ -271,7 +277,8 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
         riskScoreObject.final -= 10;
         riskScoreObject.historyPurchase.score -= 10;
       }
-      // Client has bought at least 100 before this transaction
+      // Client has bought at least 100 before this transaction than can be
+      // elegible for quantity evaluation
       if (riskScoreObject.historyPurchase.profile.value > 10000) {
         switch (riskScoreObject.historyPurchase.profile.qty) {
           case 1:
@@ -324,6 +331,10 @@ const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
     orderObject.clientName
   );
 
+  // riskScoreObject.incompleteOrders.qty = await getIncompleteOrdersByCpf(
+  //   orderObject.cpf
+  // );
+
   if (riskScoreObject.incompleteOrders.qty == 2) {
     riskScoreObject.final += 5;
     riskScoreObject.incompleteOrders.score = 5;
@@ -360,32 +371,38 @@ const applyCarrierRule = (orderObject, riskScoreObject) => {
 };
 //? Rule 11
 const applyPaymentValueRule = (orderObject, riskScoreObject) => {
-  // Fist it scores positively for payment whose value is acceptable as a risk, as long as it's
-  // a national card
-  if (orderObject.value <= 40000 && orderObject.cardCountry === "BRAZIL") {
-    riskScoreObject.final -= 15;
-    riskScoreObject.paymentValue.score -= 15;
-  } else {
-    // Otherwise, for values over a ceiling limit, it gets evaluated by either
-    // fist buying, one installment, or by the less installment payment allowed
-    if (orderObject.value > 100000 && orderObject.paymentGroup.creditCard) {
-      // first buying
-      if (orderObject.historyPurchase.qty === 0) {
-        riskScoreObject.final += 5;
-        riskScoreObject.paymentValue.score += 5;
-      }
-      // one installment buying
-      if (orderObject.cardInstallments === 1) {
-        riskScoreObject.final += 5;
-        riskScoreObject.paymentValue.score += 5;
-      }
-      // less installment payment allowed
-      if (orderObject.cardInstallments === 6) {
-        riskScoreObject.final += 5;
-        riskScoreObject.paymentValue.score += 5;
-      }
+  // Fist it scores positively for payment whose value is acceptable as a risk,
+  // as long as it's a national card
+  // if (orderObject.value <= 10000 && orderObject.cardCountry === "BRAZIL") {
+  //   riskScoreObject.paymentValue.score -= 5;
+  //   riskScoreObject.final -= 5;
+  // }
+
+  // For values over the average ticket, it gets evaluated by either
+  // fist buying, one installment, or by the minimum installment payment allowed
+  if (orderObject.value > 40000 && orderObject.paymentGroup.creditCard) {
+    // first buying
+    if (orderObject.historyPurchase.qty === 0) {
+      riskScoreObject.final += 5;
+      riskScoreObject.paymentValue.score += 5;
+    }
+    // one installment buying
+    if (orderObject.cardInstallments === 1) {
+      riskScoreObject.final += 5;
+      riskScoreObject.paymentValue.score += 5;
+    }
+    // less installment payment allowed
+    if (orderObject.cardInstallments === 6) {
+      riskScoreObject.final += 5;
+      riskScoreObject.paymentValue.score += 5;
     }
   }
+  if (orderObject.value > 300000 && orderObject.paymentGroup.creditCard) {
+    // higher value
+    riskScoreObject.final += 10;
+    riskScoreObject.paymentValue.score += 10;
+  }
+
   return riskScoreObject;
 };
 //? Rule 12
@@ -427,6 +444,26 @@ const applyEmailRule = (orderObject, riskScoreObject) => {
     riskScoreObject.final += 5;
   }
 
+  // In case of not a free email domain risk increases in 5%
+  let isFreeDomainEmail = false;
+  const freeEmail = ["gmail", "hotmail", "yahoo", "outlook", "icloud"];
+  for (var i = 0; i < freeEmail.length; i++) {
+    if (orderObject.clientEmail.indexOf(freeEmail[i]) != -1) {
+      isFreeDomainEmail = true;
+    }
+  }
+  if (!isFreeDomainEmail) {
+    riskScoreObject.validEmail.score += 5;
+    riskScoreObject.final += 5;
+  }
+
+  // In case of email too long risk increases in 5%
+  if (emailFirstPart.length > 25) {
+    console.log("Bingo!", emailFirstPart, emailFirstPart.length);
+    riskScoreObject.validEmail.score += 5;
+    riskScoreObject.final += 5;
+  }
+
   return riskScoreObject;
 
   // set final score to its max if e-mail is invalid
@@ -457,6 +494,21 @@ const applyAreaCodeRule = (orderObject, riskScoreObject) => {
   return riskScoreObject;
 };
 
+//? Rule 15
+const applyShoppingTimeRule = (orderObject, riskScoreObject) => {
+  const shoppingTime = orderObject.creationDate.substr(11, 5);
+  if (
+    shoppingTime > "00:00" &&
+    shoppingTime < "06:00" &&
+    orderObject.paymentGroup.creditCard
+  ) {
+    riskScoreObject.shoppingTime.score += 10;
+    riskScoreObject.final += 10;
+  }
+
+  return riskScoreObject;
+};
+
 const applyBlackListRule = (orderObject, riskScoreObject) => {
   let blackedResult = isBlackListed(
     orderObject.clientEmail,
@@ -478,7 +530,6 @@ const applyWhiteListRule = (orderObject, riskScoreObject) => {
   if (isWhiteListed(orderObject.clientEmail, orderObject.cpf)) {
     riskScoreObject.whiteListed.qty += 1;
   }
-
   return riskScoreObject;
 };
 
@@ -486,7 +537,6 @@ const applyAlertsRule = (finalScore, riskScoreObject) => {
   if (finalScore > 80) {
     riskScoreObject.alerts.qty += 1;
   }
-
   return riskScoreObject;
 };
 
@@ -499,7 +549,7 @@ const convertDate = (date) => {
   const month = dataSplit[1]; // MM
   const year = dataSplit[2]; // AAAA
 
-  const data = new Date(year, month - 1, day);
+  // const data = new Date(year, month - 1, day);
 
   // Retorna o objeto Date, lembrando que o mês começa em 0, então fazemos -1.
   return new Date(year, month - 1, day);

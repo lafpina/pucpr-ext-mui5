@@ -1,13 +1,13 @@
 const BLACK_LIST = [
   {
-    blackedName: "",
-    blackedEmail: "",
-    blackedCPF: "",
-    blackedPhone: "",
+    blackedName: "Elivelton  Oliveira",
+    blackedEmail: "zeniaraujoalbuquerquedasilva@gmail.com",
+    blackedCPF: "40781205808",
+    blackedPhone: "+5513996880863",
     blackedPostalCode: "36820-000",
     blackedState: "",
     blackedCity: "",
-    blackedCreditCard: "",
+    blackedCreditCard: "Mastercard ****8513",
     blackedCardCountry: "",
     blackedDescription: "",
     isBlackListed: true,

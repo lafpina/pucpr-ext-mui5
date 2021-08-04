@@ -8,8 +8,11 @@ async function getOrder(url, options) {
   if (res.ok) {
     let data = await res.json();
     order = JSON.parse(JSON.stringify(data));
+    return order;
+  } else {
+    console.log(`Não foi encontrado registro para a URL ${url}`);
+    console.log(res);
   }
-  return order;
 }
 
 export default getOrder;

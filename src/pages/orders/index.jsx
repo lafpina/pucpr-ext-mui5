@@ -81,6 +81,8 @@ export async function getServerSideProps() {
     let orderParm = cleanFeedOrders[i].orderId;
     let url = getURL("order", orderParm);
 
+    console.log("URL", url)
+
     //! Fetch GET ORDER
     let vtexOrder = await getOrder(url, options);
 

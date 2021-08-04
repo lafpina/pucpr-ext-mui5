@@ -2,7 +2,7 @@ import { FlareSharp } from "@material-ui/icons";
 import getOption from "./getOption";
 import getURL from "./getURL";
 
-export async function lookForPurchaseHistory(clientEmail) {
+export async function lookForPurchaseHistory(query) {
   let historyPurchaseProfile = {
     qty: 0,
     value: 0,
@@ -16,7 +16,7 @@ export async function lookForPurchaseHistory(clientEmail) {
   let qtyInvoiced = 0;
 
   let options = getOption("order");
-  let url = getURL("email", clientEmail);
+  let url = getURL("query", query);
 
   let res = await fetch(url, options);
 
@@ -53,7 +53,7 @@ export async function lookForPurchaseHistory(clientEmail) {
       }
     }
   } else {
-    console.log("Error lookForPurchaseHistory:", clientEmail, res);
+    console.log("Error lookForPurchaseHistory:", query, res);
     qtyInvoiced = 0;
     historyPurchaseProfile.qty = 0;
     historyPurchaseProfile.value = 0;

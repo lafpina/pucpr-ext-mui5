@@ -18,6 +18,7 @@
     "pagarme": "^4.17.0",
     "react": "17.x",
     "react-dom": "17.x",
+    "react-draggable": "^4.4.3",
     "recharts": "^2.0.9"
   }
 }

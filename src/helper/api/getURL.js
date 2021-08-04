@@ -2,6 +2,7 @@ function getURL(fetchTarget, filter) {
   const parmEnv = "vtexcommercestable";
   const parmAcc = "fraldasdipano";
   const parmPerPage = 30;
+  const page = 1;
 
   // Os parâmetros abaixo estão corretos mas não retorna a lista
   // const startDate = "2021-07-17";
@@ -12,24 +13,26 @@ function getURL(fetchTarget, filter) {
     case "feed":
       return `https://${parmAcc}.${parmEnv}.com.br/api/orders/feed`;
 
-    case "order":
+    case "order": // Retrieve order by orderId
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders/${filter}`;
 
-    case "email":
+    case "query": // Retrieve order by email or CPF
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?q=${filter}`;
 
     case "list":
       // Não retorna a lista por alguma razão. Ivestigar.
       // return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?f_creationDate=${fCreateDate}`;
 
-      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=${parmPerPage}&page=1`;
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=${parmPerPage}&page=${page}`;
 
     // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=30&page=1";
     // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?f_status=invoiced";
 
     case "incompleteOrders":
-      // return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true?q=${filter}`;
-      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=${filter}`;
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=${filter}&per_page=100&page=1`;
+
+    case "incompleteOrdersByCpf":
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true&q=​${filter}`;
 
     case "masterdata":
       return `http://api.vtexcrm.com.br/fraldasdipano/dataentities/CL/search/?userId=${filter}&_fields=email`;
