@@ -254,56 +254,63 @@ const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
         orderObject.cardCountry
       );
 
-      if (days > 90 && !blackedResult.isBlacked) {
-        riskScoreObject.final -= 20;
-        riskScoreObject.historyPurchase.score -= 20;
-      }
-
-      // History has at least one purchase for a gift list
-      if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
-        riskScoreObject.final -= 40;
-        riskScoreObject.historyPurchase.score -= -40;
-      }
-      if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
-        riskScoreObject.final -= 30;
-        riskScoreObject.historyPurchaseScore -= 30;
-      }
-      if (riskScoreObject.historyPurchase.profile.isPixHistory) {
-        riskScoreObject.final -= 30;
-        riskScoreObject.historyPurchaseScore -= 30;
-      }
-      // Client has bought over 1.000 before this transaction
-      if (riskScoreObject.historyPurchase.profile.value > 100000) {
-        riskScoreObject.final -= 10;
-        riskScoreObject.historyPurchase.score -= 10;
-      }
-      // Client has bought at least 100 before this transaction than can be
-      // elegible for quantity evaluation
-      if (riskScoreObject.historyPurchase.profile.value > 10000) {
-        switch (riskScoreObject.historyPurchase.profile.qty) {
-          case 1:
-            riskScoreObject.final -= 5;
-            riskScoreObject.historyPurchase.score -= 5;
-            break;
-          case 2:
-            riskScoreObject.final -= 10;
-            riskScoreObject.historyPurchase.score -= 10;
-            break;
-          case 3:
-            riskScoreObject.final -= 15;
-            riskScoreObject.historyPurchase.score -= 15;
-            break;
-          case 4:
-            riskScoreObject.final -= 20;
-            riskScoreObject.historyPurchase.score -= 20;
-            break;
-          case 5:
-            riskScoreObject.final -= 25;
-            riskScoreObject.historyPurchase.score -= 25;
-            break;
-          default:
-            riskScoreObject.final -= 30;
-            riskScoreObject.historyPurchase.score -= 30;
+      if (!blackedResult.isBlacked) {
+        if (days > 90) {
+          riskScoreObject.final -= 30;
+          riskScoreObject.historyPurchase.score -= 30;
+        } else if (days > 60) {
+          riskScoreObject.final -= 20;
+          riskScoreObject.historyPurchase.score -= 20;
+        } else if (days > 40) {
+          riskScoreObject.final -= 10;
+          riskScoreObject.historyPurchase.score -= 10;
+        }
+        // History has at least one purchase for a gift list
+        if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
+          riskScoreObject.final -= 40;
+          riskScoreObject.historyPurchase.score -= -40;
+        }
+        if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
+          riskScoreObject.final -= 30;
+          riskScoreObject.historyPurchaseScore -= 30;
+        }
+        if (riskScoreObject.historyPurchase.profile.isPixHistory) {
+          riskScoreObject.final -= 30;
+          riskScoreObject.historyPurchaseScore -= 30;
+        }
+        // Client has bought over 1.000 before this transaction
+        if (riskScoreObject.historyPurchase.profile.value > 100000) {
+          riskScoreObject.final -= 10;
+          riskScoreObject.historyPurchase.score -= 10;
+        }
+        // Client has bought at least 100 before this transaction than can be
+        // elegible for quantity evaluation
+        if (riskScoreObject.historyPurchase.profile.value > 15000) {
+          switch (riskScoreObject.historyPurchase.profile.qty) {
+            case 1:
+              riskScoreObject.final -= 5;
+              riskScoreObject.historyPurchase.score -= 5;
+              break;
+            case 2:
+              riskScoreObject.final -= 10;
+              riskScoreObject.historyPurchase.score -= 10;
+              break;
+            case 3:
+              riskScoreObject.final -= 15;
+              riskScoreObject.historyPurchase.score -= 15;
+              break;
+            case 4:
+              riskScoreObject.final -= 20;
+              riskScoreObject.historyPurchase.score -= 20;
+              break;
+            case 5:
+              riskScoreObject.final -= 25;
+              riskScoreObject.historyPurchase.score -= 25;
+              break;
+            default:
+              riskScoreObject.final -= 30;
+              riskScoreObject.historyPurchase.score -= 30;
+          }
         }
       }
     }
@@ -459,7 +466,6 @@ const applyEmailRule = (orderObject, riskScoreObject) => {
 
   // In case of email too long risk increases in 5%
   if (emailFirstPart.length > 25) {
-    console.log("Bingo!", emailFirstPart, emailFirstPart.length);
     riskScoreObject.validEmail.score += 5;
     riskScoreObject.final += 5;
   }

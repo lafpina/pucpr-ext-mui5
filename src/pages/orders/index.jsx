@@ -2,9 +2,9 @@
 import { makeStyles } from "@material-ui/core";
 
 //? API components
-import getOrder from "../../helper/api/getOrder";
+import getVtexOrder from "../../helper/api/getVtexOrder";
 import getOption from "../../helper/api/getOption";
-import getListOrders from "../../helper/api/getListOrders";
+import getVtexListOrders from "../../helper/api/getVtexListOrders";
 import getURL from "../../helper/api/getURL";
 
 //? Helpers
@@ -46,114 +46,93 @@ function OrderListPage(props) {
     </>
   );
 }
-
 //*-----------------------------------------------------
 //* BACKEND NODE
 //*-----------------------------------------------------
 // export async function getStaticProps() {
 export async function getServerSideProps() {
-  var allOrders = [];
-  var cleanFeedOrders = [];
+   var allOrders = [];
+   let eMessage = {
+      fetchListOrder: 0,
+   }
+   let notificationBlackList = 0
+   let notificationWhiteList = 0
+   let notificationAlerts = 0
+   let totalRiskAmount = 0
 
-  let eMessage = {
-    fetchListOrder: 0,
-  }
+   //! Fetch LIST ORDER
+   const getListOrders = await getVtexListOrders();
 
-  let notificationBlackList = 0
-  let notificationWhiteList = 0
-  let notificationAlerts = 0
-  let totalRiskAmount = 0
+   if (getListOrders) {
+      console.log("Fetch List efetuado com sucesso. Iniciar o LOOP")
+      eMessage.fetchListOrder = 200;
+      const listOrders = getListOrders.list;
+      let options = getOption("order");
+      //*-----------------------------------------------------
+      //* Loop thru the List to fetch each order of the list
+      //*-----------------------------------------------------
+      for (let i = 0; i < listOrders.length; ++i) {
+         const orderId = listOrders[i].orderId;
+         let url = getURL("order", orderId);
+         //! Fetch GET ORDER
+         const getOrder = await getVtexOrder(url, options);
+         //*-----------------------------------------------------
+         //* For each order call helper functions to process it
+         //*-----------------------------------------------------
+         if (getOrder) {
+            console.log("Passo 3 - Início de Processamento da Order")   
+            const orderObject = await buildOrderObject(getOrder);
+            const riskScoreObject = await buildRiskScoreObject(orderObject);
+            const riskAnalysisResult = buildRiskAnalysys(riskScoreObject)
+            const orderLine = buildOrderLine(orderObject, riskScoreObject, riskAnalysisResult)
 
-  //! Fetch LIST ORDER
-  let orderList = await getListOrders();
+            console.log(orderLine.orderId + " " + orderLine.cliente)
 
-  if (orderList) {
-    eMessage.fetchListOrder = 200;
-    cleanFeedOrders = orderList.list;
-  }
+            allOrders.push(orderLine)
 
-  //*-----------------------------------------------------
-  //*? Fetch Order based on cleanFeedOrders -> allOrders
-  //*-----------------------------------------------------
-  let options = getOption("order");
+            console.log("Passo 4 - Array criado!")   
+            console.log("----------------------------------------------")
 
-  for (let i = 0; i < cleanFeedOrders.length; ++i) {
-    let orderParm = cleanFeedOrders[i].orderId;
-    let url = getURL("order", orderParm);
+            if (orderLine.blackListed) 
+               notificationBlackList += allOrders[i].blackListedQty
+               notificationWhiteList += allOrders[i].whiteListedQty
 
-    console.log("URL", url)
+               if (allOrders[i].status !== "canceled") {
+                  notificationAlerts += allOrders[i].alertsQty
+                  if (riskScoreObject.final > 80) {
+                     totalRiskAmount += orderObject.value 
+                  }
+               }
+               // if (orderObject.orderId == "v960925frdp-01") {
+               //   console.log(orderLine)
+               //   console.log(riskAnalysisResult)
+               // }
+         } else {
+            console.log("Pedido não encontrado na VTEX");
+         }
+      } 
+   } else {
+      console.log("Lista não processada!");
+   }
+   const todayDate = getTodayDate(3)
+   //let totalValue = allOrders.reduce((prevVal, elem) => prevVal + elem.valor, 0)
+   //*-----------------------------------------------------
+   //*? Return to React
+   //*-----------------------------------------------------
+   console.log("Retornando ao React");
 
-    //! Fetch GET ORDER
-    let vtexOrder = await getOrder(url, options);
-
-    if (vtexOrder) {
-      const orderObject = await buildOrderObject(vtexOrder);
-      const riskScoreObject = await buildRiskScoreObject(orderObject);
-      const riskAnalysisResult = buildRiskAnalysys(riskScoreObject)
-      const orderLine = buildOrderLine(orderObject, riskScoreObject, riskAnalysisResult)
-      allOrders.push(orderLine)
-
-      console.log(" ")
-      console.log(orderLine.orderId + " " + orderLine.cliente)
-      if (orderLine.blackListed) console.log(orderLine.blackedProfile)
-      console.log(" ")
-
-
-      notificationBlackList += allOrders[i].blackListedQty
-      notificationWhiteList += allOrders[i].whiteListedQty
-
-      if (allOrders[i].status !== "canceled") {
-        notificationAlerts += allOrders[i].alertsQty
-        if (riskScoreObject.final > 80) {
-          totalRiskAmount += orderObject.value 
-       }
-      }
-      // if (orderObject.orderId == "v960119frdp-01") {
-      //   console.log(orderLine)
-      //   console.log(riskAnalysisResult)
-      // }
-
-    } else {
-      console.log("Pedido não encontrada na VTEX");
-    }
-  } 
-
-  const todayDate = getTodayDate(3)
-
-  let totalValue = allOrders.reduce((prevVal, elem) => prevVal + elem.valor, 0)
-
-
-  // let totVal0003 = allOrders.filter((order) => {
-  //   order.creationTime.getHours() >"23" && order.creationTime.getHours() < "03"
-  // })
-
-  // console.log("Total Value:", totalValue)
-  // console.log("Total 00:00 - 03:00:", totVal0003)
-  // console.log(allOrders[0])
-
-
-  // dogsAgeSum = animais.filter((animal) => animal.tipo === 'cao')
-  // .map((cao) => cao.idade *= 7)
-  // .reduce((total, cao) => total += cao)
-
-
-  //*-----------------------------------------------------
-  //*? Return to React
-  //*-----------------------------------------------------
-  console.log("Retornando ao React");
-
-  return {
-    props: {
-      eMessage,
-      allOrders,
-      notificationBlackList,
-      notificationWhiteList,
-      notificationAlerts,
-      totalRiskAmount,
-      todayDate
-    },
-    // revalidate: 120, // 2 minutos
-  };
+   return {
+      props: {
+         eMessage,
+         allOrders,
+         notificationBlackList,
+         notificationWhiteList,
+         notificationAlerts,
+         totalRiskAmount,
+         todayDate
+      },
+      // revalidate: 120, // 2 minutos
+   };
 }
 
 export default OrderListPage;

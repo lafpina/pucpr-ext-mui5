@@ -25,17 +25,17 @@ export async function getIncompleteOrders(clientName) {
 
       if (incompleteName === buyerName) {
         qtyIncompleteOrders = qtyIncompleteOrders + 1;
-        console.log("------------------------------------");
-        console.log(incompleteOrders.list[i].clientName);
-        console.log("Tentativa: ", qtyIncompleteOrders);
-        console.log("Posição: ", i + 1);
-        console.log("------------------------------------");
-        console.log(incompleteOrders.list[i].orderId);
-        console.log(incompleteOrders.list[i].creationDate);
-        console.log(incompleteOrders.list[i].paymentNames);
-        console.log(incompleteOrders.list[i].totalItems);
-        console.log(incompleteOrders.list[i].totalValue);
-        console.log("------------------------------------");
+        // console.log("------------------------------------");
+        // console.log(incompleteOrders.list[i].clientName);
+        // console.log("Tentativa: ", qtyIncompleteOrders);
+        // console.log("Posição: ", i + 1);
+        // console.log("------------------------------------");
+        // console.log(incompleteOrders.list[i].orderId);
+        // console.log(incompleteOrders.list[i].creationDate);
+        // console.log(incompleteOrders.list[i].paymentNames);
+        // console.log(incompleteOrders.list[i].totalItems);
+        // console.log(incompleteOrders.list[i].totalValue);
+        // console.log("------------------------------------");
       }
     }
   } else {

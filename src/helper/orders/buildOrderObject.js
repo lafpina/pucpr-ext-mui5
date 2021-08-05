@@ -58,9 +58,6 @@ const buildOrderObject = async (vtexOrder) => {
         : `${vtexOrder.items[i].name}`;
   }
 
-  // console.log(formatTZOrderDate(vtexOrder.creationDate));
-  // console.log(vtexOrder.creationDate);
-
   let orderObject = {
     // Transaction
     orderId: vtexOrder.orderId,
