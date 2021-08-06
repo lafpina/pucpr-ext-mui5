@@ -67,6 +67,7 @@ export const OrderScoreCell = (props) => {
           score={score} 
           scoreDesc={scoreDesc} 
         />
+        // <SimpleCard />
       }
     </>
   )
