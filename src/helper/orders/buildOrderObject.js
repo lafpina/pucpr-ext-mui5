@@ -1,13 +1,14 @@
 import buildPagarmeObject from "./buildPagarmeObject";
 import getMasterdataClientEmail from "./getMasterdataClientEmail";
 import formatTZOrderDate from "../utils/formatTZOrderDate";
+import titleCase from "../utils/titleCase";
 import { formatGiftDetail } from "./formaters";
 import { formatPaymentGroup } from "./formaters";
 import { formatPaymentMethod } from "./formaters";
 import { formatClientName } from "./formaters";
 import { formatCarrier } from "./formaters";
 import { formatCoupon } from "./formaters";
-import { formatLast4Digits } from "./formaters";
+import { formatCreditCard } from "./formaters";
 
 /*
 paymentData.transactions[0].payments[0].paymentSystemName  //Mastercard, Vale
@@ -75,11 +76,11 @@ const buildOrderObject = async (vtexOrder) => {
     cardHolder: pagarmeObject.cardHolder,
     cardCountry: pagarmeObject.cardCountry,
     cardInstallments: pagarmeObject.cardInstallments,
-    cardLastDigits: formatLast4Digits(vtexOrder),
+    creditCard: formatCreditCard(vtexOrder),
     coupon: formatCoupon(vtexOrder),
     // Delivery
     carrier: formatCarrier(vtexOrder),
-    shippingCity: vtexOrder.shippingData.address.city,
+    shippingCity: titleCase(vtexOrder.shippingData.address.city),
     shippingState: vtexOrder.shippingData.address.state,
     shippingPostalCode: vtexOrder.shippingData.address.postalCode,
     status: vtexOrder.status,

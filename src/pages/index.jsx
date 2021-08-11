@@ -23,14 +23,13 @@ export default function HomePage() {
     <div className={styles.container}>
       {/* <MainLayout> */}
       <main className={styles.main}>
-
         <LogoAlerteMe size={"large"} color={"blue"} />
 
         {/* <DisplayAlert type="error" msg="Mensagem de Erro de teste" /> */}
 
         <div className={styles.grid}>
           <Link href="/">
-          {/* <Link href="/orders"> */}
+            {/* <Link href="/orders"> */}
             <a className={styles.card}>
               <VerifiedUserIcon
                 className={classes.settingIcon}

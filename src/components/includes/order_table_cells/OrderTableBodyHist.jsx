@@ -9,7 +9,7 @@ export const OrderTableBodyHist = (props) => {
    return (
       <TableBody>
          {history.map((historyRow) => (
-            <TableRow key={historyRow.pedido}>
+            <TableRow key={history.pedido}>
                <TableCell align="left">{historyRow.cpf}</TableCell>
                <TableCell align="left">{historyRow.emailCliente}</TableCell>
                <TableCell align="left">{historyRow.phone}</TableCell>

@@ -10,12 +10,18 @@ import getURL from "../../helper/api/getURL";
 //? Helpers
 import buildOrderObject from "../../helper/orders/buildOrderObject";
 import { buildRiskScoreObject } from "../../helper/orders/buildRiskScoreObject";
-import { buildOrderLine } from "../../helper/orders/buildOrderLine"
-import { buildRiskAnalysys } from "../../helper/orders/buildRiskAnalysis"
+import { buildOrderLine } from "../../helper/orders/buildOrderLine";
+import { buildRiskAnalysys } from "../../helper/orders/buildRiskAnalysis";
 import getTodayDate from "../../helper/utils/getTodayDate";
 
-//? Lab
-import Dashboard from "../../components/admin/Dashboard"
+import dynamic from "next/dynamic";
+
+// Replaced a regular import as bellow to Dynamic Component With No SSR
+// import Dashboard from "../../components/admin/Dashboard";
+const DynamicComponentWithNoSSR = dynamic(
+  () => import("../../components/admin/Dashboard"),
+  { ssr: false }
+);
 
 const useStyles = makeStyles({
   title: {
@@ -34,15 +40,25 @@ const useStyles = makeStyles({
 function OrderListPage(props) {
   const classes = useStyles();
 
+  const {
+    allOrders,
+    notificationBlackList,
+    notificationWhiteList,
+    notificationAlerts,
+    totalRiskAmount,
+    todayDate,
+  } = props;
+
   return (
     <>
-      <Dashboard 
-        orders={props.allOrders} 
-        notificationBlackList={props.notificationBlackList} 
-        notificationWhiteList={props.notificationWhiteList} 
-        notificationAlerts={props.notificationAlerts}
-        totalRiskAmount={props.totalRiskAmount} 
-        todayDate={props.todayDate}
+      {/* <Dashboard */}
+      <DynamicComponentWithNoSSR
+        orders={allOrders}
+        notificationBlackList={notificationBlackList}
+        notificationWhiteList={notificationWhiteList}
+        notificationAlerts={notificationAlerts}
+        totalRiskAmount={totalRiskAmount}
+        todayDate={todayDate}
       />
     </>
   );
@@ -52,88 +68,94 @@ function OrderListPage(props) {
 //*-----------------------------------------------------
 // export async function getStaticProps() {
 export async function getServerSideProps() {
-   var allOrders = [];
-   let eMessage = {
-      fetchListOrder: 0,
-   }
-   let notificationBlackList = 0
-   let notificationWhiteList = 0
-   let notificationAlerts = 0
-   let totalRiskAmount = 0
+  var allOrders = [];
+  let eMessage = {
+    fetchListOrder: 0,
+  };
+  let notificationBlackList = 0;
+  let notificationWhiteList = 0;
+  let notificationAlerts = 0;
+  let totalRiskAmount = 0;
 
-   //! Fetch LIST ORDER
-   const getListOrders = await getVtexListOrders();
+  //! Fetch LIST ORDER
+  const getListOrders = await getVtexListOrders();
 
-   if (getListOrders) {
-      console.log("Fetch List efetuado com sucesso. Iniciar o LOOP")
-      eMessage.fetchListOrder = 200;
-      const listOrders = getListOrders.list;
-      let options = getOption("order");
+  if (getListOrders) {
+    console.log("Fetch List efetuado com sucesso. Iniciar o LOOP");
+    eMessage.fetchListOrder = 200;
+    const listOrders = getListOrders.list;
+    let options = getOption("order");
+    //*-----------------------------------------------------
+    //* Loop thru the List to fetch each order of the list
+    //*-----------------------------------------------------
+    for (let i = 0; i < listOrders.length; ++i) {
+      const orderId = listOrders[i].orderId;
+      let url = getURL("order", orderId);
+      //! Fetch GET ORDER
+      const getOrder = await getVtexOrder(url, options);
       //*-----------------------------------------------------
-      //* Loop thru the List to fetch each order of the list
+      //* For each order call helper functions to process it
       //*-----------------------------------------------------
-      for (let i = 0; i < listOrders.length; ++i) {
-         const orderId = listOrders[i].orderId;
-         let url = getURL("order", orderId);
-         //! Fetch GET ORDER
-         const getOrder = await getVtexOrder(url, options);
-         //*-----------------------------------------------------
-         //* For each order call helper functions to process it
-         //*-----------------------------------------------------
-         if (getOrder) {
-            console.log("Passo 3 - Início de Processamento da Order")   
-            const orderObject = await buildOrderObject(getOrder);
-            const riskScoreObject = await buildRiskScoreObject(orderObject);
-            const riskAnalysisResult = buildRiskAnalysys(riskScoreObject)
-            const orderLine = buildOrderLine(orderObject, riskScoreObject, riskAnalysisResult)
+      if (getOrder) {
+        console.log("Passo 3 - Início de Processamento da Order");
+        const orderObject = await buildOrderObject(getOrder);
+        const riskScoreObject = await buildRiskScoreObject(orderObject);
+        const riskAnalysisResult = buildRiskAnalysys(riskScoreObject);
+        const orderLine = buildOrderLine(
+          orderObject,
+          riskScoreObject,
+          riskAnalysisResult
+        );
 
-            console.log(orderLine.orderId + " " + orderLine.cliente)
+        console.log(orderLine.orderId + " " + orderLine.cliente);
 
-            allOrders.push(orderLine)
+        allOrders.push(orderLine);
 
-            console.log("Passo 4 - Array criado!")   
-            console.log("----------------------------------------------")
+        console.log("Passo 4 - Array criado!");
+        console.log("----------------------------------------------");
 
-            if (orderLine.blackListed) 
-               notificationBlackList += allOrders[i].blackListedQty
-               notificationWhiteList += allOrders[i].whiteListedQty
+        if (orderLine.blackListed)
+          notificationBlackList += allOrders[i].blackListedQty;
 
-               if (allOrders[i].status !== "canceled") {
-                  notificationAlerts += allOrders[i].alertsQty
-                  if (riskScoreObject.final > 80) {
-                     totalRiskAmount += orderObject.value 
-                  }
-               }
-               // if (orderObject.orderId == "v960925frdp-01") {
-               //   console.log(orderLine)
-               //   console.log(riskAnalysisResult)
-               // }
-         } else {
-            console.log("Pedido não encontrado na VTEX");
-         }
-      } 
-   } else {
-      console.log("Lista não processada!");
-   }
-   const todayDate = getTodayDate(3)
-   //let totalValue = allOrders.reduce((prevVal, elem) => prevVal + elem.valor, 0)
-   //*-----------------------------------------------------
-   //*? Return to React
-   //*-----------------------------------------------------
-   console.log("Retornando ao React");
+        if (orderLine.whiteListed)
+          notificationWhiteList += allOrders[i].whiteListedQty;
 
-   return {
-      props: {
-         eMessage,
-         allOrders,
-         notificationBlackList,
-         notificationWhiteList,
-         notificationAlerts,
-         totalRiskAmount,
-         todayDate
-      },
-      // revalidate: 120, // 2 minutos
-   };
+        if (allOrders[i].status !== "canceled") {
+          notificationAlerts += allOrders[i].alertsQty;
+          if (riskScoreObject.final > 80) {
+            totalRiskAmount += orderObject.value;
+          }
+        }
+        // if (orderObject.orderId == "v961256frdp-01") {
+        //   console.log(orderLine)
+        //   console.log(riskAnalysisResult)
+        // }
+      } else {
+        console.log("Pedido não encontrado na VTEX");
+      }
+    }
+  } else {
+    console.log("Lista não processada!");
+  }
+  const todayDate = getTodayDate(3);
+  //let totalValue = allOrders.reduce((prevVal, elem) => prevVal + elem.valor, 0)
+  //*-----------------------------------------------------
+  //*? Return to React
+  //*-----------------------------------------------------
+  console.log("Retornando ao React");
+
+  return {
+    props: {
+      eMessage,
+      allOrders,
+      notificationBlackList,
+      notificationWhiteList,
+      notificationAlerts,
+      totalRiskAmount,
+      todayDate,
+    },
+    // revalidate: 120, // 2 minutos
+  };
 }
 
 export default OrderListPage;

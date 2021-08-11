@@ -9,9 +9,12 @@ export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
 
   // For values over the average ticket, it gets evaluated by either
   // fist buying, one installment, or by the minimum installment payment allowed
-  if (orderObject.value > 40000 && orderObject.paymentGroup.creditCard) {
+  if (
+    orderObject.value > 40000 &&
+    orderObject.paymentGroup.indexOf("creditCard") > -1
+  ) {
     // first buying
-    if (orderObject.historyPurchase.qty === 0) {
+    if (riskScoreObject.historyPurchase.qty === 0) {
       riskScoreObject.final += 5;
       riskScoreObject.paymentValue.score += 5;
     }
@@ -26,7 +29,10 @@ export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
       riskScoreObject.paymentValue.score += 5;
     }
   }
-  if (orderObject.value > 300000 && orderObject.paymentGroup.creditCard) {
+  if (
+    orderObject.value > 300000 &&
+    orderObject.paymentGroup.indexOf("creditCard") > -1
+  ) {
     // higher value
     riskScoreObject.final += 10;
     riskScoreObject.paymentValue.score += 10;

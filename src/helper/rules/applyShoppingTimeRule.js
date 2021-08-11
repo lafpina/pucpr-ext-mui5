@@ -4,7 +4,7 @@ export const applyShoppingTimeRule = (orderObject, riskScoreObject) => {
   if (
     shoppingTime > "00:00" &&
     shoppingTime < "06:00" &&
-    orderObject.paymentGroup.creditCard
+    orderObject.paymentGroup.indexOf("creditCard") > -1
   ) {
     riskScoreObject.shoppingTime.score += 10;
     riskScoreObject.final += 10;

@@ -1,5 +1,7 @@
+import titleCase from "../utils/titleCase";
+
 //? Credit Card Last 4 Digits
-export const formatLast4Digits = (vtexOrder) => {
+export const formatCreditCard = (vtexOrder) => {
   // get all the payment methods used in the order
   let paymentMethod = [];
   let vtexPaymentDataLen =
@@ -18,7 +20,10 @@ export const formatLast4Digits = (vtexOrder) => {
       paymentMethod[i] = vtexOrder.paymentData.transactions[0].payments[
         i
       ].paymentSystemName.concat(
-        " ****" + vtexOrder.paymentData.transactions[0].payments[i].lastDigits
+        " " +
+          vtexOrder.paymentData.transactions[0].payments[i].firstDigits +
+          "****" +
+          vtexOrder.paymentData.transactions[0].payments[i].lastDigits
       );
     } else {
       paymentMethod[i] =
@@ -67,7 +72,9 @@ export const formatClientName = (vtexOrder) => {
   let lastName =
     clientLastName[0].toUpperCase() + clientLastName.slice(1).toLowerCase();
 
-  return firstName.concat(" " + lastName);
+  const clientName = titleCase(firstName.concat(" " + lastName));
+
+  return clientName;
 };
 
 export const formatCarrier = (vtexOrder) => {

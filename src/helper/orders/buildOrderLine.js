@@ -28,7 +28,7 @@ export const buildOrderLine = (
 
   let orderLine = {
     orderId: orderObject.orderId.substr(1, 6),
-    cliente: orderObject.clientName.substr(0, 35),
+    cliente: orderObject.clientName.substr(0, 30),
     qtyPurchase: riskScoreObject.historyPurchase.profile.qty,
     valuePurchase: riskScoreObject.historyPurchase.profile.value,
     // creationTime: Date(orderObject.creationDate).getHours(),
@@ -53,16 +53,13 @@ export const buildOrderLine = (
     promo: orderObject.coupon,
     blackListed: blackedResult.isBlacked,
     blackedProfile: JSON.stringify(blackedResult.profile),
-    whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf)
-      ? true
-      : false,
+    whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf),
     blackListedQty: riskScoreObject.blackListed.qty,
     whiteListedQty: riskScoreObject.whiteListed.qty,
     alertsQty: riskScoreObject.alerts.qty,
     payMethod: paymentOption,
-
     incompleteOrders: riskScoreObject.incompleteOrders.qty,
-    creditCard: orderObject.cardLastDigits,
+    creditCard: orderObject.creditCard,
     riskAnalysisResult: riskAnalysisResult,
 
     history: [
@@ -70,7 +67,6 @@ export const buildOrderLine = (
         cpf: orderObject.cpf,
         emailCliente: orderObject.clientEmail,
         phone: orderObject.phone,
-        pagamento: orderObject.cardLastDigits,
         parcelas: orderObject.cardInstallments,
         postalCode: orderObject.shippingPostalCode,
         state: orderObject.shippingState,

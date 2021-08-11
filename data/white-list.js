@@ -1,5 +1,47 @@
 const WHITE_LIST = [
   {
+    whitedEmail: "mairaayres@gmail.com",
+    whitedCPF: "10450650723",
+    whitedName: "Maira Ayres Torres",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "lisboalien@gmail.com",
+    whitedCPF: "02182508198",
+    whitedName: "Aline De Farias Lisboa",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "gfmation@gmail.com",
+    whitedCPF: "35337830813",
+    whitedName: "Gisela Ferreira",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "thamarac.silva@hotmail.com",
+    whitedCPF: "36951737851",
+    whitedName: "Thâmara Silva",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "marydombrowsky@gmail.com",
+    whitedCPF: "36063976825",
+    whitedName: "Marina Dombrowsky",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "sabrina.santinelli@hotmail.com",
+    whitedCPF: "31542977827",
+    whitedName: "Sabrina Santinelli",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "fcalife@gmail.com",
+    whitedCPF: "01427672474",
+    whitedName: "Felipe Calife",
+    isWhiteListed: true,
+  },
+  {
     whitedEmail: "caruzilber@gmail.com",
     whitedCPF: "26959370833",
     whitedName: "Carolina Zilber",
@@ -116,17 +158,19 @@ const WHITE_LIST = [
 ];
 
 export function isWhiteListed(parmEmail, parmCPF) {
-  let whitedParm = false;
-
-  if (parmEmail > " ") {
-    whitedParm = WHITE_LIST.find(
-      (wl) => wl.whitedEmail == parmEmail && wl.isWhiteListed
-    );
-  }
-  whitedParm = WHITE_LIST.find(
+  let whitedEmailParm;
+  let whitedCpfParm;
+  whitedEmailParm = WHITE_LIST.find(
+    (wl) => wl.whitedEmail == parmEmail && wl.isWhiteListed
+  );
+  whitedCpfParm = WHITE_LIST.find(
     (wl) => wl.whitedCPF == parmCPF && wl.isWhiteListed
   );
-  return whitedParm;
+  if (whitedEmailParm || whitedCpfParm) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export function getAllWhiteListSet() {

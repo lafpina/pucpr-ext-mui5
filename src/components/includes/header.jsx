@@ -2,7 +2,7 @@ import Head from "next/head";
 const Header = () => (
   <Head>
     <title>AlertMe</title>
-    <link rel="icon" href="/favicon2.ico" />
+    <link rel="icon" href="/favicon/faviconAlerteme.ico" />
 
     <meta name="description" content="Monitoramento de e-Commerce" />
     <meta name="keywords" content="e-commerce alerteme monitoramento" />

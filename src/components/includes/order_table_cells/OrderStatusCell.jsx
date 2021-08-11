@@ -22,7 +22,7 @@ export const OrderStatusCell = (props) => {
       <TableCell align="center">
          <LightTooltip title={statusDescription} placement="top-end" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Status">
             <IconButton>
-               <IconizeStatus status={status} size="medium" />
+               <IconizeStatus status={status} size="default" />
             </IconButton>
          </LightTooltip>  
       </TableCell>

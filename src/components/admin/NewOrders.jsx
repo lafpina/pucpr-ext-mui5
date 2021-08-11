@@ -14,21 +14,21 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 //? Includes
-import { OrderIdCell } from "../includes/order_table_cells/OrderIdCell"
-import { OrderCreateDateCell } from "../includes/order_table_cells/OrderCreateDateCell"
-import { OrderClientCell } from "../includes/order_table_cells/OrderClientCell"
-import { OrderItemCell } from "../includes/order_table_cells/OrderItemCell"
-import { OrderValueCell } from "../includes/order_table_cells/OrderValueCell"
-import { OrderPaymentCell } from "../includes/order_table_cells/OrderPaymentCell"
-import { OrderShippingToCell } from "../includes/order_table_cells/OrderShippingToCell"
-import { OrderHistoryCell } from "../includes/order_table_cells/OrderHistoryCell"
-import { OrderGiftCell } from "../includes/order_table_cells/OrderGiftCell"
-import { OrderStatusCell } from "../includes/order_table_cells/OrderStatusCell"
-import { OrderScoreCell } from "../includes/order_table_cells/OrderScoreCell"
+import { OrderIdCell } from "../includes/order_table_cells/OrderIdCell";
+import { OrderCreateDateCell } from "../includes/order_table_cells/OrderCreateDateCell";
+import { OrderClientCell } from "../includes/order_table_cells/OrderClientCell";
+import { OrderItemCell } from "../includes/order_table_cells/OrderItemCell";
+import { OrderValueCell } from "../includes/order_table_cells/OrderValueCell";
+import { OrderPaymentCell } from "../includes/order_table_cells/OrderPaymentCell";
+import { OrderShippingToCell } from "../includes/order_table_cells/OrderShippingToCell";
+import { OrderHistoryCell } from "../includes/order_table_cells/OrderHistoryCell";
+import { OrderGiftCell } from "../includes/order_table_cells/OrderGiftCell";
+import { OrderStatusCell } from "../includes/order_table_cells/OrderStatusCell";
+import { OrderScoreCell } from "../includes/order_table_cells/OrderScoreCell";
 
-import { OrderTableHead } from "../includes/order_table_cells/OrderTableHead"
-import { OrderTableHeadHist } from "../includes/order_table_cells/OrderTableHeadHist"
-import { OrderTableBodyHist } from "../includes/order_table_cells/OrderTableBodyHist"
+import { OrderTableHead } from "../includes/order_table_cells/OrderTableHead";
+import { OrderTableHeadHist } from "../includes/order_table_cells/OrderTableHeadHist";
+import { OrderTableBodyHist } from "../includes/order_table_cells/OrderTableBodyHist";
 
 const useRowStyles = makeStyles({
   root: {
@@ -62,12 +62,25 @@ function Row(props) {
         <OrderClientCell client={row.cliente} />
         <OrderItemCell item={row.items} itemName={row.itemName} />
         <OrderValueCell value={row.valor} />
-        <OrderPaymentCell creditCard={row.creditCard} incompleteOrders={row.incompleteOrders} paymentMethod={row.payMethod} />
-    	  <OrderShippingToCell shippingTo={row.destino} />   
-        <OrderHistoryCell valuePurchase={row.valuePurchase} qtyPurchase={row.qtyPurchase} blackListed={row.blackListed} whiteListed={row.whiteListed} />
+        <OrderPaymentCell
+          creditCard={row.creditCard}
+          incompleteOrders={row.incompleteOrders}
+          paymentMethod={row.payMethod}
+        />
+        <OrderShippingToCell shippingTo={row.destino} />
+        <OrderHistoryCell
+          valuePurchase={row.valuePurchase}
+          qtyPurchase={row.qtyPurchase}
+          blackListed={row.blackListed}
+          whiteListed={row.whiteListed}
+        />
         <OrderGiftCell giftId={row.giftId} giftName={row.giftName} />
-        <OrderStatusCell statusDescription={row.statusDescription} status={row.status} />
-        <OrderScoreCell score={row.score} scoreDesc={row.scoreDesc} />
+        <OrderStatusCell
+          statusDescription={row.statusDescription}
+          status={row.status}
+        />
+        <OrderScoreCell orderDetail={row} />
+        {/* <OrderScoreCell score={row.score} scoreDesc={row.scoreDesc} /> */}
       </TableRow>
 
       <TableRow>
