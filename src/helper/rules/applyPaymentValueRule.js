@@ -1,4 +1,6 @@
-//? Rule 11
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
+
+//? Rule 04
 export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
   // Fist it scores positively for payment whose value is acceptable as a risk,
   // as long as it's a national card
@@ -37,6 +39,13 @@ export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
     riskScoreObject.final += 10;
     riskScoreObject.paymentValue.score += 10;
   }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r004",
+    "Valor da Compra",
+    riskScoreObject.paymentValue.score,
+    riskScoreObject
+  );
 
   return riskScoreObject;
 };

@@ -1,5 +1,6 @@
 import isClientCPFValid from "../utils/isClientCpfValid";
 import titleCase from "../utils/titleCase";
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 13
 export const applyEmailRule = (orderObject, riskScoreObject) => {
@@ -49,6 +50,13 @@ export const applyEmailRule = (orderObject, riskScoreObject) => {
     riskScoreObject.validEmail.score += 5;
     riskScoreObject.final += 5;
   }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r013",
+    "Email de Cadastro do Cliente",
+    riskScoreObject.validEmail.score,
+    riskScoreObject
+  );
 
   return riskScoreObject;
 

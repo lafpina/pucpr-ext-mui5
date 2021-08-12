@@ -1,3 +1,4 @@
+import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
     blackedName: "Maria Eugenia",
@@ -544,6 +545,8 @@ export function isBlackListed(
   parmCity,
   parmCardCountry
 ) {
+  const cardCountry = titleCase(parmCardCountry);
+
   let isBlackedEmail = BLACK_LIST.find(
     (bl) => bl.blackedEmail == parmEmail && bl.isBlackListed
   );
@@ -566,7 +569,10 @@ export function isBlackListed(
     (bl) => bl.blackedCity == parmCity && parmCity > " " && bl.isBlackListed
   );
   let isBlackedCardCountry = BLACK_LIST.find(
-    (bl) => bl.blackedCardCountry == parmCardCountry && bl.isBlackListed
+    (bl) =>
+      bl.blackedCardCountry == cardCountry &&
+      cardCountry > " " &&
+      bl.isBlackListed
   );
 
   let isBlacked = false;

@@ -1,4 +1,5 @@
-//? Rule 15
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
+//? Rule 05
 export const applyShoppingTimeRule = (orderObject, riskScoreObject) => {
   const shoppingTime = orderObject.creationDate.substr(11, 5);
   if (
@@ -9,6 +10,13 @@ export const applyShoppingTimeRule = (orderObject, riskScoreObject) => {
     riskScoreObject.shoppingTime.score += 10;
     riskScoreObject.final += 10;
   }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r005",
+    "Horário em que a compra foi efetuada",
+    riskScoreObject.shoppingTime.score,
+    riskScoreObject
+  );
 
   return riskScoreObject;
 };

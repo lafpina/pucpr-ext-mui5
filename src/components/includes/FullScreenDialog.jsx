@@ -100,65 +100,22 @@ export default function FullScreenDialog(props) {
           </Toolbar>
         </AppBar>
         <List>
-          <ListItem button>
-            <ListItemText
-              primary="Meio de Pagamento"
-              secondary={
-                "Cartão de Crédito " +
-                +orderDetail.riskProfile.paymentMethod.creditCard.score +
-                "    " +
-                "PIX " +
-                orderDetail.riskProfile.paymentMethod.instantPayment.score +
-                "    " +
-                "Gift Card " +
-                orderDetail.riskProfile.paymentMethod.giftCard.score
-              }
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Histórico de Compras"
-              secondary={
-                "Quantidade de Compras " +
-                orderDetail.riskProfile.historyPurchase.profile.qty +
-                "    " +
-                "Valor Total de Compras até o momento " +
-                orderDetail.riskProfile.historyPurchase.profile.value +
-                "    " +
-                "Compras para uma Lista " +
-                orderDetail.riskProfile.historyPurchase.profile.isGiftHistory +
-                "    " +
-                "Compras com Boleto " +
-                orderDetail.riskProfile.historyPurchase.profile
-                  .isPromissoryHistory +
-                "    " +
-                "Compras com PIX " +
-                orderDetail.riskProfile.historyPurchase.profile.isPixHistory +
-                "    " +
-                "Data da Primeira Compra " +
-                orderDetail.riskProfile.historyPurchase.profile.dateFirstBuy +
-                "    " +
-                "Score " +
-                orderDetail.riskProfile.historyPurchase.score
-              }
-            />
-          </ListItem>
-
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Score"
-              secondary={orderDetail.score + " Risco " + orderDetail.scoreDesc}
-            />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
+          {orderDetail.riskScoreLog
+            .filter((rule) => rule.score != 0)
+            .map((rule, ruleId) => {
+              return (
+                <div key={ruleId}>
+                  <ListItem key={ruleId} button>
+                    <ListItemText
+                      id={rule.ruleId}
+                      primary={rule.ruleName}
+                      secondary={"score " + rule.score}
+                    />
+                  </ListItem>
+                  <Divider />
+                </div>
+              );
+            })}
         </List>
       </Dialog>
     </div>

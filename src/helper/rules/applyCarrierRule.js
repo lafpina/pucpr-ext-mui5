@@ -1,4 +1,5 @@
-//? Rule 10
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
+//? Rule 11
 export const applyCarrierRule = (orderObject, riskScoreObject) => {
   // Carrier express and pickup store score negatively
   if (!orderObject.paymentGroup.giftCard) {
@@ -15,5 +16,13 @@ export const applyCarrierRule = (orderObject, riskScoreObject) => {
       }
     }
   }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r011",
+    "Retirada na Loja ou Entrega expressa coerente com o DDD de Cadastro do Cliente",
+    riskScoreObject.carrier.score,
+    riskScoreObject
+  );
+
   return riskScoreObject;
 };

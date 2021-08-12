@@ -1,6 +1,7 @@
 import { getIncompleteOrders } from "../api/getIncompleteOrders";
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-//? Rule 9
+//? Rule 10
 export const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
   // Any incompete order will be scored negatively
   riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(
@@ -24,5 +25,13 @@ export const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
     riskScoreObject.final += 30;
     riskScoreObject.incompleteOrders.score = 30;
   }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r010",
+    "Tentativas de compras antes da efetivação desta compra",
+    riskScoreObject.incompleteOrders.score,
+    riskScoreObject
+  );
+
   return riskScoreObject;
 };

@@ -1,8 +1,9 @@
 import { lookForPurchaseHistory } from "../api/lookForPurchaseHistory";
 import { convertDate } from "../utils/convertDate";
 import { isBlackListed } from "../../../data/black-list";
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-//? Rule 7
+//? Rule 09
 export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
   // Score positively based on the history of purchase
 
@@ -48,15 +49,15 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
         // History has at least one purchase for a gift list
         if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
           riskScoreObject.final -= 40;
-          riskScoreObject.historyPurchase.score -= -40;
+          riskScoreObject.historyPurchase.score -= 40;
         }
         if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
           riskScoreObject.final -= 30;
-          riskScoreObject.historyPurchaseScore -= 30;
+          riskScoreObject.historyPurchase.score -= 30;
         }
         if (riskScoreObject.historyPurchase.profile.isPixHistory) {
           riskScoreObject.final -= 30;
-          riskScoreObject.historyPurchaseScore -= 30;
+          riskScoreObject.historyPurchase.score -= 30;
         }
         // Client has bought over 1.000 before this transaction
         if (riskScoreObject.historyPurchase.profile.value > 100000) {
@@ -95,5 +96,13 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
       }
     }
   }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r009",
+    "Histórico de Compras do Cliente",
+    riskScoreObject.historyPurchase.score,
+    riskScoreObject
+  );
+
   return riskScoreObject;
 };

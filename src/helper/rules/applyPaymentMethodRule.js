@@ -1,4 +1,5 @@
-//? Rule 5
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
+//? Rule 08
 export const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
   // Score positively whether it's a deposit, pix or giftCard payment method
 
@@ -14,5 +15,19 @@ export const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
     riskScoreObject.final -= 50;
     riskScoreObject.paymentMethod.giftCard.score = -50;
   }
+
+  const score =
+    riskScoreObject.paymentMethod.promissory.score +
+    riskScoreObject.paymentMethod.instantPayment.score +
+    riskScoreObject.paymentMethod.creditCard.score +
+    riskScoreObject.paymentMethod.giftCard.score;
+
+  riskScoreObject = buildRiskScoreLog(
+    "r008",
+    "Método de Pagamento utilizado",
+    score,
+    riskScoreObject
+  );
+
   return riskScoreObject;
 };

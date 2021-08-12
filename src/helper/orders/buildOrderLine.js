@@ -60,7 +60,7 @@ export const buildOrderLine = (
     payMethod: paymentOption,
     incompleteOrders: riskScoreObject.incompleteOrders.qty,
     creditCard: orderObject.creditCard,
-    riskAnalysisResult: riskAnalysisResult,
+    riskScoreLog: riskScoreObject.riskScoreLog,
 
     history: [
       {
@@ -79,5 +79,6 @@ export const buildOrderLine = (
       },
     ],
   };
+
   return orderLine;
 };

@@ -11,7 +11,6 @@ import getURL from "../../helper/api/getURL";
 import buildOrderObject from "../../helper/orders/buildOrderObject";
 import { buildRiskScoreObject } from "../../helper/orders/buildRiskScoreObject";
 import { buildOrderLine } from "../../helper/orders/buildOrderLine";
-import { buildRiskAnalysys } from "../../helper/orders/buildRiskAnalysis";
 import getTodayDate from "../../helper/utils/getTodayDate";
 
 import dynamic from "next/dynamic";
@@ -100,14 +99,15 @@ export async function getServerSideProps() {
         console.log("Passo 3 - Início de Processamento da Order");
         const orderObject = await buildOrderObject(getOrder);
         const riskScoreObject = await buildRiskScoreObject(orderObject);
-        const riskAnalysisResult = buildRiskAnalysys(riskScoreObject);
-        const orderLine = buildOrderLine(
-          orderObject,
-          riskScoreObject,
-          riskAnalysisResult
-        );
+        const orderLine = buildOrderLine(orderObject, riskScoreObject);
 
-        console.log(orderLine.orderId + " " + orderLine.cliente);
+        // console.log("Mapping thru Risk Score Log");
+        // orderLine.riskScoreLog.map((rule, ruleId) => {
+        //   // key = ruleId;
+        //   console.log(rule.ruleId);
+        //   console.log(rule.ruleName);
+        //   console.log(rule.score);
+        // });
 
         allOrders.push(orderLine);
 
@@ -126,10 +126,6 @@ export async function getServerSideProps() {
             totalRiskAmount += orderObject.value;
           }
         }
-        // if (orderObject.orderId == "v961256frdp-01") {
-        //   console.log(orderLine)
-        //   console.log(riskAnalysisResult)
-        // }
       } else {
         console.log("Pedido não encontrado na VTEX");
       }
