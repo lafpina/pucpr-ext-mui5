@@ -60,11 +60,5 @@ export const buildRiskScoreObject = async (orderObject) => {
 
   console.log("Score Final:", riskScoreObject.final);
 
-  // riskScoreObject.riskScoreGraph.map((rule, ruleId) => {
-  //   console.log(rule.ruleId);
-  //   console.log(rule.ruleName);
-  //   console.log(rule.score);
-  // });
-
   return riskScoreObject;
 };

@@ -13,18 +13,23 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 
-import { IconizeRiskLevel } from "../includes/iconization/IconizeRiskLevel";
-import { StyledBadge } from "../includes/badgezation/StyledBadge";
-import { StyledBadgeRisk } from "../includes/badgezation/StyledBadge";
-import { StyledBadgeWarning } from "../includes/badgezation/StyledBadge";
+import { IconizeRiskLevel } from "./iconization/IconizeRiskLevel";
+import { StyledBadge } from "./badgezation/StyledBadge";
+import { StyledBadgeRisk } from "./badgezation/StyledBadge";
+import { StyledBadgeWarning } from "./badgezation/StyledBadge";
+
+import RiskScoreDialogChart from "./RiskScoreDialogChart";
 
 import { Box } from "@material-ui/core";
+
+import TesteDialogChart from "./TesteDialogChart";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
     // backgroundColor: theme.palette.warning.dark,
-    backgroundColor: "#4d6e8a",
+    // backgroundColor: "#4d6e8a",
+    backgroundColor: "#546d77",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -37,25 +42,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FullScreenDialog(props) {
+export default function RiskScoreDialog(props) {
   const classes = useStyles();
 
   const { orderDetail } = props;
 
   const [open, setOpen] = React.useState(true);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const [isChartOpen, setIsChartOpen] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleChartOpen = () => {
+    setIsChartOpen(true);
+  };
+
   return (
     <div>
       <Dialog
-        fullScreen
+        // fullScreen
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -71,10 +77,9 @@ export default function FullScreenDialog(props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              {orderDetail.cliente}
+              Pedido {orderDetail.orderId} de {orderDetail.cliente}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              {/* Score {orderDetail.score + " - Risco " + orderDetail.scoreDesc} */}
+            <Button autoFocus color="inherit" onClick={handleChartOpen}>
               {orderDetail.score > 80 ? (
                 <StyledBadgeRisk
                   badgeContent={orderDetail.score}
@@ -95,7 +100,6 @@ export default function FullScreenDialog(props) {
                 riskLevel={orderDetail.scoreDesc}
                 size="default"
               />
-              {/* </Box> */}
             </Button>
           </Toolbar>
         </AppBar>
@@ -117,6 +121,7 @@ export default function FullScreenDialog(props) {
               );
             })}
         </List>
+        {isChartOpen && <TesteDialogChart detail={orderDetail} />}
       </Dialog>
     </div>
   );

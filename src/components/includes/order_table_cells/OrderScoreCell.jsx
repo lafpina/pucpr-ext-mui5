@@ -10,7 +10,7 @@ import { StyledBadgeRisk } from "../badgezation/StyledBadge";
 import { StyledBadgeWarning } from "../badgezation/StyledBadge";
 
 import ResponsiveDialog from "../ResponsiveDialog";
-import FullScreenDialog from "../FullScreenDialog";
+import RiskScoreDialog from "../RiskScoreDialog";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -70,7 +70,7 @@ export const OrderScoreCell = (props) => {
       </TableCell>
       {
         isOpen && (
-          <FullScreenDialog orderDetail={orderDetail} />
+          <RiskScoreDialog orderDetail={orderDetail} />
 
           // <ResponsiveDialog
           //   title={"Avaliação do Pedido"}

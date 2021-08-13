@@ -9,8 +9,8 @@ export const applyGiftRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r007",
-    "Compra efetuada para uma Lista de Chá",
-    riskScoreObject.couponDiscount.score,
+    "Compra efetuada para uma Lista de Presentes Modelo Crédito",
+    riskScoreObject.giftGuest.score,
     riskScoreObject
   );
 

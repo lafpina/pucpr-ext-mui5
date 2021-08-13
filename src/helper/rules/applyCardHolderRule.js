@@ -32,7 +32,7 @@ export const applyCardHolderRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r001",
-    "Titularidade do Cartão de Crédito/Débito",
+    "Titularidade do Cartão de Crédito incompatível com o cadastro do cliente",
     riskScoreObject.cardHolder.score,
     riskScoreObject
   );

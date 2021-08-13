@@ -34,7 +34,15 @@ export const applyEmailRule = (orderObject, riskScoreObject) => {
 
   // In case of not a free email domain risk increases in 5%
   let isFreeDomainEmail = false;
-  const freeEmail = ["gmail", "hotmail", "yahoo", "outlook", "icloud"];
+  const freeEmail = [
+    "gmail",
+    "hotmail",
+    "yahoo",
+    "outlook",
+    "icloud",
+    "uol",
+    "globo",
+  ];
   for (var i = 0; i < freeEmail.length; i++) {
     if (orderObject.clientEmail.indexOf(freeEmail[i]) != -1) {
       isFreeDomainEmail = true;
@@ -53,7 +61,7 @@ export const applyEmailRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r013",
-    "Email de Cadastro do Cliente",
+    "Email do Cliente sem relação com o cadastro, desconhecido ou muito longo",
     riskScoreObject.validEmail.score,
     riskScoreObject
   );

@@ -28,7 +28,7 @@ export const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r010",
-    "Tentativas de compras antes da efetivação desta compra",
+    "Tentativas excessiva de compras antes da efetivação da compra atual",
     riskScoreObject.incompleteOrders.score,
     riskScoreObject
   );

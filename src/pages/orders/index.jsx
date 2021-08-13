@@ -101,14 +101,6 @@ export async function getServerSideProps() {
         const riskScoreObject = await buildRiskScoreObject(orderObject);
         const orderLine = buildOrderLine(orderObject, riskScoreObject);
 
-        // console.log("Mapping thru Risk Score Log");
-        // orderLine.riskScoreLog.map((rule, ruleId) => {
-        //   // key = ruleId;
-        //   console.log(rule.ruleId);
-        //   console.log(rule.ruleName);
-        //   console.log(rule.score);
-        // });
-
         allOrders.push(orderLine);
 
         console.log("Passo 4 - Array criado!");
