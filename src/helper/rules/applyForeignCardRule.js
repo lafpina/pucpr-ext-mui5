@@ -15,6 +15,7 @@ export const applyForeignCardRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r002",
+    "Emissor",
     "Nacionalidade do Emissor do Cartão de Crédito",
     riskScoreObject.foreignCreditCard.score,
     riskScoreObject

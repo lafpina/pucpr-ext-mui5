@@ -11,6 +11,7 @@ export const applyDocumentRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r012",
+    "CPF",
     "CPF Inválido quanto ao seu formato",
     riskScoreObject.validCpf.score,
     riskScoreObject

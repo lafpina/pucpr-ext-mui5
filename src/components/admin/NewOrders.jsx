@@ -80,7 +80,6 @@ function Row(props) {
           status={row.status}
         />
         <OrderScoreCell orderDetail={row} />
-        {/* <OrderScoreCell score={row.score} scoreDesc={row.scoreDesc} /> */}
       </TableRow>
 
       <TableRow>

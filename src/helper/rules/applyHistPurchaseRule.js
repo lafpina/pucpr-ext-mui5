@@ -99,6 +99,7 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r009",
+    "Histórico",
     "Histórico de Compras do Cliente e a sua relação com a forma de pagamento",
     riskScoreObject.historyPurchase.score,
     riskScoreObject

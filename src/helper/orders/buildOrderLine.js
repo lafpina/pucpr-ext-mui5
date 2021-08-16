@@ -2,11 +2,7 @@ import titleCase from "../utils/titleCase";
 import { isBlackListed } from "../../../data/black-list";
 import { isWhiteListed } from "../../../data/white-list";
 
-export const buildOrderLine = (
-  orderObject,
-  riskScoreObject,
-  riskAnalysisResult
-) => {
+export const buildOrderLine = (orderObject, riskScoreObject) => {
   let paymentOption = {
     creditCard: orderObject.paymentGroupActive.creditCard,
     isCreditCardHolder: riskScoreObject.cardHolder,

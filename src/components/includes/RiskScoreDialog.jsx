@@ -18,18 +18,16 @@ import { StyledBadge } from "./badgezation/StyledBadge";
 import { StyledBadgeRisk } from "./badgezation/StyledBadge";
 import { StyledBadgeWarning } from "./badgezation/StyledBadge";
 
-import RiskScoreDialogChart from "./RiskScoreDialogChart";
+import InsertChartIcon from "@material-ui/icons/InsertChart";
 
-import { Box } from "@material-ui/core";
-
-import TesteDialogChart from "./TesteDialogChart";
+import RiskScoreChart from "./RiskScoreChart";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
     // backgroundColor: theme.palette.warning.dark,
-    // backgroundColor: "#4d6e8a",
-    backgroundColor: "#546d77",
+    backgroundColor: "#4d6e8a",
+    // backgroundColor: "#546d77",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -54,9 +52,7 @@ export default function RiskScoreDialog(props) {
     setOpen(false);
   };
 
-  const handleChartOpen = () => {
-    setIsChartOpen(true);
-  };
+  const handleChartOpen = (e) => setIsChartOpen((prevState) => !prevState);
 
   return (
     <div>
@@ -77,10 +73,10 @@ export default function RiskScoreDialog(props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Pedido {orderDetail.orderId} de {orderDetail.cliente}
+              {orderDetail.cliente}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleChartOpen}>
-              {orderDetail.score > 80 ? (
+              {/* {orderDetail.score > 80 ? (
                 <StyledBadgeRisk
                   badgeContent={orderDetail.score}
                   max={999}
@@ -99,7 +95,8 @@ export default function RiskScoreDialog(props) {
               <IconizeRiskLevel
                 riskLevel={orderDetail.scoreDesc}
                 size="default"
-              />
+              /> */}
+              <InsertChartIcon />
             </Button>
           </Toolbar>
         </AppBar>
@@ -121,7 +118,7 @@ export default function RiskScoreDialog(props) {
               );
             })}
         </List>
-        {isChartOpen && <TesteDialogChart detail={orderDetail} />}
+        {isChartOpen && <RiskScoreChart detail={orderDetail} />}
       </Dialog>
     </div>
   );

@@ -12,6 +12,7 @@ export const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r006",
+    "Cupom",
     "Utilização de Cupom de Desconto emitido pela Área de Atendimento ao Cliente",
     riskScoreObject.giftGuest.score,
     riskScoreObject

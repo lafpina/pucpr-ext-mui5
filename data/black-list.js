@@ -1,6 +1,32 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
+    blackedName: "Alexandra Basia Cogan De Barro",
+    blackedEmail: "abc.debarros1@gmail.com",
+    blackedCPF: "71710164123",
+    blackedPhone: "+5561981128899",
+    blackedPostalCode: "70344-060",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "American Express 379844****1005",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Felipe Barreto",
+    blackedEmail: "feliperbarreto00@gmail.com",
+    blackedCPF: "41728279852",
+    blackedPhone: "+5517991843431",
+    blackedPostalCode: "15025-035",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "Visa 498406****9890",
+    blackedCardCountry: "",
+    blackedDescription: "Fraude Confirmada",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Maria Eugenia",
     blackedEmail: "morenabala4421@gmail.com",
     blackedCPF: "48075350804",
@@ -10,7 +36,7 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "Mastercard 544570****7782",
     blackedCardCountry: "",
-    blackedDescription: "",
+    blackedDescription: "Suspeita de Fraude",
     isBlackListed: true,
   },
   {
@@ -23,7 +49,7 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "Visa 422200****3394",
     blackedCardCountry: "",
-    blackedDescription: "",
+    blackedDescription: "Suspeita de Fraude",
     isBlackListed: true,
   },
   {
@@ -36,7 +62,7 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "Visa 444458****2577",
     blackedCardCountry: "",
-    blackedDescription: "",
+    blackedDescription: "Suspeita de Fraude",
     isBlackListed: true,
   },
   {
@@ -49,7 +75,7 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "Mastercard 544731****9816",
     blackedCardCountry: "",
-    blackedDescription: "",
+    blackedDescription: "Suspeita de Fraude",
     isBlackListed: true,
   },
   {
@@ -62,7 +88,7 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "Mastercard 544731****8513",
     blackedCardCountry: "",
-    blackedDescription: "",
+    blackedDescription: "Fraude Confirmada",
     isBlackListed: true,
   },
   {

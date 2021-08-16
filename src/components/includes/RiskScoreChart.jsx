@@ -7,6 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { useTheme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
 import {
   LineChart,
   Line,
@@ -14,14 +16,17 @@ import {
   YAxis,
   Label,
   ResponsiveContainer,
+  Legend,
+  Tooltip,
+  CartesianGrid,
 } from "recharts";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
     // backgroundColor: theme.palette.warning.dark,
-    // backgroundColor: "#4d6e8a",
-    backgroundColor: "#546d77",
+    backgroundColor: "#968f52",
+    // backgroundColor: "#546d77",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -30,44 +35,44 @@ const useStyles = makeStyles((theme) => ({
   color: "Grey",
 }));
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData("00:00", 0),
-  createData("03:00", 300),
-  createData("06:00", 600),
-  createData("09:00", 800),
-  createData("12:00", 1500),
-  createData("15:00", 2000),
-  createData("18:00", 2400),
-  createData("21:00", 2400),
-  createData("24:00", undefined),
-];
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function TesteDialogChart(props) {
+export default function RiskScoreChart(props) {
   const classes = useStyles();
-
   const theme = useTheme();
-
   const { detail } = props;
-
   const [open, setOpen] = React.useState(true);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  detail.riskScoreLog.sort(function (a, b) {
+    return a.score - b.score;
+  });
+
+  // Generate Sales Data
+  function createData(ruleRef, score) {
+    return { ruleRef, score };
+  }
+
+  // let scoreTotal = detail.riskScoreLog[0].score;
+  let scoreTotal = 0;
+  const data = [];
+  data[0] = createData("Captura", 100);
+
+  for (let i = 0; i <= 13; i++) {
+    scoreTotal += detail.riskScoreLog[i].score;
+    data[i + 1] = createData(detail.riskScoreLog[i].ruleRef, 100 + scoreTotal);
+  }
+
+  console.log(detail.riskScoreLog);
+  console.log(data);
+  console.log(detail);
 
   return (
     <>
       <Dialog
-        // fullScreen
+        fullScreen
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -82,38 +87,43 @@ export default function TesteDialogChart(props) {
             >
               <CloseIcon />
             </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Pedido {detail.orderId} {detail.cliente}
+            </Typography>
           </Toolbar>
         </AppBar>
         {/* Chart */}
-
         <ResponsiveContainer>
           <LineChart
             data={data}
             margin={{
-              top: 16,
-              right: 16,
-              bottom: 0,
-              left: 24,
+              top: 70,
+              right: 100,
+              bottom: 100,
+              left: 100,
             }}
           >
-            <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="ruleRef" stroke={theme.palette.text.secondary} />
             <YAxis stroke={theme.palette.text.secondary}>
               <Label
                 angle={270}
                 position="left"
                 style={{
                   textAnchor: "middle",
-                  fill: theme.palette.text.primary,
+                  fill: theme.palette.text.secondary,
                 }}
               >
-                Volume ($)
+                SCORE
               </Label>
             </YAxis>
+            <Tooltip />
+            {/* <Legend /> */}
             <Line
               type="monotone"
-              dataKey="amount"
+              dataKey="score"
               stroke={theme.palette.primary.main}
-              dot={false}
+              dot={true}
             />
           </LineChart>
         </ResponsiveContainer>

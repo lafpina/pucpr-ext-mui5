@@ -42,6 +42,7 @@ export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r004",
+    "Valor",
     "Relação do valor da compra e a forma de pagamento",
     riskScoreObject.paymentValue.score,
     riskScoreObject

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -9,7 +9,6 @@ import { StyledBadge } from "../badgezation/StyledBadge";
 import { StyledBadgeRisk } from "../badgezation/StyledBadge";
 import { StyledBadgeWarning } from "../badgezation/StyledBadge";
 
-import ResponsiveDialog from "../ResponsiveDialog";
 import RiskScoreDialog from "../RiskScoreDialog";
 
 const LightTooltip = withStyles((theme) => ({
@@ -30,7 +29,8 @@ const LightTooltip = withStyles((theme) => ({
 export const OrderScoreCell = (props) => {
   const { orderDetail } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const handleCellClick = (e) => setIsOpen(true);
+
+  const handleCellClick = (e) => setIsOpen((prevState) => !prevState);
 
   return (
     <>
@@ -68,19 +68,7 @@ export const OrderScoreCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {
-        isOpen && (
-          <RiskScoreDialog orderDetail={orderDetail} />
-
-          // <ResponsiveDialog
-          //   title={"Avaliação do Pedido"}
-          //   score={score}
-          //   scoreDesc={scoreDesc}
-          // />
-        )
-
-        // <SimpleCard />
-      }
+      <>{isOpen && <RiskScoreDialog orderDetail={orderDetail} />}</>
     </>
   );
 };

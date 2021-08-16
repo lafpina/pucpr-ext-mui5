@@ -61,13 +61,13 @@ export const OrderHistoryCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {isOpen && (
+      {/* {isOpen && (
         <ResponsiveDialog
           title={"Histórico de Compras"}
           score=""
           scoreDesc=""
         />
-      )}
+      )} */}
     </>
   );
 };

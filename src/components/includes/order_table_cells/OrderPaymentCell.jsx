@@ -53,7 +53,7 @@ export const OrderPaymentCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {isOpen && <ResponsiveDialog />}
+      {/* {isOpen && <ResponsiveDialog />} */}
     </>
   );
 };
