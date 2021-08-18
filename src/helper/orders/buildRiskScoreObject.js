@@ -1,12 +1,14 @@
 import { determineRisk } from "../utils/determineRisk";
 import { initializeScore } from "../rules/initializeScore";
+
+import { applyHistPurchaseRule } from "../rules/applyHistPurchaseRule";
 import { applyCardHolderRule } from "../rules/applyCardHolderRule";
-import { applyForeignCardRule } from "../rules/applyForeignCardRule";
+import applyForeignCardRule from "../rules/applyForeignCardRule";
 import { applyCouponDiscountRule } from "../rules/applyCouponDiscountRule";
 import { applyGiftRule } from "../rules/applyGiftRule";
 import { applyPaymentMethodRule } from "../rules/applyPaymentMethodRule";
 import { applyCustomProductRule } from "../rules/applyCustomProductRule";
-import { applyHistPurchaseRule } from "../rules/applyHistPurchaseRule";
+
 import { applyShippingRateRule } from "../rules/appplyShippingRateRule";
 import { applyIncompOrdersRule } from "../rules/applyIncompleteOrdersRule";
 import { applyCarrierRule } from "../rules/applyCarrierRule";
@@ -34,7 +36,7 @@ export const buildRiskScoreObject = async (orderObject) => {
   console.log("-----------------------------------------");
 
   riskScoreObject = applyCardHolderRule(orderObject, riskScoreObject);
-  riskScoreObject = applyForeignCardRule(orderObject, riskScoreObject);
+  riskScoreObject = await applyForeignCardRule(orderObject, riskScoreObject);
   riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
   riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
   riskScoreObject = applyShoppingTimeRule(orderObject, riskScoreObject);

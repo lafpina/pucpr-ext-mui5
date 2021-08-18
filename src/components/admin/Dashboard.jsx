@@ -23,7 +23,7 @@ import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
 import Chart from "./Chart";
 
 import { Tooltip } from "@material-ui/core";
-import Fade from '@material-ui/core/Fade';
+import Fade from "@material-ui/core/Fade";
 import ImageAvatars from "../includes/ImageAvatars";
 import Orders from "./Orders";
 import NewOrders from "./NewOrders";
@@ -31,8 +31,10 @@ import TotalRiskAmount from "./TotalRiskAmount";
 // import Image from "next/Image";
 import styles from "../../styles/Home.module.css";
 import Copyright from "../includes/Copyright";
-import { LogoAlerteMe } from "../includes/LogoAlerteMe"
-import Link from "next/link"
+import { LogoAlerteMe } from "../includes/LogoAlerteMe";
+import Link from "next/link";
+
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 import Title from "../includes/Title";
 
@@ -121,14 +123,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LightTooltip = withStyles(theme => ({
+const LightTooltip = withStyles((theme) => ({
   tooltip: {
-      backgroundColor: theme.palette.error.light,
-      // backgroundColor: theme.palette.action.active,
-      color: "Ivory",
-      boxShadow: theme.shadows[2],
-      fontSize: 13,
-  }
+    backgroundColor: theme.palette.error.light,
+    // backgroundColor: theme.palette.action.active,
+    color: "Ivory",
+    boxShadow: theme.shadows[2],
+    fontSize: 13,
+  },
 }))(Tooltip);
 
 function preventDefault(event) {
@@ -155,7 +157,6 @@ export default function Dashboard(props) {
         // style={{ background: "#4e575a" }}
         // style={{ background: "#e4e4e4" }}
         style={{ background: "#4d6e8a" }}
-        
       >
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -181,43 +182,69 @@ export default function Dashboard(props) {
             className={classes.title}
           >
             Dashboard
-
           </Typography>
 
           {/* Notification Whitelist */}
-          <LightTooltip title="VIP" placement="bottom" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
-          <IconButton aria-label="whitelist" color="inherit">
-            <Badge badgeContent={props.notificationWhiteList} color="primary">
-              <FavoriteOutlinedIcon />
-            </Badge>
-          </IconButton>
+          <LightTooltip
+            title="VIP"
+            placement="bottom"
+            arrow
+            interactive
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            aria-label="Cartão"
+          >
+            <IconButton aria-label="whitelist" color="inherit">
+              <Badge badgeContent={props.notificationWhiteList} color="primary">
+                <FavoriteOutlinedIcon />
+              </Badge>
+            </IconButton>
           </LightTooltip>
 
           {/* Notification Blacklist */}
-          <LightTooltip title="Retrições" placement="bottom" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
-          <IconButton aria-label="blacklist" color="inherit">
-            <Badge badgeContent={props.notificationBlackList} color="secondary">
-              <ErrorOutlinedIcon />
-            </Badge>
-          </IconButton>
+          <LightTooltip
+            title="Retrições"
+            placement="bottom"
+            arrow
+            interactive
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            aria-label="Cartão"
+          >
+            <IconButton aria-label="blacklist" color="inherit">
+              <Badge
+                badgeContent={props.notificationBlackList}
+                color="secondary"
+              >
+                <ErrorOutlinedIcon />
+              </Badge>
+            </IconButton>
           </LightTooltip>
 
           {/* Notification Alerts */}
-          <LightTooltip title="Alto Risco" placement="bottom" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Cartão">
-          <IconButton aria-label="notification" color="inherit">
-            <Badge badgeContent={props.notificationAlerts} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <LightTooltip
+            title="Alto Risco"
+            placement="bottom"
+            arrow
+            interactive
+            TransitionComponent={Fade}
+            TransitionProps={{ timeout: 600 }}
+            aria-label="Cartão"
+          >
+            <IconButton aria-label="notification" color="inherit">
+              <Badge badgeContent={props.notificationAlerts} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </LightTooltip>
 
           {/* Avatar */}
-          <ImageAvatars />
-          
+          {/* <ImageAvatars /> */}
+          <ArrowDropDownIcon />
         </Toolbar>
       </AppBar>
 
-      {/* Menu */} 
+      {/* Menu */}
 
       <Drawer
         variant="permanent"
@@ -239,7 +266,6 @@ export default function Dashboard(props) {
         <Divider />
 
         <List>{SecondaryMenuOptions}</List>
-
       </Drawer>
 
       {/* Components Area */}
@@ -248,7 +274,6 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-
             {/* Chart */}
 
             {/* <Grid item xs={12} md={8} lg={9}>
@@ -274,7 +299,6 @@ export default function Dashboard(props) {
                 <NewOrders orders={props.orders} />
               </Paper>
             </Grid>
-
           </Grid>
 
           {/* <div className={classes.seeMore}>

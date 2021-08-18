@@ -15,7 +15,7 @@ export const applyShippingRateRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r003",
-    "Frete",
+    "FTE",
     "Relação entre o valor da compra e o frete pago superior à média",
     riskScoreObject.shippingRate.score,
     riskScoreObject

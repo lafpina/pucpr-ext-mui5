@@ -15,6 +15,10 @@ export const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
     riskScoreObject.final -= 50;
     riskScoreObject.paymentMethod.giftCard.score = -50;
   }
+  if (orderObject.paymentGroupActive.creditCard) {
+    riskScoreObject.final += 5;
+    riskScoreObject.paymentMethod.creditCard.score += 5;
+  }
 
   const score =
     riskScoreObject.paymentMethod.promissory.score +
@@ -24,7 +28,7 @@ export const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r008",
-    "Pagamento",
+    "PAG",
     "Método de Pagamento utilizado",
     score,
     riskScoreObject

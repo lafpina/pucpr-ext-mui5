@@ -69,6 +69,9 @@ export const initializeScore = () => {
     shoppingTime: {
       score: 0,
     },
+    firstBuying: {
+      score: 0,
+    },
     blackListed: {
       qty: 0,
       score: 0,

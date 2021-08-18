@@ -19,8 +19,8 @@ export const applyCarrierRule = (orderObject, riskScoreObject) => {
 
   riskScoreObject = buildRiskScoreLog(
     "r011",
-    "Entrega",
-    "Retirada na Loja ou Entrega expressa sem relação com o DDD de Cadastro do Cliente",
+    "ETG",
+    "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega",
     riskScoreObject.carrier.score,
     riskScoreObject
   );

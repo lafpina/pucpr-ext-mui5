@@ -1,4 +1,5 @@
 import { isBlackListed } from "../../../data/black-list";
+import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 export const applyBlackListRule = (orderObject, riskScoreObject) => {
   let blackedResult = isBlackListed(
@@ -12,7 +13,19 @@ export const applyBlackListRule = (orderObject, riskScoreObject) => {
     orderObject.cardCountry
   );
 
-  if (blackedResult.isBlacked) riskScoreObject.blackListed.qty += 1;
+  if (blackedResult.isBlacked) {
+    riskScoreObject.blackListed.score += 10;
+    riskScoreObject.final += 10;
+    riskScoreObject.blackListed.qty += 1;
+  }
+
+  riskScoreObject = buildRiskScoreLog(
+    "r015",
+    "BLK",
+    "Pedido possui pelo menos um dos 8 parâmetros de restrição",
+    riskScoreObject.blackListed.score,
+    riskScoreObject
+  );
 
   return riskScoreObject;
 };

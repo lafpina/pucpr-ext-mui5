@@ -1,7 +1,8 @@
+import getCreditCardBin from "../api/getCreditCardBin";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 2
-export const applyForeignCardRule = (orderObject, riskScoreObject) => {
+async function applyForeignCardRule(orderObject, riskScoreObject) {
   if (orderObject.paymentGroupActive.creditCard) {
     // Score negatively for foreign credit card
     if (
@@ -13,13 +14,18 @@ export const applyForeignCardRule = (orderObject, riskScoreObject) => {
     }
   }
 
+  // const binData = await getCreditCardBin("522688");
+  // console.log(binData);
+
   riskScoreObject = buildRiskScoreLog(
     "r002",
-    "Emissor",
+    "EMS",
     "Nacionalidade do Emissor do Cartão de Crédito",
     riskScoreObject.foreignCreditCard.score,
     riskScoreObject
   );
 
   return riskScoreObject;
-};
+}
+
+export default applyForeignCardRule;

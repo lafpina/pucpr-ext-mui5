@@ -26,13 +26,15 @@ export const applyCardHolderRule = (orderObject, riskScoreObject) => {
       riskScoreObject.cardHolder.score = -5;
       riskScoreObject.cardHolder.maybe = true;
     } else {
+      // socre negatively if the client isnt the card holder
+      riskScoreObject.cardHolder.score += 5;
       riskScoreObject.cardHolder.no = true;
     }
   }
 
   riskScoreObject = buildRiskScoreLog(
     "r001",
-    "Titular",
+    "TIT",
     "Titularidade do Cartão de Crédito",
     riskScoreObject.cardHolder.score,
     riskScoreObject

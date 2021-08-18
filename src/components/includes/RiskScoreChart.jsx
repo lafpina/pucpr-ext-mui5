@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
     // backgroundColor: theme.palette.warning.dark,
-    backgroundColor: "#968f52",
+    backgroundColor: "#4d6e8a",
+    // backgroundColor: "#968f52",
     // backgroundColor: "#546d77",
   },
   title: {
@@ -46,10 +47,6 @@ export default function RiskScoreChart(props) {
   const [open, setOpen] = React.useState(true);
   const handleClose = () => setOpen(false);
 
-  detail.riskScoreLog.sort(function (a, b) {
-    return a.score - b.score;
-  });
-
   // Generate Sales Data
   function createData(ruleRef, score) {
     return { ruleRef, score };
@@ -60,14 +57,14 @@ export default function RiskScoreChart(props) {
   const data = [];
   data[0] = createData("Captura", 100);
 
-  for (let i = 0; i <= 13; i++) {
+  for (let i = 0; i <= 16; i++) {
     scoreTotal += detail.riskScoreLog[i].score;
     data[i + 1] = createData(detail.riskScoreLog[i].ruleRef, 100 + scoreTotal);
   }
 
-  console.log(detail.riskScoreLog);
-  console.log(data);
-  console.log(detail);
+  // data.sort(function (a, b) {
+  //   return a.ruleRef - b.ruleRef;
+  // });
 
   return (
     <>
@@ -100,7 +97,7 @@ export default function RiskScoreChart(props) {
               top: 70,
               right: 100,
               bottom: 100,
-              left: 100,
+              left: 80,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />

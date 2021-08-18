@@ -94,14 +94,24 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
         }
       }
     }
+  } else {
+    riskScoreObject.final += 5;
+    riskScoreObject.firstBuying.score += 5;
   }
   // }
 
   riskScoreObject = buildRiskScoreLog(
     "r009",
-    "Histórico",
+    "HST",
     "Histórico de Compras do Cliente e a sua relação com a forma de pagamento",
     riskScoreObject.historyPurchase.score,
+    riskScoreObject
+  );
+  riskScoreObject = buildRiskScoreLog(
+    "r017",
+    "FBY",
+    "Primeira compra no Site",
+    riskScoreObject.firstBuying.score,
     riskScoreObject
   );
 
