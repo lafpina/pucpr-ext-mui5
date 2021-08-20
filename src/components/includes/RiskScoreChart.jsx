@@ -57,10 +57,15 @@ export default function RiskScoreChart(props) {
   const data = [];
   data[0] = createData("Captura", 100);
 
-  for (let i = 0; i <= 16; i++) {
-    scoreTotal += detail.riskScoreLog[i].score;
-    data[i + 1] = createData(detail.riskScoreLog[i].ruleRef, 100 + scoreTotal);
+  let i;
+  for (i = 0; i <= 16; i++) {
+    scoreTotal += detail.riskProfile.riskScoreLog[i].score;
+    data[i + 1] = createData(
+      detail.riskProfile.riskScoreLog[i].ruleRef,
+      100 + scoreTotal
+    );
   }
+  data[i + 1] = createData("Final", 100 + scoreTotal);
 
   // data.sort(function (a, b) {
   //   return a.ruleRef - b.ruleRef;

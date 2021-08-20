@@ -1,14 +1,13 @@
-// Fetch VTEX API - GET LIST ORDERS
-import getURL from "../../components/lib/api/getURL";
-import getOption from "../../components/lib/api/getOption";
+import getURL from "../../helper/api/getURL";
+import getOption from "../../helper/api/getOption";
 
-async function getVTEXListOrdersAPI(req, res) {
+const getClientHistory = async (req, res) => {
   let clientOrders;
-  if (req.method === "POST") {
-    let url = getURL("list", null);
+  if (req.method === "GET") {
+    let url = getURL("query", null);
     let options = getOption("order");
 
-    let res = await fetch(url, options);
+    const res = await fetch(url, options);
 
     if (res.ok) {
       const data = await res.json();
@@ -20,6 +19,4 @@ async function getVTEXListOrdersAPI(req, res) {
     res.status(405);
     res.json({ message: "Method Not Allowed", clientOrders: [] });
   }
-}
-
-export default getVTEXListOrdersAPI;
+};

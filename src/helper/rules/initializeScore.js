@@ -35,6 +35,9 @@ export const initializeScore = () => {
       profile: {
         qty: 0,
         value: 0,
+        isGT90History: false,
+        isGT60History: false,
+        isGT40History: false,
         isGiftHistory: false,
         isPromissoryHistory: false,
         isPixHistory: false,

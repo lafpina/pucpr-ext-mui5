@@ -27,7 +27,6 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     cliente: orderObject.clientName.substr(0, 30),
     qtyPurchase: riskScoreObject.historyPurchase.profile.qty,
     valuePurchase: riskScoreObject.historyPurchase.profile.value,
-    // creationTime: Date(orderObject.creationDate).getHours(),
     dataCompra:
       orderObject.creationDate.substr(0, 5) +
       " " +
@@ -56,7 +55,6 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     payMethod: paymentOption,
     incompleteOrders: riskScoreObject.incompleteOrders.qty,
     creditCard: orderObject.creditCard,
-    riskScoreLog: riskScoreObject.riskScoreLog,
 
     history: [
       {

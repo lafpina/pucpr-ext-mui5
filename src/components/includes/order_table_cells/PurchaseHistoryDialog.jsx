@@ -13,21 +13,14 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 
-import { IconizeRiskLevel } from "./iconization/IconizeRiskLevel";
-import { StyledBadge } from "./badgezation/StyledBadge";
-import { StyledBadgeRisk } from "./badgezation/StyledBadge";
-import { StyledBadgeWarning } from "./badgezation/StyledBadge";
-
 import InsertChartIcon from "@material-ui/icons/InsertChart";
 
-import RiskScoreChart from "./RiskScoreChart";
+import RiskScoreChart from "../RiskScoreChart";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
-    // backgroundColor: theme.palette.warning.dark,
     backgroundColor: "#4d6e8a",
-    // backgroundColor: "#546d77",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -40,7 +33,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function RiskScoreDialog(props) {
+export default function PurchaseHistoryDialog(props) {
   const classes = useStyles();
 
   const { orderDetail } = props;
@@ -76,32 +69,13 @@ export default function RiskScoreDialog(props) {
               {orderDetail.cliente}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleChartOpen}>
-              {/* {orderDetail.score > 80 ? (
-                <StyledBadgeRisk
-                  badgeContent={orderDetail.score}
-                  max={999}
-                ></StyledBadgeRisk>
-              ) : orderDetail.score > 60 ? (
-                <StyledBadgeWarning
-                  badgeContent={orderDetail.score}
-                  max={999}
-                ></StyledBadgeWarning>
-              ) : (
-                <StyledBadge
-                  badgeContent={orderDetail.score}
-                  max={999}
-                ></StyledBadge>
-              )}
-              <IconizeRiskLevel
-                riskLevel={orderDetail.scoreDesc}
-                size="default"
-              /> */}
               <InsertChartIcon />
             </Button>
           </Toolbar>
         </AppBar>
         <List>
-          {orderDetail.riskProfile.riskScoreLog
+          {console.log(orderDetail)}
+          {orderDetail.riskScoreLog
             .filter((rule) => rule.score != 0)
             .map((rule, ruleId) => {
               return (

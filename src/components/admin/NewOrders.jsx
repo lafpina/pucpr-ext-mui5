@@ -68,17 +68,16 @@ function Row(props) {
           paymentMethod={row.payMethod}
         />
         <OrderShippingToCell shippingTo={row.destino} />
-        <OrderHistoryCell
-          valuePurchase={row.valuePurchase}
-          qtyPurchase={row.qtyPurchase}
-          blackListed={row.blackListed}
-          whiteListed={row.whiteListed}
-        />
+
+        <OrderHistoryCell orderDetail={row} />
+
         <OrderGiftCell giftId={row.giftId} giftName={row.giftName} />
+
         <OrderStatusCell
           statusDescription={row.statusDescription}
           status={row.status}
         />
+
         <OrderScoreCell orderDetail={row} />
       </TableRow>
 

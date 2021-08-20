@@ -1,6 +1,19 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
+    blackedName: "Debora Nack Cordeiro",
+    blackedEmail: "deboranack_@hotmail.com",
+    blackedCPF: "05358732985",
+    blackedPhone: "+5547997103819",
+    blackedPostalCode: "89480-000",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "Mastercard 522688****8941",
+    blackedCardCountry: "",
+    blackedDescription: "Cliente cancelou por não concordar em ser autenticada",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Roseli Simões",
     blackedEmail: "setecyber9@gmail.com",
     blackedCPF: "01740200900",
@@ -10,7 +23,7 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "Visa 455183****0782",
     blackedCardCountry: "",
-    blackedDescription: "Fraude",
+    blackedDescription: "Dado como Fraude pela Pagarme.",
     isBlackListed: true,
   },
   {

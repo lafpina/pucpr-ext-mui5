@@ -7,9 +7,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { StyledBadgeHist } from "../badgezation/StyledBadge";
 import { IconizePurchaseProfile } from "../iconization/IconizePurchaseProfile";
 import setCurrency from "../../../helper/utils/setCurrency";
-import { SettingsPowerRounded } from "@material-ui/icons";
 
-import ResponsiveDialog from "../ResponsiveDialog";
+import PurchaseHistoryDialog from "./PurchaseHistoryDialog";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -23,7 +22,7 @@ const LightTooltip = withStyles((theme) => ({
 <StyledBadgeHist />;
 
 export const OrderHistoryCell = (props) => {
-  const { valuePurchase, qtyPurchase, blackListed, whiteListed } = props;
+  const { orderDetail } = props;
   const [isOpen, setIsOpen] = useState(false);
   const handleCellClick = (e) => setIsOpen(true);
 
@@ -32,8 +31,9 @@ export const OrderHistoryCell = (props) => {
       <TableCell onClick={handleCellClick} align="center">
         <LightTooltip
           title={
-            valuePurchase
-              ? "Histórico total de compras de  " + setCurrency(valuePurchase)
+            orderDetail.valuePurchase
+              ? "Histórico total de compras de  " +
+                setCurrency(orderDetail.valuePurchase)
               : "Primeira compra"
           }
           placement="top-end"
@@ -44,30 +44,24 @@ export const OrderHistoryCell = (props) => {
           aria-label="Order History"
         >
           <IconButton>
-            {qtyPurchase > 0 ? (
+            {orderDetail.qtyPurchase > 0 ? (
               <StyledBadgeHist
-                badgeContent={qtyPurchase}
+                badgeContent={orderDetail.qtyPurchase}
                 max={999}
               ></StyledBadgeHist>
             ) : (
               ""
             )}
             <IconizePurchaseProfile
-              qtyPurchase={qtyPurchase}
-              blackListed={blackListed}
-              whiteListed={whiteListed}
+              qtyPurchase={orderDetail.qtyPurchase}
+              blackListed={orderDetail.blackListed}
+              whiteListed={orderDetail.whiteListed}
               size="default"
             />
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {/* {isOpen && (
-        <ResponsiveDialog
-          title={"Histórico de Compras"}
-          score=""
-          scoreDesc=""
-        />
-      )} */}
+      <>{isOpen && <PurchaseHistoryDialog orderDetail={orderDetail} />}</>
     </>
   );
 };

@@ -6,6 +6,7 @@ export async function getCreditCardBin(bin) {
   let binData = null;
 
   console.log(data.status);
+
   if (data.status == 200) {
     // const binData = await data.json();
     // console.log(res);

@@ -6,7 +6,11 @@ export async function lookForPurchaseHistory(query) {
   let historyPurchaseProfile = {
     qty: 0,
     value: 0,
+    isGT90History: false,
+    isGT60History: false,
+    isGT40History: false,
     isGiftHistory: false,
+    isGT999valHistory: false,
     isPromissoryHistory: false,
     isPixHistory: false,
     dateFirstBuy: " ",
@@ -29,7 +33,7 @@ export async function lookForPurchaseHistory(query) {
       clientOrders.list[qtyPurchase - 1].creationDate;
 
     for (let i = 0; i < qtyPurchase; ++i) {
-      if (clientOrders.list[i].status == "invoiced") {
+      if (clientOrders.list[i].status === "invoiced") {
         qtyInvoiced += 1;
         historyPurchaseProfile.qty += 1;
         historyPurchaseProfile.value += clientOrders.list[i].totalValue;
