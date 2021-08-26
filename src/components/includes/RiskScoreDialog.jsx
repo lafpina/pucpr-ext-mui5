@@ -55,28 +55,27 @@ export default function RiskScoreDialog(props) {
   const handleChartOpen = (e) => setIsChartOpen((prevState) => !prevState);
 
   return (
-    <div>
-      <Dialog
-        // fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              {orderDetail.cliente}
-            </Typography>
-            <Button autoFocus color="inherit" onClick={handleChartOpen}>
-              {/* {orderDetail.score > 80 ? (
+    <Dialog
+      // fullScreen
+      open={open}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            {orderDetail.cliente}
+          </Typography>
+          <Button autoFocus color="inherit" onClick={handleChartOpen}>
+            {/* {orderDetail.score > 80 ? (
                 <StyledBadgeRisk
                   badgeContent={orderDetail.score}
                   max={999}
@@ -96,30 +95,29 @@ export default function RiskScoreDialog(props) {
                 riskLevel={orderDetail.scoreDesc}
                 size="default"
               /> */}
-              <InsertChartIcon />
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <List>
-          {orderDetail.riskProfile.riskScoreLog
-            .filter((rule) => rule.score != 0)
-            .map((rule, ruleId) => {
-              return (
-                <div key={ruleId}>
-                  <ListItem key={ruleId} button>
-                    <ListItemText
-                      id={rule.ruleId}
-                      primary={rule.ruleName}
-                      secondary={"score " + rule.score}
-                    />
-                  </ListItem>
-                  <Divider />
-                </div>
-              );
-            })}
-        </List>
-        {isChartOpen && <RiskScoreChart detail={orderDetail} />}
-      </Dialog>
-    </div>
+            <InsertChartIcon />
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <List>
+        {orderDetail.riskProfile.riskScoreLog
+          .filter((rule) => rule.score != 0)
+          .map((rule, ruleId) => {
+            return (
+              <div key={ruleId}>
+                <ListItem key={ruleId} button>
+                  <ListItemText
+                    id={rule.ruleId}
+                    primary={rule.ruleName}
+                    secondary={"score " + rule.score}
+                  />
+                </ListItem>
+                <Divider />
+              </div>
+            );
+          })}
+      </List>
+      {isChartOpen && <RiskScoreChart detail={orderDetail} />}
+    </Dialog>
   );
 }

@@ -1,6 +1,47 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
+    blackedName: "",
+    blackedEmail: "marinasantoslemos30@gmail.com.br",
+    blackedCPF: "",
+    blackedPhone: "",
+    blackedPostalCode: "",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "",
+    blackedCardCountry: "",
+    blackedDescription:
+      "Monitorando apenas. Preciso identificar o uso do cupom",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Elisandra Barbosa",
+    blackedEmail: "elisandra_ce@yahoo.com.br",
+    blackedCPF: "32536201821",
+    blackedPhone: "+5543984233191",
+    blackedPostalCode: "86040-450",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "",
+    blackedCardCountry: "",
+    blackedDescription:
+      "Cliente comprou, reclamou das parcelas e reportou como fraude",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Naia Martins",
+    blackedEmail: "naia_serena@hotmail.com",
+    blackedCPF: "36139627800",
+    blackedPhone: "+5562996808142",
+    blackedPostalCode: "73770-000",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "",
+    blackedCardCountry: "",
+    blackedDescription: "Cliente com comportamento suspeito. Compra e cancela",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Debora Nack Cordeiro",
     blackedEmail: "deboranack_@hotmail.com",
     blackedCPF: "05358732985",

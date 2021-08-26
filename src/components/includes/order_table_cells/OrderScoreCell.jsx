@@ -68,7 +68,7 @@ export const OrderScoreCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      <>{isOpen && <RiskScoreDialog orderDetail={orderDetail} />}</>
+      {isOpen && <RiskScoreDialog orderDetail={orderDetail} />}
     </>
   );
 };

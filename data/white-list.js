@@ -1,5 +1,53 @@
 const WHITE_LIST = [
   {
+    whitedEmail: "byfc33@gmail.com",
+    whitedCPF: "09384902144",
+    whitedName: "Brenda Faz",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "mfranchin@hotmail.com",
+    whitedCPF: "21995806870",
+    whitedName: "Marcela Franchin Di Francisco",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "beataramis@gmail.com",
+    whitedCPF: "44294165839",
+    whitedName: "Beatriz Otsuka",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "buenobt@gmail.com",
+    whitedCPF: "90144066653",
+    whitedName: "Bruno Bueno",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "amandacdaa@gmail.com",
+    whitedCPF: "97985961291",
+    whitedName: "Amanda Amazonas",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "amandacs106@gmail.com",
+    whitedCPF: "10994039794",
+    whitedName: "Amanda Da Silva",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "rv.bianca@gmail.com",
+    whitedCPF: "22326982894",
+    whitedName: "Bianca Reis Verderosi",
+    isWhiteListed: true,
+  },
+  {
+    whitedEmail: "patymiyagi@gmail.com",
+    whitedCPF: "38394990894",
+    whitedName: "Patricia Miyagi",
+    isWhiteListed: true,
+  },
+  {
     whitedEmail: "deiafeldon@gmail.com",
     whitedCPF: "35637421897",
     whitedName: "Andrea Feldon",

@@ -44,6 +44,7 @@ export const applyEmailRule = (orderObject, riskScoreObject) => {
     "globo",
     "msn",
     "terra",
+    "live",
   ];
   for (var i = 0; i < freeEmail.length; i++) {
     if (orderObject.clientEmail.indexOf(freeEmail[i]) != -1) {
@@ -64,7 +65,7 @@ export const applyEmailRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r013",
     "EML",
-    "Email de cadastro sem relação com o nome do cliente, ou desconhecido ou muito longo",
+    "Email de cadastro sem relação com o nome do cliente, ou de domínio desconhecido, ou muito longo",
     riskScoreObject.validEmail.score,
     riskScoreObject
   );

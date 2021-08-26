@@ -8,7 +8,7 @@ import { StyledBadgeHist } from "../badgezation/StyledBadge";
 import { IconizePurchaseProfile } from "../iconization/IconizePurchaseProfile";
 import setCurrency from "../../../helper/utils/setCurrency";
 
-import PurchaseHistoryDialog from "./PurchaseHistoryDialog";
+import PurchaseHistoryDialog from "../PurchaseHistoryDialog";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -24,7 +24,7 @@ const LightTooltip = withStyles((theme) => ({
 export const OrderHistoryCell = (props) => {
   const { orderDetail } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const handleCellClick = (e) => setIsOpen(true);
+  const handleCellClick = (e) => setIsOpen((prevState) => !prevState);
 
   return (
     <>
@@ -61,7 +61,7 @@ export const OrderHistoryCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      <>{isOpen && <PurchaseHistoryDialog orderDetail={orderDetail} />}</>
+      {isOpen && <PurchaseHistoryDialog orderDetail={orderDetail} />}
     </>
   );
 };
