@@ -63,9 +63,10 @@ function Row(props) {
         <OrderItemCell item={row.items} itemName={row.itemName} />
         <OrderValueCell value={row.valor} />
         <OrderPaymentCell
-          creditCard={row.creditCard}
-          incompleteOrders={row.incompleteOrders}
-          paymentMethod={row.payMethod}
+          orderDetail={row}
+          // creditCard={row.creditCard}
+          // incompleteOrders={row.incompleteOrders}
+          // paymentMethod={row.payMethod}
         />
         <OrderShippingToCell shippingTo={row.destino} />
 

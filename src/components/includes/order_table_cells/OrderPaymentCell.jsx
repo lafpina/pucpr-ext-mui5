@@ -5,9 +5,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { withStyles } from "@material-ui/core/styles";
 import { StyledBadgeIncompleteOrders } from "../badgezation/StyledBadge";
 import { IconizePaymentOption } from "../iconization/IconizePaymentOption";
-import { SettingsPowerRounded } from "@material-ui/icons";
 import { useState } from "react";
-import ResponsiveDialog from "../ResponsiveDialog";
+import IncompleteOrdersDialog from "../IncompleteOrdersDialog";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -21,19 +20,17 @@ const LightTooltip = withStyles((theme) => ({
 <StyledBadgeIncompleteOrders />;
 
 export const OrderPaymentCell = (props) => {
-  const { creditCard, incompleteOrders, paymentMethod } = props;
-  const [isOpen, setOpen] = useState(false);
+  // const { creditCard, incompleteOrders, paymentMethod } = props;
+  const { orderDetail } = props;
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleCellClick = (e) => {
-    e.preventDefault();
-    setOpen(true);
-  };
+  const handleCellClick = (e) => setIsOpen((prevState) => !prevState);
 
   return (
     <>
       <TableCell onClick={handleCellClick} align="center">
         <LightTooltip
-          title={creditCard}
+          title={orderDetail.creditCard}
           placement="top"
           arrow
           interactive
@@ -42,18 +39,21 @@ export const OrderPaymentCell = (props) => {
           aria-label="creditCard"
         >
           <IconButton>
-            {incompleteOrders > 0 ? (
+            {orderDetail.incompleteOrders > 0 ? (
               <StyledBadgeIncompleteOrders
-                badgeContent={incompleteOrders}
+                badgeContent={orderDetail.incompleteOrders}
               ></StyledBadgeIncompleteOrders>
             ) : (
               " "
             )}
-            <IconizePaymentOption payMethod={paymentMethod} size="default" />
+            <IconizePaymentOption
+              payMethod={orderDetail.payMethod}
+              size="default"
+            />
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {/* {isOpen && <ResponsiveDialog />} */}
+      {isOpen && <IncompleteOrdersDialog orderDetail={orderDetail} />}
     </>
   );
 };

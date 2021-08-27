@@ -32,7 +32,8 @@ import RiskScoreChart from "./RiskScoreChart";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
-    backgroundColor: "#4d6e8a",
+    // backgroundColor: "#4d6e8a",
+    backgroundColor: "#b1a878",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -66,7 +67,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function PurchaseHistoryDialog(props) {
+export default function IncompleteOrdersDialog(props) {
   const classes = useStyles();
   const { orderDetail } = props;
   // const handleChartOpen = (e) => setIsChartOpen((prevState) => !prevState);
@@ -76,33 +77,17 @@ export default function PurchaseHistoryDialog(props) {
   const [open, setOpen] = useState(true);
   const [historyItems, setHistoryItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
-  const [totalValue, setTotalValue] = useState(0);
 
   const handleClose = () => setOpen(false);
 
   useEffect(async () => {
     setCpf(orderDetail.history[0].cpf);
-    const url = `/api/history/${cpf}`;
+    const url = `/api/incomplete/${cpf}`;
     const response = await fetch(url, { method: "GET" });
     const data = await response.json();
     setHistoryItems(data.history.list);
     setLoading(false);
   }, []);
-
-  useEffect(() => {
-    // get sum of totalValue prop across all objects in array
-    const total = historyItems.reduce(function (prev, cur) {
-      return cur.status == "invoiced" ? prev + cur.totalValue : prev;
-    }, 0);
-    setTotalValue(total);
-  }, [!loading]);
-
-  function sumUpInvoiced() {
-    const totalInvoiced = historyItems.reduce(function (prev, cur) {
-      return cur.status == "invoiced" ? prev + 1 : prev;
-    }, 0);
-    return totalInvoiced;
-  }
 
   return (
     <Dialog
@@ -123,7 +108,7 @@ export default function PurchaseHistoryDialog(props) {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {orderDetail.cliente}
+            Tentativas de Compra
           </Typography>
           {/* <Button autoFocus color="inherit" onClick={handleChartOpen}>
             <InsertChartIcon />
@@ -133,18 +118,8 @@ export default function PurchaseHistoryDialog(props) {
       <List>
         <ListItem>
           <ListItemText
-            primary={"Perfil de risco " + orderDetail.scoreDesc}
-            secondary={
-              (sumUpInvoiced() > 0 &&
-                sumUpInvoiced() +
-                  " " +
-                  (historyItems.length > 1
-                    ? "pedidos faturados"
-                    : "pedido faturado") +
-                  " no valor total de " +
-                  setCurrency(totalValue)) ||
-              "Nenhum pedido ainda faturado"
-            }
+            primary={orderDetail.cliente}
+            secondary={"Total de tentativas: " + historyItems.length}
           />
         </ListItem>
       </List>
