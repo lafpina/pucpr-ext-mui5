@@ -32,7 +32,7 @@ function getURL(fetchTarget, filter) {
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=${filter}&per_page=100&page=1`;
 
     case "incompleteOrdersByCpf":
-      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true&q=​${filter}`;
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true&per_page=100&page=1`;
 
     case "masterdata":
       return `http://api.vtexcrm.com.br/fraldasdipano/dataentities/CL/search/?userId=${filter}&_fields=email`;

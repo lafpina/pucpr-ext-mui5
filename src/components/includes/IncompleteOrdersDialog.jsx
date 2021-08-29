@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "#9bb2c7",
+    backgroundColor: "#c4bb87",
     color: theme.palette.common.white,
   },
   body: {
@@ -74,6 +74,7 @@ export default function IncompleteOrdersDialog(props) {
   // const [isChartOpen, setIsChartOpen] = useState(false);
 
   const [cpf, setCpf] = useState(orderDetail.history[0].cpf);
+  const [clientName, setClientName] = useState(orderDetail.cliente);
   const [open, setOpen] = useState(true);
   const [historyItems, setHistoryItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
@@ -81,18 +82,19 @@ export default function IncompleteOrdersDialog(props) {
   const handleClose = () => setOpen(false);
 
   useEffect(async () => {
-    setCpf(orderDetail.history[0].cpf);
-    const url = `/api/incomplete/${cpf}`;
+    setClientName(orderDetail.cliente);
+    const url = `/api/incomplete/${clientName}`;
     const response = await fetch(url, { method: "GET" });
     const data = await response.json();
-    setHistoryItems(data.history.list);
+    console.log("Data History=> ", data.history);
+    setHistoryItems(data.history);
     setLoading(false);
   }, []);
 
   return (
     <Dialog
       // fullScreen
-      maxWidth
+      maxWidth="lg"
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}
@@ -149,7 +151,7 @@ export default function IncompleteOrdersDialog(props) {
                 {historyItems.map((item, orderId) => (
                   <StyledTableRow key={orderId}>
                     <StyledTableCell component="th" scope="row">
-                      {formatTZOrderDate(item.creationDate).substr(0, 10)}
+                      {formatTZOrderDate(item.creationDate)}
                     </StyledTableCell>
                     <StyledTableCell align="right">
                       {item.orderId.substr(1, 6)}
