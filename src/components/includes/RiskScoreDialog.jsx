@@ -57,6 +57,7 @@ export default function RiskScoreDialog(props) {
   return (
     <Dialog
       // fullScreen
+      maxWidth
       open={open}
       onClose={handleClose}
       TransitionComponent={Transition}

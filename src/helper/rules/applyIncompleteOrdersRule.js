@@ -1,16 +1,17 @@
 import { getIncompleteOrders } from "../api/getIncompleteOrders";
+import { getIncompleteOrdersByCpf } from "../api/getIncompleteOrdersByCpf";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 10
 export const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
   // Any incompete order will be scored negatively
-  riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(
-    orderObject.clientName
-  );
-
-  // riskScoreObject.incompleteOrders.qty = await getIncompleteOrdersByCpf(
-  //   orderObject.cpf
+  // riskScoreObject.incompleteOrders.qty = await getIncompleteOrders(
+  //   orderObject.clientName
   // );
+
+  riskScoreObject.incompleteOrders.qty = await getIncompleteOrdersByCpf(
+    orderObject.cpf
+  );
 
   if (riskScoreObject.incompleteOrders.qty > 0) {
     switch (riskScoreObject.incompleteOrders.qty) {

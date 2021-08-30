@@ -125,6 +125,7 @@ export default function RiskScoreChart(props) {
               type="monotone"
               dataKey="score"
               stroke={theme.palette.primary.main}
+              // stroke="red"
               dot={true}
             />
           </LineChart>

@@ -60,7 +60,9 @@ function Row(props) {
         <OrderIdCell orderId={row.orderId} />
         <OrderCreateDateCell createDate={row.dataCompra} />
         <OrderClientCell client={row.cliente} />
-        <OrderItemCell item={row.items} itemName={row.itemName} />
+
+        <OrderItemCell orderDetail={row} />
+
         <OrderValueCell value={row.valor} />
         <OrderPaymentCell
           orderDetail={row}

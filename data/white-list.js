@@ -1,5 +1,11 @@
 const WHITE_LIST = [
   {
+    whitedEmail: "danidietz@gmail.com",
+    whitedCPF: "00830935088",
+    whitedName: "Daniela Dietz Viana",
+    isWhiteListed: true,
+  },
+  {
     whitedEmail: "byfc33@gmail.com",
     whitedCPF: "09384902144",
     whitedName: "Brenda Faz",

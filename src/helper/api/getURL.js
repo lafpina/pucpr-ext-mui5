@@ -25,17 +25,14 @@ function getURL(fetchTarget, filter) {
 
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=${parmPerPage}&page=${page}`;
 
-    // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=30&page=1";
-    // return "https://fraldasdipano.vtexcommercestable.com.br/api/oms/pvt/orders?f_status=invoiced";
-
     case "incompleteOrders":
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=${filter}&per_page=100&page=1`;
 
-    case "incompleteOrdersByCpf":
-      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true&per_page=100&page=1`;
-
     case "masterdata":
       return `http://api.vtexcrm.com.br/fraldasdipano/dataentities/CL/search/?userId=${filter}&_fields=email`;
+
+    case "IOCPF":
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true&q=${filter}`;
   }
 }
 
