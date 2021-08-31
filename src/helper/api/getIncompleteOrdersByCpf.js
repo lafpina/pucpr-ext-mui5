@@ -7,16 +7,14 @@ export async function getIncompleteOrdersByCpf(cpf) {
 
   let res = await fetch(url, options);
 
-  let qtyIncompleteOrdersByCpf;
+  let incompleteOrders = [];
 
   if (res.ok) {
     const data = await res.json();
-    const incompleteOrdersByCpf = JSON.parse(JSON.stringify(data));
-    qtyIncompleteOrdersByCpf = incompleteOrdersByCpf.list.length;
+    incompleteOrders = JSON.parse(JSON.stringify(data));
   } else {
     console.log("Não achou o cliente Incomplete Orders CPF!!!", cpf);
-    qtyIncompleteOrdersByCpf = 0;
   }
 
-  return qtyIncompleteOrdersByCpf;
+  return incompleteOrders;
 }

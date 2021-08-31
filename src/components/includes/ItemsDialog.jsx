@@ -47,7 +47,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "#729dad",
+    backgroundColor: "#9bb2c7",
     color: theme.palette.common.white,
   },
   body: {
@@ -108,6 +108,21 @@ export default function ItemsDialog(props) {
           </Typography>
         </Toolbar>
       </AppBar>
+
+      <List>
+        <ListItem>
+          <ListItemText
+            primary={"Pedido " + orderDetail.orderId}
+            secondary={
+              "Total de " +
+              historyItems.length +
+              " itens " +
+              "em " +
+              orderDetail.dataCompra
+            }
+          />
+        </ListItem>
+      </List>
 
       <TableContainer component={Paper}>
         <Table
