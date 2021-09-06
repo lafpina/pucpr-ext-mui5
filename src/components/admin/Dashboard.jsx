@@ -229,7 +229,7 @@ export default function Dashboard(props) {
             interactive
             TransitionComponent={Fade}
             TransitionProps={{ timeout: 600 }}
-            aria-label="Cartão"
+            aria-label="Notification"
           >
             <IconButton aria-label="notification" color="inherit">
               <Badge badgeContent={props.notificationAlerts} color="error">
