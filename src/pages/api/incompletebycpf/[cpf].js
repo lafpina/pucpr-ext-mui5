@@ -1,5 +1,7 @@
 import getURL from "../../../helper/api/getURL";
 import getOption from "../../../helper/api/getOption";
+import { ContactSupportOutlined } from "@material-ui/icons";
+import formaTZOrderDate from "../../../helper/utils/formatTZOrderDate";
 
 async function handler(req, res) {
   if (req.method === "GET") {
@@ -17,7 +19,10 @@ async function handler(req, res) {
 
     if (data.ok) {
       const history = await data.json();
-      res.status(200).json({ history: history.list });
+
+      const objIncompleteOrders = await buildObjIncompleteOrders(history.list);
+
+      res.status(200).json({ history: objIncompleteOrders });
     } else {
       res.status(500).json({ message: "Erro ao acessar os dados no servidor" });
     }
@@ -27,3 +32,64 @@ async function handler(req, res) {
 }
 
 export default handler;
+
+const buildObjIncompleteOrders = async (history) => {
+  const options = getOption("order");
+
+  const obj = [];
+
+  const objIncompleteOrders = {
+    date: "",
+    orderId: "",
+    items: "",
+    value: "",
+    payment: "",
+    list: "",
+    status: "",
+    firstDigits: "",
+    lastDigits: "",
+    installments: "",
+    tid: "",
+    reason: "",
+  };
+
+  for (let i = 0; i < history.length; i++) {
+    const fullDate = formaTZOrderDate(history[i].creationDate);
+    const partialDate = fullDate.substr(0, 5) + " " + fullDate.substr(11, 5);
+    objIncompleteOrders.date = partialDate;
+    objIncompleteOrders.orderId = history[i].orderId;
+    objIncompleteOrders.items = history[i].totalItems;
+    objIncompleteOrders.value = history[i].totalValue;
+    objIncompleteOrders.payment = history[i].paymentNames;
+    objIncompleteOrders.list = history[i].listId;
+    objIncompleteOrders.statusDescription = "Incompleto";
+
+    const url = getURL("order", history[i].orderId);
+    const result = await fetch(url, options);
+    if (result.ok) {
+      const getOrder = await result.json();
+
+      objIncompleteOrders.creditCard =
+        history[i].paymentNames +
+        " " +
+        (getOrder.paymentData.transactions[0].payments[0].group == "creditCard"
+          ? getOrder.paymentData.transactions[0].payments[0].firstDigits +
+            "****" +
+            getOrder.paymentData.transactions[0].payments[0].lastDigits
+          : " ");
+
+      objIncompleteOrders.installments =
+        getOrder.paymentData.transactions[0].payments[0].installments;
+      objIncompleteOrders.tid =
+        getOrder.paymentData.transactions[0].payments[0].tid;
+      objIncompleteOrders.reason = getOrder.cancelReason;
+    } else {
+      objIncompleteOrders.creditCard = "-";
+      objIncompleteOrders.installments = "-";
+      objIncompleteOrders.tid = "-";
+      objIncompleteOrders.reason = "-";
+    }
+    obj.push(objIncompleteOrders);
+  }
+  return obj;
+};

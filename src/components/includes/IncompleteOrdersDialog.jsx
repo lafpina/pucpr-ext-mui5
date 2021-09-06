@@ -8,7 +8,8 @@ import Paper from "@material-ui/core/Paper";
 
 import React from "react";
 import { useState, useEffect } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 import Dialog from "@material-ui/core/Dialog";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
@@ -77,6 +78,7 @@ export default function IncompleteOrdersDialog(props) {
   const [open, setOpen] = useState(true);
   const [historyItems, setHistoryItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
+  const [item, setItem] = useState({});
 
   const handleClose = () => setOpen(false);
 
@@ -90,8 +92,26 @@ export default function IncompleteOrdersDialog(props) {
     const data = await response.json();
     console.log("Data History=> ", data.history);
     setHistoryItems(data.history);
+    getCurrentOrder();
     setLoading(false);
   }, []);
+
+  const getCurrentOrder = () => {
+    const item = {
+      orderId: `v${orderDetail.orderId}frdp-01`,
+      date: orderDetail.dataCompra,
+      value: orderDetail.valor,
+      items: orderDetail.items,
+      list: orderDetail.giftId,
+      payment: orderDetail.payMethod,
+      creditCard: orderDetail.creditCard,
+      installments: orderDetail.history[0].parcelas,
+      tid: "",
+      statusDescription: orderDetail.statusDescription,
+      reason: "-",
+    };
+    setItem(item);
+  };
 
   return (
     <Dialog
@@ -123,7 +143,9 @@ export default function IncompleteOrdersDialog(props) {
         <ListItem>
           <ListItemText
             primary={orderDetail.cliente}
-            secondary={"Total de tentativas: " + historyItems.length}
+            secondary={
+              "Total de tentativas incompletas: " + historyItems.length
+            }
           />
         </ListItem>
       </List>
@@ -140,9 +162,12 @@ export default function IncompleteOrdersDialog(props) {
               <StyledTableCell align="right">Pedido</StyledTableCell>
               <StyledTableCell align="center">Itens</StyledTableCell>
               <StyledTableCell align="right">Valor</StyledTableCell>
-              <StyledTableCell align="right">Pagamento</StyledTableCell>
               <StyledTableCell align="right">Lista</StyledTableCell>
+              <StyledTableCell align="center">Pagamento</StyledTableCell>
+              <StyledTableCell align="right">Parcelas</StyledTableCell>
+              {/* <StyledTableCell align="center">TID</StyledTableCell> */}
               <StyledTableCell align="left">Status</StyledTableCell>
+              <StyledTableCell align="center">Motivo</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -150,30 +175,9 @@ export default function IncompleteOrdersDialog(props) {
               "Buscando dados históricos..."
             ) : (
               <>
+                <FormatDetailLine detailLine={item} index={item.orderId} />
                 {historyItems.map((item, orderId) => (
-                  <StyledTableRow key={orderId}>
-                    <StyledTableCell component="th" scope="row">
-                      {formatTZOrderDate(item.creationDate)}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {item.orderId.substr(1, 6)}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {item.totalItems}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {setCurrency(item.totalValue)}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {item.paymentNames}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {item.listId}
-                    </StyledTableCell>
-                    <StyledTableCell align="left">
-                      {item.statusDescription}
-                    </StyledTableCell>
-                  </StyledTableRow>
+                  <FormatDetailLine detailLine={item} index={orderId} />
                 ))}
               </>
             )}
@@ -185,3 +189,35 @@ export default function IncompleteOrdersDialog(props) {
     </Dialog>
   );
 }
+
+const FormatDetailLine = (props) => {
+  const { detailLine, index } = props;
+
+  return (
+    <>
+      <StyledTableRow key={index}>
+        <StyledTableCell component="th" scope="row">
+          {detailLine.date}
+        </StyledTableCell>
+        <StyledTableCell align="right">
+          {detailLine.orderId.substr(1, 6)}
+        </StyledTableCell>
+        <StyledTableCell align="center">{detailLine.items}</StyledTableCell>
+        <StyledTableCell align="right">
+          {setCurrency(detailLine.value)}
+        </StyledTableCell>
+        <StyledTableCell align="right">{detailLine.list}</StyledTableCell>
+        <StyledTableCell align="center">
+          {detailLine.creditCard ? detailLine.creditCard : ""}
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          {detailLine.installments}
+        </StyledTableCell>
+        <StyledTableCell align="left">
+          {detailLine.statusDescription}
+        </StyledTableCell>
+        <StyledTableCell align="center">{detailLine.reason}</StyledTableCell>
+      </StyledTableRow>
+    </>
+  );
+};

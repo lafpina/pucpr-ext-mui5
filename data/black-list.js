@@ -1,17 +1,29 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
-    blackedName: "",
-    blackedEmail: "marinasantoslemos30@gmail.com.br",
-    blackedCPF: "",
-    blackedPhone: "",
-    blackedPostalCode: "",
+    blackedName: "Vanessa Do Socorro Dos Santos",
+    blackedEmail: "luizantoniodeassuncaosousa@gmail.com",
+    blackedCPF: "36154300263",
+    blackedPhone: "+5594992001452",
+    blackedPostalCode: "68390-000",
     blackedState: "",
     blackedCity: "",
-    blackedCreditCard: "",
+    blackedCreditCard: "Visa 421960****1904",
     blackedCardCountry: "",
-    blackedDescription:
-      "Monitorando apenas. Preciso identificar o uso do cupom",
+    blackedDescription: "Fraude confirmada",
+    isBlackListed: true,
+  },
+  {
+    blackedName: "Vanessa Do Socorro Dos Santos",
+    blackedEmail: "vavasocroodasilva@gmail.com",
+    blackedCPF: "00014546256",
+    blackedPhone: "+5591999887124",
+    blackedPostalCode: "68440-000",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "Mastercard 544540****2011",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
     isBlackListed: true,
   },
   {
