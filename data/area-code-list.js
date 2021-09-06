@@ -49,7 +49,7 @@ const AREA_CODE_LIST = [
   },
   {
     areaCode: "27",
-    state: "RJ",
+    state: "ES",
   },
   {
     areaCode: "28",

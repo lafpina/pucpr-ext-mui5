@@ -28,8 +28,8 @@ export default function HomePage() {
         {/* <DisplayAlert type="error" msg="Mensagem de Erro de teste" /> */}
 
         <div className={styles.grid}>
-          <Link href="/">
-            {/* <Link href="/orders"> */}
+          {/* <Link href="/"> */}
+            <Link href="/orders">
             <a className={styles.card}>
               <VerifiedUserIcon
                 className={classes.settingIcon}

@@ -193,6 +193,8 @@ export default function IncompleteOrdersDialog(props) {
 const FormatDetailLine = (props) => {
   const { detailLine, index } = props;
 
+  console.log("Detail Line", detailLine, index)
+
   return (
     <>
       <StyledTableRow key={index}>
