@@ -88,9 +88,9 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={17}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" color="textSecondary" component="div">
-                Dados Cadastrais - {row.cliente}
-              </Typography>
+              {/* <Typography variant="button" color="textSecondary" component="div">
+                {row.cliente}
+              </Typography> */}
               <Table size="small" aria-label="detalhe">
                 <OrderTableHeadHist />
                 <OrderTableBodyHist history={row.history} />
@@ -108,7 +108,7 @@ export default function NewOrders(props) {
   return (
     <>
       <TableContainer component={Paper}>
-        <Table stickyHeader aria-label="collapsible table">
+        <Table aria-label="collapsible table">
           <OrderTableHead />
           <TableBody>
             {orders.map((order) => (

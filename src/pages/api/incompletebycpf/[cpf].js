@@ -40,8 +40,6 @@ const buildObjIncompleteOrders = async (history) => {
   let objIncompleteOrders = {}
 
 
-  console.log("history ====> ", history.length, history)
-
   for (let i = 0; i < history.length; i++) {
     objIncompleteOrders = {
       date: "",
@@ -93,6 +91,5 @@ const buildObjIncompleteOrders = async (history) => {
     }
     obj.push(objIncompleteOrders);
   }
-  console.log("OBJ --> ", obj  )
-  return obj;
+   return obj;
 };

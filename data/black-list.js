@@ -466,8 +466,8 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "",
     blackedCardCountry: "",
-    blackedDescription: "",
-    isBlackListed: true,
+    blackedDescription: "Chargeback gerado pelo cliente. Não é fraude.",
+    isBlackListed: false,
   },
   {
     blackedName: "Ana Celia Ferreira",
