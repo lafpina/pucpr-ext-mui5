@@ -125,8 +125,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
-    backgroundColor: theme.palette.error.light,
-    // backgroundColor: theme.palette.action.active,
+    backgroundColor: theme.palette.action.active,
     color: "Ivory",
     boxShadow: theme.shadows[2],
     fontSize: 13,
@@ -172,7 +171,7 @@ export default function Dashboard(props) {
             <MenuIcon />
           </IconButton>
 
-          {/* <LogoAlerteMe size={"medium"} color={"blue"} /> */}
+          <LogoAlerteMe size={"small"} color={"white"} />
 
           <Typography
             component="h1"
@@ -181,7 +180,7 @@ export default function Dashboard(props) {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            {/* Dashboard */}
           </Typography>
 
           {/* Notification Whitelist */}
