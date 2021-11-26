@@ -138,7 +138,7 @@ export default function PurchaseHistoryDialog(props) {
               (sumUpInvoiced() > 0 &&
                 sumUpInvoiced() +
                   " " +
-                  (historyItems.length > 1
+                  ((historyItems.length -1) > 1
                     ? "pedidos faturados"
                     : "pedido faturado") +
                   " no valor total de " +

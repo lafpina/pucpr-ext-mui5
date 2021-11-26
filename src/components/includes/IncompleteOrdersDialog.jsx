@@ -32,8 +32,8 @@ import RiskScoreChart from "./RiskScoreChart";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
-    // backgroundColor: "#4d6e8a",
-    backgroundColor: "#b1a878",
+    backgroundColor: "#4d6e8a",
+    // backgroundColor: "#b1a878",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "#c4bb87",
+    // backgroundColor: "#c4bb87",
+    backgroundColor: "#4d6e8a",
     color: theme.palette.common.white,
   },
   body: {
@@ -192,6 +193,8 @@ export default function IncompleteOrdersDialog(props) {
 
 const FormatDetailLine = (props) => {
   const { detailLine, index } = props;
+
+  console.log("Detail Line", detailLine, index)
 
   return (
     <>

@@ -9,7 +9,7 @@ const Copyright = () => {
         Dipano
       </Link>{" "}
       {new Date().getFullYear()}
-      {". +Tech"}
+      
     </Typography>
   );
 };

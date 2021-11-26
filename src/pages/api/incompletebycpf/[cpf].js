@@ -37,23 +37,23 @@ const buildObjIncompleteOrders = async (history) => {
   const options = getOption("order");
 
   const obj = [];
+  let objIncompleteOrders = {}
 
-  const objIncompleteOrders = {
-    date: "",
-    orderId: "",
-    items: "",
-    value: "",
-    payment: "",
-    list: "",
-    status: "",
-    firstDigits: "",
-    lastDigits: "",
-    installments: "",
-    tid: "",
-    reason: "",
-  };
 
   for (let i = 0; i < history.length; i++) {
+    objIncompleteOrders = {
+      date: "",
+      orderId: "",
+      items: "",
+      value: "",
+      payment: "",
+      creditCard:  " ",
+      list: "",
+      status: "",
+      installments: "",
+      tid: "",
+      reason: "",
+    };
     const fullDate = formaTZOrderDate(history[i].creationDate);
     const partialDate = fullDate.substr(0, 5) + " " + fullDate.substr(11, 5);
     objIncompleteOrders.date = partialDate;
@@ -62,7 +62,7 @@ const buildObjIncompleteOrders = async (history) => {
     objIncompleteOrders.value = history[i].totalValue;
     objIncompleteOrders.payment = history[i].paymentNames;
     objIncompleteOrders.list = history[i].listId;
-    objIncompleteOrders.statusDescription = "Incompleto";
+    objIncompleteOrders.status = "Incompleto";
 
     const url = getURL("order", history[i].orderId);
     const result = await fetch(url, options);
@@ -91,5 +91,5 @@ const buildObjIncompleteOrders = async (history) => {
     }
     obj.push(objIncompleteOrders);
   }
-  return obj;
+   return obj;
 };

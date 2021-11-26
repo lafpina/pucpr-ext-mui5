@@ -1,7 +1,7 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
-    blackedName: "Vanessa Do Socorro Dos Santos",
+    blackedName: "Luiz Antonio de Assunção Souza",
     blackedEmail: "luizantoniodeassuncaosousa@gmail.com",
     blackedCPF: "36154300263",
     blackedPhone: "+5594992001452",
@@ -466,8 +466,8 @@ const BLACK_LIST = [
     blackedCity: "",
     blackedCreditCard: "",
     blackedCardCountry: "",
-    blackedDescription: "",
-    isBlackListed: true,
+    blackedDescription: "Chargeback gerado pelo cliente. Não é fraude.",
+    isBlackListed: false,
   },
   {
     blackedName: "Ana Celia Ferreira",
