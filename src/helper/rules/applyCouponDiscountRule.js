@@ -3,15 +3,12 @@ import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 export const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
   // Any coupon of discount other than Compre Junto will score positively
 
-  console.log("Dentro da função do cupom")
-
   if (
     orderObject.coupon > " " &&
     orderObject.coupon.indexOf("Compre Junto") == -1
   ) {
     riskScoreObject.final -= 15;
     riskScoreObject.couponDiscount.score = -15;
-    console.log("gerou")
   }
 
   riskScoreObject = buildRiskScoreLog(
