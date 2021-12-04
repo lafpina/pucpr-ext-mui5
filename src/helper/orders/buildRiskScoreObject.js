@@ -40,7 +40,11 @@ export const buildRiskScoreObject = async (orderObject) => {
   riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
   riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
   riskScoreObject = applyShoppingTimeRule(orderObject, riskScoreObject);
+
+  console.log("Vai gerar o alerta de cupom de desconto *********")
+
   riskScoreObject = applyCouponDiscountRule(orderObject, riskScoreObject);
+
   riskScoreObject = applyGiftRule(orderObject, riskScoreObject);
   riskScoreObject = applyPaymentMethodRule(orderObject, riskScoreObject);
   // riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
