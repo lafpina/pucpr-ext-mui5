@@ -34,6 +34,17 @@ export const StyledBadgeIncompleteOrders = withStyles((theme) => ({
     },
 }))(Badge);
 
+export const StyledBadgeCoupon = withStyles((theme) => ({
+    badge: {
+        left: -65,
+        color: "white",
+        backgroundColor: "LightBlue",
+        top: 5,
+        border: `4px solid ${theme.palette.background.paper}`,
+        padding: "0 4px",
+    },
+}))(Badge);
+
 export const StyledBadgeWarning = withStyles((theme) => ({
     badge: {
         right: -27,

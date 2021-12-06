@@ -45,7 +45,7 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     score: riskScoreObject.final,
     riskProfile: riskScoreObject,
     kitCustom: riskScoreObject.customProduct.score,
-    promo: orderObject.coupon,
+    coupon: orderObject.coupon,
     blackListed: blackedResult.isBlacked,
     blackedProfile: JSON.stringify(blackedResult.profile),
     whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf),
