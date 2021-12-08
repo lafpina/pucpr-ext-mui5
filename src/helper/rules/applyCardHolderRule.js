@@ -26,7 +26,7 @@ export const applyCardHolderRule = (orderObject, riskScoreObject) => {
       riskScoreObject.cardHolder.score = -5;
       riskScoreObject.cardHolder.maybe = true;
     } else {
-      // socre negatively if the client isnt the card holder
+      // score negatively if client isnt the card holder
       riskScoreObject.cardHolder.score += 5;
       riskScoreObject.final += 5;
       riskScoreObject.cardHolder.no = true;

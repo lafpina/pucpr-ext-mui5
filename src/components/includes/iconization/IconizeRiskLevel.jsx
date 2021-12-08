@@ -4,6 +4,8 @@ import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt"
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
 import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
+import MoodBadIcon from '@material-ui/icons//MoodBad';
+
 
 export function IconizeRiskLevel(props) {
   const classes = useRiskLevelStyles();
@@ -43,9 +45,9 @@ export function IconizeRiskLevel(props) {
           fontSize={props.size}
         />
       );
-    case "Possível Fraude":
+    case "Altíssimo":
       return (
-        <SentimentVeryDissatisfiedIcon
+        <MoodBadIcon
           className={classes.veryHighRisk}
           fontSize={props.size}
         />
