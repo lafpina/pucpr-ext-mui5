@@ -43,6 +43,13 @@ export function IconizeRiskLevel(props) {
           fontSize={props.size}
         />
       );
+    case "Possível Fraude":
+      return (
+        <SentimentVeryDissatisfiedIcon
+          className={classes.veryHighRisk}
+          fontSize={props.size}
+        />
+      );
   }
 }
 

@@ -87,7 +87,7 @@ export const initializeScore = () => {
       qty: 0,
       score: 0,
     },
-    final: 100,
+    final: 70,
     description: " ",
     riskScoreLog: [],
   };
