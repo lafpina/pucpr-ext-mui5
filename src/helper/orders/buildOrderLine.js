@@ -43,6 +43,7 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     statusDescription: orderObject.statusDescription,
     scoreDesc: riskScoreObject.description,
     score: riskScoreObject.final,
+    orderErrorCheckScore: riskScoreObject.orderErrorCheck.score,
     riskProfile: riskScoreObject,
     kitCustom: riskScoreObject.customProduct.score,
     coupon: orderObject.coupon,

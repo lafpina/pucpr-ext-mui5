@@ -56,6 +56,7 @@ export const OrderHistoryCell = (props) => {
               qtyPurchase={orderDetail.qtyPurchase}
               blackListed={orderDetail.blackListed}
               whiteListed={orderDetail.whiteListed}
+              orderErrorCheck={orderDetail.orderErrorCheckScore}
               size="default"
             />
           </IconButton>

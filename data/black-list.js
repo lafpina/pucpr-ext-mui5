@@ -1,6 +1,19 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
+    blackedName: "",
+    blackedEmail: "",
+    blackedCPF: "",
+    blackedPhone: "",
+    blackedPostalCode: "11750-000",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "",
+    blackedCardCountry: "",
+    blackedDescription: "Suspeita de Fraude",
+    isBlackListed: true,
+  },
+  {
     blackedName: "Josuel Rosalino",
     blackedEmail: "josuelhorarosalino@gmail.com",
     blackedCPF: "28679446866",

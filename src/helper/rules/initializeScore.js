@@ -75,6 +75,9 @@ export const initializeScore = () => {
     firstBuying: {
       score: 0,
     },
+    orderErrorCheck: {
+      score: 0, 
+    },
     blackListed: {
       qty: 0,
       score: 0,

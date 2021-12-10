@@ -6,7 +6,7 @@ import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentV
 import ErrorIcon from "@material-ui/icons/Error";
 import FaceIcon from '@material-ui/icons/Face';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-
+import ReportProblemIcon from '@material-ui/icons/ReportProblem';
 
 export function IconizePurchaseProfile(props) {
   const classes = usePurchaseProfileStyles();
@@ -33,6 +33,17 @@ export function IconizePurchaseProfile(props) {
     );
   }
 
+  console.log("Error Check Score ==>", props.orderErrorCheckScore)
+  if (props.orderErrorCheckScore > 0) {
+    return (
+      <ReportProblemIcon
+        className={classes.errorCheck}
+        fontSize={props.size}
+      />
+    );
+  }
+
+
   return (
     <ErrorOutlineOutlinedIcon
       className={classes.newClient}
@@ -53,6 +64,9 @@ const usePurchaseProfileStyles = makeStyles({
   },
   whiteListed: {
     color: "Pink",
+  },
+  errorCheck: {
+    color: "LightCoral",
   },
   default: {
     color: "DarkGray",

@@ -58,7 +58,7 @@ export default function RiskScoreChart(props) {
   data[0] = createData("Captura", 70)
 
   let i;
-  for (i = 0; i <= 16; i++) {
+  for (i = 0; i <= 17; i++) {
     scoreTotal += detail.riskProfile.riskScoreLog[i].score;
     data[i + 1] = createData(
       detail.riskProfile.riskScoreLog[i].ruleRef,

@@ -19,6 +19,7 @@ import { applyAreaCodeRule } from "../rules/applyAreaCodeRule";
 import { applyShoppingTimeRule } from "../rules/applyShoppingTimeRule";
 import { applyBlackListRule } from "../rules/applyBlackListRule";
 import { applyWhiteListRule } from "../rules/applyWhiteListRule";
+import { applyOrderErrorCheck } from "../rules/applyOrderErrorCheck"
 
 export const buildRiskScoreObject = async (orderObject) => {
   const riskScoreGraph = [];
@@ -53,6 +54,10 @@ export const buildRiskScoreObject = async (orderObject) => {
 
   riskScoreObject = applyBlackListRule(orderObject, riskScoreObject);
   riskScoreObject = applyWhiteListRule(orderObject, riskScoreObject);
+
+  // Verifica se há alguma incoerência com o pedido
+  riskScoreObject = applyOrderErrorCheck(orderObject, riskScoreObject)
+
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
   if (riskScoreObject.final < 1) riskScoreObject.final = 1;
