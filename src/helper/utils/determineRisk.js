@@ -6,8 +6,8 @@ export function determineRisk(riskScore) {
       return "Muito Alto";
     case 90:
     case 85:
-      return "Alto";
     case 80:
+      return "Alto";
     case 75:
     case 70:
     case 65:

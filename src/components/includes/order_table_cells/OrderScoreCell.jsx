@@ -45,7 +45,7 @@ export const OrderScoreCell = (props) => {
           aria-label="score"
         >
           <IconButton>
-            {orderDetail.score > 80 ? (
+            {orderDetail.score > 75 ? (
               <StyledBadgeRisk
                 badgeContent={orderDetail.score}
                 max={999}

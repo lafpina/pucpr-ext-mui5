@@ -1,6 +1,19 @@
 import titleCase from "../src/helper/utils/titleCase";
 const BLACK_LIST = [
   {
+    blackedName: "Rosa Valeria Azevedo Said",
+    blackedEmail: "rosavaleriaazevedosaid@gmail.com",
+    blackedCPF: "06115500320",
+    blackedPhone: "+5521980195365",
+    blackedPostalCode: "21070-170",
+    blackedState: "",
+    blackedCity: "",
+    blackedCreditCard: "",
+    blackedCardCountry: "",
+    blackedDescription: "Fraude Confirmada",
+    isBlackListed: true,
+  },
+  {
     blackedName: "",
     blackedEmail: "",
     blackedCPF: "",

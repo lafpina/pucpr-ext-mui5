@@ -9,7 +9,7 @@ import { applyGiftRule } from "../rules/applyGiftRule";
 import { applyPaymentMethodRule } from "../rules/applyPaymentMethodRule";
 import { applyCustomProductRule } from "../rules/applyCustomProductRule";
 
-import { applyShippingRateRule } from "../rules/appplyShippingRateRule";
+import { applyShippingRateRule } from "../rules/applyShippingRateRule";
 import { applyIncompOrdersRule } from "../rules/applyIncompleteOrdersRule";
 import { applyCarrierRule } from "../rules/applyCarrierRule";
 import { applyPaymentValueRule } from "../rules/applyPaymentValueRule";
@@ -61,7 +61,7 @@ export const buildRiskScoreObject = async (orderObject) => {
 
   if (riskScoreObject.final > 100) riskScoreObject.final = 100;
   if (riskScoreObject.final < 1) riskScoreObject.final = 1;
-  if (riskScoreObject.final > 80) riskScoreObject.alerts.qty += 1;
+  if (riskScoreObject.final >= 80) riskScoreObject.alerts.qty += 1;
 
   riskScoreObject.description = determineRisk(riskScoreObject.final);
 
