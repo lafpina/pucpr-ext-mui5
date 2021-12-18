@@ -86,7 +86,7 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
     }
   } else {
     riskScoreObject.final += 5;
-    riskScoreObject.firstBuying.score += 5;
+    riskScoreObject.firstBuying.score = 5;
   }
   // }
 

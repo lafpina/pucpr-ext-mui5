@@ -4,6 +4,7 @@ import Fade from "@material-ui/core/Fade";
 import Tooltip from "@material-ui/core/Tooltip";
 import { withStyles } from "@material-ui/core/styles";
 import { StyledBadgeIncompleteOrders } from "../badgezation/StyledBadge";
+import { StyledBadgeCoupon } from "../badgezation/StyledBadge"
 import { IconizePaymentOption } from "../iconization/IconizePaymentOption";
 import { useState } from "react";
 import IncompleteOrdersDialog from "../IncompleteOrdersDialog";
@@ -46,6 +47,7 @@ export const OrderPaymentCell = (props) => {
             ) : (
               " "
             )}
+
             <IconizePaymentOption
               payMethod={orderDetail.payMethod}
               size="default"

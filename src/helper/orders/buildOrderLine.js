@@ -22,6 +22,8 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     orderObject.cardCountry
   );
 
+  console.log("===> ",riskScoreObject.orderErrorCheck.score)
+
   let orderLine = {
     orderId: orderObject.orderId.substr(1, 6),
     cliente: orderObject.clientName.substr(0, 30),
@@ -43,9 +45,10 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     statusDescription: orderObject.statusDescription,
     scoreDesc: riskScoreObject.description,
     score: riskScoreObject.final,
+    orderErrorCheckScore: riskScoreObject.orderErrorCheck.score,
     riskProfile: riskScoreObject,
     kitCustom: riskScoreObject.customProduct.score,
-    promo: orderObject.coupon,
+    coupon: orderObject.coupon,
     blackListed: blackedResult.isBlacked,
     blackedProfile: JSON.stringify(blackedResult.profile),
     whiteListed: isWhiteListed(orderObject.clientEmail, orderObject.cpf),

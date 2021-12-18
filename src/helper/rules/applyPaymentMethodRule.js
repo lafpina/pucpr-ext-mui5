@@ -16,8 +16,8 @@ export const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
     riskScoreObject.paymentMethod.giftCard.score = -50;
   }
   if (orderObject.paymentGroupActive.creditCard) {
-    riskScoreObject.final += 5;
-    riskScoreObject.paymentMethod.creditCard.score += 5;
+    riskScoreObject.final += 15;
+    riskScoreObject.paymentMethod.creditCard.score += 15;
   }
 
   const score =

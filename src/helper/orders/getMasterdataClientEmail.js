@@ -18,6 +18,8 @@ const getMasterdataClientEmail = async (vtexOrder) => {
     vtexEmail = JSON.parse(JSON.stringify(data));
     return vtexEmail;
   } else {
+    console.log(res)
+    console.log("Problema ao acessar o Masterdata!")
     return null;
   }
 };

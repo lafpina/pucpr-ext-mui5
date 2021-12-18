@@ -63,7 +63,7 @@ function Row(props) {
 
         <OrderItemCell orderDetail={row} />
 
-        <OrderValueCell value={row.valor} />
+        <OrderValueCell orderDetail={row} />
         <OrderPaymentCell
           orderDetail={row}
           // creditCard={row.creditCard}

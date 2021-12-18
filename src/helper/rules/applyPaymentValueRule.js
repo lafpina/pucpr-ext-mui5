@@ -35,7 +35,7 @@ export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
     orderObject.value > 300000 &&
     orderObject.paymentGroup.indexOf("creditCard") > -1
   ) {
-    // higher value
+    // higher value over 3.000
     riskScoreObject.final += 10;
     riskScoreObject.paymentValue.score += 10;
   }
