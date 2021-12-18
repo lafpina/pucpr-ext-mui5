@@ -52,7 +52,7 @@ export const OrderHistoryCell = (props) => {
             ) : (
               ""
             )}
-            <IconizePurchaseProfile
+            <IconizePurchaseProfile 
               qtyPurchase={orderDetail.qtyPurchase}
               blackListed={orderDetail.blackListed}
               whiteListed={orderDetail.whiteListed}

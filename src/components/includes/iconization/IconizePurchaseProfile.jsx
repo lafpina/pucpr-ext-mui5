@@ -15,6 +15,15 @@ export function IconizePurchaseProfile(props) {
     return <ErrorIcon className={classes.blackListed} fontSize={props.size} />;
   }
 
+  if (props.orderErrorCheck > 0) {
+    return (
+      <ReportProblemIcon
+        className={classes.errorCheck}
+        fontSize={props.size}
+      />
+    );
+  }
+  
   if (props.whiteListed) {
     return (
       <FavoriteOutlinedIcon
@@ -32,17 +41,6 @@ export function IconizePurchaseProfile(props) {
       />
     );
   }
-
-  console.log("Error Check Score ==>", props.orderErrorCheckScore)
-  if (props.orderErrorCheckScore > 0) {
-    return (
-      <ReportProblemIcon
-        className={classes.errorCheck}
-        fontSize={props.size}
-      />
-    );
-  }
-
 
   return (
     <ErrorOutlineOutlinedIcon

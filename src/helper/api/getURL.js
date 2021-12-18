@@ -1,7 +1,7 @@
 function getURL(fetchTarget, filter) {
   const parmEnv = "vtexcommercestable";
   const parmAcc = "fraldasdipano";
-  const parmPerPage = 15;
+  const parmPerPage = 30;
   const page = 1;
 
   // Os parâmetros abaixo estão corretos mas não retorna a lista

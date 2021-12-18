@@ -2,7 +2,7 @@ import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 //? Apply Order Error Check 
 export const applyOrderErrorCheck = (orderObject, riskScoreObject) => {
 
-  if (orderObject.paymentGroupActive.giftCard && orderObject.giftCard > "") {
+  if (orderObject.paymentGroupActive.giftCard && orderObject.giftId) {
     riskScoreObject.final += 50;
     riskScoreObject.orderErrorCheck.score = 50;
   }
@@ -17,3 +17,4 @@ export const applyOrderErrorCheck = (orderObject, riskScoreObject) => {
 
   return riskScoreObject;
 };
+
