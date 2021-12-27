@@ -22,8 +22,6 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
     orderObject.cardCountry
   );
 
-  console.log("===> ",riskScoreObject.orderErrorCheck.score)
-
   let orderLine = {
     orderId: orderObject.orderId.substr(1, 6),
     cliente: orderObject.clientName.substr(0, 30),

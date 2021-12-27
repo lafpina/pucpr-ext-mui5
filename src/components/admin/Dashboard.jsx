@@ -25,7 +25,7 @@ import Chart from "./Chart";
 import { Tooltip } from "@material-ui/core";
 import Fade from "@material-ui/core/Fade";
 import ImageAvatars from "../includes/ImageAvatars";
-import Orders from "./Orders";
+// import Orders from "./Orders";
 import NewOrders from "./NewOrders";
 import TotalRiskAmount from "./TotalRiskAmount";
 // import Image from "next/Image";
