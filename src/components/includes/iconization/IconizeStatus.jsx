@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import TimerIcon from "@material-ui/icons/Timer";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import ScreenShareIcon from "@material-ui/icons/ScreenShare";

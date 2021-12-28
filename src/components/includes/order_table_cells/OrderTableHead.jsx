@@ -1,6 +1,6 @@
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
 import TableCell from "@material-ui/core/TableCell";
 import { IconizeTitleOrder } from "../iconization/IconizeTitle";
 import { IconizeTitleDate } from "../iconization/IconizeTitle";

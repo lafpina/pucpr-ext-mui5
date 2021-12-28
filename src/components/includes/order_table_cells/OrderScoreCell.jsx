@@ -3,7 +3,7 @@ import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Fade } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
 import { IconizeRiskLevel } from "../iconization/IconizeRiskLevel";
 import { StyledBadge } from "../badgezation/StyledBadge";
 import { StyledBadgeRisk } from "../badgezation/StyledBadge";

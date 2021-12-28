@@ -2,7 +2,7 @@ import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import { Fade } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
 import Typography from "@material-ui/core/Typography";
 import { IconizeGiftCard } from "../iconization/IconizeGiftCard";
 

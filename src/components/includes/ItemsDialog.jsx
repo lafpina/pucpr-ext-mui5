@@ -8,7 +8,7 @@ import Paper from "@material-ui/core/Paper";
 
 import React from "react";
 import { useState, useEffect } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/styles";
 import Dialog from "@material-ui/core/Dialog";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";

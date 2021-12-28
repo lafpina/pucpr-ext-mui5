@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Header from "../components/includes/Header";
-import Head from "next/head";
+// import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "../styles/globals.css";

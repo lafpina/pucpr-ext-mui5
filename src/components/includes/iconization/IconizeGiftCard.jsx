@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import CardGiftcardOutlinedIcon from "@material-ui/icons/CardGiftcardOutlined"; // Lista
 
 export function IconizeGiftCard(props) {

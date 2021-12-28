@@ -2,7 +2,7 @@ import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import Fade from "@material-ui/core/Fade";
 import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/styles";
 import { StyledBadgeIncompleteOrders } from "../badgezation/StyledBadge";
 import { StyledBadgeCoupon } from "../badgezation/StyledBadge"
 import { IconizePaymentOption } from "../iconization/IconizePaymentOption";

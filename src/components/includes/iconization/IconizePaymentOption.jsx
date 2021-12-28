@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import PaymentOutlinedIcon from "@material-ui/icons/PaymentOutlined";
 import MobileFriendlyOutlinedIcon from "@material-ui/icons/MobileFriendlyOutlined";
 import SaveAltOutlinedIcon from "@material-ui/icons/SaveAltOutlined";

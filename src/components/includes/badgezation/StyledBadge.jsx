@@ -1,4 +1,4 @@
-import { withStyles, makeStyles } from "@material-ui/core/styles"
+import { withStyles, makeStyles } from "@material-ui/styles"
 import Badge from "@material-ui/core/Badge";
 
 export const StyledBadge = withStyles((theme) => ({

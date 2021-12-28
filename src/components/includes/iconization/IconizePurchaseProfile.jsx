@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"; // Cliente novo
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined"; // White List
 import LocalFloristOutlinedIcon from "@material-ui/icons/LocalFloristOutlined";

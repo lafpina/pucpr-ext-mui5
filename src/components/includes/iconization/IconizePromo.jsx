@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import LocalOfferOutlinedIcon from "@material-ui/icons/LocalOfferOutlined";
 
 export function IconizePromo(props) {

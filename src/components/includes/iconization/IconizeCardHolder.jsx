@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import HowToRegOutlinedIcon from "@material-ui/icons/HowToRegOutlined";
 import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
 import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";

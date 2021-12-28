@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
 import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
 import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";

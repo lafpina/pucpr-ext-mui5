@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
