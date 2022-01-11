@@ -1,6 +1,6 @@
-import getURL from "../../../helper/api/getURL";
-import getOption from "../../../helper/api/getOption";
-import titleCase from "../../../helper/utils/titleCase";
+import getURL from "../../../backend/api/getURL";
+import getOption from "../../../backend/api/getOption";
+import titleCase from "../../../backend/utils/titleCase";
 
 async function handler(req, res) {
   if (req.method === "GET") {

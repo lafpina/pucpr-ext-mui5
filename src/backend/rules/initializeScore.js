@@ -1,0 +1,103 @@
+export const initializeScore = () => {
+  var riskScoreObject = {
+    incompleteOrders: {
+      qty: 0,
+      score: 0,
+    },
+    couponDiscount: {
+      qty: 0,
+      score: 0,
+    },
+    carrier: {
+      score: 0,
+    },
+    giftGuest: {
+      score: 0,
+    },
+    paymentMethod: {
+      promissory: {
+        score: 0,
+      },
+      instantPayment: {
+        score: 0,
+      },
+      creditCard: {
+        score: 0,
+      },
+      giftCard: {
+        score: 0,
+      },
+    },
+    customProduct: {
+      score: 0,
+    },
+    historyPurchase: {
+      profile: {
+        qty: 0,
+        value: 0,
+        isGT90History: false,
+        isGT60History: false,
+        isGT40History: false,
+        isGiftHistory: false,
+        isPromissoryHistory: false,
+        isPixHistory: false,
+        dateFirstBuy: " ",
+      },
+      score: 0,
+    },
+    paymentValue: {
+      score: 0,
+    },
+    validEmail: {
+      score: 0,
+    },
+    validCpf: {
+      score: 0,
+    },
+    cardHolder: {
+      yes: false,
+      maybe: false,
+      no: false,
+      score: 0,
+    },
+    foreignCreditCard: {
+      score: 0,
+    },
+    shippingRate: {
+      score: 0,
+    },
+    areaCode: {
+      score: 0,
+    },
+    shoppingTime: {
+      score: 0,
+    },
+    firstBuying: {
+      score: 0,
+    },
+    orderErrorCheck: {
+      cpl: false, // Compra para a própria lista
+      spe: false, // Pedido em Preparando Entrega por tempo excessivo
+      spm: false, // Pedido em Pronto para Manuseio por tempo excessivo
+      spp: false, // Pedido em Pagamento Pendente por tempo excessivo
+      score: 0, 
+    },
+    blackListed: {
+      qty: 0,
+      score: 0,
+    },
+    whiteListed: {
+      qty: 0,
+      score: 0,
+    },
+    alerts: {
+      qty: 0,
+      score: 0,
+    },
+    final: 70,
+    description: " ",
+    riskScoreLog: [],
+  };
+
+  return riskScoreObject;
+};

@@ -1,13 +1,14 @@
-import React from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
-import Header from "../components/includes/Header";
-// import Head from "next/head";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import Header from "../components/includes/layoutaccessories/Header";
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
 import "../styles/globals.css";
 import theme from "../theme";
 
+
 export default function MyApp(props) {
+  
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
@@ -35,16 +36,4 @@ MyApp.propTypes = {
   pageProps: PropTypes.object.isRequired,
 };
 
-// Allow us to customize the body HTML document
-// import MainLayout from "../components/includes/mainLayouts";
-// import "../styles/globals.css";
 
-// function MyApp({ Component, pageProps }) {
-//   return (
-//     // <MainLayout>
-//       <Component {...pageProps} />
-//     // </MainLayout>
-//   );
-// }
-
-// export default MyApp;

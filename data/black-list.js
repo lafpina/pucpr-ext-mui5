@@ -1,4 +1,4 @@
-import titleCase from "../src/helper/utils/titleCase";
+import titleCase from "../src/backend/utils/titleCase";
 const BLACK_LIST = [
   {
     blackedName: "Rosa Valeria Azevedo Said",

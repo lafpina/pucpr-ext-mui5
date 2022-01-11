@@ -1,5 +1,5 @@
-import getURL from "../../../helper/api/getURL";
-import getOption from "../../../helper/api/getOption";
+import getURL from "../../../backend/api/getURL";
+import getOption from "../../../backend/api/getOption";
 
 async function handler(req, res) {
   if (req.method === "GET") {

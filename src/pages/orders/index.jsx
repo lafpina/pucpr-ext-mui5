@@ -1,44 +1,26 @@
-//? Material UI
-import { makeStyles } from "@material-ui/styles";
-
 //? API components
-import getVtexOrder from "../../helper/api/getVtexOrder";
-import getOption from "../../helper/api/getOption";
-import getVtexListOrders from "../../helper/api/getVtexListOrders";
-import getURL from "../../helper/api/getURL";
+import getVtexOrder from "../../backend/api/getVtexOrder";
+import getOption from "../../backend/api/getOption";
+import getVtexListOrders from "../../backend/api/getVtexListOrders";
+import getURL from "../../backend/api/getURL";
 
 //? Helpers
-import buildOrderObject from "../../helper/orders/buildOrderObject";
-import { buildRiskScoreObject } from "../../helper/orders/buildRiskScoreObject";
-import { buildOrderLine } from "../../helper/orders/buildOrderLine";
-import getTodayDate from "../../helper/utils/getTodayDate";
+import buildOrderObject from "../../backend/orders/buildOrderObject";
+import { buildRiskScoreObject } from "../../backend/orders/buildRiskScoreObject";
+import { buildOrderLine } from "../../backend/orders/buildOrderLine";
+import getTodayDate from "../../backend/utils/getTodayDate";
 
 import dynamic from "next/dynamic";
+
 
 // Replaced a regular import as bellow to Dynamic Component With No SSR
 // import Dashboard from "../../components/admin/Dashboard";
 const DynamicComponentWithNoSSR = dynamic(
-  () => import("../../components/admin/Dashboard"),
+  () => import("../../components/admin/DashboardMui5"),
   { ssr: false }
 );
 
-const useStyles = makeStyles({
-  title: {
-    fontSize: 22,
-    color: "LightGrey",
-    marginTop: 10,
-    marginBotton: 15,
-  },
-  subTitle: {
-    fontSize: 15,
-    color: "SteelBlue",
-    marginBotton: 12,
-  },
-});
-
 function OrderListPage(props) {
-  const classes = useStyles();
-
   const {
     allOrders,
     notificationBlackList,
@@ -50,15 +32,17 @@ function OrderListPage(props) {
 
   return (
     <>
-          {/* <Dashboard */}
-      <DynamicComponentWithNoSSR
-        orders={allOrders}
-        notificationBlackList={notificationBlackList}
-        notificationWhiteList={notificationWhiteList}
-        notificationAlerts={notificationAlerts}
-        totalRiskAmount={totalRiskAmount}
-        todayDate={todayDate}
-      />
+        {/* <Dashboard */}
+ 
+        <DynamicComponentWithNoSSR
+          orders={allOrders}
+          notificationBlackList={notificationBlackList}
+          notificationWhiteList={notificationWhiteList}
+          notificationAlerts={notificationAlerts}
+          totalRiskAmount={totalRiskAmount}
+          todayDate={todayDate}
+        />
+
     </>
   );
 }

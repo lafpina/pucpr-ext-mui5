@@ -14,21 +14,21 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 //? Includes
-import { OrderIdCell } from "../includes/order_table_cells/OrderIdCell";
-import { OrderCreateDateCell } from "../includes/order_table_cells/OrderCreateDateCell";
-import { OrderClientCell } from "../includes/order_table_cells/OrderClientCell";
-import { OrderItemCell } from "../includes/order_table_cells/OrderItemCell";
-import { OrderValueCell } from "../includes/order_table_cells/OrderValueCell";
-import { OrderPaymentCell } from "../includes/order_table_cells/OrderPaymentCell";
-import { OrderShippingToCell } from "../includes/order_table_cells/OrderShippingToCell";
-import { OrderHistoryCell } from "../includes/order_table_cells/OrderHistoryCell";
-import { OrderGiftCell } from "../includes/order_table_cells/OrderGiftCell";
-import { OrderStatusCell } from "../includes/order_table_cells/OrderStatusCell";
-import { OrderScoreCell } from "../includes/order_table_cells/OrderScoreCell";
+import { OrderIdCell } from "../includes/feedtable/tablecells/OrderIdCell";
+import { OrderCreateDateCell } from "../includes/feedtable/tablecells/OrderCreateDateCell";
+import { OrderClientCell } from "../includes/feedtable/tablecells/OrderClientCell";
+import { OrderItemCell } from "../includes/feedtable/tablecells/OrderItemCell";
+import { OrderValueCell } from "../includes/feedtable/tablecells/OrderValueCell";
+import { OrderPaymentCell } from "../includes/feedtable/tablecells/OrderPaymentCell";
+import { OrderShippingToCell } from "../includes/feedtable/tablecells/OrderShippingToCell";
+import { OrderHistoryCell } from "../includes/feedtable/tablecells/OrderHistoryCell";
+import { OrderGiftCell } from "../includes/feedtable/tablecells/OrderGiftCell";
+import { OrderStatusCell } from "../includes/feedtable/tablecells/OrderStatusCell";
+import { OrderScoreCell } from "../includes/feedtable/tablecells/OrderScoreCell";
 
-import { OrderTableHead } from "../includes/order_table_cells/OrderTableHead";
-import { OrderTableHeadHist } from "../includes/order_table_cells/OrderTableHeadHist";
-import { OrderTableBodyHist } from "../includes/order_table_cells/OrderTableBodyHist";
+import { OrderTableHead } from "../includes/feedtable/tablecells/OrderTableHead";
+import { OrderTableHeadHist } from "../includes/feedtable/tablecells/OrderTableHeadHist";
+import { OrderTableBodyHist } from "../includes/feedtable/tablecells/OrderTableBodyHist";
 
 const useRowStyles = makeStyles({
   root: {
