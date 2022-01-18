@@ -1,30 +1,31 @@
 import TableCell from "@material-ui/core/TableCell";
 import setCurrency from "../../../../backend/utils/setCurrency";
 import { StyledBadgeCoupon } from "../badgezation/StyledBadge"
-
+import { useState, useEffect } from 'react'
 
 export const OrderValueCell = (props) => {
+  const { orderDetail } = props;
+  const [couponName, setCouponName] = useState('')
 
-    // const { value } = props 
-    const { orderDetail } = props;
+  useEffect(() => {
+    orderDetail.coupon.map((coupon) => {
+      if (coupon.includes('CDN')) {
+        setCouponName(coupon)
+      }
+    })
+  }, [])
 
-    return (
-        <TableCell align="right">
-            {setCurrency(orderDetail.valor)}
-
-            {orderDetail.coupon > " " && orderDetail.coupon.substr(0, 6) != "Compre" ? (
-              <StyledBadgeCoupon
-              anchorOrigin={{
-                horizontal: "center",
-                vertical: "bottom",
-            }}
-                badgeContent={orderDetail.coupon.substr(0, 12)}
-              ></StyledBadgeCoupon>
-             ) : ( 
-               " " 
-            )}
-
-
-        </TableCell>
-    )
+  return (
+    <TableCell align="right">
+      {setCurrency(orderDetail.valor)}
+      {/* Show Coupon Code */}
+      {couponName > ' '
+        ?
+        <StyledBadgeCoupon anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+          badgeContent={couponName}
+        ></StyledBadgeCoupon>
+        : ''
+      }
+    </TableCell>
+  )
 }

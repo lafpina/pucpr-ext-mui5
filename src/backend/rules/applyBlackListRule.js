@@ -22,7 +22,7 @@ export const applyBlackListRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r015",
     "BLK",
-    "Pedido possui pelo menos um dos 8 parâmetros de restrição",
+    "Pedido possui pelo menos um dos 8 parâmetros de restrição (BLK)",
     riskScoreObject.blackListed.score,
     riskScoreObject
   );

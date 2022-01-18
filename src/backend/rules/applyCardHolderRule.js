@@ -36,7 +36,7 @@ export const applyCardHolderRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r001",
     "TIT",
-    "Titularidade do Cartão de Crédito",
+    "Titularidade do Cartão de Crédito (TIT)",
     riskScoreObject.cardHolder.score,
     riskScoreObject
   );

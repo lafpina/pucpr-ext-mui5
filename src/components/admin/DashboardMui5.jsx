@@ -24,6 +24,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Button from '@mui/material/Button'
 import NewOrders from "./NewOrders";
 
 const LightTooltip = styled(Tooltip, {})({
@@ -91,7 +92,8 @@ export default function DashboardContent(props) {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open} style={{ background: "#4d6e8a" }}>
+        <AppBar position="absolute" open={open} style={{ background: "#cdcdcd" }}>
+        {/* <AppBar position="absolute" open={open} style={{ background: "#4d6e8a" }}> */}
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -109,7 +111,12 @@ export default function DashboardContent(props) {
             >
               <MenuIcon />
             </IconButton>
-            <LogoAlerteMe size={"small"} color={"white"} />
+
+             <Typography variant="h5" color="Ivory">
+               Feed
+             </Typography>
+
+            {/* <LogoAlerteMe size={"small"} color={"white"} /> */}
             <Typography
               component="h1"
               variant="h6"
@@ -170,7 +177,13 @@ export default function DashboardContent(props) {
                   </Badge>
                   </IconButton>
             </LightTooltip>
-            <ArrowDropDownIcon />
+
+            <Box sx={{ ml: 1 }}>
+              <Button>
+                <ArrowDropDownIcon />
+              </Button>
+            </Box>
+
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -190,6 +203,12 @@ export default function DashboardContent(props) {
           <List>{PrimaryMenuOptions}</List>
           <Divider />
           <List>{SecondaryMenuOptions}</List>
+          <Box sx={{ mt: 20, ml: 10, color: 'Silver', fontSize: 15}}>
+             AlerteMe 
+          </Box>   
+          <Box sx={{ ml: 11.5, color: 'CornflowerBlue', fontSize: 10}}>
+             v. Mui5
+          </Box>
         </Drawer>
         <Box
           component="main"

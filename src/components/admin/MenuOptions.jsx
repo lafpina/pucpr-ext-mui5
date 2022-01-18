@@ -17,42 +17,42 @@ export const PrimaryMenuOptions = (
   <div>
     <ListItem button>
       <ListItemIcon>
-        <DashboardIcon />
+        <DashboardIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
 
     <ListItem button>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <ShoppingCartIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Feed" />
     </ListItem>
 
     <ListItem button>
       <ListItemIcon>
-        <ShoppingBasketIcon />
+        <ShoppingBasketIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Pedido" />
     </ListItem>
 
     <ListItem button>
       <ListItemIcon>
-        <PeopleIcon />
+        <PeopleIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Cliente" />
     </ListItem>
 
     <ListItem button>
       <ListItemIcon>
-        <ViewQuiltIcon />
+        <ViewQuiltIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Produto" />
     </ListItem>
 
     <ListItem button>
       <ListItemIcon>
-        <BarChartIcon />
+        <BarChartIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Chargebacks" />
     </ListItem>
@@ -64,14 +64,14 @@ export const SecondaryMenuOptions = (
     <ListSubheader inset>Administração</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AssignmentIcon sx={{ color: 'DarkKhaki' }} />
       </ListItemIcon>
       <ListItemText primary="Cadastros" />
     </ListItem>
 
     <ListItem button>
       <ListItemIcon>
-        <LayersIcon />
+        <LayersIcon sx={{ color: 'DarkKhaki' }} />
       </ListItemIcon>
       <ListItemText primary="Configurações" />
     </ListItem>

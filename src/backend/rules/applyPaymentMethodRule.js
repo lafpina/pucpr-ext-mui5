@@ -29,7 +29,7 @@ export const applyPaymentMethodRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r008",
     "PAG",
-    "Método de Pagamento utilizado",
+    "Método de Pagamento utilizado (PAG)",
     score,
     riskScoreObject
   );

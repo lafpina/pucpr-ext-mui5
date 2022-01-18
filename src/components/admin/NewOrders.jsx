@@ -64,11 +64,12 @@ function Row(props) {
         <OrderItemCell orderDetail={row} />
 
         <OrderValueCell orderDetail={row} />
+
         <OrderPaymentCell
           orderDetail={row}
-          // creditCard={row.creditCard}
-          // incompleteOrders={row.incompleteOrders}
-          // paymentMethod={row.payMethod}
+        // creditCard={row.creditCard}
+        // incompleteOrders={row.incompleteOrders}
+        // paymentMethod={row.payMethod}
         />
         <OrderShippingToCell shippingTo={row.destino} />
 

@@ -14,7 +14,7 @@ export const applyShoppingTimeRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r005",
     "HRA",
-    "Compra efetuada fora do horário habitual",
+    "Compra efetuada fora do horário habitual (HRA)",
     riskScoreObject.shoppingTime.score,
     riskScoreObject
   );

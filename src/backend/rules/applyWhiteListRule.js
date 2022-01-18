@@ -11,7 +11,7 @@ export const applyWhiteListRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r016",
     "RLV",
-    "Cliente possui alta relevância",
+    "Cliente possui alta relevância (RLV)",
     riskScoreObject.whiteListed.score,
     riskScoreObject
   );

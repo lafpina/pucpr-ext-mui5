@@ -38,7 +38,7 @@ export const applyOrderErrorCheck = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r020",
     "CPL",
-    "Possibilidade do Cliente ter efetuado compra para a própria lista",
+    "Possibilidade do Cliente ter efetuado compra para a própria lista (CPL)",
     riskScoreObject.orderErrorCheck.score ? riskScoreObject.orderErrorCheck.cpl : 0,
     riskScoreObject
   );
@@ -46,7 +46,7 @@ export const applyOrderErrorCheck = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r021",
     "SPE",
-    "Pedido em Preparando Entrega por tempo excessivo",
+    "Pedido em Preparando Entrega por tempo excessivo (SPE)",
     riskScoreObject.orderErrorCheck.score ? riskScoreObject.orderErrorCheck.spe : 0,
     riskScoreObject
   );
@@ -54,7 +54,7 @@ export const applyOrderErrorCheck = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r022",
     "SPM",
-    "Pedido em Pronto para Manuseio por tempo excessivo",
+    "Pedido em Pronto para Manuseio por tempo excessivo (SPM)",
     riskScoreObject.orderErrorCheck.score ? riskScoreObject.orderErrorCheck.spm : 0,
     riskScoreObject
   );
@@ -62,7 +62,7 @@ export const applyOrderErrorCheck = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r023",
     "SPP",
-    "Pedido em Aguardando Pagamento por tempo excessivo",
+    "Pedido em Aguardando Pagamento por tempo excessivo (SPP)",
     riskScoreObject.orderErrorCheck.score ? riskScoreObject.orderErrorCheck.spp : 0,
     riskScoreObject
   );

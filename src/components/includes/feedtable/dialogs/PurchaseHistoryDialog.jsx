@@ -5,29 +5,21 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
 import React from "react";
 import { useState, useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-
 import formatTZOrderDate from "../../../../backend/utils/formatTZOrderDate";
 import setCurrency from "../../../../backend/utils/setCurrency";
-
-import InsertChartIcon from "@material-ui/icons/InsertChart";
-
-import RiskScoreChart from "./RiskScoreChart";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

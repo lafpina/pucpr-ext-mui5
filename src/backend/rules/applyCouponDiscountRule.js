@@ -3,18 +3,17 @@ import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 export const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
   // Any coupon of discount other than Compre Junto will score positively
 
-  if (
-    orderObject.coupon > " " &&
-    orderObject.coupon.indexOf("Compre Junto") == -1
-  ) {
-    riskScoreObject.final -= 15;
-    riskScoreObject.couponDiscount.score = -15;
-  }
+  orderObject.coupon.map((coupon) => {
+    if (coupon.includes("CDN")) {
+      riskScoreObject.final -= 15;
+      riskScoreObject.couponDiscount.score = -15;
+    }
+  })
 
   riskScoreObject = buildRiskScoreLog(
     "r006",
-    "CPN",
-    "Utilização de Cupom de Desconto emitido pela Área de Atendimento ao Cliente",
+    "CDN",
+    "Utilização de Cupom de Desconto emitido pela Área de Atendimento ao Cliente (CDN)",
     riskScoreObject.couponDiscount.score,
     riskScoreObject
   );

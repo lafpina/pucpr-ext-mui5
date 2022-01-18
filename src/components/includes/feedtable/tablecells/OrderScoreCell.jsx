@@ -8,8 +8,8 @@ import { IconizeRiskLevel } from "../iconization/IconizeRiskLevel";
 import { StyledBadge } from "../badgezation/StyledBadge";
 import { StyledBadgeRisk } from "../badgezation/StyledBadge";
 import { StyledBadgeWarning } from "../badgezation/StyledBadge";
+import ScoreWindow from "../dialogs/ScoreWindow"
 
-import RiskScoreDialog from "../dialogs/RiskScoreDialog";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -68,7 +68,8 @@ export const OrderScoreCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {isOpen && <RiskScoreDialog orderDetail={orderDetail} />}
+      {isOpen && <ScoreWindow orderDetail={orderDetail} />}
+      {/* {isOpen && <RiskScoreDialog orderDetail={orderDetail} />} */}
     </>
   );
 };

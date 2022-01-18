@@ -20,7 +20,7 @@ async function applyForeignCardRule(orderObject, riskScoreObject) {
   riskScoreObject = buildRiskScoreLog(
     "r002",
     "EMS",
-    "Nacionalidade do Emissor do Cartão de Crédito",
+    "Nacionalidade do Emissor do Cartão de Crédito (EMS)",
     riskScoreObject.foreignCreditCard.score,
     riskScoreObject
   );

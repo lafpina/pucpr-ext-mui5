@@ -9,21 +9,21 @@ export const formatCreditCard = (vtexOrder) => {
   for (let i = 0; i < vtexPaymentDataLen; ++i) {
     if (
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
-        "Pix" &&
+      "Pix" &&
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
-        "Vale" &&
+      "Vale" &&
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
-        "Boleto Bancário" &&
+      "Boleto Bancário" &&
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
-        "Depósito"
+      "Depósito"
     ) {
       paymentMethod[i] = vtexOrder.paymentData.transactions[0].payments[
         i
       ].paymentSystemName.concat(
         " " +
-          vtexOrder.paymentData.transactions[0].payments[i].firstDigits +
-          "****" +
-          vtexOrder.paymentData.transactions[0].payments[i].lastDigits
+        vtexOrder.paymentData.transactions[0].payments[i].firstDigits +
+        "****" +
+        vtexOrder.paymentData.transactions[0].payments[i].lastDigits
       );
     } else {
       paymentMethod[i] =
@@ -86,9 +86,9 @@ export const formatCarrier = (vtexOrder) => {
 };
 
 export const formatCoupon = (vtexOrder) => {
-  let coupon = " ";
-  if (vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0]) {
-    coupon = vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[0].name;
+  let coupon = [];
+  for (let i = 0; i < vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers.length; i++) {
+    coupon[i] = vtexOrder.ratesAndBenefitsData.rateAndBenefitsIdentifiers[i].name;
   }
   return coupon;
 };
