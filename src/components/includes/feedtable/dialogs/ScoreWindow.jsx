@@ -27,7 +27,7 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-
+// Turn the percentage score red, yeallow or green depending on the score value
 const scoreStyle = (score) => {
   switch (score) {
     case 100:
@@ -51,7 +51,7 @@ export default function ScoreWindow(props) {
 
   const { orderDetail } = props;
   const [open, setOpen] = React.useState(true);
-  const [isChartOpen, setIsChartOpen] = React.useState(false);
+  const [isReportButtonClicked, setIsReportButtonClicked] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -59,6 +59,10 @@ export default function ScoreWindow(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleReportButtonClicked = (e) => setIsReportButtonClicked((prevState) => !prevState);
+
+
 
   return (
     <>
@@ -75,13 +79,13 @@ export default function ScoreWindow(props) {
         <DialogTitle style={{ cursor: 'move' }} sx={{ bgcolor: "WhiteSmoke" }} id="Dialog-Score" >
           <Grid container spacing={1}>
             <Grid item xs={12} >
-              <Box sx={{ color: '#607d8b', fontSize: 16, mt: 0.5  }}>
-              {orderDetail.orderId}
-                <Box sx={{ display: 'inline', color: '#546e7a', fontSize: 16, mt: 0.5, ml: 1  }}>
-                 {orderDetail.cliente}
+              <Box sx={{ color: '#607d8b', fontSize: 16, mt: 0.5 }}>
+                {orderDetail.orderId}
+                <Box sx={{ display: 'inline', color: '#546e7a', fontSize: 16, mt: 0.5, ml: 1 }}>
+                  {orderDetail.cliente}
                 </Box>
                 <Box sx={{ display: 'inline', color: '#90a4ae', fontSize: 16, mt: 0.5, ml: 1 }}>
-                 Risco {orderDetail.scoreDesc}:
+                  Risco {orderDetail.scoreDesc}:
                 </Box>
                 <Box sx={{ display: 'inline', mt: 0.5, ml: 1, color: scoreStyle(orderDetail.score) }}>
                   {orderDetail.score}%
@@ -91,7 +95,7 @@ export default function ScoreWindow(props) {
             <Divider />
           </Grid>
         </DialogTitle>
-        
+
         {/* CONTENT */}
         <DialogContent sx={{ bgcolor: "WhiteSmoke" }} >
           <DialogContentText>
@@ -112,7 +116,7 @@ export default function ScoreWindow(props) {
                   {/* <Box sx={{ color: '#455a64', m: 0.5, ml: 1, fontSize: 18 }}>
                     Análise
                   </Box> */}
-                  <ScoreChart detail={orderDetail} />  
+                  <ScoreChart detail={orderDetail} />
                 </Paper>
               </Grid>
 
@@ -126,46 +130,46 @@ export default function ScoreWindow(props) {
                     height: 210,
                   }}
                 >
-                  <Box sx={{color: '#455a64', m: 0.5, ml: 1, fontSize: 18 }}>
+                  <Box sx={{ color: '#455a64', m: 0.5, ml: 1, fontSize: 18 }}>
                     Perfil
                   </Box>
-                  <Box sx={{ color: 'SteelBlue', fontSize: 25 , ml: 9.5, mt: 6 }}>
-                    <IconizeRiskLevel riskLevel={orderDetail.scoreDesc} size="large" /> 
+                  <Box sx={{ color: 'SteelBlue', fontSize: 25, ml: 9.5, mt: 6 }}>
+                    <IconizeRiskLevel riskLevel={orderDetail.scoreDesc} size="large" />
                   </Box>
                 </Paper>
               </Grid>
               <Grid item xs={12} sx={{ bgcolor: "WhiteSmoke", mt: 0.2 }}>
-                <Paper 
-                  sx={{ 
-                    display: 'flex',    
-                    flexDirection: 'column', 
-                    fontSize: 14, 
+                <Paper
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    fontSize: 14,
                     color: '#607d8b',
                   }}>
 
                   {/* PONTOS RELEVANTES */}
 
-                  <Box sx={{color: '#455a64', ml: 1, mt: 2, fontSize: 18, pl: 1 }}>
+                  <Box sx={{ color: '#455a64', ml: 1, mt: 2, fontSize: 18, pl: 1 }}>
                     Pontos Relevantes
                   </Box>
                   <Box sx={{ ml: 1, mt: 0.2 }}>
                     <List dense >
                       {orderDetail.riskProfile.riskScoreLog
-                      .filter((rule) => rule.score != 0)
-                      .map((rule, ruleId) => {
-                        return (
-                          <div key={ruleId}>
-                            <ListItem key={ruleId} button>
-                              <ListItemText
-                                id={rule.ruleId}
-                                primary={rule.ruleName}
-                                secondary={"score " + rule.score}
-                              />
-                            </ListItem>
-                            <Divider />
-                          </div>
-                        );
-                      })}
+                        .filter((rule) => rule.score != 0)
+                        .map((rule, ruleId) => {
+                          return (
+                            <div key={ruleId}>
+                              <ListItem key={ruleId} button>
+                                <ListItemText
+                                  id={rule.ruleId}
+                                  primary={rule.ruleName}
+                                // secondary={"score " + rule.score}
+                                />
+                              </ListItem>
+                              <Divider />
+                            </div>
+                          );
+                        })}
                     </List>
                   </Box>
                 </Paper>
@@ -177,25 +181,28 @@ export default function ScoreWindow(props) {
         {/* ACTIONS */}
 
         <DialogActions sx={{ bgcolor: '#cfd8dc' }}>
-          <Fab variant="extended" size="medium" autoFocus onClick={handleClose} 
-            sx={{ 
-              bgcolor: "#546e7a", 
-              color: "White", 
-              fontSize: 13, 
-              mb: 2, 
+          <Fab variant="extended" size="medium" autoFocus onClick={handleClose}
+            sx={{
+              bgcolor: "#546e7a",
+              color: "White",
+              fontSize: 13,
+              mb: 2,
               mt: 2,
-              mr: 4, 
+              mr: 4,
               '&:hover': {
                 color: 'white',
                 backgroundColor: '#78909c',
-              }, 
-            }} 
+              },
+            }}
           >
             Reportar
           </Fab>
         </DialogActions>
+        {/* {isReportButtonClicked && <QuestionDialog question={"Tem Certeza"} />} */}
       </Dialog>
     </>
   );
 }
+
+
 

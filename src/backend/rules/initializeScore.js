@@ -31,6 +31,10 @@ export const initializeScore = () => {
     customProduct: {
       score: 0,
     },
+    zendeskTickets: {
+      qty: 0,
+      score: 0,
+    },
     historyPurchase: {
       profile: {
         qty: 0,
@@ -80,7 +84,7 @@ export const initializeScore = () => {
       spe: false, // Pedido em Preparando Entrega por tempo excessivo
       spm: false, // Pedido em Pronto para Manuseio por tempo excessivo
       spp: false, // Pedido em Pagamento Pendente por tempo excessivo
-      score: 0, 
+      score: 0,
     },
     blackListed: {
       qty: 0,

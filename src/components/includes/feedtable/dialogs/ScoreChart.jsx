@@ -17,12 +17,12 @@ export default function Chart(props) {
   data[0] = createData("Captura", 70)
 
   let i;
-  for (i = 0; i <= 17; i++) {
-      scoreTotal += detail.riskProfile.riskScoreLog[i].score;
-      data[i + 1] = createData(
+  for (i = 0; i <= 18; i++) {
+    scoreTotal += detail.riskProfile.riskScoreLog[i].score;
+    data[i + 1] = createData(
       detail.riskProfile.riskScoreLog[i].ruleRef,
       70 + scoreTotal
-      );
+    );
   }
   data[i + 1] = createData("Final", 70 + scoreTotal);
 
@@ -40,7 +40,7 @@ export default function Chart(props) {
             left: 20,
           }}
         >
-            <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="ruleRef"
             stroke={theme.palette.text.secondary}
