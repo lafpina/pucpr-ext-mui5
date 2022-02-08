@@ -3,7 +3,7 @@ import titleCase from "../utils/titleCase";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 13
-export const applyEmailRule = (orderObject, riskScoreObject) => {
+export const eml_EmailRule = (orderObject, riskScoreObject) => {
   // In case client email contains numbers risk increases in 5%
   const regex = /[0-9]/;
   const emailFirstPart = orderObject.clientEmail.split("@", 1);

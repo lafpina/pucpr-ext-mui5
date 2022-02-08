@@ -1,6 +1,6 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 //? Rule 11
-export const applyCarrierRule = (orderObject, riskScoreObject) => {
+export const etg_CarrierRule = (orderObject, riskScoreObject) => {
   // Carrier express and pickup store score negatively
   if (!orderObject.paymentGroup.giftCard) {
     if (
@@ -20,7 +20,7 @@ export const applyCarrierRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r011",
     "ETG",
-    "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega (ETG)",
+    "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega, o que pode aumentar o risco (ETG)",
     riskScoreObject.carrier.score,
     riskScoreObject
   );

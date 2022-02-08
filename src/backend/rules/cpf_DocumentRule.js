@@ -2,7 +2,7 @@ import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 import isClientCPFValid from "../utils/isClientCpfValid";
 
 //? Rule 12
-export const applyDocumentRule = (orderObject, riskScoreObject) => {
+export const cpf_DocumentRule = (orderObject, riskScoreObject) => {
   // set final score to its max if document is invalid
   if (!isClientCPFValid(orderObject.cpf)) {
     riskScoreObject.validCPF.score = 100;

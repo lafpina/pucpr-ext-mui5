@@ -1,7 +1,7 @@
 import { isBlackListed } from "../../../data/black-list";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-export const applyBlackListRule = (orderObject, riskScoreObject) => {
+export const blk_BlackListRule = (orderObject, riskScoreObject) => {
   let blackedResult = isBlackListed(
     orderObject.clientEmail,
     orderObject.cpf,

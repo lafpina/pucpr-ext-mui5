@@ -1,9 +1,10 @@
 import { lookForPurchaseHistory } from "../api/lookForPurchaseHistory";
 import { convertDate } from "../utils/convertDate";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
+import setCurrency from '../utils/setCurrency'
 
 //? Rule 09
-export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
+export const hst_fby_HistPurchaseRule = async (orderObject, riskScoreObject) => {
   // Score positively based on the history of purchase
 
   riskScoreObject.historyPurchase.profile = await lookForPurchaseHistory(
@@ -21,40 +22,59 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
     const diff = Math.abs(now.getTime() - past.getTime()); // Subtrai uma data pela outra
     const days = Math.ceil(diff / (1000 * 60 * 60 * 24)); // Divide o total pelo total de milisegundos correspondentes a 1 dia. (1000 milisegundos = 1 segundo).
 
-    if (days > 90) {
-      riskScoreObject.final -= 30;
-      riskScoreObject.historyPurchase.score -= 30;
-      riskScoreObject.historyPurchase.profile.isGT90History = true;
-    } else if (days > 60) {
-      riskScoreObject.final -= 20;
-      riskScoreObject.historyPurchase.score -= 20;
-      riskScoreObject.historyPurchase.profile.isGT60History = true;
-    } else if (days > 40) {
-      riskScoreObject.final -= 10;
-      riskScoreObject.historyPurchase.score -= 10;
-      riskScoreObject.historyPurchase.profile.isGT40History = true;
+
+    var text = ''
+    var text1 = 'Histórico de compras com a primeira compra efetuda há '
+    var text2 = 'Possui em seu histórico pelo menos um pagamento com '
+    var text3 = 'Identificado um volume total de '
+    var text4 = 'totalizando '
+
+    text = text1.concat(days, ' dia(s). ')
+
+    switch (true) {
+      case (days > 90):
+        riskScoreObject.final -= 30;
+        riskScoreObject.historyPurchase.score -= 30;
+        riskScoreObject.historyPurchase.profile.isGT90History = true;
+        break
+      case (days > 60):
+        riskScoreObject.final -= 20;
+        riskScoreObject.historyPurchase.score -= 20;
+        riskScoreObject.historyPurchase.profile.isGT60History = true;
+        break
+      case (days > 40):
+        riskScoreObject.final -= 10;
+        riskScoreObject.historyPurchase.score -= 10;
+        riskScoreObject.historyPurchase.profile.isGT40History = true;
+        break
     }
+
     // History has at least one payment using Gift Credit (Vale)
     if (riskScoreObject.historyPurchase.profile.isGiftHistory) {
+      text = text.concat(text2, ' VALE. ')
       riskScoreObject.final -= 40;
       riskScoreObject.historyPurchase.score -= 40;
     }
     // History has at least one purchase for a Promissory (Boleto)
     if (riskScoreObject.historyPurchase.profile.isPromissoryHistory) {
+      text = text.concat(text2, ' BOLETO BANCÁRIO. ')
       riskScoreObject.final -= 30;
       riskScoreObject.historyPurchase.score -= 30;
     }
     // History has at least one purchase for an Instant Payment (PIX)
     if (riskScoreObject.historyPurchase.profile.isPixHistory) {
+      text = text.concat(text2, ' PIX. ')
       riskScoreObject.final -= 30;
       riskScoreObject.historyPurchase.score -= 30;
     }
     // Client has bought over 1.000 before this transaction
+    text = text.concat(text3, setCurrency(riskScoreObject.historyPurchase.profile.value), ' em compras, ')
     if (riskScoreObject.historyPurchase.profile.value > 100000) {
       riskScoreObject.final -= 10;
       riskScoreObject.historyPurchase.score -= 10;
     }
 
+    text = text.concat(text4, riskScoreObject.historyPurchase.profile.qty, ' pedido(s) efetuado(s).')
     // Client has bought at least 150 before this transaction than can be
     // elegible for quantity evaluation
     if (riskScoreObject.historyPurchase.profile.value > 15000) {
@@ -93,14 +113,14 @@ export const applyHistPurchaseRule = async (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r009",
     "HST",
-    "Histórico de Compras do Cliente e a sua relação com a forma de pagamento (HST)",
+    `${text} (HST)`,
     riskScoreObject.historyPurchase.score,
     riskScoreObject
   );
   riskScoreObject = buildRiskScoreLog(
     "r017",
     "FBY",
-    "Primeira compra no Site (FBY)",
+    "Primeira compra no Site, que pode aumentar o risco (FBY)",
     riskScoreObject.firstBuying.score,
     riskScoreObject
   );

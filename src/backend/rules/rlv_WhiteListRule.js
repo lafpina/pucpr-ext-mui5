@@ -1,7 +1,7 @@
 import { isWhiteListed } from "../../../data/white-list";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-export const applyWhiteListRule = (orderObject, riskScoreObject) => {
+export const rlv_WhiteListRule = (orderObject, riskScoreObject) => {
   if (isWhiteListed(orderObject.clientEmail, orderObject.cpf)) {
     riskScoreObject.whiteListed.score -= 50;
     riskScoreObject.final -= 50;

@@ -2,7 +2,7 @@ import { getIncompleteOrdersByCpf } from "../api/getIncompleteOrdersByCpf";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 10
-export const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
+export const tnt_IncompOrdersRule = async (orderObject, riskScoreObject) => {
   const history = await getIncompleteOrdersByCpf(orderObject.cpf);
 
   const hasGoodPaymentHistory = () => {
@@ -47,7 +47,7 @@ export const applyIncompOrdersRule = async (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r010",
     "TNT",
-    "Tentativas de compra antes da efetivação da compra atual (TNT)",
+    `Pelo menos ${riskScoreObject.incompleteOrders.qty} tentativa(s) de compra somente com cartão de crédito, antes da efetivação da compra atual (TNT)`,
     riskScoreObject.incompleteOrders.score,
     riskScoreObject
   );

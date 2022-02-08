@@ -1,6 +1,6 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 //? Rule 3
-export const applyShippingRateRule = (orderObject, riskScoreObject) => {
+export const fte_ShippingRateRule = (orderObject, riskScoreObject) => {
   // Scores negatively depending on the rate between total product value and
   // shipping cost
   let shippingRate = (
@@ -16,7 +16,7 @@ export const applyShippingRateRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r003",
     "FTE",
-    "Relação entre o valor da compra e o frete pago superior à média (FTE)",
+    "Relação entre o valor da compra e o frete pago superior à média, o que pode aumentar o risco (FTE)",
     riskScoreObject.shippingRate.score,
     riskScoreObject
   );

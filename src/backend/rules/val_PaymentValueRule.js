@@ -1,7 +1,7 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 04
-export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
+export const val_PaymentValueRule = (orderObject, riskScoreObject) => {
   // Fist it scores positively for payment whose value is acceptable as a risk,
   // as long as it's a national card
   // if (orderObject.value <= 10000 && orderObject.cardCountry === "BRAZIL") {
@@ -43,7 +43,7 @@ export const applyPaymentValueRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r004",
     "VAL",
-    "Relação do valor da compra e a forma de pagamento (VAL)",
+    "Pedido apresenta algum risco em relação ao valor da compra, com a falta de histórico, e as parcelas de pagamento (VAL)",
     riskScoreObject.paymentValue.score,
     riskScoreObject
   );

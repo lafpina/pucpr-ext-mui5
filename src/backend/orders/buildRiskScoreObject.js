@@ -1,26 +1,26 @@
 import { determineRisk } from "../utils/determineRisk";
 import { initializeScore } from "../rules/initializeScore";
 
-import { applyHistPurchaseRule } from "../rules/applyHistPurchaseRule";
-import { applyCardHolderRule } from "../rules/applyCardHolderRule";
-import applyForeignCardRule from "../rules/applyForeignCardRule";
-import { applyCouponDiscountRule } from "../rules/applyCouponDiscountRule";
-import { applyGiftRule } from "../rules/applyGiftRule";
-import { applyPaymentMethodRule } from "../rules/applyPaymentMethodRule";
-import { applyCustomProductRule } from "../rules/applyCustomProductRule";
+import { hst_fby_HistPurchaseRule } from "../rules/hst_fby_HistPurchaseRule";
+import { tit_CardHolderRule } from "../rules/tit_CardHolderRule";
+import ems_ForeignCardRule from "../rules/ems_ForeignCardRule";
+import { cdn_CouponDiscountRule } from "../rules/cdn_CouponDiscountRule";
+import { lst_GiftRule } from "../rules/lst_GiftRule";
+import { pag_PaymentMethodRule } from "../rules/pag_PaymentMethodRule";
+// import { applyCustomProductRule } from "../rules/applyCustomProductRule";
 
-import { applyShippingRateRule } from "../rules/applyShippingRateRule";
-import { applyIncompOrdersRule } from "../rules/applyIncompleteOrdersRule";
-import { applyCarrierRule } from "../rules/applyCarrierRule";
-import { applyPaymentValueRule } from "../rules/applyPaymentValueRule";
-import { applyDocumentRule } from "../rules/applyDocumentRule";
-import { applyEmailRule } from "../rules/applyEmailRule";
-import { applyAreaCodeRule } from "../rules/applyAreaCodeRule";
-import { applyShoppingTimeRule } from "../rules/applyShoppingTimeRule";
-import { applyBlackListRule } from "../rules/applyBlackListRule";
-import { applyWhiteListRule } from "../rules/applyWhiteListRule";
+import { fte_ShippingRateRule } from "../rules/fte_ShippingRateRule";
+import { tnt_IncompOrdersRule } from "../rules/tnt_IncompleteOrdersRule";
+import { etg_CarrierRule } from "../rules/etg_CarrierRule";
+import { val_PaymentValueRule } from "../rules/val_PaymentValueRule";
+import { cpf_DocumentRule } from "../rules/cpf_DocumentRule";
+import { eml_EmailRule } from "../rules/eml_EmailRule";
+import { ddd_AreaCodeRule } from "../rules/ddd_AreaCodeRule";
+import { hra_ShoppingTimeRule } from "../rules/hra_ShoppingTimeRule";
+import { blk_BlackListRule } from "../rules/blk_BlackListRule";
+import { rlv_WhiteListRule } from "../rules/rlv_WhiteListRule";
 import { applyOrderErrorCheck } from "../rules/applyOrderErrorCheck";
-import { applyZendeskRule } from '../rules/applyZendeskRule';
+import { zdk_ZendeskRule } from '../rules/zdk_ZendeskRule';
 
 export const buildRiskScoreObject = async (orderObject) => {
   const riskScoreGraph = [];
@@ -37,26 +37,26 @@ export const buildRiskScoreObject = async (orderObject) => {
   console.log("Cliente:", orderObject.clientName);
   console.log("-----------------------------------------");
 
-  riskScoreObject = applyCardHolderRule(orderObject, riskScoreObject);
-  riskScoreObject = await applyForeignCardRule(orderObject, riskScoreObject);
-  riskScoreObject = applyShippingRateRule(orderObject, riskScoreObject);
-  riskScoreObject = applyPaymentValueRule(orderObject, riskScoreObject);
-  riskScoreObject = applyShoppingTimeRule(orderObject, riskScoreObject);
-  riskScoreObject = applyCouponDiscountRule(orderObject, riskScoreObject);
-  riskScoreObject = applyGiftRule(orderObject, riskScoreObject);
-  riskScoreObject = applyPaymentMethodRule(orderObject, riskScoreObject);
+  riskScoreObject = tit_CardHolderRule(orderObject, riskScoreObject);
+  riskScoreObject = await ems_ForeignCardRule(orderObject, riskScoreObject);
+  riskScoreObject = fte_ShippingRateRule(orderObject, riskScoreObject);
+  riskScoreObject = val_PaymentValueRule(orderObject, riskScoreObject);
+  riskScoreObject = hra_ShoppingTimeRule(orderObject, riskScoreObject);
+  riskScoreObject = cdn_CouponDiscountRule(orderObject, riskScoreObject);
+  riskScoreObject = lst_GiftRule(orderObject, riskScoreObject);
+  riskScoreObject = pag_PaymentMethodRule(orderObject, riskScoreObject);
   // riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
-  riskScoreObject = await applyHistPurchaseRule(orderObject, riskScoreObject);
-  riskScoreObject = await applyIncompOrdersRule(orderObject, riskScoreObject);
-  riskScoreObject = applyCarrierRule(orderObject, riskScoreObject);
-  riskScoreObject = applyDocumentRule(orderObject, riskScoreObject); // CPF
-  riskScoreObject = applyEmailRule(orderObject, riskScoreObject); // Email
-  riskScoreObject = applyAreaCodeRule(orderObject, riskScoreObject);
+  riskScoreObject = await hst_fby_HistPurchaseRule(orderObject, riskScoreObject);
+  riskScoreObject = await tnt_IncompOrdersRule(orderObject, riskScoreObject);
+  riskScoreObject = etg_CarrierRule(orderObject, riskScoreObject);
+  riskScoreObject = cpf_DocumentRule(orderObject, riskScoreObject); // CPF
+  riskScoreObject = eml_EmailRule(orderObject, riskScoreObject); // Email
+  riskScoreObject = ddd_AreaCodeRule(orderObject, riskScoreObject);
 
-  riskScoreObject = applyBlackListRule(orderObject, riskScoreObject);
-  riskScoreObject = applyWhiteListRule(orderObject, riskScoreObject);
+  riskScoreObject = blk_BlackListRule(orderObject, riskScoreObject);
+  riskScoreObject = rlv_WhiteListRule(orderObject, riskScoreObject);
 
-  riskScoreObject = await applyZendeskRule(orderObject, riskScoreObject);
+  riskScoreObject = await zdk_ZendeskRule(orderObject, riskScoreObject);
 
   // Verifica se há alguma incoerência com o pedido
   riskScoreObject = applyOrderErrorCheck(orderObject, riskScoreObject)

@@ -1,6 +1,6 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 //? Rule 05
-export const applyShoppingTimeRule = (orderObject, riskScoreObject) => {
+export const hra_ShoppingTimeRule = (orderObject, riskScoreObject) => {
   const shoppingTime = orderObject.creationDate.substr(11, 5);
   if (
     shoppingTime > "00:00" &&

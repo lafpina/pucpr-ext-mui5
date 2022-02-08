@@ -2,7 +2,7 @@ import getCreditCardBin from "../api/getCreditCardBin";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 2
-async function applyForeignCardRule(orderObject, riskScoreObject) {
+async function ems_ForeignCardRule(orderObject, riskScoreObject) {
   if (orderObject.paymentGroupActive.creditCard) {
     // Score negatively for foreign credit card
     if (
@@ -28,4 +28,4 @@ async function applyForeignCardRule(orderObject, riskScoreObject) {
   return riskScoreObject;
 }
 
-export default applyForeignCardRule;
+export default ems_ForeignCardRule;

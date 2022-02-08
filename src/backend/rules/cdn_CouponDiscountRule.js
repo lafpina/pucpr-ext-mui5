@@ -1,6 +1,6 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 //? Rule 6
-export const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
+export const cdn_CouponDiscountRule = (orderObject, riskScoreObject) => {
   // Any coupon of discount other than Compre Junto will score positively
 
   orderObject.coupon.map((coupon) => {
@@ -13,7 +13,7 @@ export const applyCouponDiscountRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r006",
     "CDN",
-    "Utilização de Cupom de Desconto emitido pela Área de Atendimento ao Cliente (CDN)",
+    "Emissão de Cupom de Desconto pela Área de Atendimento ao Cliente, atenua o risco (CDN)",
     riskScoreObject.couponDiscount.score,
     riskScoreObject
   );

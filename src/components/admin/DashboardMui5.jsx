@@ -28,10 +28,10 @@ import Button from '@mui/material/Button'
 import NewOrders from "./NewOrders";
 
 const LightTooltip = styled(Tooltip, {})({
-      color: "Ivory",
-      backgroundColor: "transparente",
-      boxShadow: 2,
-      fontSize: 13,
+  color: "Ivory",
+  backgroundColor: "transparente",
+  boxShadow: 2,
+  fontSize: 13,
 });
 
 const drawerWidth = 240;
@@ -93,7 +93,7 @@ export default function DashboardContent(props) {
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open} style={{ background: "#cdcdcd" }}>
-        {/* <AppBar position="absolute" open={open} style={{ background: "#4d6e8a" }}> */}
+          {/* <AppBar position="absolute" open={open} style={{ background: "#4d6e8a" }}> */}
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -112,9 +112,9 @@ export default function DashboardContent(props) {
               <MenuIcon />
             </IconButton>
 
-             <Typography variant="h5" color="Ivory">
-               Feed
-             </Typography>
+            <Typography variant="h6" sx={{ color: 'SteelBlue' }} >
+              Feed
+            </Typography>
 
             {/* <LogoAlerteMe size={"small"} color={"white"} /> */}
             <Typography
@@ -128,54 +128,54 @@ export default function DashboardContent(props) {
             </Typography>
             {/* Notification Whitelist */}
             <LightTooltip
-                  title="VIP"
-                  placement="bottom"
-                  arrow
-                  interactive
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  aria-label="Cartão"
-                  >
-                  <IconButton aria-label="whitelist" color="inherit">
-                        <Badge badgeContent={props.notificationWhiteList} color="primary">
-                        <FavoriteOutlinedIcon />
-                        </Badge>
-                  </IconButton>
+              title="VIP"
+              placement="bottom"
+              arrow
+              interactive
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              aria-label="Cartão"
+            >
+              <IconButton aria-label="whitelist" color="inherit">
+                <Badge badgeContent={props.notificationWhiteList} color="primary">
+                  <FavoriteOutlinedIcon />
+                </Badge>
+              </IconButton>
             </LightTooltip>
             {/* Notification Blacklist */}
             <LightTooltip
-                  title="Retrições"
-                  placement="bottom"
-                  arrow
-                  interactive
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  aria-label="Cartão"
-                  >
-                  <IconButton aria-label="blacklist" color="inherit">
-                  <Badge
-                        badgeContent={props.notificationBlackList}
-                        color="secondary"
-                  >
-                        <ErrorOutlinedIcon />
-                  </Badge>
-                  </IconButton>
+              title="Retrições"
+              placement="bottom"
+              arrow
+              interactive
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              aria-label="Cartão"
+            >
+              <IconButton aria-label="blacklist" color="inherit">
+                <Badge
+                  badgeContent={props.notificationBlackList}
+                  color="secondary"
+                >
+                  <ErrorOutlinedIcon />
+                </Badge>
+              </IconButton>
             </LightTooltip>
             {/* Notification Alerts */}
             <LightTooltip
-                  title="Alto Risco"
-                  placement="bottom"
-                  arrow
-                  interactive
-                  TransitionComponent={Fade}
-                  TransitionProps={{ timeout: 600 }}
-                  aria-label="Notification"
-                  >
-                  <IconButton aria-label="notification" color="inherit">
-                  <Badge badgeContent={props.notificationAlerts} color="error">
-                        <NotificationsIcon />
-                  </Badge>
-                  </IconButton>
+              title="Alto Risco"
+              placement="bottom"
+              arrow
+              interactive
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              aria-label="Notification"
+            >
+              <IconButton aria-label="notification" color="inherit">
+                <Badge badgeContent={props.notificationAlerts} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
             </LightTooltip>
 
             <Box sx={{ ml: 1 }}>
@@ -203,11 +203,11 @@ export default function DashboardContent(props) {
           <List>{PrimaryMenuOptions}</List>
           <Divider />
           <List>{SecondaryMenuOptions}</List>
-          <Box sx={{ mt: 20, ml: 10, color: 'Silver', fontSize: 15}}>
-             AlerteMe 
-          </Box>   
-          <Box sx={{ ml: 11.5, color: 'CornflowerBlue', fontSize: 10}}>
-             v. Mui5
+          <Box sx={{ mt: 20, ml: 10, color: 'Silver', fontSize: 15 }}>
+            AlerteMe
+          </Box>
+          <Box sx={{ ml: 11.5, color: 'Steelblue', fontSize: 10 }}>
+            v. Mui5
           </Box>
         </Drawer>
         <Box
@@ -227,7 +227,7 @@ export default function DashboardContent(props) {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <NewOrders orders={props.orders} />
+                  <NewOrders orders={props.orders} />
                 </Paper>
               </Grid>
             </Grid>
