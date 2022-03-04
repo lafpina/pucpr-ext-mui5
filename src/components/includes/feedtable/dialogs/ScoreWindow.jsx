@@ -62,8 +62,6 @@ export default function ScoreWindow(props) {
 
   const handleReportButtonClicked = (e) => setIsReportButtonClicked((prevState) => !prevState);
 
-
-
   return (
     <>
       <Dialog
@@ -159,7 +157,7 @@ export default function ScoreWindow(props) {
                         .map((rule, ruleId) => {
                           return (
                             <div key={ruleId}>
-                              <ListItem key={ruleId} button>
+                              <ListItem key={ruleId} >
                                 <ListItemText
                                   id={rule.ruleId}
                                   primary={rule.ruleName}

@@ -16,6 +16,12 @@ const getMasterdataClientEmail = async (vtexOrder) => {
   if (res.ok) {
     let data = await res.json();
     vtexEmail = JSON.parse(JSON.stringify(data));
+    if (vtexEmail[0] > '') {
+      console.log('vtexEmail:', vtexEmail)
+    } else {
+      vtexEmail[0] = ''
+    }
+
     return vtexEmail;
   } else {
     console.log(res)

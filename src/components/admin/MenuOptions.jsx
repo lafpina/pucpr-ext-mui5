@@ -31,23 +31,9 @@ export const PrimaryMenuOptions = (
 
     <ListItem button>
       <ListItemIcon>
-        <ShoppingBasketIcon sx={{ color: 'SteelBlue' }} />
-      </ListItemIcon>
-      <ListItemText primary="Pedido" />
-    </ListItem>
-
-    <ListItem button>
-      <ListItemIcon>
         <PeopleIcon sx={{ color: 'SteelBlue' }} />
       </ListItemIcon>
       <ListItemText primary="Cliente" />
-    </ListItem>
-
-    <ListItem button>
-      <ListItemIcon>
-        <ViewQuiltIcon sx={{ color: 'SteelBlue' }} />
-      </ListItemIcon>
-      <ListItemText primary="Produto" />
     </ListItem>
 
     <ListItem button>
@@ -75,6 +61,6 @@ export const SecondaryMenuOptions = (
       </ListItemIcon>
       <ListItemText primary="Configurações" />
     </ListItem>
-    
+
   </div>
 );

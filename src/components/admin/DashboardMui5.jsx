@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -16,7 +16,6 @@ import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Copyright from "../includes/layoutaccessories/Copyright";
-import { LogoAlerteMe } from "../includes/layoutaccessories/LogoAlerteMe";
 import Fade from "@material-ui/core/Fade";
 import { Tooltip } from "@material-ui/core";
 import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
@@ -25,7 +24,14 @@ import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
 import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Button from '@mui/material/Button'
-import NewOrders from "./NewOrders";
+import FeedTable from "./FeedTable";
+import FeedBar from '../includes/feedbar/FeedBar'
+import PageTitle from '../includes/layoutaccessories/PageTitle'
+
+import TextField from '@mui/material/TextField';
+import DateAdapter from '@mui/lab/AdapterMoment';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDateTimePicker from '@mui/lab/DesktopDateTimePicker';
 
 const LightTooltip = styled(Tooltip, {})({
   color: "Ivory",
@@ -34,7 +40,7 @@ const LightTooltip = styled(Tooltip, {})({
   fontSize: 13,
 });
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -82,18 +88,53 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
+
+
 export default function DashboardContent(props) {
   const [open, setOpen] = React.useState(true);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  // Update Document Title
+  useEffect(() => {
+    props.notificationWhiteList ? document.title = props.notificationWhiteList + ' VIP(s) ' : ''
+    props.notificationAlerts ? document.title = props.notificationAlerts + ' Alerta(s)  ' : ''
+    props.notificationBlackList ? document.title = props.notificationBlackList + ' Blacklist(s)  ' : ''
+  })
+
+  const FeedBarDate = () => {
+    return (
+      <Box sx={{ ml: 2, mr: 5, display: 'inline' }}>
+        <div>
+          <LocalizationProvider dateAdapter={DateAdapter}>
+            <DesktopDateTimePicker
+              renderInput={(props) => <TextField {...props} size='small' />}
+              label="Início"
+              value={startDate}
+              onChange={(newDate) => {
+                setStartDate(newDate);
+                window.location.reload();
+              }}
+              ampm={false}
+              ampmInClock={false}
+            />
+          </LocalizationProvider>
+        </div>
+      </Box>
+    )
+  }
 
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open} style={{ background: "#cdcdcd" }}>
-          {/* <AppBar position="absolute" open={open} style={{ background: "#4d6e8a" }}> */}
+        <AppBar position="absolute" open={open} style={{ background: "#d5d5d5" }}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
@@ -112,20 +153,11 @@ export default function DashboardContent(props) {
               <MenuIcon />
             </IconButton>
 
-            <Typography variant="h6" sx={{ color: 'SteelBlue' }} >
-              Feed
-            </Typography>
+            <PageTitle title='Feed' />
 
-            {/* <LogoAlerteMe size={"small"} color={"white"} /> */}
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              {/* Dashboard */}
-            </Typography>
+            <FeedBarDate />
+
+
             {/* Notification Whitelist */}
             <LightTooltip
               title="VIP"
@@ -186,6 +218,9 @@ export default function DashboardContent(props) {
 
           </Toolbar>
         </AppBar>
+
+
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -210,6 +245,8 @@ export default function DashboardContent(props) {
             v. Mui5
           </Box>
         </Drawer>
+
+        {/* FEED TABLE */}
         <Box
           component="main"
           sx={{
@@ -223,18 +260,22 @@ export default function DashboardContent(props) {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+          <FeedBar orders={props.orders} />
+
+          <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <NewOrders orders={props.orders} />
+                  <FeedTable orders={props.orders} />
                 </Paper>
               </Grid>
             </Grid>
-            <Copyright sx={{ mt: 1, pt: 4 }} />
+            <Copyright sx={{ mt: 0.5, pt: 2 }} />
           </Container>
+
         </Box>
       </Box>
-    </ThemeProvider>
+    </ThemeProvider >
   );
 }

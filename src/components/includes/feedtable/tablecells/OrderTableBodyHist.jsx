@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 
 const StyledTableCell = styled(TableCell, {})({
   color: "Gray",
-  backgroundColor: "Snow",
+  backgroundColor: "#f5f5f5",
   fontSize: 12,
 });
 

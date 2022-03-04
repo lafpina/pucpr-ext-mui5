@@ -11,6 +11,8 @@ export const formatCreditCard = (vtexOrder) => {
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
       "Pix" &&
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
+      "PicPay" &&
+      vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
       "Vale" &&
       vtexOrder.paymentData.transactions[0].payments[i].paymentSystemName !==
       "Boleto Bancário" &&
@@ -103,6 +105,7 @@ export const formatPaymentGroup = (vtexOrder) => {
       giftCard: false,
       promissory: false,
       instantPayment: false,
+      picPay: false,
     },
   };
 
@@ -130,6 +133,9 @@ export const formatPaymentGroup = (vtexOrder) => {
     }
     if (paymentGroupObject.group[i] === "instantPayment") {
       paymentGroupObject.paymentActive.instantPayment = true;
+    }
+    if (paymentGroupObject.group[i] === "picPay") {
+      paymentGroupObject.paymentActive.picPay = true;
     }
   }
   return paymentGroupObject;

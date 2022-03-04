@@ -33,7 +33,7 @@ export const OrderHistoryCell = (props) => {
           title={
             orderDetail.valuePurchase
               ? "Histórico total de compras de  " +
-                setCurrency(orderDetail.valuePurchase)
+              setCurrency(orderDetail.valuePurchase)
               : "Primeira compra"
           }
           placement="top-end"
@@ -52,7 +52,7 @@ export const OrderHistoryCell = (props) => {
             ) : (
               ""
             )}
-            <IconizePurchaseProfile 
+            <IconizePurchaseProfile
               qtyPurchase={orderDetail.qtyPurchase}
               blackListed={orderDetail.blackListed}
               whiteListed={orderDetail.whiteListed}

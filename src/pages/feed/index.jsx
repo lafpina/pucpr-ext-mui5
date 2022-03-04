@@ -32,16 +32,16 @@ function OrderListPage(props) {
 
   return (
     <>
-        {/* <Dashboard */}
- 
-        <DynamicComponentWithNoSSR
-          orders={allOrders}
-          notificationBlackList={notificationBlackList}
-          notificationWhiteList={notificationWhiteList}
-          notificationAlerts={notificationAlerts}
-          totalRiskAmount={totalRiskAmount}
-          todayDate={todayDate}
-        />
+      {/* <Dashboard */}
+
+      <DynamicComponentWithNoSSR
+        orders={allOrders}
+        notificationBlackList={notificationBlackList}
+        notificationWhiteList={notificationWhiteList}
+        notificationAlerts={notificationAlerts}
+        totalRiskAmount={totalRiskAmount}
+        todayDate={todayDate}
+      />
 
     </>
   );
@@ -72,6 +72,9 @@ export async function getServerSideProps() {
     //* Loop thru the List to fetch each order of the list
     //*-----------------------------------------------------
     for (let i = 0; i < listOrders.length; ++i) {
+      // if (listOrders[i].affiliateId == 'MGZ') {
+      // console.log('=========================>', listOrders[i].affiliateId, listOrders[i].sequence)
+      // } else {
       const orderId = listOrders[i].orderId;
       let url = getURL("order", orderId);
       //! Fetch GET ORDER
@@ -105,6 +108,7 @@ export async function getServerSideProps() {
       } else {
         console.log("Pedido não encontrado na VTEX");
       }
+      // }
     }
   } else {
     console.log("Lista não processada!");

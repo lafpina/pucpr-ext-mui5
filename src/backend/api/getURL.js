@@ -1,13 +1,10 @@
+import moment from "moment";
+
 function getURL(fetchTarget, filter) {
   const parmEnv = "vtexcommercestable";
   const parmAcc = "fraldasdipano";
-  const parmPerPage = 7;
+  const parmPerPage = 8;
   const page = 1;
-
-  // Os parâmetros abaixo estão corretos mas não retorna a lista
-  // const startDate = "2021-07-17";
-  // const endDate = "2021-07-17";
-  // const fCreateDate = `creationDate%3A%5B${startDate}T02%3A00%3A00.000Z%20TO%20${endDate}T01%3A59%3A59.999Z%5D`;
 
   switch (fetchTarget) {
     case "feed":
@@ -20,9 +17,6 @@ function getURL(fetchTarget, filter) {
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?q=${filter}`;
 
     case "list":
-      // Não retorna a lista por alguma razão. Ivestigar.
-      // return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?f_creationDate=${fCreateDate}`;
-
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?orderBy=orderId,desc&per_page=${parmPerPage}&page=${page}`;
 
     case "incompleteOrders":
@@ -33,6 +27,18 @@ function getURL(fetchTarget, filter) {
 
     case "IOCPF":
       return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?incompleteOrders=true&q=${filter}`;
+
+    case "ListOrders1Day":
+      const startDate = moment().format('YYYY-MM-DD')
+      const endDate = moment().add(1, 'days').format('YYYY-MM-DD')
+      const encodedUrl = `f_creationDate=creationDate:%5B${startDate}T03:00:00.000Z%20TO%20${endDate}T02:59:59.999Z%5D&orderBy=creationDate,desc`
+
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?${encodedUrl}&per_page=100&page=1`
+
+    // return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?utc=+0300?f_creationDate=creationDate%3A%5B${startDate}T02%3A00%3A00.000Z%20TO%20${endDate}T01%3A59%3A59.999Z%5D&f_hasInputInvoice=false`
+
+    case "ListOrdersByRangeDate":
+      return `https://${parmAcc}.${parmEnv}.com.br/api/oms/pvt/orders?${filter}&per_page=100&page=1`
   }
 }
 

@@ -60,28 +60,13 @@ function Row(props) {
         <OrderIdCell orderId={row.orderId} />
         <OrderCreateDateCell createDate={row.dataCompra} />
         <OrderClientCell client={row.cliente} />
-
         <OrderItemCell orderDetail={row} />
-
         <OrderValueCell orderDetail={row} />
-
-        <OrderPaymentCell
-          orderDetail={row}
-        // creditCard={row.creditCard}
-        // incompleteOrders={row.incompleteOrders}
-        // paymentMethod={row.payMethod}
-        />
+        <OrderPaymentCell orderDetail={row} />
         <OrderShippingToCell shippingTo={row.destino} />
-
         <OrderHistoryCell orderDetail={row} />
-
         <OrderGiftCell giftId={row.giftId} giftName={row.giftName} />
-
-        <OrderStatusCell
-          statusDescription={row.statusDescription}
-          status={row.status}
-        />
-
+        <OrderStatusCell statusDescription={row.statusDescription} status={row.status} />
         <OrderScoreCell orderDetail={row} />
       </TableRow>
 

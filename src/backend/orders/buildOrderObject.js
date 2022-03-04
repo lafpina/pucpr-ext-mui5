@@ -59,9 +59,13 @@ const buildOrderObject = async (vtexOrder) => {
         : `${vtexOrder.items[i].name}`;
   }
 
+  console.log('=======>', vtexOrder.sequence, formatClientName(vtexOrder), clientEmail)
+
+
   let orderObject = {
     // Transaction
-    orderId: vtexOrder.orderId,
+    orderId: vtexOrder.affiliateId == 'MGZ' ? `v${vtexOrder.sequence}frdp-01` : vtexOrder.orderId,
+    // orderId: vtexOrder.sequence,
     creationDate: formatTZOrderDate(vtexOrder.creationDate),
     tid: paymentGroupObject.tid,
     //Value
@@ -87,7 +91,7 @@ const buildOrderObject = async (vtexOrder) => {
     statusDescription: vtexOrder.statusDescription,
     // Client Data
     clientName: formatClientName(vtexOrder),
-    clientEmail: clientEmail[0].email,
+    clientEmail: clientEmail[0].email ? clientEmail[0].email : vtexOrder.clientProfileData.email,
     cpf: vtexOrder.clientProfileData.document,
     phone: vtexOrder.clientProfileData.phone,
     // Gift

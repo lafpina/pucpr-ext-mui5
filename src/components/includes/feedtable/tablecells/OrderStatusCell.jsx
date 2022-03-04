@@ -16,15 +16,15 @@ const LightTooltip = withStyles(theme => ({
 
 export const OrderStatusCell = (props) => {
 
-   const { statusDescription, status} = props
+   const { statusDescription, status } = props
 
    return (
       <TableCell align="center">
          <LightTooltip title={statusDescription} placement="top-end" arrow interactive TransitionComponent={Fade} TransitionProps={{ timeout: 600 }} aria-label="Status">
-            <IconButton>
+            <IconButton disableRipple>
                <IconizeStatus status={status} size="default" />
             </IconButton>
-         </LightTooltip>  
+         </LightTooltip>
       </TableCell>
    )
 }

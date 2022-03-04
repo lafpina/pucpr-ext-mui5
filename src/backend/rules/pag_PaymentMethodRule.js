@@ -3,8 +3,6 @@ import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 export const pag_PaymentMethodRule = (orderObject, riskScoreObject) => {
   // Score positively whether it's a deposit, pix or giftCard payment method
 
-  console.log('Payment Group: ', orderObject.paymentGroupActive)
-
   let text = 'Metodo de pagamento inclui '
   let risk = true
 

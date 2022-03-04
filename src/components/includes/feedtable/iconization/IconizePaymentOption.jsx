@@ -4,6 +4,7 @@ import MobileFriendlyOutlinedIcon from "@material-ui/icons/MobileFriendlyOutline
 import SaveAltOutlinedIcon from "@material-ui/icons/SaveAltOutlined";
 import LoyaltyOutlinedIcon from "@material-ui/icons/LoyaltyOutlined";
 import { convertGridRowsPropToState } from "@material-ui/data-grid";
+import MobileScreenShareIcon from '@mui/icons-material/MobileScreenShare';
 
 export function IconizePaymentOption(props) {
   const classes = usePaymentStyles();
