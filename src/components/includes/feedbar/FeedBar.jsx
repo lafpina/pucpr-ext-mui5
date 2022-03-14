@@ -77,7 +77,7 @@ const FeedBar = (props) => {
               <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', }}>
                 <IconizeTitleValue size="small" />
                 <Typography fontSize='12px' sx={{ color: '#758d94', p: 1, display: 'inline', align: 'center' }}>
-                  {setCurrency(totalAmount)} ({setCurrency(totalAmount / props.orders.length)})
+                  {setCurrency(totalAmount)} {props.orders.length > 0 ? '(' + (setCurrency(totalAmount / props.orders.length)) + ')' : ''}
                 </Typography>
               </div>
             </Box>

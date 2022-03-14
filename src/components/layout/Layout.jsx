@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import AppBar from '../components/layout/AppBar';
-import Drawer from '../components/layout/Drawer';
+import { Tooltip } from "@material-ui/core";
+import AppBar from './AppBar'
+import Drawer from './Drawer'
+
+const LightTooltip = styled(Tooltip, {})({
+  color: "Ivory",
+  backgroundColor: "transparente",
+  boxShadow: 2,
+  fontSize: 13,
+});
 
 const mdTheme = createTheme();
 
-export default function AlerteMe(props) {
-  const [open, setOpen] = useState(true);
+export default function DashboardContent(props) {
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -16,6 +25,7 @@ export default function AlerteMe(props) {
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
 
         <AppBar />
         <Drawer />
@@ -32,6 +42,8 @@ export default function AlerteMe(props) {
             overflow: 'auto',
           }}
         >
+          <Toolbar />
+
         </Box>
       </Box>
     </ThemeProvider>

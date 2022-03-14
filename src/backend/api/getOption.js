@@ -7,10 +7,6 @@ function getOption(fetchTarget) {
   // const endDate = "2021-07-17";
   // const fCreateDate = `creationDate%3A%5B${startDate}T02%3A00%3A00.000Z%20TO%20${endDate}T01%3A59%3A59.999Z%5D`;
 
-  const parmAppKey = "vtexappkey-fraldasdipano-JUXTLA";
-  const parmAppToken =
-    "VFFOSPADLSGIHYANORZFQBOHUPFVTHNPMGFKEORFVRQRQXIRUCHYNXQTQXUCJEKEFRVBTQIZZTJYLWRWGOBQAPBPPLTGTPWQGLMYBHXDUHYUNRHUFXVVDUEQPGLIXBGK";
-
   switch (fetchTarget) {
     case "feed":
       return {
@@ -18,12 +14,12 @@ function getOption(fetchTarget) {
         qs: { maxlot: "10" },
         // qs: {
         //   f_creationDate: fCreateDate,
-        // },
+        // },ß
         headers: {
           Accept: parmAccept,
           "Content-Type": parmContentType,
-          "X-VTEX-API-AppKey": parmAppKey,
-          "X-VTEX-API-AppToken": parmAppToken,
+          "X-VTEX-API-AppKey": process.env.VTEX_API_KEY,
+          "X-VTEX-API-AppToken": process.env.VTEX_API_TOKENID,
         },
       };
       break;
@@ -36,8 +32,8 @@ function getOption(fetchTarget) {
         headers: {
           Accept: parmAccept,
           "Content-Type": parmContentType,
-          "X-VTEX-API-AppKey": parmAppKey,
-          "X-VTEX-API-AppToken": parmAppToken,
+          "X-VTEX-API-AppKey": process.env.VTEX_API_KEY,
+          "X-VTEX-API-AppToken": process.env.VTEX_API_TOKENID,
         },
       };
       break;
@@ -47,8 +43,8 @@ function getOption(fetchTarget) {
         headers: {
           Accept: "application/vnd.vtex.ds.v10+json",
           "Content-Type": parmContentType,
-          "X-VTEX-API-AppKey": parmAppKey,
-          "X-VTEX-API-AppToken": parmAppToken,
+          "X-VTEX-API-AppKey": process.env.VTEX_API_KEY,
+          "X-VTEX-API-AppToken": process.env.VTEX_API_TOKENID,
         },
       };
       break;

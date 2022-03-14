@@ -8,7 +8,7 @@ const buildPagarmeObject = async (vtexOrderId, vtexTid) => {
   };
 
   await pagarme.client
-    .connect({ api_key: "ak_live_i3JdusnggPsU1ymvogfoOfmmkvGfMM" })
+    .connect({ api_key: process.env.PAGARME_API_KEY })
     .then((client) => client.transactions.find({ id: vtexTid }))
     .then((transaction) => {
       pagarmeObject.cardHolder = transaction.card_holder_name;

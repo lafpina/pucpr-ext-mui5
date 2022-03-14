@@ -44,7 +44,7 @@ export const OrderTableHead = () => {
           <StyledTableCell align="center">Histórico</StyledTableCell>
           <StyledTableCell align="center">Lista</StyledTableCell>
           <StyledTableCell align="center">Status</StyledTableCell>
-          <StyledTableCell align="right">Score</StyledTableCell>
+          <StyledTableCell align="right">Perfil</StyledTableCell>
 
         </TableRow>
       </TableHead>

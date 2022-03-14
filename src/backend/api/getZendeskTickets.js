@@ -15,7 +15,7 @@ async function getZendeskTickets(clientEmail) {
             headers: {
                 'Content-Type': 'application/json',
                 // Encode base64. Use Decode Base64 to unveal token
-                Authorization: 'Basic bHVpekBmcmFsZGFzZGlwYW5vLmNvbS5ici90b2tlbjpLR1FBMmVBa1ViUmdLYTkxdjY1RUs4NERGOG9SV3VnWm9ickpPRUdw'
+                Authorization: `Basic ${process.env.ZENDESK_AUTH}`
             }
         })
         let data = await res.json();
