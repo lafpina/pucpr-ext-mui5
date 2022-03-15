@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import TextsmsOutlinedIcon from "@material-ui/icons/TextsmsOutlined"; // Kit Customizado
+import { TextsmsOutlined } from "@material-ui/icons"; // Kit Customizado
 
 export function IconizeKitCustom(props) {
   const classes = kitCustomStyles();
@@ -7,7 +7,7 @@ export function IconizeKitCustom(props) {
   if (props.kitCustom < 0) {
 
     return (
-      <TextsmsOutlinedIcon
+      <TextsmsOutlined
         className={classes.kitCustom}
         fontSize={props.size}
       />

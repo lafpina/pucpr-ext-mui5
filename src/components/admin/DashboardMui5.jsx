@@ -155,7 +155,7 @@ export default function DashboardContent(props) {
 
             <PageTitle title='Feed' />
 
-            <FeedBarDate />
+            {/* <FeedBarDate /> */}
 
 
             {/* Notification Whitelist */}

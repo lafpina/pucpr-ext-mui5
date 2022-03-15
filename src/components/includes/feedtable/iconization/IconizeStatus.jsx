@@ -1,10 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
-import TimerIcon from "@material-ui/icons/Timer";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import ScreenShareIcon from "@material-ui/icons/ScreenShare";
-import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import CancelIcon from "@material-ui/icons/Cancel";
+import { Timer, Schedule, ScreenShare, ShoppingBasket, MonetizationOn, Cancel, ExposurePlus1 } from "@material-ui/icons";
+
 import ExposurePlus1Icon from "@material-ui/icons/ExposurePlus1";
 
 export function IconizeStatus(props) {
@@ -12,34 +8,34 @@ export function IconizeStatus(props) {
 
   switch (props.status) {
     case "payment-pending":
-      return <TimerIcon className={classes.aguardando} fontSize={props.size} />;
+      return <Timer className={classes.aguardando} fontSize={props.size} />;
     case "window-to-cancel":
       return (
-        <ScheduleIcon className={classes.carencia} fontSize={props.size} />
+        <Schedule className={classes.carencia} fontSize={props.size} />
       );
     case "ready-for-handling":
       return (
-        <ScreenShareIcon className={classes.manuseio} fontSize={props.size} />
+        <ScreenShare className={classes.manuseio} fontSize={props.size} />
       );
     case "handling":
       return (
-        <ShoppingBasketIcon
+        <ShoppingBasket
           className={classes.preparando}
           fontSize={props.size}
         />
       );
     case "invoiced":
       return (
-        <MonetizationOnIcon
+        <MonetizationOn
           className={classes.faturado}
           fontSize={props.size}
         />
       );
     case "canceled":
-      return <CancelIcon className={classes.cancelado} fontSize={props.size} />;
+      return <Cancel className={classes.cancelado} fontSize={props.size} />;
     default:
       return (
-        <ExposurePlus1Icon className={classes.qty6} fontSize={props.size} />
+        <ExposurePlus1 className={classes.qty6} fontSize={props.size} />
       );
   }
 }

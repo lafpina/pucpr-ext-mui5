@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import HowToRegOutlinedIcon from "@material-ui/icons/HowToRegOutlined";
-import PeopleAltOutlinedIcon from "@material-ui/icons/PeopleAltOutlined";
-import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
+import { HowToRegOutlined, PeopleAltOutlined, PermIdentityOutlined } from "@material-ui/icons";
 
 export function IconizeCardHolder(props) {
   const classes = useCardHolderStyles();
@@ -9,21 +7,21 @@ export function IconizeCardHolder(props) {
   switch (props.cardHolder) {
     case "Sim":
       return (
-        <HowToRegOutlinedIcon
+        <HowToRegOutlined
           className={classes.cardHolder}
           fontSize={props.size}
         />
       );
     case "Não":
       return (
-        <PeopleAltOutlinedIcon
+        <PeopleAltOutlined
           className={classes.noCardHolder}
           fontSize={props.size}
         />
       );
     default:
       return (
-        <PermIdentityOutlinedIcon
+        <PermIdentityOutlined
           className={classes.default}
           fontSize={props.size}
         />

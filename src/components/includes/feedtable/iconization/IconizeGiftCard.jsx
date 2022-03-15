@@ -1,12 +1,12 @@
 import { makeStyles } from "@material-ui/styles";
-import CardGiftcardOutlinedIcon from "@material-ui/icons/CardGiftcardOutlined"; // Lista
+import { CardGiftcardOutlined } from "@material-ui/icons"; // Lista
 
 export function IconizeGiftCard(props) {
   const classes = giftCardStyles();
 
   if (props.giftId > " ") {
     return (
-      <CardGiftcardOutlinedIcon
+      <CardGiftcardOutlined
         className={classes.giftCard}
         fontSize={props.size}
       />

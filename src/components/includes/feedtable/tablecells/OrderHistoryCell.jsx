@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -9,6 +9,7 @@ import { IconizePurchaseProfile } from "../iconization/IconizePurchaseProfile";
 import setCurrency from "../../../../backend/utils/setCurrency";
 
 import PurchaseHistoryDialog from "../dialogs/PurchaseHistoryDialog";
+import HistoryWindow from '../dialogs/HistoryWindow'
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -21,9 +22,11 @@ const LightTooltip = withStyles((theme) => ({
 
 <StyledBadgeHist />;
 
+
 export const OrderHistoryCell = (props) => {
   const { orderDetail } = props;
   const [isOpen, setIsOpen] = useState(false);
+
   const handleCellClick = (e) => setIsOpen((prevState) => !prevState);
 
   return (
@@ -62,7 +65,8 @@ export const OrderHistoryCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {isOpen && <PurchaseHistoryDialog orderDetail={orderDetail} />}
+      {/* {isOpen && <PurchaseHistoryDialog orderDetail={orderDetail} />} */}
+      {isOpen && <HistoryWindow windowState={handleCellClick} orderDetail={orderDetail} />}
     </>
   );
 };

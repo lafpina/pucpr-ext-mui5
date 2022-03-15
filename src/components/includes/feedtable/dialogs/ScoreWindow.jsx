@@ -1,21 +1,11 @@
-import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Paper from '@mui/material/Paper';
+import { useState } from 'react';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import { List, ListItemText, ListItem, Divider } from '@material-ui/core'
+import { Paper, Grid, Box, Fab, IconButton } from '@mui/material'
 import Draggable from 'react-draggable';
-import Grid from '@mui/material/Grid';
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItem from "@material-ui/core/ListItem";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import Box from '@mui/material/Box';
-import { IconizeRiskLevel } from "../iconization/IconizeRiskLevel"
-import Fab from '@mui/material/Fab';
 import ScoreChart from './ScoreChart'
-import setCurerency from "../../../../backend/utils/setCurrency"
+import CloseIcon from '@mui/icons-material/Close';
+import { IconizeRiskLevel } from "../iconization/IconizeRiskLevel"
 
 function PaperComponent(props) {
   return (
@@ -27,39 +17,16 @@ function PaperComponent(props) {
     </Draggable>
   );
 }
-// Turn the percentage score red, yeallow or green depending on the score value
-const scoreStyle = (score) => {
-  switch (score) {
-    case 100:
-    case 95:
-    case 90:
-    case 85:
-    case 80:
-      return "#D66460";
-      break;
-    case 75:
-    case 70:
-    case 65:
-      return "#f9a825";
-      break;
-    default:
-      return "#60D660";
-  }
-};
 
 export default function ScoreWindow(props) {
-
-  const { orderDetail } = props;
-  const [open, setOpen] = React.useState(true);
-  const [isReportButtonClicked, setIsReportButtonClicked] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const { orderDetail, windowState } = props;
+  const [open, setOpen] = useState(true);
+  const [isReportButtonClicked, setIsReportButtonClicked] = useState(false);
+  const handleClickOpen = () => { setOpen(true) };
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
+    windowState()
   };
-
   const handleReportButtonClicked = (e) => setIsReportButtonClicked((prevState) => !prevState);
 
   return (
@@ -72,6 +39,21 @@ export default function ScoreWindow(props) {
         PaperComponent={PaperComponent}
         aria-labelledby="draggable-dialog-title"
       >
+        {handleClose ? (
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+
         {/* TITLE */}
 
         <DialogTitle style={{ cursor: 'move' }} sx={{ bgcolor: "WhiteSmoke" }} id="Dialog-Score" >
@@ -202,5 +184,23 @@ export default function ScoreWindow(props) {
   );
 }
 
-
+// Turn the percentage score red, yeallow or green depending on the score value
+const scoreStyle = (score) => {
+  switch (score) {
+    case 100:
+    case 95:
+    case 90:
+    case 85:
+    case 80:
+      return "#D66460";
+      break;
+    case 75:
+    case 70:
+    case 65:
+      return "#f9a825";
+      break;
+    default:
+      return "#60D660";
+  }
+};
 

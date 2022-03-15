@@ -1,53 +1,47 @@
 import { makeStyles } from "@material-ui/styles";
-import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
-import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
-import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
-import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
-import MoodBadIcon from '@material-ui/icons//MoodBad';
-
+import { SentimentVerySatisfied, SentimentSatisfiedAlt, SentimentSatisfied, SentimentDissatisfied, SentimentVeryDissatisfied, MoodBad } from "@material-ui/icons";
 
 export function IconizeRiskLevel(props) {
   const classes = useRiskLevelStyles();
   switch (props.riskLevel) {
     case "Muito Baixo":
       return (
-        <SentimentVerySatisfiedIcon
+        <SentimentVerySatisfied
           className={classes.veryLowRisk}
           fontSize={props.size}
         />
       );
     case "Baixo":
       return (
-        <SentimentSatisfiedAltIcon
+        <SentimentSatisfiedAlt
           className={classes.lowRisk}
           fontSize={props.size}
         />
       );
     case "Moderado":
       return (
-        <SentimentSatisfiedIcon
+        <SentimentSatisfied
           className={classes.medRisk}
           fontSize={props.size}
         />
       );
     case "Alto":
       return (
-        <SentimentDissatisfiedIcon
+        <SentimentDissatisfied
           className={classes.highRisk}
           fontSize={props.size}
         />
       );
     case "Muito Alto":
       return (
-        <SentimentVeryDissatisfiedIcon
+        <SentimentVeryDissatisfied
           className={classes.veryHighRisk}
           fontSize={props.size}
         />
       );
     case "Altíssimo":
       return (
-        <MoodBadIcon
+        <MoodBad
           className={classes.veryHighRisk}
           fontSize={props.size}
         />

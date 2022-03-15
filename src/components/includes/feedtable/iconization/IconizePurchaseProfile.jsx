@@ -1,12 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined"; // Cliente novo
-import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined"; // White List
-import LocalFloristOutlinedIcon from "@material-ui/icons/LocalFloristOutlined";
-import SentimentVeryDissatisfiedOutlinedIcon from "@material-ui/icons/SentimentVeryDissatisfiedOutlined"; //Black List
-import ErrorIcon from "@material-ui/icons/Error";
-import FaceIcon from '@material-ui/icons/Face';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import ReportProblemIcon from '@material-ui/icons/ReportProblem';
+import { ErrorOutlineOutlined, FavoriteOutlined, Error, CheckCircleOutline, ReportProblem } from "@material-ui/icons";
 
 export function IconizePurchaseProfile(props) {
   const classes = usePurchaseProfileStyles();
@@ -17,16 +10,16 @@ export function IconizePurchaseProfile(props) {
 
   if (props.orderErrorCheck > 0) {
     return (
-      <ReportProblemIcon
+      <ReportProblem
         className={classes.errorCheck}
         fontSize={props.size}
       />
     );
   }
-  
+
   if (props.whiteListed) {
     return (
-      <FavoriteOutlinedIcon
+      <FavoriteOutlined
         className={classes.whiteListed}
         fontSize={props.size}
       />
@@ -35,7 +28,7 @@ export function IconizePurchaseProfile(props) {
 
   if (props.qtyPurchase > 0) {
     return (
-      <CheckCircleOutlineIcon
+      <CheckCircleOutline
         className={classes.regularClient}
         fontSize={props.size}
       />
@@ -43,7 +36,7 @@ export function IconizePurchaseProfile(props) {
   }
 
   return (
-    <ErrorOutlineOutlinedIcon
+    <ErrorOutlineOutlined
       className={classes.newClient}
       fontSize={props.size}
     />
