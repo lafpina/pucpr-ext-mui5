@@ -19,15 +19,11 @@ import Copyright from "../includes/layoutaccessories/Copyright";
 import Fade from "@material-ui/core/Fade";
 import { Tooltip } from "@material-ui/core";
 import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import FavoriteOutlinedIcon from "@material-ui/icons/FavoriteOutlined";
-import ErrorOutlinedIcon from "@material-ui/icons/ErrorOutlined";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { Notifications, FavoriteOutlined, ErrorOutlined, ArrowDropDown } from "@material-ui/icons";
 import Button from '@mui/material/Button'
 import FeedTable from "./FeedTable";
 import FeedBar from '../includes/feedbar/FeedBar'
 import PageTitle from '../includes/layoutaccessories/PageTitle'
-
 import TextField from '@mui/material/TextField';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -89,13 +85,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 
-
 export default function DashboardContent(props) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
-
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -170,7 +163,7 @@ export default function DashboardContent(props) {
             >
               <IconButton aria-label="whitelist" color="inherit">
                 <Badge badgeContent={props.notificationWhiteList} color="primary">
-                  <FavoriteOutlinedIcon />
+                  <FavoriteOutlined />
                 </Badge>
               </IconButton>
             </LightTooltip>
@@ -189,7 +182,7 @@ export default function DashboardContent(props) {
                   badgeContent={props.notificationBlackList}
                   color="secondary"
                 >
-                  <ErrorOutlinedIcon />
+                  <ErrorOutlined />
                 </Badge>
               </IconButton>
             </LightTooltip>
@@ -205,21 +198,19 @@ export default function DashboardContent(props) {
             >
               <IconButton aria-label="notification" color="inherit">
                 <Badge badgeContent={props.notificationAlerts} color="error">
-                  <NotificationsIcon />
+                  <Notifications />
                 </Badge>
               </IconButton>
             </LightTooltip>
 
             <Box sx={{ ml: 1 }}>
               <Button>
-                <ArrowDropDownIcon />
+                <ArrowDropDown />
               </Button>
             </Box>
 
           </Toolbar>
         </AppBar>
-
-
 
         <Drawer variant="permanent" open={open}>
           <Toolbar

@@ -6,6 +6,7 @@ import Draggable from 'react-draggable';
 import ScoreChart from './ScoreChart'
 import CloseIcon from '@mui/icons-material/Close';
 import { IconizeRiskLevel } from "../iconization/IconizeRiskLevel"
+import ScoreStyle from './ScoreStyle';
 
 function PaperComponent(props) {
   return (
@@ -59,16 +60,16 @@ export default function ScoreWindow(props) {
         <DialogTitle style={{ cursor: 'move' }} sx={{ bgcolor: "WhiteSmoke" }} id="Dialog-Score" >
           <Grid container spacing={1}>
             <Grid item xs={12} >
-              <Box sx={{ color: '#607d8b', fontSize: 16, mt: 0.5 }}>
+              <Box sx={{ color: '#607d8b', fontSize: 18, mt: 0.5 }}>
                 {orderDetail.orderId}
                 <Box sx={{ display: 'inline', color: '#546e7a', fontSize: 16, mt: 0.5, ml: 1 }}>
                   {orderDetail.cliente}
                 </Box>
-                <Box sx={{ display: 'inline', color: '#90a4ae', fontSize: 16, mt: 0.5, ml: 1 }}>
+                <Box sx={{ color: '#90a4ae', fontSize: 16, mt: 0.5 }}>
                   Risco {orderDetail.scoreDesc}:
-                </Box>
-                <Box sx={{ display: 'inline', mt: 0.5, ml: 1, color: scoreStyle(orderDetail.score) }}>
-                  {orderDetail.score}%
+                  <Box sx={{ display: 'inline', fontSize: 18, mt: 0.5, ml: 1, color: ScoreStyle(orderDetail.score) }}>
+                    {orderDetail.score}%
+                  </Box>
                 </Box>
               </Box>
             </Grid>
@@ -183,24 +184,3 @@ export default function ScoreWindow(props) {
     </>
   );
 }
-
-// Turn the percentage score red, yeallow or green depending on the score value
-const scoreStyle = (score) => {
-  switch (score) {
-    case 100:
-    case 95:
-    case 90:
-    case 85:
-    case 80:
-      return "#D66460";
-      break;
-    case 75:
-    case 70:
-    case 65:
-      return "#f9a825";
-      break;
-    default:
-      return "#60D660";
-  }
-};
-

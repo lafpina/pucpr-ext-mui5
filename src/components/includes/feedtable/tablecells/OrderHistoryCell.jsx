@@ -1,14 +1,9 @@
-import { useState, useEffect, useRef } from "react";
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import { Fade } from "@material-ui/core";
+import { useState } from "react";
+import { TableCell, IconButton, Tooltip, Fade } from "@material-ui/core";
 import { withStyles } from '@mui/styles';
 import { StyledBadgeHist } from "../badgezation/StyledBadge";
 import { IconizePurchaseProfile } from "../iconization/IconizePurchaseProfile";
 import setCurrency from "../../../../backend/utils/setCurrency";
-
-import PurchaseHistoryDialog from "../dialogs/PurchaseHistoryDialog";
 import HistoryWindow from '../dialogs/HistoryWindow'
 
 const LightTooltip = withStyles((theme) => ({
@@ -65,7 +60,6 @@ export const OrderHistoryCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {/* {isOpen && <PurchaseHistoryDialog orderDetail={orderDetail} />} */}
       {isOpen && <HistoryWindow windowState={handleCellClick} orderDetail={orderDetail} />}
     </>
   );

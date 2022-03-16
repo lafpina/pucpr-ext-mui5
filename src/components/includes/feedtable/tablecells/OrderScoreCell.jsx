@@ -69,7 +69,6 @@ export const OrderScoreCell = (props) => {
         </LightTooltip>
       </TableCell>
       {isOpen && <ScoreWindow windowState={handleCellClick} orderDetail={orderDetail} />}
-      {/* {isOpen && <RiskScoreDialog orderDetail={orderDetail} />} */}
     </>
   );
 };
