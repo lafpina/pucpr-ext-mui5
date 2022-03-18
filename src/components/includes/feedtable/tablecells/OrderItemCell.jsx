@@ -4,7 +4,7 @@ import Fade from "@material-ui/core/Fade";
 import Tooltip from "@material-ui/core/Tooltip";
 import { withStyles } from '@mui/styles';
 import { StyledBadgeItems } from "../badgezation/StyledBadge";
-import ItemsDialog from "../dialogs/ItemsDialog";
+import ItemsWindow from '../dialogs/ItemsWindow'
 import { useState } from "react";
 
 const LightTooltip = withStyles((theme) => ({
@@ -27,14 +27,6 @@ export const OrderItemCell = (props) => {
     <>
       <TableCell onClick={handleCellClick} align="center">
         <IconButton>
-          {/* <LightTooltip
-            title={orderDetail.itemName}
-            placement="top-end"
-            interactive
-            TransitionComponent={Fade}
-            TransitionProps={{ timeout: 600 }}
-            aria-label="Itens"
-          > */}
           <StyledBadgeItems
             badgeContent={orderDetail.items}
             max={100}
@@ -42,7 +34,8 @@ export const OrderItemCell = (props) => {
           {/* </LightTooltip> */}
         </IconButton>
       </TableCell>
-      {isOpen && <ItemsDialog orderDetail={orderDetail} />}
+      {/* {isOpen && <ItemsDialog orderDetail={orderDetail} />} */}
+      {isOpen && <ItemsWindow windowState={handleCellClick} orderDetail={orderDetail} />}
     </>
   );
 };

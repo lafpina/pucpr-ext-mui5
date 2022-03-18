@@ -20,6 +20,7 @@ export async function lookForPurchaseHistory(query) {
   let qtyInvoiced = 0;
 
   let options = getOption("order");
+
   let url = getURL("query", query);
 
   let res = await fetch(url, options);

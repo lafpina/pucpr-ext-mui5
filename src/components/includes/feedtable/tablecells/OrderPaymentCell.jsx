@@ -7,7 +7,7 @@ import { StyledBadgeIncompleteOrders } from "../badgezation/StyledBadge";
 import { StyledBadgeCoupon } from "../badgezation/StyledBadge"
 import { IconizePaymentOption } from "../iconization/IconizePaymentOption";
 import { useState } from "react";
-import IncompleteOrdersDialog from "../dialogs/IncompleteOrdersDialog";
+import IncompleteOrdersWindow from "../dialogs/IncompleteOrdersWindow";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -55,7 +55,7 @@ export const OrderPaymentCell = (props) => {
           </IconButton>
         </LightTooltip>
       </TableCell>
-      {isOpen && <IncompleteOrdersDialog orderDetail={orderDetail} />}
+      {isOpen && <IncompleteOrdersWindow windowState={handleCellClick} orderDetail={orderDetail} />}
     </>
   );
 };

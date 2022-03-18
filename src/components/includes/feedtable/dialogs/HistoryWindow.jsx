@@ -1,13 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import { makeStyles, withStyles } from "@mui/styles";
-import { Paper, Grid, Box, Divider, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Slide } from "@mui/material";
-import Draggable from 'react-draggable';
-import ScoreStyle from './ScoreStyle'
+import { Paper, Grid, Box, DialogContent, DialogContentText } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import FeedTableDialog from './FeedTableDialog'
 import formatTZOrderDate from "../../../../backend/utils/formatTZOrderDate";
 import setCurrency from "../../../../backend/utils/setCurrency";
+import FeedTableDialogTitle from './FeedTableDialogTitle'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -31,21 +30,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
-function PaperComponent(props) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
-}
 
 export default function ScoreWindow(props) {
   const classes = useStyles()
@@ -81,26 +65,7 @@ export default function ScoreWindow(props) {
 
   return (
     <FeedTableDialog windowState={windowState}>
-      {/* TITLE */}
-      <DialogTitle style={{ cursor: 'move' }} sx={{ bgcolor: "WhiteSmoke" }} id="Dialog-Score" >
-        <Grid container spacing={1}>
-          <Grid item xs={12} >
-            <Box sx={{ color: '#607d8b', fontSize: 18, mt: 0.5 }}>
-              {orderDetail.orderId}
-              <Box sx={{ display: 'inline', color: '#546e7a', fontSize: 16, mt: 0.5, ml: 1 }}>
-                {orderDetail.cliente}
-              </Box>
-              <Box sx={{ color: '#90a4ae', fontSize: 16, mt: 0.5 }}>
-                Risco {orderDetail.scoreDesc}:
-                <Box sx={{ display: 'inline', fontSize: 18, mt: 0.5, ml: 1, color: ScoreStyle(orderDetail.score) }}>
-                  {orderDetail.score}%
-                </Box>
-              </Box>
-            </Box>
-          </Grid>
-          <Divider />
-        </Grid>
-      </DialogTitle>
+      <FeedTableDialogTitle orderDetail={orderDetail} />
 
       {/* CONTENT */}
       <DialogContent sx={{ bgcolor: "WhiteSmoke" }} >
@@ -116,15 +81,11 @@ export default function ScoreWindow(props) {
               }}
             >
               <Box sx={{ fontSize: 14, color: '#757575', mb: 1 }}>
-                {'Histórico:  ' + (sumUpInvoiced() > 0 &&
-                  sumUpInvoiced() +
-                  " " +
-                  ((historyItems.length - 1) > 1
-                    ? "pedidos faturados"
-                    : "pedido faturado") +
-                  " no valor total de " +
-                  setCurrency(totalValue)) ||
-                  "Nenhum pedido ainda faturado"}
+                {'Histórico:  ' + (sumUpInvoiced() > 0 ? (
+                  (sumUpInvoiced() > 0 && sumUpInvoiced() + " " +
+                    ((historyItems.length - 1) > 1 ? "pedidos faturados" : "pedido faturado") +
+                    " no valor total de " + setCurrency(totalValue)) || "Nenhum pedido ainda faturado"
+                ) : 'Não há compras faturadas')}
               </Box>
             </Paper>
           </Grid>

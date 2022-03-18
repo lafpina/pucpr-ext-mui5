@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material'
 import { List, ListItemText, ListItem, Divider } from '@material-ui/core'
 import { Paper, Grid, Box, Fab, IconButton } from '@mui/material'
 import Draggable from 'react-draggable';
 import ScoreChart from './ScoreChart'
 import CloseIcon from '@mui/icons-material/Close';
 import { IconizeRiskLevel } from "../iconization/IconizeRiskLevel"
-import ScoreStyle from './ScoreStyle';
+import FeedTableDialogTitle from './FeedTableDialogTitle'
 
 function PaperComponent(props) {
   return (
@@ -57,25 +57,7 @@ export default function ScoreWindow(props) {
 
         {/* TITLE */}
 
-        <DialogTitle style={{ cursor: 'move' }} sx={{ bgcolor: "WhiteSmoke" }} id="Dialog-Score" >
-          <Grid container spacing={1}>
-            <Grid item xs={12} >
-              <Box sx={{ color: '#607d8b', fontSize: 18, mt: 0.5 }}>
-                {orderDetail.orderId}
-                <Box sx={{ display: 'inline', color: '#546e7a', fontSize: 16, mt: 0.5, ml: 1 }}>
-                  {orderDetail.cliente}
-                </Box>
-                <Box sx={{ color: '#90a4ae', fontSize: 16, mt: 0.5 }}>
-                  Risco {orderDetail.scoreDesc}:
-                  <Box sx={{ display: 'inline', fontSize: 18, mt: 0.5, ml: 1, color: ScoreStyle(orderDetail.score) }}>
-                    {orderDetail.score}%
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-            <Divider />
-          </Grid>
-        </DialogTitle>
+        <FeedTableDialogTitle orderDetail={orderDetail} />
 
         {/* CONTENT */}
         <DialogContent sx={{ bgcolor: "WhiteSmoke" }} >
