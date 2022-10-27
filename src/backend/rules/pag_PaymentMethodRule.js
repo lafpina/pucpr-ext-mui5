@@ -33,9 +33,9 @@ export const pag_PaymentMethodRule = (orderObject, riskScoreObject) => {
 
 
   if (risk) {
-    text = text.concat(', que pode aumentar o risco')
+    text = text.concat('  ❗')
   } else {
-    text = text.concat(', que pode atenuar o risco')
+    text = text.concat('  🆗')
   }
 
   const score =
@@ -47,7 +47,7 @@ export const pag_PaymentMethodRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r008",
     "PAG",
-    `${text} (PAG)`,
+    `${text} `,
     score,
     riskScoreObject
   );

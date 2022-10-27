@@ -17,7 +17,7 @@ const FeedTableDialogTitle = (props) => {
               </Box>
               <Box sx={{ color: '#90a4ae', fontSize: 16 }}>
                 Risco {orderDetail.scoreDesc}:
-                <Box sx={{ display: 'inline', fontSize: 18, ml: 1, color: ScoreStyle(orderDetail.score) }}>
+                <Box sx={{ display: 'inline', fontSize: 22, ml: 1, color: ScoreStyle(orderDetail.score) }}>
                   {orderDetail.score}%
                 </Box>
               </Box>

@@ -3,29 +3,33 @@ import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 //? Rule 2
 async function ems_ForeignCardRule(orderObject, riskScoreObject) {
-  if (orderObject.paymentGroupActive.creditCard) {
-    // Score negatively for foreign credit card
-    if (
-      orderObject.cardCountry !== "BRAZIL" &&
-      orderObject.cardCountry !== " "
-    ) {
-      riskScoreObject.final += 5;
-      riskScoreObject.foreignCreditCard.score = 5;
+    if (orderObject.paymentGroupActive.creditCard) {
+        // Score negatively for foreign credit card
+        if (
+            orderObject.cardCountry !== "BRAZIL" &&
+            orderObject.cardCountry !== " "
+        ) {
+            riskScoreObject.final += 5;
+            riskScoreObject.foreignCreditCard.score = 5;
+        }
     }
-  }
 
-  // const binData = await getCreditCardBin("522688");
-  // console.log(binData);
+    // const binData = await getCreditCardBin("522688");
+    // console.log(binData);
 
-  riskScoreObject = buildRiskScoreLog(
-    "r002",
-    "EMS",
-    "Nacionalidade do Emissor do Cartão de Crédito (EMS)",
-    riskScoreObject.foreignCreditCard.score,
-    riskScoreObject
-  );
+    const text = riskScoreObject.foreignCreditCard.score > 0 ?
+        'Estrangeiro  ❗' :
+        'Nacional  🆗'
 
-  return riskScoreObject;
+    riskScoreObject = buildRiskScoreLog(
+        "r002",
+        "EMS",
+        `O Emissor do Cartão de Crédito é ${text}`,
+        riskScoreObject.foreignCreditCard.score,
+        riskScoreObject
+    );
+
+    return riskScoreObject;
 }
 
 export default ems_ForeignCardRule;

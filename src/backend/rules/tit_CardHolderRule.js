@@ -44,15 +44,15 @@ export const tit_CardHolderRule = (orderObject, riskScoreObject) => {
   let text2 = ''
 
   if (risk) {
-    text2 = ', que pode aumentar o risco'
+    text2 = '  ❗'
   } else {
-    text2 = ', que pode atenuar o risco'
+    text2 = '  🆗'
   }
 
   riskScoreObject = buildRiskScoreLog(
     "r001",
     "TIT",
-    `Cliente ${text} do Cartão de Crédito ${text2} (TIT)`,
+    `Cliente ${text} do Cartão de Crédito ${text2} `,
     riskScoreObject.cardHolder.score,
     riskScoreObject
   );

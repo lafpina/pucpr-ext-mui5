@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Header from "../components/includes/layoutaccessories/Header";
 import { ThemeProvider } from '@mui/material/styles';
 import "../styles/globals.css";
-import theme from "../theme";
+import theme from '../theme'
 
 
 export default function MyApp(props) {

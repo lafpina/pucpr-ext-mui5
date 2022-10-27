@@ -1,9 +1,18 @@
 import React from "react";
-//? Material UI
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme, createTheme } from '@mui/styles';
 import { Paper, Box, Collapse, IconButton, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material';
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import ThemeProvider from '@mui/styles';
+import theme2 from '../../theme'
+// Pagination
+import PropTypes from 'prop-types';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
 //? Table Cells
 import { OrderIdCell } from "../includes/feedtable/tablecells/OrderIdCell";
 import { OrderCreateDateCell } from "../includes/feedtable/tablecells/OrderCreateDateCell";
@@ -19,6 +28,74 @@ import { OrderScoreCell } from "../includes/feedtable/tablecells/OrderScoreCell"
 import { OrderTableHead } from "../includes/feedtable/tablecells/OrderTableHead";
 import { OrderTableHeadHist } from "../includes/feedtable/tablecells/OrderTableHeadHist";
 import { OrderTableBodyHist } from "../includes/feedtable/tablecells/OrderTableBodyHist";
+
+// Pagination
+function TablePaginationActions(props) {
+
+  const theme = useTheme();
+
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="previous page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+
+function createData(name, calories, fat) {
+  return { name, calories, fat };
+}
 
 const useRowStyles = makeStyles({
   root: {
@@ -64,9 +141,6 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={17}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              {/* <Typography variant="button" color="textSecondary" component="div">
-                {row.cliente}
-              </Typography> */}
               <Table size="small" aria-label="detalhe">
                 <OrderTableHeadHist />
                 <OrderTableBodyHist history={row.history} />
@@ -79,20 +153,75 @@ function Row(props) {
   );
 }
 
-export default function NewOrders(props) {
+export default function FeedTable(props) {
   const { orders } = props;
+
+  const theme = useTheme()
+
+  // Pagination
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - orders.length) : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <>
+      {/* <ThemeProvider theme={theme2}> */}
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <OrderTableHead />
           <TableBody>
-            {orders.map((order) => (
+            {(rowsPerPage > 0
+              ? orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : orders
+
+            ).map((order) => (
               <Row key={order.orderId} row={order} />
             ))}
+
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 15, { label: 'Tudo', value: -1 }]}
+                colSpan={12}
+                count={orders.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    'aria-label': 'rows per page',
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+                sx={{ color: 'SteelBlue' }}
+              />
+
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
+      {/* </ThemeProvider> */}
     </>
   );
 }

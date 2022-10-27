@@ -20,7 +20,7 @@ export const etg_CarrierRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r011",
     "ETG",
-    "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega, o que pode aumentar o risco (ETG)",
+    "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega  ❗",
     riskScoreObject.carrier.score,
     riskScoreObject
   );

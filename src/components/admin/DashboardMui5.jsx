@@ -22,7 +22,6 @@ import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
 import { Notifications, FavoriteOutlined, ErrorOutlined, ArrowDropDown } from "@material-ui/icons";
 import Button from '@mui/material/Button'
 import FeedTable from "./FeedTable";
-import TablePag from '../includes/TablePag'
 import FeedBar from '../includes/feedbar/FeedBar'
 import PageTitle from '../includes/layoutaccessories/PageTitle'
 import TextField from '@mui/material/TextField';
@@ -260,11 +259,10 @@ export default function DashboardContent(props) {
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <FeedTable orders={props.orders} />
-                  {/* <TablePag orders={props.orders} /> */}
                 </Paper>
               </Grid>
             </Grid>
-            <Copyright sx={{ mt: 0.5, pt: 2 }} />
+            {/* <Copyright sx={{ mt: 0.5, pt: 2 }} /> */}
           </Container>
 
         </Box>

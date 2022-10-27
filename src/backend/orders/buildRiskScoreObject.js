@@ -37,6 +37,8 @@ export const buildRiskScoreObject = async (orderObject) => {
   console.log("Cliente:", orderObject.clientName);
   console.log("-----------------------------------------");
 
+  riskScoreObject = await hst_fby_HistPurchaseRule(orderObject, riskScoreObject);
+  riskScoreObject = pag_PaymentMethodRule(orderObject, riskScoreObject);
   riskScoreObject = tit_CardHolderRule(orderObject, riskScoreObject);
   riskScoreObject = await ems_ForeignCardRule(orderObject, riskScoreObject);
   riskScoreObject = fte_ShippingRateRule(orderObject, riskScoreObject);
@@ -44,9 +46,9 @@ export const buildRiskScoreObject = async (orderObject) => {
   riskScoreObject = hra_ShoppingTimeRule(orderObject, riskScoreObject);
   riskScoreObject = cdn_CouponDiscountRule(orderObject, riskScoreObject);
   riskScoreObject = lst_GiftRule(orderObject, riskScoreObject);
-  riskScoreObject = pag_PaymentMethodRule(orderObject, riskScoreObject);
+
   // riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
-  riskScoreObject = await hst_fby_HistPurchaseRule(orderObject, riskScoreObject);
+
   riskScoreObject = await tnt_IncompOrdersRule(orderObject, riskScoreObject);
   riskScoreObject = etg_CarrierRule(orderObject, riskScoreObject);
   riskScoreObject = cpf_DocumentRule(orderObject, riskScoreObject); // CPF

@@ -47,7 +47,7 @@ export const tnt_IncompOrdersRule = async (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r010",
     "TNT",
-    `Pelo menos ${riskScoreObject.incompleteOrders.qty} tentativa(s) de compra somente com cartão de crédito, antes da efetivação da compra atual (TNT)`,
+    `Pelo menos ${riskScoreObject.incompleteOrders.qty} tentativa(s) de compra somente com cartão de crédito, antes da efetivação da compra atual  ❗`,
     riskScoreObject.incompleteOrders.score,
     riskScoreObject
   );

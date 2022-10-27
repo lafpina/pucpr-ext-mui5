@@ -16,7 +16,7 @@ export const fte_ShippingRateRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r003",
     "FTE",
-    "Relação entre o valor da compra e o frete pago superior à média, o que pode aumentar o risco (FTE)",
+    "Relação entre o valor da compra e o frete pago superior à média  ❗",
     riskScoreObject.shippingRate.score,
     riskScoreObject
   );

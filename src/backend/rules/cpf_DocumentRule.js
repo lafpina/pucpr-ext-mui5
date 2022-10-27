@@ -12,7 +12,7 @@ export const cpf_DocumentRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r012",
     "CPF",
-    "Documento inválido quanto ao seu formato (CPF)",
+    "Documento inválido quanto ao seu formato  ❗",
     riskScoreObject.validCpf.score,
     riskScoreObject
   );

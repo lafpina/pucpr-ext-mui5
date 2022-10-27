@@ -113,14 +113,14 @@ export const hst_fby_HistPurchaseRule = async (orderObject, riskScoreObject) => 
   riskScoreObject = buildRiskScoreLog(
     "r009",
     "HST",
-    `${text} (HST)`,
+    `${text}  🆗`,
     riskScoreObject.historyPurchase.score,
     riskScoreObject
   );
   riskScoreObject = buildRiskScoreLog(
     "r017",
     "FBY",
-    "Primeira compra no Site, que pode aumentar o risco (FBY)",
+    "Primeira compra no Site  ❗",
     riskScoreObject.firstBuying.score,
     riskScoreObject
   );

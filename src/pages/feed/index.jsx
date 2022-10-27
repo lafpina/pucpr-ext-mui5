@@ -63,6 +63,8 @@ export async function getServerSideProps() {
   //! Fetch LIST ORDER
   const getListOrders = await getVtexListOrders();
 
+  console.log(getListOrders)
+
   if (getListOrders) {
     console.log("Fetch List efetuado com sucesso. Iniciar o LOOP");
     eMessage.fetchListOrder = 200;
@@ -79,6 +81,9 @@ export async function getServerSideProps() {
       let url = getURL("order", orderId);
       //! Fetch GET ORDER
       const getOrder = await getVtexOrder(url, options);
+
+      console.log(getOrder.orderId)
+
       //*-----------------------------------------------------
       //* For each order call helper functions to process it
       //*-----------------------------------------------------

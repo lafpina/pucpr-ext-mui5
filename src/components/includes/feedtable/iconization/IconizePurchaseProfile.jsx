@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
-import { ErrorOutlineOutlined, FavoriteOutlined, Error, CheckCircleOutline, ReportProblem } from "@material-ui/icons";
+import { ErrorOutlineOutlined, FavoriteOutlined, CheckCircleOutline, ReportProblem } from "@material-ui/icons";
+import ErrorIcon from '@mui/icons-material/Error';
+
 
 export function IconizePurchaseProfile(props) {
   const classes = usePurchaseProfileStyles();

@@ -22,7 +22,7 @@ export const zdk_ZendeskRule = async (orderObject, riskScoreObject) => {
     riskScoreObject = buildRiskScoreLog(
         "r024",
         "ZDK",
-        `Cliente possui pelo menos ${riskScoreObject.zendeskTickets.qty} chamado(s) pelo Zendesk, o que atenua o risco (ZDK)`,
+        `Cliente possui pelo menos ${riskScoreObject.zendeskTickets.qty} chamado(s) pelo Zendesk  🆗`,
         riskScoreObject.zendeskTickets.score,
         riskScoreObject
     );

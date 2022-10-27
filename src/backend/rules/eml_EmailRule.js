@@ -65,7 +65,7 @@ export const eml_EmailRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r013",
     "EML",
-    "Email de cadastro sem relação com o nome do cliente, ou de domínio desconhecido, ou muito longo (EML)",
+    "Email de cadastro sem relação com o nome do cliente, ou de domínio desconhecido, ou muito longo  ❗",
     riskScoreObject.validEmail.score,
     riskScoreObject
   );

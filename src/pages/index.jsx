@@ -4,8 +4,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '../components/layout/AppBar';
 import Drawer from '../components/layout/Drawer';
+import theme from '../theme'
 
-const mdTheme = createTheme();
+// const mdTheme = createTheme();
 
 export default function AlerteMe(props) {
   const [open, setOpen] = useState(true);
@@ -14,7 +15,7 @@ export default function AlerteMe(props) {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
 
         <AppBar />

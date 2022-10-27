@@ -13,7 +13,7 @@ export const cdn_CouponDiscountRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r006",
     "CDN",
-    "Emissão de Cupom de Desconto pela Área de Atendimento ao Cliente, atenua o risco (CDN)",
+    "Emissão de Cupom de Desconto pela Área de Atendimento ao Cliente  🆗",
     riskScoreObject.couponDiscount.score,
     riskScoreObject
   );

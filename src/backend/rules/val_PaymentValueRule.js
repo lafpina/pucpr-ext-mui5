@@ -43,7 +43,7 @@ export const val_PaymentValueRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r004",
     "VAL",
-    "Pedido apresenta algum risco em relação ao valor da compra, com a falta de histórico, e as parcelas de pagamento (VAL)",
+    "Pedido apresenta algum risco em relação ao valor da compra, com a falta de histórico, e as parcelas de pagamento  ❗",
     riskScoreObject.paymentValue.score,
     riskScoreObject
   );

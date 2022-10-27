@@ -15,7 +15,7 @@ export const ddd_AreaCodeRule = (orderObject, riskScoreObject) => {
   riskScoreObject = buildRiskScoreLog(
     "r014",
     "DDD",
-    "DDD do telefone de cadastro do cliente incompatível com o Estado de Entrega, pode aumentar o risco (DDD)",
+    "DDD do telefone de cadastro do cliente incompatível com o Estado de Entrega  ❗",
     riskScoreObject.areaCode.score,
     riskScoreObject
   );
