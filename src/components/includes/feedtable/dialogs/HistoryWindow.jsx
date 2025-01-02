@@ -1,101 +1,113 @@
-import React from 'react';
-import { useState, useEffect } from 'react'
-import { makeStyles, withStyles } from "@mui/styles";
-import { Paper, Grid, Box, DialogContent, DialogContentText } from '@mui/material'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import FeedTableDialog from './FeedTableDialog'
+import React, { useState, useEffect } from "react";
+import {
+  Paper,
+  Grid,
+  Box,
+  DialogContent,
+  DialogContentText,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+import FeedTableDialog from "./FeedTableDialog";
 import formatTZOrderDate from "../../../../backend/utils/formatTZOrderDate";
 import setCurrency from "../../../../backend/utils/setCurrency";
-import FeedTableDialogTitle from './FeedTableDialogTitle'
+import FeedTableDialogTitle from "./FeedTableDialogTitle";
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    minWidth: 650,
+// ✅ Estilização com `styled`
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  "&.MuiTableCell-head": {
+    backgroundColor: "#d5d5d5",
+    fontSize: 13,
+    fontWeight: "bold",
   },
-  color: "#616161",
+  "&.MuiTableCell-body": {
+    fontSize: 13,
+    color: theme.palette.text.primary,
+  },
 }));
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: '#d5d5d5',
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
   },
-  body: {
-    fontSize: 13,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-    },
-  },
-}))(TableRow);
+}));
 
 export default function ScoreWindow(props) {
-  const classes = useStyles()
   const { orderDetail, windowState } = props;
-  const [cpf, setCpf] = useState(orderDetail.history[0].cpf);
-  const [historyItems, setHistoryItems] = useState([{}]);
+  const [cpf, setCpf] = useState(orderDetail.history[0]?.cpf || "");
+  const [historyItems, setHistoryItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalValue, setTotalValue] = useState(0);
 
-  useEffect(async () => {
-    setCpf(orderDetail.history[0].cpf);
-    const url = `/api/history/${cpf}`;
-    const response = await fetch(url, { method: "GET" });
-    const data = await response.json();
-    setHistoryItems(data.history.list);
-    setLoading(false);
-  }, []);
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const url = `/api/history/${cpf}`;
+        const response = await fetch(url, { method: "GET" });
+        const data = await response.json();
+        setHistoryItems(data.history.list || []);
+        setLoading(false);
+      } catch (error) {
+        console.error("Erro ao buscar histórico:", error);
+        setLoading(false);
+      }
+    };
+
+    if (cpf) fetchHistory();
+  }, [cpf]);
 
   useEffect(() => {
-    // get sum of totalValue prop across all objects in array
-    const total = historyItems.reduce(function (prev, cur) {
-      return cur.status == "invoiced" ? prev + cur.totalValue : prev;
+    const total = historyItems.reduce((prev, cur) => {
+      return cur.status === "invoiced" ? prev + cur.totalValue : prev;
     }, 0);
     setTotalValue(total);
-  }, [!loading]);
+  }, [historyItems]);
 
   function sumUpInvoiced() {
-    const totalInvoiced = historyItems.reduce(function (prev, cur) {
-      return cur.status == "invoiced" ? prev + 1 : prev;
+    return historyItems.reduce((prev, cur) => {
+      return cur.status === "invoiced" ? prev + 1 : prev;
     }, 0);
-    return totalInvoiced;
   }
 
   return (
     <FeedTableDialog windowState={windowState}>
       <FeedTableDialogTitle orderDetail={orderDetail} />
 
-      {/* CONTENT */}
-      <DialogContent sx={{ bgcolor: "WhiteSmoke" }} >
+      {/* ✅ Conteúdo */}
+      <DialogContent sx={{ bgcolor: "WhiteSmoke" }}>
         <DialogContentText>
-          <Grid item xs={12} >
+          <Grid item xs={12}>
             <Paper
               sx={{
                 p: 1,
                 mb: 1.5,
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
                 height: 40,
               }}
             >
-              <Box sx={{ fontSize: 14, color: '#757575', mb: 1 }}>
-                {'Histórico:  ' + (sumUpInvoiced() > 0 ? (
-                  (sumUpInvoiced() > 0 && sumUpInvoiced() + " " +
-                    ((historyItems.length - 1) > 1 ? "pedidos faturados" : "pedido faturado") +
-                    " no valor total de " + setCurrency(totalValue)) || "Nenhum pedido ainda faturado"
-                ) : 'Não há compras faturadas')}
+              <Box sx={{ fontSize: 14, color: "#757575", mb: 1 }}>
+                {"Histórico: "}
+                {sumUpInvoiced() > 0
+                  ? `${sumUpInvoiced()} ${
+                      historyItems.length > 1
+                        ? "pedidos faturados"
+                        : "pedido faturado"
+                    } no valor total de ${setCurrency(totalValue)}`
+                  : "Não há compras faturadas"}
               </Box>
             </Paper>
           </Grid>
 
+          {/* ✅ Tabela */}
           <TableContainer component={Paper}>
-            <Table
-              className={classes.table}
-              size="small"
-              aria-label="a dense table"
-            >
+            <Table size="small" aria-label="Histórico de Pedidos">
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Data</StyledTableCell>
@@ -109,35 +121,40 @@ export default function ScoreWindow(props) {
               </TableHead>
               <TableBody>
                 {loading ? (
-                  "Buscando dados históricos..."
+                  <TableRow>
+                    <TableCell colSpan={7} align="center">
+                      Buscando dados históricos...
+                    </TableCell>
+                  </TableRow>
                 ) : (
-                  <>
-                    {historyItems.map((item, orderId) => (
-                      <StyledTableRow key={orderId}>
-                        <StyledTableCell component="th" scope="row" sx={{ color: '#455a64' }}>
-                          {formatTZOrderDate(item.creationDate).substr(0, 10)}
-                        </StyledTableCell>
-                        <StyledTableCell align="right" sx={{ color: '#455a64' }}>
-                          {item.orderId.substr(1, 6)}
-                        </StyledTableCell>
-                        <StyledTableCell align="center" sx={{ color: '#455a64' }}>
-                          {item.totalItems}
-                        </StyledTableCell>
-                        <StyledTableCell align="right" sx={{ color: '#455a64' }}>
-                          {setCurrency(item.totalValue)}
-                        </StyledTableCell>
-                        <StyledTableCell align="right" sx={{ color: '#455a64' }}>
-                          {item.paymentNames}
-                        </StyledTableCell>
-                        <StyledTableCell align="right" sx={{ color: '#455a64' }}>
-                          {item.listId}
-                        </StyledTableCell>
-                        <StyledTableCell align="left" sx={{ color: StatusStyle(item.statusDescription) }}>
-                          {item.statusDescription}
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))}
-                  </>
+                  historyItems.map((item, index) => (
+                    <StyledTableRow key={index}>
+                      <StyledTableCell component="th" scope="row">
+                        {formatTZOrderDate(item.creationDate).substr(0, 10)}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {item.orderId.substr(1, 6)}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {item.totalItems}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {setCurrency(item.totalValue)}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {item.paymentNames}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {item.listId}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="left"
+                        sx={{ color: StatusStyle(item.statusDescription) }}
+                      >
+                        {item.statusDescription}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
                 )}
               </TableBody>
             </Table>
@@ -148,17 +165,15 @@ export default function ScoreWindow(props) {
   );
 }
 
+// ✅ Função para definir a cor do status
 const StatusStyle = (status) => {
   switch (status) {
-    case 'Cancelado':
+    case "Cancelado":
       return "#D66460";
-      break;
-    case 'Preparando Entrega':
+    case "Preparando Entrega":
       return "#f9a825";
-      break;
-    case 'Faturado':
+    case "Faturado":
       return "#60D660";
-      break;
     default:
       return "#d5d5d5";
   }

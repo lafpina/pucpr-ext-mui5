@@ -1,67 +1,40 @@
-import { makeStyles } from "@material-ui/styles";
-import { ErrorOutlineOutlined, FavoriteOutlined, CheckCircleOutline, ReportProblem } from "@material-ui/icons";
-import ErrorIcon from '@mui/icons-material/Error';
+import React from "react";
+import { 
+  ErrorOutlineOutlined, 
+  FavoriteOutlined, 
+  CheckCircleOutline, 
+  ReportProblem 
+} from "@mui/icons-material";
+import ErrorIcon from "@mui/icons-material/Error";
 
-
+/**
+ * Componente responsável por exibir diferentes ícones com base nas propriedades recebidas.
+ * @param {Object} props - Propriedades do componente.
+ * @param {boolean} props.blackListed - Indica se está na lista negra.
+ * @param {number} props.orderErrorCheck - Número de erros no pedido.
+ * @param {boolean} props.whiteListed - Indica se está na lista branca.
+ * @param {number} props.qtyPurchase - Quantidade de compras.
+ * @param {string} props.size - Tamanho do ícone.
+ */
 export function IconizePurchaseProfile(props) {
-  const classes = usePurchaseProfileStyles();
+  const { blackListed, orderErrorCheck, whiteListed, qtyPurchase, size } = props;
 
-  if (props.blackListed) {
-    return <ErrorIcon className={classes.blackListed} fontSize={props.size} />;
+  // Renderização condicional com estilização diretamente no sx
+  if (blackListed) {
+    return <ErrorIcon sx={{ color: "DimGray" }} fontSize={size} />;
   }
 
-  if (props.orderErrorCheck > 0) {
-    return (
-      <ReportProblem
-        className={classes.errorCheck}
-        fontSize={props.size}
-      />
-    );
+  if (orderErrorCheck > 0) {
+    return <ReportProblem sx={{ color: "LightCoral" }} fontSize={size} />;
   }
 
-  if (props.whiteListed) {
-    return (
-      <FavoriteOutlined
-        className={classes.whiteListed}
-        fontSize={props.size}
-      />
-    );
+  if (whiteListed) {
+    return <FavoriteOutlined sx={{ color: "Pink" }} fontSize={size} />;
   }
 
-  if (props.qtyPurchase > 0) {
-    return (
-      <CheckCircleOutline
-        className={classes.regularClient}
-        fontSize={props.size}
-      />
-    );
+  if (qtyPurchase > 0) {
+    return <CheckCircleOutline sx={{ color: "PowderBlue" }} fontSize={size} />;
   }
 
-  return (
-    <ErrorOutlineOutlined
-      className={classes.newClient}
-      fontSize={props.size}
-    />
-  );
+  return <ErrorOutlineOutlined sx={{ color: "Gold" }} fontSize={size} />;
 }
-
-const usePurchaseProfileStyles = makeStyles({
-  newClient: {
-    color: "Gold",
-  },
-  regularClient: {
-    color: "PowderBlue",
-  },
-  blackListed: {
-    color: "DimGray",
-  },
-  whiteListed: {
-    color: "Pink",
-  },
-  errorCheck: {
-    color: "LightCoral",
-  },
-  default: {
-    color: "DarkGray",
-  },
-});

@@ -1,41 +1,52 @@
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
-import Fade from "@material-ui/core/Fade";
-import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from '@mui/styles';
-import { StyledBadgeItems } from "../badgezation/StyledBadge";
-import ItemsWindow from '../dialogs/ItemsWindow'
 import { useState } from "react";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import Fade from "@mui/material/Fade";
+import Tooltip from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 
-const LightTooltip = withStyles((theme) => ({
-  tooltip: {
+import { StyledBadgeItems } from "../badgezation/StyledBadge";
+import ItemsWindow from "../dialogs/ItemsWindow";
+
+// Substituindo `withStyles` por `styled`
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  "& .MuiTooltip-tooltip": {
     backgroundColor: theme.palette.action.active,
     color: "Ivory",
     boxShadow: theme.shadows[2],
     fontSize: 13,
   },
-}))(Tooltip);
-
-<StyledBadgeItems />;
+}));
 
 export const OrderItemCell = (props) => {
   const { orderDetail } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const handleCellClick = (e) => setIsOpen((prevState) => !prevState);
+
+  const handleCellClick = () => setIsOpen((prevState) => !prevState);
 
   return (
     <>
       <TableCell onClick={handleCellClick} align="center">
-        <IconButton>
-          <StyledBadgeItems
-            badgeContent={orderDetail.items}
-            max={100}
-          ></StyledBadgeItems>
-          {/* </LightTooltip> */}
-        </IconButton>
+        <LightTooltip
+          title={`Itens: ${orderDetail.items}`}
+          placement="top"
+          arrow
+          TransitionComponent={Fade}
+          TransitionProps={{ timeout: 600 }}
+        >
+          <IconButton>
+            <StyledBadgeItems
+              badgeContent={orderDetail.items}
+              max={100}
+            />
+          </IconButton>
+        </LightTooltip>
       </TableCell>
-      {/* {isOpen && <ItemsDialog orderDetail={orderDetail} />} */}
-      {isOpen && <ItemsWindow windowState={handleCellClick} orderDetail={orderDetail} />}
+      {isOpen && (
+        <ItemsWindow windowState={handleCellClick} orderDetail={orderDetail} />
+      )}
     </>
   );
 };

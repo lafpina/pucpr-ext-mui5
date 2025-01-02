@@ -1,7 +1,8 @@
-import { FlareSharp } from "@material-ui/icons";
+import Brightness5Icon from "@mui/icons-material/Brightness5"; // Ícone alternativo para Flare
 import getOption from "./getOption";
 import getURL from "./getURL";
 
+// Função principal para buscar histórico de compras
 export async function lookForPurchaseHistory(query) {
   let historyPurchaseProfile = {
     qty: 0,
@@ -13,53 +14,61 @@ export async function lookForPurchaseHistory(query) {
     isGT999valHistory: false,
     isPromissoryHistory: false,
     isPixHistory: false,
-    dateFirstBuy: " ",
+    dateFirstBuy: "N/A",
   };
 
   let qtyPurchase = 0;
   let qtyInvoiced = 0;
 
-  let options = getOption("order");
+  const options = getOption("order");
+  const url = getURL("query", query);
 
-  let url = getURL("query", query);
+  try {
+    const res = await fetch(url, options);
 
-  let res = await fetch(url, options);
+    if (res.ok) {
+      const data = await res.json();
+      const clientOrders = JSON.parse(JSON.stringify(data));
+      qtyPurchase = clientOrders.list.length;
 
-  if (res.ok) {
-    const data = await res.json();
-    const clientOrders = JSON.parse(JSON.stringify(data));
-    qtyPurchase = clientOrders.list.length;
+      // Garante que a data de compra não será nula
+      historyPurchaseProfile.dateFirstBuy =
+        clientOrders.list[qtyPurchase - 1]?.creationDate || "N/A";
 
-    historyPurchaseProfile.dateFirstBuy =
-      clientOrders.list[qtyPurchase - 1].creationDate;
+      // Loop para verificar cada pedido
+      for (let i = 0; i < qtyPurchase; ++i) {
+        const order = clientOrders.list[i];
 
-    for (let i = 0; i < qtyPurchase; ++i) {
-      if (clientOrders.list[i].status === "invoiced") {
-        qtyInvoiced += 1;
-        historyPurchaseProfile.qty += 1;
-        historyPurchaseProfile.value += clientOrders.list[i].totalValue;
+        if (order.status === "invoiced") {
+          qtyInvoiced += 1;
+          historyPurchaseProfile.qty += 1;
+          historyPurchaseProfile.value += order.totalValue || 0;
 
-        if (clientOrders.list[i].paymentNames.indexOf("Vale") > -1) {
-          historyPurchaseProfile.isGiftHistory = true;
-        }
+          // Verifica histórico de vale
+          if (order.paymentNames?.includes("Vale")) {
+            historyPurchaseProfile.isGiftHistory = true;
+          }
 
-        if (
-          clientOrders.list[i].paymentNames.indexOf(
-            "Depósito",
-            "Boleto Bancário"
-          ) > -1
-        ) {
-          historyPurchaseProfile.isPromissoryHistory = true;
-        }
+          // Verifica histórico de pagamentos promissórios
+          if (
+            order.paymentNames?.includes("Depósito") ||
+            order.paymentNames?.includes("Boleto Bancário")
+          ) {
+            historyPurchaseProfile.isPromissoryHistory = true;
+          }
 
-        if (clientOrders.list[i].paymentNames.indexOf("Pix") > -1) {
-          historyPurchaseProfile.isPixHistory = true;
+          // Verifica histórico de pagamentos via Pix
+          if (order.paymentNames?.includes("Pix")) {
+            historyPurchaseProfile.isPixHistory = true;
+          }
         }
       }
+    } else {
+      console.error("Erro ao buscar histórico de compras:", query, res);
+      throw new Error(`Erro no servidor: ${res.statusText}`);
     }
-  } else {
-    console.log("Error lookForPurchaseHistory:", query, res);
-    qtyInvoiced = 0;
+  } catch (error) {
+    console.error("Erro ao buscar histórico de compras:", error);
     historyPurchaseProfile.qty = 0;
     historyPurchaseProfile.value = 0;
     historyPurchaseProfile.isGiftHistory = false;
@@ -67,6 +76,8 @@ export async function lookForPurchaseHistory(query) {
     historyPurchaseProfile.isPixHistory = false;
   }
 
-  // return qtyInvoiced;
   return historyPurchaseProfile;
 }
+
+// Exportação do ícone para utilização em outros componentes
+export const PurchaseHistoryIcon = Brightness5Icon;

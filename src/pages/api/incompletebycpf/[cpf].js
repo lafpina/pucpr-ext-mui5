@@ -1,6 +1,6 @@
 import getURL from "../../../backend/api/getURL";
 import getOption from "../../../backend/api/getOption";
-import { ContactSupportOutlined } from "@material-ui/icons";
+import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined"; // ✅ Correção na importação
 import formaTZOrderDate from "../../../backend/utils/formatTZOrderDate";
 
 async function handler(req, res) {
@@ -8,26 +8,44 @@ async function handler(req, res) {
     const clientCpf = req.query.cpf;
 
     if (!clientCpf) {
-      res.status(422).json({ message: "CPF do cliente inválido" });
+      res.status(422).json({
+        message: "CPF do cliente inválido",
+        icon: <ContactSupportOutlinedIcon />,
+      });
       return;
     }
 
     const url = getURL("IOCPF", clientCpf);
     const options = getOption("order");
 
-    const data = await fetch(url, options);
+    try {
+      const data = await fetch(url, options);
 
-    if (data.ok) {
-      const history = await data.json();
-
-      const objIncompleteOrders = await buildObjIncompleteOrders(history.list);
-
-      res.status(200).json({ history: objIncompleteOrders });
-    } else {
-      res.status(500).json({ message: "Erro ao acessar os dados no servidor" });
+      if (data.ok) {
+        const history = await data.json();
+        const objIncompleteOrders = await buildObjIncompleteOrders(history.list);
+        res.status(200).json({ history: objIncompleteOrders });
+      } else {
+        res
+          .status(500)
+          .json({
+            message: "Erro ao acessar os dados no servidor",
+            icon: <ContactSupportOutlinedIcon />,
+          });
+      }
+    } catch (error) {
+      console.error("Erro na API:", error);
+      res.status(500).json({
+        message: "Erro interno do servidor",
+        error: error.message,
+        icon: <ContactSupportOutlinedIcon />,
+      });
     }
   } else {
-    res.status(405).json({ message: "Metodo não autorizado" });
+    res.status(405).json({
+      message: "Método não autorizado",
+      icon: <ContactSupportOutlinedIcon />,
+    });
   }
 }
 
@@ -35,10 +53,8 @@ export default handler;
 
 const buildObjIncompleteOrders = async (history) => {
   const options = getOption("order");
-
   const obj = [];
-  let objIncompleteOrders = {}
-
+  let objIncompleteOrders = {};
 
   for (let i = 0; i < history.length; i++) {
     objIncompleteOrders = {
@@ -47,13 +63,14 @@ const buildObjIncompleteOrders = async (history) => {
       items: "",
       value: "",
       payment: "",
-      creditCard:  " ",
+      creditCard: " ",
       list: "",
       status: "",
       installments: "",
       tid: "",
       reason: "",
     };
+
     const fullDate = formaTZOrderDate(history[i].creationDate);
     const partialDate = fullDate.substr(0, 5) + " " + fullDate.substr(11, 5);
     objIncompleteOrders.date = partialDate;
@@ -65,31 +82,41 @@ const buildObjIncompleteOrders = async (history) => {
     objIncompleteOrders.status = "Incompleto";
 
     const url = getURL("order", history[i].orderId);
-    const result = await fetch(url, options);
-    if (result.ok) {
-      const getOrder = await result.json();
+    try {
+      const result = await fetch(url, options);
 
-      objIncompleteOrders.creditCard =
-        history[i].paymentNames +
-        " " +
-        (getOrder.paymentData.transactions[0].payments[0].group == "creditCard"
-          ? getOrder.paymentData.transactions[0].payments[0].firstDigits +
-            "****" +
-            getOrder.paymentData.transactions[0].payments[0].lastDigits
-          : " ");
+      if (result.ok) {
+        const getOrder = await result.json();
 
-      objIncompleteOrders.installments =
-        getOrder.paymentData.transactions[0].payments[0].installments;
-      objIncompleteOrders.tid =
-        getOrder.paymentData.transactions[0].payments[0].tid;
-      objIncompleteOrders.reason = getOrder.cancelReason;
-    } else {
+        objIncompleteOrders.creditCard =
+          history[i].paymentNames +
+          " " +
+          (getOrder.paymentData.transactions[0].payments[0].group === "creditCard"
+            ? getOrder.paymentData.transactions[0].payments[0].firstDigits +
+              "****" +
+              getOrder.paymentData.transactions[0].payments[0].lastDigits
+            : " ");
+
+        objIncompleteOrders.installments =
+          getOrder.paymentData.transactions[0].payments[0].installments;
+        objIncompleteOrders.tid =
+          getOrder.paymentData.transactions[0].payments[0].tid;
+        objIncompleteOrders.reason = getOrder.cancelReason;
+      } else {
+        objIncompleteOrders.creditCard = "-";
+        objIncompleteOrders.installments = "-";
+        objIncompleteOrders.tid = "-";
+        objIncompleteOrders.reason = "-";
+      }
+    } catch (error) {
+      console.error("Erro ao buscar detalhes do pedido:", error);
       objIncompleteOrders.creditCard = "-";
       objIncompleteOrders.installments = "-";
       objIncompleteOrders.tid = "-";
       objIncompleteOrders.reason = "-";
     }
+
     obj.push(objIncompleteOrders);
   }
-   return obj;
+  return obj;
 };

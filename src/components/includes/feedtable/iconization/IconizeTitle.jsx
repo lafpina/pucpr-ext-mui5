@@ -1,145 +1,74 @@
-import { makeStyles } from "@material-ui/styles";
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import SearchIcon from '@material-ui/icons/Search';
-import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import HouseIcon from '@material-ui/icons/House';
-import InputIcon from '@material-ui/icons/Input';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import FaceIcon from '@material-ui/icons/Face';
-import CreditCardTwoToneIcon from '@material-ui/icons/CreditCardTwoTone';
-import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
-import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
+import React from 'react';
+import { styled } from '@mui/material/styles';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import SearchIcon from '@mui/icons-material/Search';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import HouseIcon from '@mui/icons-material/House';
+import InputIcon from '@mui/icons-material/Input';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import FaceIcon from '@mui/icons-material/Face';
+import CreditCardTwoToneIcon from '@mui/icons-material/CreditCardTwoTone';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 
+// ✅ Estilização com `styled`
+const StyledIcon = styled('div')(() => ({
+  color: 'DarkGray',
+  fontSize: '1.5rem',
+}));
 
+// ✅ Função reutilizável para ícones
+function RenderIcon({ Icon, size }) {
+  return <StyledIcon as={Icon} fontSize={size} />;
+}
+
+// ✅ Componentes Individuais
 export function IconizeTitleOrder(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <SystemUpdateAltOutlinedIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={SystemUpdateAltOutlinedIcon} size={props.size} />;
 }
 
 export function IconizeTitleDate(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <ScheduleIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={ScheduleIcon} size={props.size} />;
 }
 
 export function IconizeTitleClient(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <FaceIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={FaceIcon} size={props.size} />;
 }
 
 export function IconizeTitleProfile(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <SearchIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={SearchIcon} size={props.size} />;
 }
 
 export function IconizeTitlePayment(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <CreditCardTwoToneIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={CreditCardTwoToneIcon} size={props.size} />;
 }
 
 export function IconizeTitleGift(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <CardGiftcardIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={CardGiftcardIcon} size={props.size} />;
 }
 
 export function IconizeTitlePromo(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <LocalOfferIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={LocalOfferIcon} size={props.size} />;
 }
 
 export function IconizeTitleItems(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <ShoppingCartIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={ShoppingCartIcon} size={props.size} />;
 }
 
 export function IconizeTitleValue(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <MonetizationOnOutlinedIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={MonetizationOnOutlinedIcon} size={props.size} />;
 }
 
 export function IconizeTitleDestination(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <HouseIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={HouseIcon} size={props.size} />;
 }
 
 export function IconizeTitleStatus(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <InputIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={InputIcon} size={props.size} />;
 }
 
 export function IconizeTitleScore(props) {
-  const classes = useIconizeTitleOrderStyles();
-  return (
-    <VerifiedUserIcon
-      className={classes.iconizeTitle}
-      fontSize={props.size}
-    />
-  );
+  return <RenderIcon Icon={VerifiedUserIcon} size={props.size} />;
 }
-
-
-
-
-
-const useIconizeTitleOrderStyles = makeStyles({
-  iconizeTitle: {
-    color: "DarkGray",
-  },
-
-});

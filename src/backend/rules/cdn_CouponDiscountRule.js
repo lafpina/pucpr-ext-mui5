@@ -4,7 +4,7 @@ export const cdn_CouponDiscountRule = (orderObject, riskScoreObject) => {
   // Any coupon of discount other than Compre Junto will score positively
 
   orderObject.coupon.map((coupon) => {
-    if (coupon.includes("CDN")) {
+    if (coupon.includes("CDN") || coupon.includes("CDP") || coupon.includes('CFG')) {
       riskScoreObject.final -= 15;
       riskScoreObject.couponDiscount.score = -15;
     }

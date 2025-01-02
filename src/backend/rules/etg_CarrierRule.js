@@ -10,17 +10,19 @@ export const etg_CarrierRule = (orderObject, riskScoreObject) => {
       if (orderObject.phone.substr(3, 2) != "11") {
         riskScoreObject.final += 10;
         riskScoreObject.carrier.score = 10;
-      } else {
-        riskScoreObject.final += 5;
-        riskScoreObject.carrier.score = 5;
       }
+      // } else {
+      //   riskScoreObject.final += 5;
+      //   riskScoreObject.carrier.score = 5;
+      // }
     }
   }
 
   riskScoreObject = buildRiskScoreLog(
     "r011",
     "ETG",
-    "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega  ❗",
+    // "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega  ❗",
+    "DDD incompatível com Retirada na Loja ou Entrega Expressa  ❗",
     riskScoreObject.carrier.score,
     riskScoreObject
   );

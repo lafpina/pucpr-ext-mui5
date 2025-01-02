@@ -1,23 +1,17 @@
-import { makeStyles } from "@material-ui/styles";
-import { CardGiftcardOutlined } from "@material-ui/icons"; // Lista
+import { styled } from "@mui/material/styles";
+import CardGiftcardOutlined from "@mui/icons-material/CardGiftcardOutlined";
+
+// Estilização usando styled
+const StyledGiftCardIcon = styled(CardGiftcardOutlined)(({ theme }) => ({
+  color: "LightSkyBlue",
+}));
 
 export function IconizeGiftCard(props) {
-  const classes = giftCardStyles();
-
   if (props.giftId > " ") {
     return (
-      <CardGiftcardOutlined
-        className={classes.giftCard}
-        fontSize={props.size}
-      />
+      <StyledGiftCardIcon fontSize={props.size || "default"} />
     );
   } else {
     return " ";
   }
 }
-
-const giftCardStyles = makeStyles({
-  giftCard: {
-    color: "LightSkyBlue",
-  },
-});

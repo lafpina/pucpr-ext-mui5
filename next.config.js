@@ -4,3 +4,4 @@ module.exports = {
     domains: ["assets.example.com"],
   },
 };
+

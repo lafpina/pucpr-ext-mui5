@@ -1,19 +1,17 @@
-import TableBody from "@material-ui/core/TableBody";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import { styled } from '@mui/material/styles';
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 
-
-const StyledTableCell = styled(TableCell, {})({
-  color: "Gray",
-  backgroundColor: "#f5f5f5",
+// Definindo um estilo personalizado para TableCell
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.background.paper,
   fontSize: 12,
-});
+  padding: theme.spacing(1),
+}));
 
-
-export const OrderTableBodyHist = (props) => {
-  const { history } = props;
-
+export const OrderTableBodyHist = ({ history }) => {
   return (
     <TableBody>
       {history.map((historyRow, index) => (

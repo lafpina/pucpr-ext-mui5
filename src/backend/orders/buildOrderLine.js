@@ -36,6 +36,7 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
         valor: orderObject.value,
         giftId: orderObject.giftId,
         giftName: orderObject.giftName,
+        giftEmail: orderObject.giftEmail,
         destino: orderObject.carrier ?
             orderObject.shippingCity + " (" + orderObject.carrier + ")" : orderObject.shippingCity,
         status: orderObject.status,
@@ -67,7 +68,7 @@ export const buildOrderLine = (orderObject, riskScoreObject) => {
             parcelas: orderObject.cardInstallments,
             titular: orderObject.cardHolder != null ?
                 titleCase(orderObject.cardHolder) : "",
-        }, ],
+        },],
     };
 
     return orderLine;

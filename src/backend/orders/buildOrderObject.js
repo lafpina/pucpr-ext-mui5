@@ -21,10 +21,14 @@ paymentData.transactions[0].payments[0].giftCardId  // Id: a490f3a5-5c23-4ed1-8c
 paymentData.transactions[0].payments[0].giftCardCaption // Nome do Chá
 */
 
-const buildOrderObject = async(vtexOrder) => {
+const buildOrderObject = async (vtexOrder) => {
+    console.log('Step0')
     let giftDetail = formatGiftDetail(vtexOrder);
+    console.log('Step1')
     let clientEmail = await getMasterdataClientEmail(vtexOrder);
+    console.log('Step2')
     let paymentGroupObject = formatPaymentGroup(vtexOrder);
+    console.log('Step3')
 
     let pagarmeObject = {
         cardHolder: " ",
@@ -54,11 +58,43 @@ const buildOrderObject = async(vtexOrder) => {
     for (let i = 0; i < vtexOrder.items.length; ++i) {
         itemName[i] =
             vtexOrder.items.length > 1 ?
-            ` (${i + 1}) ${vtexOrder.items[i].name} ` + "\n" :
-            `${vtexOrder.items[i].name}`;
+                ` (${i + 1}) ${vtexOrder.items[i].name} ` + "\n" :
+                `${vtexOrder.items[i].name}`;
     }
 
-    console.log('=======>', vtexOrder.sequence, formatClientName(vtexOrder), clientEmail)
+    // console.log('=======>', vtexOrder.sequence, formatClientName(vtexOrder), clientEmail)
+
+
+    // "customData": {
+    //     "customApps": [
+    //         {
+    //             "fields": {
+    //                 "ownerListName": "luemo",
+    //                 "ownerListEmail": "luiz.pina@icloud.com",
+    //                 "ownerListId": "7d115844-95f4-11ee-8452-0eb51278e209"
+    //             },
+    //             "id": "list",
+    //             "major": 1
+    //         }
+    //     ]
+    // },
+
+
+    console.log('---------------------------------------------')
+
+    let ownerListId = null
+    let ownerListName = null
+    let ownerEmail = null
+
+    if (vtexOrder.salesChannel == '2' && vtexOrder.customData) {
+        ownerListId = vtexOrder.customData.customApps[0].fields.ownerListId.substring(0, 8)
+        ownerListName = vtexOrder.customData.customApps[0].fields.ownerListName
+        ownerEmail = vtexOrder.customData.customApps[0].fields.ownerListEmail
+        console.log(ownerEmail)
+    } else {
+        ownerListName = giftDetail.name
+        ownerListId = giftDetail.id
+    }
 
 
     let orderObject = {
@@ -94,8 +130,11 @@ const buildOrderObject = async(vtexOrder) => {
         cpf: vtexOrder.clientProfileData.document,
         phone: vtexOrder.clientProfileData.phone,
         // Gift
-        giftName: giftDetail.name,
-        giftId: giftDetail.id,
+        // giftName: giftDetail.name,
+        // giftId: giftDetail.id,
+        giftName: ownerListName,
+        giftId: ownerListId,
+        giftEmail: ownerEmail,
         // Products
         items: vtexOrder.items,
         itemName: itemName,

@@ -1,4 +1,4 @@
-import { Description } from "@material-ui/icons";
+import DescriptionIcon from "@mui/icons-material/Description";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 import { convertDate } from "../utils/convertDate";
 import formatTZOrderDate from "../utils/formatTZOrderDate";

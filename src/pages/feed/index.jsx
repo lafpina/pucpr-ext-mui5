@@ -12,7 +12,6 @@ import getTodayDate from "../../backend/utils/getTodayDate";
 
 import dynamic from "next/dynamic";
 
-
 // Replaced a regular import as bellow to Dynamic Component With No SSR
 // import Dashboard from "../../components/admin/Dashboard";
 const DynamicComponentWithNoSSR = dynamic(
@@ -42,7 +41,6 @@ function OrderListPage(props) {
         totalRiskAmount={totalRiskAmount}
         todayDate={todayDate}
       />
-
     </>
   );
 }
@@ -63,7 +61,7 @@ export async function getServerSideProps() {
   //! Fetch LIST ORDER
   const getListOrders = await getVtexListOrders();
 
-  console.log(getListOrders)
+  //console.log(getListOrders)
 
   if (getListOrders) {
     console.log("Fetch List efetuado com sucesso. Iniciar o LOOP");
@@ -78,11 +76,12 @@ export async function getServerSideProps() {
       // console.log('=========================>', listOrders[i].affiliateId, listOrders[i].sequence)
       // } else {
       const orderId = listOrders[i].orderId;
+      console.log("Order ---------> ", orderId);
       let url = getURL("order", orderId);
       //! Fetch GET ORDER
       const getOrder = await getVtexOrder(url, options);
 
-      console.log(getOrder.orderId)
+      //console.log(getOrder.orderId)
 
       //*-----------------------------------------------------
       //* For each order call helper functions to process it
@@ -90,13 +89,14 @@ export async function getServerSideProps() {
       if (getOrder) {
         console.log("Passo 3 - Início de Processamento da Order");
         const orderObject = await buildOrderObject(getOrder);
+        console.log("Montou OrderObject");
         const riskScoreObject = await buildRiskScoreObject(orderObject);
+        console.log("Montou Risk Score");
         const orderLine = buildOrderLine(orderObject, riskScoreObject);
 
         allOrders.push(orderLine);
 
         console.log("Passo 4 - Array criado!");
-        console.log("----------------------------------------------");
 
         if (orderLine.blackListed)
           notificationBlackList += allOrders[i].blackListedQty;

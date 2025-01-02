@@ -1,19 +1,19 @@
-import { withStyles, makeStyles } from '@mui/styles'
-import Badge from "@material-ui/core/Badge";
+import { styled } from '@mui/material/styles';
+import Badge from "@mui/material/Badge";
 
-export const StyledBadge = withStyles((theme) => ({
-    badge: {
-      right: -27,
-      color: "white",
-      backgroundColor: "SteelBlue",
-      top: -14,
-      border: `2px solid ${theme.palette.background.paper}`,
-      padding: "0 4px",
+export const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: -27,
+        color: "white",
+        backgroundColor: "SteelBlue",
+        top: -14,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: "0 4px",
     },
-}))(Badge);
+}));
 
-export const StyledBadgeRisk = withStyles((theme) => ({
-    badge: {
+export const StyledBadgeRisk = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
         right: -27,
         color: "white",
         backgroundColor: "Tomato",
@@ -21,10 +21,10 @@ export const StyledBadgeRisk = withStyles((theme) => ({
         border: `2px solid ${theme.palette.background.paper}`,
         padding: "0 4px",
     },
-}))(Badge);
+}));
 
-export const StyledBadgeIncompleteOrders = withStyles((theme) => ({
-    badge: {
+export const StyledBadgeIncompleteOrders = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
         right: -27,
         color: "white",
         backgroundColor: "NavajoWhite",
@@ -32,10 +32,10 @@ export const StyledBadgeIncompleteOrders = withStyles((theme) => ({
         border: `2px solid ${theme.palette.background.paper}`,
         padding: "0 4px",
     },
-}))(Badge);
+}));
 
-export const StyledBadgeCoupon = withStyles((theme) => ({
-    badge: {
+export const StyledBadgeCoupon = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
         left: -65,
         color: "white",
         backgroundColor: "LightBlue",
@@ -43,10 +43,10 @@ export const StyledBadgeCoupon = withStyles((theme) => ({
         border: `4px solid ${theme.palette.background.paper}`,
         padding: "0 4px",
     },
-}))(Badge);
+}));
 
-export const StyledBadgeWarning = withStyles((theme) => ({
-    badge: {
+export const StyledBadgeWarning = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
         right: -27,
         color: "white",
         backgroundColor: "Orange",
@@ -54,10 +54,10 @@ export const StyledBadgeWarning = withStyles((theme) => ({
         border: `2px solid ${theme.palette.background.paper}`,
         padding: "0 4px",
     },
-}))(Badge);
+}));
 
-export const StyledBadgeItems = withStyles((theme) => ({
-    badge: {
+export const StyledBadgeItems = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
         right: 0,
         color: "white",
         backgroundColor: "LightSteelBlue",
@@ -65,10 +65,10 @@ export const StyledBadgeItems = withStyles((theme) => ({
         border: `2px solid ${theme.palette.background.paper}`,
         padding: "1 4px",
     },
-}))(Badge);
+}));
 
-export const StyledBadgeHist = withStyles((theme) => ({
-    badge: {
+export const StyledBadgeHist = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
         right: -27,
         color: "white",
         backgroundColor: "LightBlue",
@@ -76,4 +76,4 @@ export const StyledBadgeHist = withStyles((theme) => ({
         border: `2px solid ${theme.palette.background.paper}`,
         padding: "0 4px",
     },
-}))(Badge);
+}));

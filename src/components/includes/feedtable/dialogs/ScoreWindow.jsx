@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material'
-import { List, ListItemText, ListItem, Divider } from '@material-ui/core'
+import { List, ListItemText, ListItem, Divider } from '@mui/material';
 import { Paper, Grid, Box, Fab, IconButton } from '@mui/material'
 import Draggable from 'react-draggable';
 import ScoreChart from './ScoreChart'

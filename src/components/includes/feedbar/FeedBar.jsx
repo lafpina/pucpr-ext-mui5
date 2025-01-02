@@ -7,7 +7,7 @@ import { IconizeTitleItems } from '../feedtable/iconization/IconizeTitle'
 import { IconizeTitleValue } from '../feedtable/iconization/IconizeTitle'
 import { IconizeTitleGift } from '../feedtable/iconization/IconizeTitle'
 import { IconizeTitleScore } from '../feedtable/iconization/IconizeTitle'
-import CancelIcon from "@material-ui/icons/Cancel";
+import CancelIcon from "@mui/icons-material/Cancel";
 import setCurrency from '../../../backend/utils/setCurrency';
 
 const FeedBar = (props) => {

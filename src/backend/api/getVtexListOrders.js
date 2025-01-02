@@ -16,18 +16,30 @@ async function getVtexListOrders() {
     console.log("Fetching LIST Order....");
     console.log("URL", url);
 
-    let res = await fetch(url, options);
+    try {
+        let res = await fetch(url, options);
 
-    if (res.ok) {
-        console.log("Fetch OK");
-        const data = await res.json();
-        clientOrders = JSON.parse(JSON.stringify(data));
-        // console.log(clientOrders.list);
-    } else {
-        console.log(`Não foi encontrado registro para a URL ${url}`);
-        console.log(res);
+        if (!res.ok) {
+            throw new Error(`Error! status: ${response.status}`);
+        }
+
+        if (res.ok) {
+            console.log("Fetch OK");
+            const data = await res.json();
+            clientOrders = JSON.parse(JSON.stringify(data));
+            // console.log(clientOrders.list);
+        } else {
+            console.log(`Não foi encontrado registro para a URL ${url}`);
+            console.log(res);
+        }
+        return clientOrders;
+    } catch (err) {
+        console.log('========== ERRO INÍCIO ==========')
+        console.log(err)
+        console.log('========== ERRO FIM ==========')
+
     }
-    return clientOrders;
+
 }
 
 export default getVtexListOrders;
@@ -35,8 +47,8 @@ export default getVtexListOrders;
 
 const defineEncodedUrl = () => {
 
-    const startDate = moment().format('2022-10-27')
-    const endDate = moment().format('2022-10-28')
+    const startDate = moment().format('2025-01-02')
+    const endDate = moment().format('2025-01-03')
     return `f_creationDate=creationDate:%5B${startDate}T03:00:00.000Z%20TO%20${endDate}T02:59:59.999Z%5D&orderBy=creationDate,desc`
 
 

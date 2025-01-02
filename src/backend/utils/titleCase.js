@@ -1,7 +1,7 @@
 const titleCase = (nameToConvert) => {
-  let name = removerAcentos(nameToConvert);
 
-  if (name != null) {
+  if (nameToConvert != null) {
+    let name = removerAcentos(nameToConvert);
     let text = name.trim();
     if (text != " ") {
       return text
@@ -15,6 +15,9 @@ const titleCase = (nameToConvert) => {
         .join(" ");
     }
     return "-";
+  } else {
+    console.log('******* Foi enviado um nome null !!!!', nameToConvert)
+    return nameToConvert
   }
 };
 
@@ -32,7 +35,7 @@ function removerAcentos(newStringComAcento) {
     n: /\xF1/g,
   };
 
-  for (var letra in mapaAcentosHex) {
+  for (let letra in mapaAcentosHex) {
     var expressaoRegular = mapaAcentosHex[letra];
     string = string.replace(expressaoRegular, letra);
   }

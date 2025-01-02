@@ -1,12 +1,11 @@
-import TableCell from "@material-ui/core/TableCell";
+import TableCell from "@mui/material/TableCell";
 
 export const OrderShippingToCell = (props) => {
+  const { shippingTo } = props;
 
-    const { shippingTo } = props 
-
-    return (
-        <TableCell align="left">
-          {shippingTo}
-        </TableCell>
-    )
-}
+  return (
+    <TableCell align="left">
+      {shippingTo}
+    </TableCell>
+  );
+};

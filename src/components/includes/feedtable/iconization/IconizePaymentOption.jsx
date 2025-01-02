@@ -1,256 +1,97 @@
-import { makeStyles } from "@material-ui/styles";
-import { PaymentOutlined, MobileFriendlyOutlined, SaveAltOutlined, LoyaltyOutlined } from "@material-ui/icons";
-// import { convertGridRowsPropToState } from "@material-ui/data-grid";
-// import MobileScreenShareIcon from '@mui/icons-material/MobileScreenShare';
+import React from 'react';
+import { styled } from '@mui/material/styles';
+import {
+  PaymentOutlined,
+  MobileFriendlyOutlined,
+  SaveAltOutlined,
+  LoyaltyOutlined,
+} from '@mui/icons-material';
 
+// ✅ Estilização com `styled`
+const StyledIcon = styled('div')(({ theme, color }) => ({
+  color: color,
+  fontSize: '1.5rem',
+}));
+
+// ✅ Componente principal
 export function IconizePaymentOption(props) {
-  const classes = usePaymentStyles();
+  const { payMethod, size } = props;
 
-  //? Bloco giftCard
+  const renderIconPair = (Icon1, color1, Icon2, color2) => (
+    <>
+      <StyledIcon as={Icon1} color={color1} fontSize={size} />
+      <StyledIcon as={Icon2} color={color2} fontSize={size} />
+    </>
+  );
 
-  if (props.payMethod.giftCard && props.payMethod.isCreditCardHolder.no) {
-    return (
-      <>
-        <LoyaltyOutlined
-          className={classes.giftCard}
-          fontSize={props.size}
-        />
+  const renderSingleIcon = (Icon, color) => (
+    <StyledIcon as={Icon} color={color} fontSize={size} />
+  );
 
-        <PaymentOutlined
-          className={classes.noCreditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  // 🔄 Lógica para determinar os ícones
+  if (payMethod.giftCard && payMethod.isCreditCardHolder?.no) {
+    return renderIconPair(LoyaltyOutlined, 'LightSkyBlue', PaymentOutlined, 'LightSalmon');
   }
 
-  if (props.payMethod.giftCard && props.payMethod.isCreditCardHolder.maybe) {
-    return (
-      <>
-        <LoyaltyOutlined
-          className={classes.giftCard}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.maybeCreditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.giftCard && payMethod.isCreditCardHolder?.maybe) {
+    return renderIconPair(LoyaltyOutlined, 'LightSkyBlue', PaymentOutlined, 'Gold');
   }
 
-  if (props.payMethod.giftCard && props.payMethod.isCreditCardHolder.yes) {
-    return (
-      <>
-        <LoyaltyOutlined
-          className={classes.giftCard}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.creditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.giftCard && payMethod.isCreditCardHolder?.yes) {
+    return renderIconPair(LoyaltyOutlined, 'LightSkyBlue', PaymentOutlined, 'MediumSpringGreen');
   }
 
-  if (props.payMethod.giftCard && props.payMethod.instantPayment) {
-    return (
-      <>
-        <LoyaltyOutlined
-          className={classes.giftCard}
-          fontSize={props.size}
-        />
-
-        <MobileFriendlyOutlined
-          className={classes.instantPayment}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.giftCard && payMethod.instantPayment) {
+    return renderIconPair(LoyaltyOutlined, 'LightSkyBlue', MobileFriendlyOutlined, 'YellowGreen');
   }
 
-  //? Bloco instantPayment
-
-  if (props.payMethod.instantPayment && props.payMethod.isCreditCardHolder.no) {
-    return (
-      <>
-        <MobileFriendlyOutlined
-          className={classes.instantPayment}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.noCreditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.instantPayment && payMethod.isCreditCardHolder?.no) {
+    return renderIconPair(MobileFriendlyOutlined, 'YellowGreen', PaymentOutlined, 'LightSalmon');
   }
 
-  if (
-    props.payMethod.instantPayment &&
-    props.payMethod.isCreditCardHolder.maybe
-  ) {
-    return (
-      <>
-        <MobileFriendlyOutlined
-          className={classes.instantPayment}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.maybeCreditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.instantPayment && payMethod.isCreditCardHolder?.maybe) {
+    return renderIconPair(MobileFriendlyOutlined, 'YellowGreen', PaymentOutlined, 'Gold');
   }
 
-  if (
-    props.payMethod.instantPayment &&
-    props.payMethod.isCreditCardHolder.yes
-  ) {
-    return (
-      <>
-        <MobileFriendlyOutlined
-          className={classes.instantPayment}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.creditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.instantPayment && payMethod.isCreditCardHolder?.yes) {
+    return renderIconPair(MobileFriendlyOutlined, 'YellowGreen', PaymentOutlined, 'MediumSpringGreen');
   }
 
-  //? Bloco promissory
-
-  if (props.payMethod.promissory && props.payMethod.isCreditCardHolder.no) {
-    return (
-      <>
-        <SaveAltOutlined
-          className={classes.promissory}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.noCreditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.promissory && payMethod.isCreditCardHolder?.no) {
+    return renderIconPair(SaveAltOutlined, 'RosyBrown', PaymentOutlined, 'LightSalmon');
   }
 
-  if (props.payMethod.promissory && props.payMethod.isCreditCardHolder.maybe) {
-    return (
-      <>
-        <SaveAltOutlined
-          className={classes.promissory}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.maybeCreditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.promissory && payMethod.isCreditCardHolder?.maybe) {
+    return renderIconPair(SaveAltOutlined, 'RosyBrown', PaymentOutlined, 'Gold');
   }
 
-  if (props.payMethod.promissory && props.payMethod.isCreditCardHolder.yes) {
-    return (
-      <>
-        <SaveAltOutlined
-          className={classes.promissory}
-          fontSize={props.size}
-        />
-
-        <PaymentOutlined
-          className={classes.creditCardHolder}
-          fontSize={props.size}
-        />
-      </>
-    );
+  if (payMethod.promissory && payMethod.isCreditCardHolder?.yes) {
+    return renderIconPair(SaveAltOutlined, 'RosyBrown', PaymentOutlined, 'MediumSpringGreen');
   }
 
-  //? Bloco single payment
-
-  if (props.payMethod.giftCard) {
-    return (
-      <LoyaltyOutlined className={classes.giftCard} fontSize={props.size} />
-    );
+  if (payMethod.giftCard) {
+    return renderSingleIcon(LoyaltyOutlined, 'LightSkyBlue');
   }
 
-  if (props.payMethod.instantPayment) {
-    return (
-      <MobileFriendlyOutlined
-        className={classes.instantPayment}
-        fontSize={props.size}
-      />
-    );
+  if (payMethod.instantPayment) {
+    return renderSingleIcon(MobileFriendlyOutlined, 'YellowGreen');
   }
 
-  if (props.payMethod.isCreditCardHolder.no) {
-    return (
-      <PaymentOutlined
-        className={classes.noCreditCardHolder}
-        fontSize={props.size}
-      />
-    );
+  if (payMethod.isCreditCardHolder?.no) {
+    return renderSingleIcon(PaymentOutlined, 'LightSalmon');
   }
 
-  if (props.payMethod.isCreditCardHolder.maybe) {
-    return (
-      <PaymentOutlined
-        className={classes.maybeCreditCardHolder}
-        fontSize={props.size}
-      />
-    );
+  if (payMethod.isCreditCardHolder?.maybe) {
+    return renderSingleIcon(PaymentOutlined, 'Gold');
   }
 
-  if (props.payMethod.isCreditCardHolder.yes) {
-    return (
-      <PaymentOutlined
-        className={classes.creditCardHolder}
-        fontSize={props.size}
-      />
-    );
+  if (payMethod.isCreditCardHolder?.yes) {
+    return renderSingleIcon(PaymentOutlined, 'MediumSpringGreen');
   }
 
-  if (props.payMethod.promissory) {
-    return (
-      <SaveAltOutlined
-        className={classes.promissory}
-        fontSize={props.size}
-      />
-    );
+  if (payMethod.promissory) {
+    return renderSingleIcon(SaveAltOutlined, 'RosyBrown');
   }
 
-  return null
+  return null;
 }
-
-const usePaymentStyles = makeStyles({
-  creditCardHolder: {
-    color: "MediumSpringGreen",
-  },
-  maybeCreditCardHolder: {
-    color: "Gold",
-  },
-  noCreditCardHolder: {
-    color: "LightSalmon",
-  },
-  giftCard: {
-    color: "LightSkyBlue",
-  },
-  promissory: {
-    color: "RosyBrown",
-  },
-  instantPayment: {
-    color: "YellowGreen",
-  },
-});

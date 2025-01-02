@@ -1,77 +1,50 @@
-import { makeStyles } from "@material-ui/styles";
-import { SentimentVerySatisfied, SentimentSatisfiedAlt, SentimentSatisfied, SentimentDissatisfied, SentimentVeryDissatisfied, MoodBad } from "@material-ui/icons";
+import { styled } from "@mui/material/styles";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 
+// Estilização individual dos ícones para corresponder às classes antigas
+const VeryLowRiskIcon = styled(SentimentVerySatisfiedIcon)(({ theme }) => ({
+  color: "LimeGreen",
+}));
+
+const LowRiskIcon = styled(SentimentSatisfiedAltIcon)(({ theme }) => ({
+  color: "MediumSpringGreen",
+}));
+
+const MedRiskIcon = styled(SentimentSatisfiedIcon)(({ theme }) => ({
+  color: "Gold",
+}));
+
+const HighRiskIcon = styled(SentimentDissatisfiedIcon)(({ theme }) => ({
+  color: "DarkOrange",
+}));
+
+const VeryHighRiskIcon = styled(SentimentVeryDissatisfiedIcon)(({ theme }) => ({
+  color: "Red",
+}));
+
+const DefaultRiskIcon = styled(SentimentNeutralIcon)(({ theme }) => ({
+  color: "LightSkyBlue",
+}));
+
+// Componente principal com lógica para exibir ícones estilizados
 export function IconizeRiskLevel(props) {
-  const classes = useRiskLevelStyles();
   switch (props.riskLevel) {
     case "Muito Baixo":
-      return (
-        <SentimentVerySatisfied
-          className={classes.veryLowRisk}
-          fontSize={props.size}
-        />
-      );
+      return <VeryLowRiskIcon fontSize={props.size} />;
     case "Baixo":
-      return (
-        <SentimentSatisfiedAlt
-          className={classes.lowRisk}
-          fontSize={props.size}
-        />
-      );
+      return <LowRiskIcon fontSize={props.size} />;
     case "Moderado":
-      return (
-        <SentimentSatisfied
-          className={classes.medRisk}
-          fontSize={props.size}
-        />
-      );
+      return <MedRiskIcon fontSize={props.size} />;
     case "Alto":
-      return (
-        <SentimentDissatisfied
-          className={classes.highRisk}
-          fontSize={props.size}
-        />
-      );
+      return <HighRiskIcon fontSize={props.size} />;
     case "Muito Alto":
-      return (
-        <SentimentVeryDissatisfied
-          className={classes.veryHighRisk}
-          fontSize={props.size}
-        />
-      );
-    case "Altíssimo":
-      return (
-        <MoodBad
-          className={classes.veryHighRisk}
-          fontSize={props.size}
-        />
-      );
+      return <VeryHighRiskIcon fontSize={props.size} />;
+    default:
+      return <DefaultRiskIcon fontSize={props.size} />;
   }
 }
-
-const useRiskLevelStyles = makeStyles({
-  veryLowRisk: {
-    color: "LimeGreen",
-  },
-  lowRisk: {
-    color: "MediumSpringGreen",
-  },
-  medRisk: {
-    color: "Gold",
-  },
-  highRisk: {
-    color: "DarkOrange",
-  },
-  veryHighRisk: {
-    color: "Red",
-  },
-  noRisk: {
-    color: "LightSkyBlue",
-  },
-  giftCard: {
-    color: "LightSkyBlue",
-  },
-  kitCustom: {
-    color: "HotPink",
-  },
-});

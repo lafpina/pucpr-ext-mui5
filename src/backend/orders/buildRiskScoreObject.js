@@ -32,11 +32,6 @@ export const buildRiskScoreObject = async (orderObject) => {
 
   let riskScoreObject = initializeScore();
 
-  console.log("-----------------------------------------");
-  console.log("Pedido:", orderObject.orderId);
-  console.log("Cliente:", orderObject.clientName);
-  console.log("-----------------------------------------");
-
   riskScoreObject = await hst_fby_HistPurchaseRule(orderObject, riskScoreObject);
   riskScoreObject = pag_PaymentMethodRule(orderObject, riskScoreObject);
   riskScoreObject = tit_CardHolderRule(orderObject, riskScoreObject);
@@ -53,7 +48,10 @@ export const buildRiskScoreObject = async (orderObject) => {
   riskScoreObject = etg_CarrierRule(orderObject, riskScoreObject);
   riskScoreObject = cpf_DocumentRule(orderObject, riskScoreObject); // CPF
   riskScoreObject = eml_EmailRule(orderObject, riskScoreObject); // Email
+
+
   riskScoreObject = ddd_AreaCodeRule(orderObject, riskScoreObject);
+
 
   riskScoreObject = blk_BlackListRule(orderObject, riskScoreObject);
   riskScoreObject = rlv_WhiteListRule(orderObject, riskScoreObject);

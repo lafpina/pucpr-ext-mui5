@@ -1,47 +1,61 @@
-import TableCell from "@material-ui/core/TableCell";
-import IconButton from "@material-ui/core/IconButton";
-import { Fade } from "@material-ui/core";
-import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from '@mui/styles';
-import Typography from "@material-ui/core/Typography";
+import TableCell from "@mui/material/TableCell";
+import IconButton from "@mui/material/IconButton";
+import Fade from "@mui/material/Fade";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles"; // Correta substituição para `withStyles`
 import { IconizeGiftCard } from "../iconization/IconizeGiftCard";
 
-const LightTooltip = withStyles((theme) => ({
-  tooltip: {
+// Estilização do Tooltip usando `styled`
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  '& .MuiTooltip-tooltip': {
     backgroundColor: theme.palette.action.active,
     color: "Ivory",
     boxShadow: theme.shadows[2],
     fontSize: 13,
+    cursor: "pointer",
   },
-}))(Tooltip);
+}));
 
-export const OrderGiftCell = (props) => {
-  const { giftId, giftName } = props;
+// Componente Principal
+export const OrderGiftCell = ({ giftId, giftName, giftEmail }) => {
+  const handleTooltipClick = () => {
+    copyTextToClipboard(giftEmail);
+  };
+
+  const copyTextToClipboard = (text) => {
+    navigator.clipboard
+      .writeText(text)
+      .catch((err) => {
+        console.error("Erro ao copiar para o Clipboard: ", err);
+      });
+  };
 
   return (
     <TableCell align="center">
       <LightTooltip
-        title={giftName}
+        title={giftEmail}
         placement="top-end"
         arrow
         interactive
         TransitionComponent={Fade}
         TransitionProps={{ timeout: 600 }}
         aria-label="Gift"
+        onClick={handleTooltipClick}
       >
         <IconButton>
-          <IconizeGiftCard giftId={giftId} size="default" />
+          <IconizeGiftCard giftId={giftName} size="default" />
         </IconButton>
       </LightTooltip>
       <Typography
-        // className={classes.description}
         variant="caption"
         component="h6"
         align="center"
         color="textSecondary"
-        align="center"
       >
-        {giftId}
+        {giftName}
       </Typography>
     </TableCell>
   );

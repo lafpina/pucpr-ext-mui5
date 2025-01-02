@@ -29,7 +29,13 @@ export const hst_fby_HistPurchaseRule = async (orderObject, riskScoreObject) => 
     var text3 = 'Identificado um volume total de '
     var text4 = 'totalizando '
 
-    text = text1.concat(days, ' dia(s). ')
+    if (days > 365) {
+      const years = days / 365
+      text = text1.concat(Math.round(years), ' ano(s).')
+    } else {
+      text = text1.concat(days, ' dia(s). ')
+    }
+
 
     switch (true) {
       case (days > 90):
