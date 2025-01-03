@@ -10,7 +10,7 @@ const BLACK_LIST = [
         blackedCity: "",
         blackedCreditCard: "",
         blackedCardCountry: "",
-        blackedDescription: "Suspeita de Fraude",
+        blackedDescription: "Suspeita de Fraude.",
         isBlackListed: true,
     },
     {

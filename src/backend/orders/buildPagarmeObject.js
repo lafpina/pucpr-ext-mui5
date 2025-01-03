@@ -17,6 +17,7 @@ const buildPagarmeObject = async (vtexOrderId, vtexTid) => {
     })
     .catch((e) => {
       console.log("Erro fetch Pagarme: ", vtexOrderId, vtexTid, e.TypeError);
+      console.log(e)
     });
   return pagarmeObject;
 };
