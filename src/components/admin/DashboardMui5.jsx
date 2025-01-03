@@ -149,7 +149,7 @@ export default function DashboardContent(props) {
             >
               <MenuIcon />
             </IconButton>
-            <PageTitle title='Feed' />
+            <PageTitle title='Dashboard' />
 
             {/* Notificações */}
             <LightTooltip title="VIP" arrow>
