@@ -16,13 +16,15 @@ import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Copyright from "../includes/layoutaccessories/Copyright";
-import Fade from '@mui/material/Fade';
+import Fade from "@mui/material/Fade";
 import Tooltip from '@mui/material/Tooltip';
-import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
+
+import Notifications from '@mui/icons-material/Notifications';
+import FavoriteOutlined from '@mui/icons-material/FavoriteOutlined';
+import ErrorOutlined from '@mui/icons-material/ErrorOutlined';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+
 import Button from '@mui/material/Button';
 import FeedTable from "./FeedTable";
 import FeedBar from '../includes/feedbar/FeedBar';
@@ -30,6 +32,12 @@ import PageTitle from '../includes/layoutaccessories/PageTitle';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider, DesktopDateTimePicker } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import { PrimaryMenuOptions, SecondaryMenuOptions } from "./MenuOptions";
+import CircularProgress from '@mui/material/CircularProgress'; // ✅ Spinner adicionado
 
 // ✅ Substituído estilo Tooltip corretamente para MUI 5
 const LightTooltip = styled(({ className, ...props }) => (
@@ -44,7 +52,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 // ✅ Constante para largura do Drawer
-const drawerWidth = 220;
+const drawerWidth = 200;
 
 // ✅ Estilização do AppBar
 const AppBar = styled(MuiAppBar, {
@@ -99,9 +107,17 @@ export default function DashboardContent(props) {
   const [open, setOpen] = useState(true);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(false); // ✅ Estado para Spinner
 
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+
+  const handleDashboardClick = () => {
+    setIsLoading(true); // ✅ Ativa o Spinner no botão
+    setTimeout(() => {
+      window.location.reload(); // ✅ Recarrega após breve atraso
+    }, 300);
   };
 
   // ✅ Atualiza título da página
@@ -149,38 +165,68 @@ export default function DashboardContent(props) {
             >
               <MenuIcon />
             </IconButton>
-            <PageTitle title='Dashboard' />
+            <PageTitle title='AlerteMe' />
 
-            {/* Notificações */}
-            <LightTooltip title="VIP" arrow>
-              <IconButton color="inherit">
+            {/* Notification Whitelist */}
+            <LightTooltip
+              title="VIP"
+              placement="bottom"
+              arrow
+              interactive
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              aria-label="Cartão"
+            >
+              <IconButton aria-label="whitelist" color="inherit">
                 <Badge badgeContent={props.notificationWhiteList} color="primary">
-                  <FavoriteOutlinedIcon />
+                  <FavoriteOutlined />
                 </Badge>
               </IconButton>
             </LightTooltip>
 
-            <LightTooltip title="Restrições" arrow>
-              <IconButton color="inherit">
-                <Badge badgeContent={props.notificationBlackList} color="secondary">
-                  <ErrorOutlinedIcon />
+            {/* Notification Blacklist */}
+            <LightTooltip
+              title="Retrições"
+              placement="bottom"
+              arrow
+              interactive
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              aria-label="Cartão"
+            >
+              <IconButton aria-label="blacklist" color="inherit">
+                <Badge
+                  badgeContent={props.notificationBlackList}
+                  color="secondary"
+                >
+                  <ErrorOutlined />
                 </Badge>
               </IconButton>
             </LightTooltip>
 
-            <LightTooltip title="Alto Risco" arrow>
-              <IconButton color="inherit">
+            {/* Notification Alerts */}
+            <LightTooltip
+              title="Alto Risco"
+              placement="bottom"
+              arrow
+              interactive
+              TransitionComponent={Fade}
+              TransitionProps={{ timeout: 600 }}
+              aria-label="Notification"
+            >
+              <IconButton aria-label="notification" color="inherit">
                 <Badge badgeContent={props.notificationAlerts} color="error">
-                  <NotificationsIcon />
+                  <Notifications />
                 </Badge>
               </IconButton>
             </LightTooltip>
 
             <Box sx={{ ml: 1 }}>
               <Button>
-                <ArrowDropDownIcon />
+                <ArrowDropDown />
               </Button>
             </Box>
+
           </Toolbar>
         </AppBar>
 
@@ -191,9 +237,22 @@ export default function DashboardContent(props) {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List>{PrimaryMenuOptions}</List>
+          <List>
+            <ListItemButton onClick={handleDashboardClick}>
+              <ListItemIcon>
+                {isLoading ? <CircularProgress size={24} /> : <DashboardIcon sx={{ color: 'SteelBlue' }} />}
+              </ListItemIcon>
+              <ListItemText primary={isLoading ? "Carregando..." : "Dashboard"} />
+            </ListItemButton>
+          </List>
           <Divider />
           <List>{SecondaryMenuOptions}</List>
+          <Box sx={{ mt: 70, ml: 10, color: 'Silver', fontSize: 15 }}>
+            AlerteMe
+          </Box>
+          <Box sx={{ ml: 12.3, color: 'Steelblue', fontSize: 10 }}>
+            Fênix
+          </Box>
         </Drawer>
 
         {/* FEED TABLE */}
@@ -208,6 +267,7 @@ export default function DashboardContent(props) {
                 </Paper>
               </Grid>
             </Grid>
+            <Copyright sx={{ mt: 0.5, pt: 2 }} />
           </Container>
         </Box>
       </Box>

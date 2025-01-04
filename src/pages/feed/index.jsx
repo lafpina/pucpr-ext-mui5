@@ -61,6 +61,7 @@ export async function getServerSideProps() {
   //! Fetch LIST ORDER
   const getListOrders = await getVtexListOrders();
 
+
   //console.log(getListOrders)
 
   if (getListOrders) {
