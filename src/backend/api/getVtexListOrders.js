@@ -13,8 +13,8 @@ async function getVtexListOrders() {
 
     let options = getOption("order");
 
-    console.log("Fetching LIST Order....");
-    console.log("URL", url);
+    //console.log("Fetching LIST Order....");
+    //console.log("URL", url);
 
     try {
         let res = await fetch(url, options);
@@ -24,7 +24,7 @@ async function getVtexListOrders() {
         }
 
         if (res.ok) {
-            console.log("Fetch OK");
+            //console.log("Fetch OK");
             const data = await res.json();
             clientOrders = JSON.parse(JSON.stringify(data));
             // console.log(clientOrders.list);
@@ -47,8 +47,8 @@ export default getVtexListOrders;
 
 const defineEncodedUrl = () => {
 
-    const startDate = moment().format('2025-01-04')
-    const endDate = moment().format('2025-01-05')
+    const startDate = moment().format('2025-01-20')
+    const endDate = moment().format('2025-01-21')
     return `f_creationDate=creationDate:%5B${startDate}T03:00:00.000Z%20TO%20${endDate}T02:59:59.999Z%5D&orderBy=creationDate,desc`
 
 

@@ -62,7 +62,7 @@ export async function getServerSideProps() {
   const getListOrders = await getVtexListOrders();
 
 
-  //console.log(getListOrders)
+  // console.log(getListOrders)
 
   if (getListOrders) {
     console.log("Fetch List efetuado com sucesso. Iniciar o LOOP");
@@ -77,7 +77,7 @@ export async function getServerSideProps() {
       // console.log('=========================>', listOrders[i].affiliateId, listOrders[i].sequence)
       // } else {
       const orderId = listOrders[i].orderId;
-      console.log("Order ---------> ", orderId);
+      console.log("PEDIDO: ", orderId);
       let url = getURL("order", orderId);
       //! Fetch GET ORDER
       const getOrder = await getVtexOrder(url, options);
@@ -88,18 +88,18 @@ export async function getServerSideProps() {
       //* For each order call helper functions to process it
       //*-----------------------------------------------------
       if (getOrder) {
-        console.log("Passo 3 - Início de Processamento da Order");
+        //console.log("Passo 3 - Início de Processamento da Order");
         const orderObject = await buildOrderObject(getOrder);
-        console.log("Montou OrderObject");
+        //console.log("Montou OrderObject");
         const riskScoreObject = await buildRiskScoreObject(orderObject);
-        console.log("Montou Risk Score");
+        //console.log("Montou Risk Score");
         const orderLine = buildOrderLine(orderObject, riskScoreObject);
 
         allOrders.push(orderLine);
 
-        console.log("Passo 4 - Array criado!");
+        //console.log("Passo 4 - Array criado!");
 
-        if (orderLine.blackListed)
+        if (orderLine.blackListed) 
           notificationBlackList += allOrders[i].blackListedQty;
 
         if (orderLine.whiteListed)

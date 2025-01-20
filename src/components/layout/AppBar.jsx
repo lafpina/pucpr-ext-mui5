@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import PageTitle from '../includes/layoutaccessories/PageTitle';
-import Tooltip from '@mui/material/Tooltip'; // ✅ Corrigido
+import Tooltip from '@mui/material/Tooltip'; // ✅ Tooltip corrigido
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -50,6 +50,12 @@ const AppBar = (props) => {
     setOpen(!open);
   };
 
+  useEffect(() => {
+    console.log("notificationWhiteList:", props.notificationWhiteList);
+    console.log("notificationBlackList:", props.notificationBlackList);
+    console.log("notificationAlerts:", props.notificationAlerts);
+  }, [props.notificationWhiteList, props.notificationBlackList, props.notificationAlerts]);
+
   return (
     <AppBarStyled position="absolute" open={open} style={{ background: "#cdcdcd" }}>
       <Toolbar sx={{ pr: '24px' }}>
@@ -58,7 +64,7 @@ const AppBar = (props) => {
         {/* Notification Whitelist */}
         <LightTooltip title="VIP" arrow>
           <IconButton aria-label="whitelist" color="inherit">
-            <Badge badgeContent={props.notificationWhiteList} color="primary">
+            <Badge badgeContent={props.notificationWhiteList || 0} color="primary">
               <FavoriteOutlinedIcon />
             </Badge>
           </IconButton>
@@ -67,7 +73,7 @@ const AppBar = (props) => {
         {/* Notification Blacklist */}
         <LightTooltip title="Restrições" arrow>
           <IconButton aria-label="blacklist" color="inherit">
-            <Badge badgeContent={props.notificationBlackList} color="secondary">
+            <Badge badgeContent={props.notificationBlackList || 0} color="secondary">
               <ErrorOutlinedIcon />
             </Badge>
           </IconButton>
@@ -76,7 +82,7 @@ const AppBar = (props) => {
         {/* Notification Alerts */}
         <LightTooltip title="Alto Risco" arrow>
           <IconButton aria-label="notification" color="inherit">
-            <Badge badgeContent={props.notificationAlerts} color="error">
+            <Badge badgeContent={props.notificationAlerts || 0} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>

@@ -119,12 +119,14 @@ export default function DashboardContent(props) {
       window.location.reload(); // ✅ Recarrega após breve atraso
     }, 300);
   };
+  
 
   // ✅ Atualiza título da página
   useEffect(() => {
     if (props.notificationWhiteList) document.title = `${props.notificationWhiteList} VIP(s)`;
     if (props.notificationAlerts) document.title = `${props.notificationAlerts} Alerta(s)`;
     if (props.notificationBlackList) document.title = `${props.notificationBlackList} Blacklist(s)`;
+    document.title = `${props.orders.length} Pedido(s)`;
   }, [props.notificationWhiteList, props.notificationAlerts, props.notificationBlackList]);
 
   const FeedBarDate = () => {

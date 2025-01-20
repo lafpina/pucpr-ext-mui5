@@ -68,7 +68,7 @@ export const buildRiskScoreObject = async (orderObject) => {
 
   riskScoreObject.description = determineRisk(riskScoreObject.final);
 
-  console.log("Score Final:", riskScoreObject.final);
+  //console.log("Score Final:", riskScoreObject.final);
 
   return riskScoreObject;
 };

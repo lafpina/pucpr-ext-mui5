@@ -20,7 +20,7 @@ async function getZendeskTickets(clientEmail) {
         })
         let data = await res.json();
         // console.log('response', JSON.parse(JSON.stringify(data)))
-        console.log('QTY TICKETS:', data.count)
+        //console.log('QTY TICKETS:', data.count)
         qtyTickets = data.count
 
     } catch (error) {

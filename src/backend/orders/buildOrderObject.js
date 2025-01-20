@@ -22,13 +22,13 @@ paymentData.transactions[0].payments[0].giftCardCaption // Nome do Chá
 */
 
 const buildOrderObject = async (vtexOrder) => {
-    console.log('Step0')
+    //console.log('Step0')
     let giftDetail = formatGiftDetail(vtexOrder);
-    console.log('Step1')
+    //console.log('Step1')
     let clientEmail = await getMasterdataClientEmail(vtexOrder);
-    console.log('Step2')
+    //console.log('Step2')
     let paymentGroupObject = formatPaymentGroup(vtexOrder);
-    console.log('Step3')
+    //console.log('Step3')
 
     let pagarmeObject = {
         cardHolder: " ",
@@ -90,7 +90,7 @@ const buildOrderObject = async (vtexOrder) => {
         ownerListId = vtexOrder.customData.customApps[0].fields.ownerListId.substring(0, 8)
         ownerListName = vtexOrder.customData.customApps[0].fields.ownerListName
         ownerEmail = vtexOrder.customData.customApps[0].fields.ownerListEmail
-        console.log(ownerEmail)
+        //console.log(ownerEmail)
     } else {
         ownerListName = giftDetail.name
         ownerListId = giftDetail.id
