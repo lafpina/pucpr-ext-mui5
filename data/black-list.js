@@ -1,6 +1,32 @@
 import titleCase from "../src/backend/utils/titleCase";
 const BLACK_LIST = [
     {
+        blackedName: "Danielle Mendes",
+        blackedEmail: "danielemendes15@hotmail.com",
+        blackedCPF: "12844300650",
+        blackedPhone: "+5531984842551",
+        blackedPostalCode: "31035-490",
+        blackedState: "",
+        blackedCity: "",
+        blackedCreditCard: "Mastercard 524314****1351",
+        blackedCardCountry: "",
+        blackedDescription: "Usou o enxoval completo e pediu estorno depois de 11 meses",
+        isBlackListed: true,
+    },
+    {
+        blackedName: "Claudemir Martins",
+        blackedEmail: "cmartins911@gmail.com",
+        blackedCPF: "07975924822",
+        blackedPhone: "+5519992373311",
+        blackedPostalCode: "713142-404",
+        blackedState: "",
+        blackedCity: "",
+        blackedCreditCard: "",
+        blackedCardCountry: "",
+        blackedDescription: "Suspeita de Fraude.",
+        isBlackListed: true,
+    },
+    {
         blackedName: "Tamara Talifa Alves Rodrigues",
         blackedEmail: "tiagofernandeshungen@gmail.com",
         blackedCPF: "04917906199",

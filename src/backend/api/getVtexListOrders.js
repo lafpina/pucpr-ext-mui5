@@ -47,8 +47,8 @@ export default getVtexListOrders;
 
 const defineEncodedUrl = () => {
 
-    const startDate = moment().format('2025-01-20')
-    const endDate = moment().format('2025-01-21')
+    const startDate = moment().format('2025-02-20')
+    const endDate = moment().format('2025-02-21')
     return `f_creationDate=creationDate:%5B${startDate}T03:00:00.000Z%20TO%20${endDate}T02:59:59.999Z%5D&orderBy=creationDate,desc`
 
 

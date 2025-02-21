@@ -27,8 +27,8 @@ const VeryHighRiskIcon = styled(SentimentVeryDissatisfiedIcon)(({ theme }) => ({
   color: "Red",
 }));
 
-const DefaultRiskIcon = styled(SentimentNeutralIcon)(({ theme }) => ({
-  color: "RedLightSkyBlueRed",
+const DefaultRiskIcon = styled(SentimentVeryDissatisfiedIcon)(({ theme }) => ({
+  color: "Red",
 }));
 
 // Componente principal com lógica para exibir ícones estilizados

@@ -14,8 +14,8 @@ export const blk_BlackListRule = (orderObject, riskScoreObject) => {
   );
 
   if (blackedResult.isBlacked) {
-    riskScoreObject.blackListed.score += 10;
-    riskScoreObject.final += 10;
+    riskScoreObject.blackListed.score += 100;
+    riskScoreObject.final += 100;
     riskScoreObject.blackListed.qty += 1;
   }
 
