@@ -5,7 +5,7 @@ const Copyright = (props) => {
   return (
     <Typography variant="body2" color="textSecondary" align="center" {...props}>
       <Link href="https://www.seusite.com/" color="primary">
-        Dipano
+        your company name
       </Link>{" "}
       {new Date().getFullYear()}
       

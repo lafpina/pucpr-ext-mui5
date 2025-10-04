@@ -4,7 +4,7 @@
 async function getZendeskTickets(clientEmail) {
 
     const query = `type:ticket requester:${clientEmail}`; // All tickets created from 
-    const url = `https://dipano.zendesk.com/api/v2/search.json?query=${query}`
+    const url = `https://youraccountzendek/api/v2/search.json?query=${query}`
 
     let qtyTickets = 0
 

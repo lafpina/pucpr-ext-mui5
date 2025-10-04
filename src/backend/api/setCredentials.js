@@ -1,6 +1,6 @@
 const setCredentials = () => {
   // URL PARMS
-  const accountName = "fraldasdipano";
+  const accountName = "";
   const environment = "vtexcommercestable";
   const filter = "orders";
   // OPTIONS PARMS
