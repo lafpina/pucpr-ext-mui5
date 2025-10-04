@@ -5,7 +5,7 @@ const Footer = () => (
     <a>
       <Image
         src="/gt-logo.png"
-        alt="Dipano Logo"
+        alt="Seu Logo"
         className={styles.logo}
         width={80}
         height={42}

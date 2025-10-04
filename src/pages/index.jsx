@@ -6,8 +6,6 @@ import AppBar from '../components/layout/AppBar';
 import Drawer from '../components/layout/Drawer';
 import theme from '../theme'
 
-// const mdTheme = createTheme();
-
 export default function AlerteMe(props) {
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {

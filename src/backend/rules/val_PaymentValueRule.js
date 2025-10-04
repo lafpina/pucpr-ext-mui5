@@ -1,52 +1,20 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-//? Rule 04
+//? Rule 4 - Payment Value Rule
 export const val_PaymentValueRule = (orderObject, riskScoreObject) => {
-  // Fist it scores positively for payment whose value is acceptable as a risk,
-  // as long as it's a national card
-  // if (orderObject.value <= 10000 && orderObject.cardCountry === "BRAZIL") {
-  //   riskScoreObject.paymentValue.score -= 5;
-  //   riskScoreObject.final -= 5;
-  // }
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.paymentValue.score = 0;
 
-  // For values over the average ticket, it gets evaluated by either
-  // fist buying, one installment, or by the minimum installment payment allowed
-  if (
-    orderObject.value > 40000 &&
-    orderObject.paymentGroup.indexOf("creditCard") > -1
-  ) {
-    // first buying
-    if (riskScoreObject.historyPurchase.qty === 0) {
-      riskScoreObject.final += 5;
-      riskScoreObject.paymentValue.score += 5;
-    }
-    // one installment buying
-    if (orderObject.cardInstallments === 1) {
-      riskScoreObject.final += 5;
-      riskScoreObject.paymentValue.score += 5;
-    }
-    // less installment payment allowed
-    if (orderObject.cardInstallments === 6) {
-      riskScoreObject.final += 5;
-      riskScoreObject.paymentValue.score += 5;
-    }
-  }
-  if (
-    orderObject.value > 300000 &&
-    orderObject.paymentGroup.indexOf("creditCard") > -1
-  ) {
-    // higher value over 3.000
-    riskScoreObject.final += 10;
-    riskScoreObject.paymentValue.score += 10;
-  }
+    riskScoreObject = buildRiskScoreLog(
+        "r004",
+        "VAL",
+        "Verificação de valor de pagamento (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  riskScoreObject = buildRiskScoreLog(
-    "r004",
-    "VAL",
-    "Pedido apresenta algum risco em relação ao valor da compra, com a falta de histórico, e as parcelas de pagamento  ❗",
-    riskScoreObject.paymentValue.score,
-    riskScoreObject
-  );
-
-  return riskScoreObject;
+    return riskScoreObject;
 };

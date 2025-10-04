@@ -13,18 +13,18 @@ import CreditCardTwoToneIcon from '@mui/icons-material/CreditCardTwoTone';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import SystemUpdateAltOutlinedIcon from '@mui/icons-material/SystemUpdateAltOutlined';
 
-// ✅ Estilização com `styled`
+// Estilização com `styled`
 const StyledIcon = styled('div')(() => ({
   color: 'DarkGray',
   fontSize: '1.5rem',
 }));
 
-// ✅ Função reutilizável para ícones
+// Função reutilizável para ícones
 function RenderIcon({ Icon, size }) {
   return <StyledIcon as={Icon} fontSize={size} />;
 }
 
-// ✅ Componentes Individuais
+// Componentes Individuais
 export function IconizeTitleOrder(props) {
   return <RenderIcon Icon={SystemUpdateAltOutlinedIcon} size={props.size} />;
 }

@@ -1,23 +1,20 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 05
+
+//? Rule 5 - Shopping Time Rule
 export const hra_ShoppingTimeRule = (orderObject, riskScoreObject) => {
-  const shoppingTime = orderObject.creationDate.substr(11, 5);
-  if (
-    shoppingTime > "00:00" &&
-    shoppingTime < "06:00" &&
-    orderObject.paymentGroup.indexOf("creditCard") > -1
-  ) {
-    riskScoreObject.shoppingTime.score += 10;
-    riskScoreObject.final += 10;
-  }
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.shoppingTime.score = 0;
 
-  riskScoreObject = buildRiskScoreLog(
-    "r005",
-    "HRA",
-    "Compra efetuada fora do horário habitual  ❗",
-    riskScoreObject.shoppingTime.score,
-    riskScoreObject
-  );
+    riskScoreObject = buildRiskScoreLog(
+        "r005",
+        "HRA",
+        "Verificação de horário de compra (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  return riskScoreObject;
+    return riskScoreObject;
 };

@@ -42,8 +42,6 @@ export const buildRiskScoreObject = async (orderObject) => {
   riskScoreObject = cdn_CouponDiscountRule(orderObject, riskScoreObject);
   riskScoreObject = lst_GiftRule(orderObject, riskScoreObject);
 
-  // riskScoreObject = applyCustomProductRule(orderObject, riskScoreObject);
-
   riskScoreObject = await tnt_IncompOrdersRule(orderObject, riskScoreObject);
   riskScoreObject = etg_CarrierRule(orderObject, riskScoreObject);
   riskScoreObject = cpf_DocumentRule(orderObject, riskScoreObject); // CPF

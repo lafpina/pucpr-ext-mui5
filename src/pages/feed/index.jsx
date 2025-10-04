@@ -73,31 +73,29 @@ export async function getServerSideProps() {
     //* Loop thru the List to fetch each order of the list
     //*-----------------------------------------------------
     for (let i = 0; i < listOrders.length; ++i) {
-      // if (listOrders[i].affiliateId == 'MGZ') {
-      // console.log('=========================>', listOrders[i].affiliateId, listOrders[i].sequence)
-      // } else {
+
       const orderId = listOrders[i].orderId;
       console.log("PEDIDO: ", orderId);
+
       let url = getURL("order", orderId);
       //! Fetch GET ORDER
       const getOrder = await getVtexOrder(url, options);
 
-      //console.log(getOrder.orderId)
+      if (orderId == 'v1095005frdp-01') {
+        console.log("Vamos fazer um bypass de: ", orderId)
+        console.log(getOrder)
+        continue
+      }
 
-      //*-----------------------------------------------------
-      //* For each order call helper functions to process it
-      //*-----------------------------------------------------
       if (getOrder) {
-        //console.log("Passo 3 - Início de Processamento da Order");
+
         const orderObject = await buildOrderObject(getOrder);
-        //console.log("Montou OrderObject");
+
         const riskScoreObject = await buildRiskScoreObject(orderObject);
-        //console.log("Montou Risk Score");
+
         const orderLine = buildOrderLine(orderObject, riskScoreObject);
 
         allOrders.push(orderLine);
-
-        //console.log("Passo 4 - Array criado!");
 
         if (orderLine.blackListed) 
           notificationBlackList += allOrders[i].blackListedQty;
@@ -105,7 +103,7 @@ export async function getServerSideProps() {
         if (orderLine.whiteListed)
           notificationWhiteList += allOrders[i].whiteListedQty;
 
-        if (allOrders[i].status !== "canceled") {
+        if (allOrders[i] && allOrders[i].status !== "canceled") {
           notificationAlerts += allOrders[i].alertsQty;
           if (riskScoreObject.final > 80) {
             totalRiskAmount += orderObject.value;
@@ -120,10 +118,7 @@ export async function getServerSideProps() {
     console.log("Lista não processada!");
   }
   const todayDate = getTodayDate(3);
-  //let totalValue = allOrders.reduce((prevVal, elem) => prevVal + elem.valor, 0)
-  //*-----------------------------------------------------
-  //*? Return to React
-  //*-----------------------------------------------------
+
   console.log("Retornando ao React");
 
   return {

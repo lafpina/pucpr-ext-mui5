@@ -7,13 +7,13 @@ import {
   LoyaltyOutlined,
 } from '@mui/icons-material';
 
-// ✅ Estilização com `styled`
+// Estilização com `styled`
 const StyledIcon = styled('div')(({ theme, color }) => ({
   color: color,
   fontSize: '1.5rem',
 }));
 
-// ✅ Componente principal
+// Componente principal
 export function IconizePaymentOption(props) {
   const { payMethod, size } = props;
 
@@ -28,7 +28,7 @@ export function IconizePaymentOption(props) {
     <StyledIcon as={Icon} color={color} fontSize={size} />
   );
 
-  // 🔄 Lógica para determinar os ícones
+  // Lógica para determinar os ícones
   if (payMethod.giftCard && payMethod.isCreditCardHolder?.no) {
     return renderIconPair(LoyaltyOutlined, 'LightSkyBlue', PaymentOutlined, 'LightSalmon');
   }

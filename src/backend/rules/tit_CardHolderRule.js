@@ -1,61 +1,23 @@
-import titleCase from "../utils/titleCase";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 1
+
+//? Rule 1 - Card Holder Rule
 export const tit_CardHolderRule = (orderObject, riskScoreObject) => {
-  if (orderObject.paymentGroupActive.creditCard) {
-    // Score positively depending on matches between client data and card data
-    var nomeCadastro = titleCase(orderObject.clientName).split(" ");
-    var nomeCartao = titleCase(orderObject.cardHolder).split(" ");
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.cardHolder.score = 0;
+    riskScoreObject.cardHolder.yes = false;
+    riskScoreObject.cardHolder.maybe = false;
+    riskScoreObject.cardHolder.no = false;
 
-    var text = ''
-    var qtyInstance = 0;
-    var risk = true
+    riskScoreObject = buildRiskScoreLog(
+        "r001",
+        "TIT",
+        "Verificação de titular do cartão (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-    const verifyBuyer = (item) => {
-      if (nomeCadastro.indexOf(item) > -1) {
-        qtyInstance++;
-      }
-    };
-
-    nomeCartao.forEach(verifyBuyer);
-
-    if (qtyInstance > 1) {
-      text = ' possui grande chance de ser o titular '
-      risk = false
-      riskScoreObject.final -= 10;
-      riskScoreObject.cardHolder.score = -10;
-      riskScoreObject.cardHolder.yes = true;
-    } else if (qtyInstance == 1) {
-      text = ' possui alguma relação com o titular '
-      risk = false
-      riskScoreObject.final -= 5;
-      riskScoreObject.cardHolder.score = -5;
-      riskScoreObject.cardHolder.maybe = true;
-    } else {
-      // score negatively if client isnt the card holder
-      text = ' não é o titular '
-      risk = true
-      riskScoreObject.cardHolder.score += 5;
-      riskScoreObject.final += 5;
-      riskScoreObject.cardHolder.no = true;
-    }
-  }
-
-  let text2 = ''
-
-  if (risk) {
-    text2 = '  ❗'
-  } else {
-    text2 = '  🆗'
-  }
-
-  riskScoreObject = buildRiskScoreLog(
-    "r001",
-    "TIT",
-    `Cliente ${text} do Cartão de Crédito ${text2} `,
-    riskScoreObject.cardHolder.score,
-    riskScoreObject
-  );
-
-  return riskScoreObject;
+    return riskScoreObject;
 };

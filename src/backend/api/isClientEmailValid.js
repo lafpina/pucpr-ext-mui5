@@ -10,7 +10,7 @@ async function isClientEmailValid(email) {
   if (res.ok) {
     const data = await res.json();
     const result = JSON.parse(JSON.stringify(data));
-    // Access and use your preferred validation result objects
+
 
     console.log("----------------------");
     console.log("email:", email);

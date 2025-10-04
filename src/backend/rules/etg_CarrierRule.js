@@ -1,31 +1,20 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 11
+
+//? Rule 11 - Carrier Rule
 export const etg_CarrierRule = (orderObject, riskScoreObject) => {
-  // Carrier express and pickup store score negatively
-  if (!orderObject.paymentGroup.giftCard) {
-    if (
-      orderObject.carrier === "Expressa" ||
-      orderObject.carrier === "Retirada"
-    ) {
-      if (orderObject.phone.substr(3, 2) != "11") {
-        riskScoreObject.final += 10;
-        riskScoreObject.carrier.score = 10;
-      }
-      // } else {
-      //   riskScoreObject.final += 5;
-      //   riskScoreObject.carrier.score = 5;
-      // }
-    }
-  }
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.carrier.score = 0;
 
-  riskScoreObject = buildRiskScoreLog(
-    "r011",
-    "ETG",
-    // "Retirada na Loja ou Entrega expressa, ou DDD incompatível com um destes tipos de entrega  ❗",
-    "DDD incompatível com Retirada na Loja ou Entrega Expressa  ❗",
-    riskScoreObject.carrier.score,
-    riskScoreObject
-  );
+    riskScoreObject = buildRiskScoreLog(
+        "r011",
+        "ETG",
+        "Verificação de transportadora (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  return riskScoreObject;
+    return riskScoreObject;
 };

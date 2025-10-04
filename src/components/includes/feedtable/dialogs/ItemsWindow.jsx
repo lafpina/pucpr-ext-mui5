@@ -16,7 +16,7 @@ import FeedTableDialog from './FeedTableDialog';
 import FeedTableDialogTitle from './FeedTableDialogTitle';
 import setCurrency from '../../../../backend/utils/setCurrency';
 
-// ✅ Estilização com `styled`
+// Estilização com `styled`
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   '&.MuiTableCell-head': {
     backgroundColor: '#d5d5d5',
@@ -62,7 +62,7 @@ const ItemsWindows = (props) => {
   return (
     <FeedTableDialog windowState={windowState}>
       <FeedTableDialogTitle orderDetail={orderDetail} />
-      {/* ✅ Conteúdo */}
+      {/* Conteúdo */}
       <DialogContent sx={{ bgcolor: 'WhiteSmoke' }}>
         <DialogContentText>
           <TableContainer component={Paper}>

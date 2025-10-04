@@ -37,7 +37,7 @@ export const LogoAlerteMe = (props) => {
     return (
         <Image
             src={logo} 
-            alt="logo AlerteMe"
+            alt="logo App"
             width={w}
             height={h}
         /> 

@@ -10,25 +10,14 @@ import { formatCarrier } from "./formaters";
 import { formatCoupon } from "./formaters";
 import { formatCreditCard } from "./formaters";
 
-/*
-paymentData.transactions[0].payments[0].paymentSystemName  //Mastercard, Vale
-paymentData.transactions[0].payments[0].group  //creditCard
-paymentData.transactions[0].payments[0].installments
-paymentData.transactions[0].payments[0].tid  
-paymentData.transactions[0].payments[0].lastDigits
-paymentData.transactions[0].payments[0].value
-paymentData.transactions[0].payments[0].giftCardId  // Id: a490f3a5-5c23-4ed1-8c05-3e58ea77603a_5387
-paymentData.transactions[0].payments[0].giftCardCaption // Nome do Chá
-*/
-
 const buildOrderObject = async (vtexOrder) => {
-    //console.log('Step0')
+
     let giftDetail = formatGiftDetail(vtexOrder);
-    //console.log('Step1')
+
     let clientEmail = await getMasterdataClientEmail(vtexOrder);
-    //console.log('Step2')
+
     let paymentGroupObject = formatPaymentGroup(vtexOrder);
-    //console.log('Step3')
+
 
     let pagarmeObject = {
         cardHolder: " ",
@@ -62,44 +51,35 @@ const buildOrderObject = async (vtexOrder) => {
                 `${vtexOrder.items[i].name}`;
     }
 
-    // console.log('=======>', vtexOrder.sequence, formatClientName(vtexOrder), clientEmail)
-
-
-    // "customData": {
-    //     "customApps": [
-    //         {
-    //             "fields": {
-    //                 "ownerListName": "luemo",
-    //                 "ownerListEmail": "luiz.pina@icloud.com",
-    //                 "ownerListId": "7d115844-95f4-11ee-8452-0eb51278e209"
-    //             },
-    //             "id": "list",
-    //             "major": 1
-    //         }
-    //     ]
-    // },
-
-
-    console.log('---------------------------------------------')
 
     let ownerListId = null
     let ownerListName = null
     let ownerEmail = null
 
     if (vtexOrder.salesChannel == '2' && vtexOrder.customData) {
-        ownerListId = vtexOrder.customData.customApps[0].fields.ownerListId.substring(0, 8)
+
+        console.log(vtexOrder.customData.customApps.fields)
+        console.log(vtexOrder.customData.customApps.fields?.ownerListId)
+        console.log(vtexOrder.customData.customApps.fields?.ownerListName)
+        console.log(vtexOrder.customData.customApps.fields?.ownerListEmail)
+
+        ownerListId = vtexOrder?.customData?.customApps?.[0]?.fields?.ownerListId
+        ? vtexOrder.customData.customApps[0].fields.ownerListId.substring(0, 8)
+        : null;
+
         ownerListName = vtexOrder.customData.customApps[0].fields.ownerListName
         ownerEmail = vtexOrder.customData.customApps[0].fields.ownerListEmail
-        //console.log(ownerEmail)
+
     } else {
         ownerListName = giftDetail.name
         ownerListId = giftDetail.id
     }
 
 
+
+
     let orderObject = {
-        // Transaction
-        // orderId: vtexOrder.affiliateId == 'MGZ' ? `v${vtexOrder.sequence}frdp-01` : vtexOrder.orderId,
+
         orderId: vtexOrder.sequence,
         creationDate: formatTZOrderDate(vtexOrder.creationDate),
         tid: paymentGroupObject.tid,
@@ -140,7 +120,11 @@ const buildOrderObject = async (vtexOrder) => {
         itemName: itemName,
     };
 
-    return orderObject;
+    //return orderObject;
+    // Implementação para evitar o "serialize error"
+    return JSON.parse(JSON.stringify(orderObject, (key, value) => {
+        return value === undefined ? null : value;
+    }));
 };
 
 export default buildOrderObject;

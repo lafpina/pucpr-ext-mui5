@@ -1,31 +1,20 @@
-import { isBlackListed } from "../../../data/black-list";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
 export const blk_BlackListRule = (orderObject, riskScoreObject) => {
-  let blackedResult = isBlackListed(
-    orderObject.clientEmail,
-    orderObject.cpf,
-    orderObject.shippingPostalCode,
-    orderObject.phone,
-    orderObject.cardLastDigits,
-    orderObject.shippingState,
-    orderObject.shippingCity,
-    orderObject.cardCountry
-  );
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.blackListed.score = 0;
+    riskScoreObject.blackListed.qty = 0;
 
-  if (blackedResult.isBlacked) {
-    riskScoreObject.blackListed.score += 100;
-    riskScoreObject.final += 100;
-    riskScoreObject.blackListed.qty += 1;
-  }
+    riskScoreObject = buildRiskScoreLog(
+        "r015",
+        "BLK",
+        "Verificação de lista de restrição (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  riskScoreObject = buildRiskScoreLog(
-    "r015",
-    "BLK",
-    "Pedido possui pelo menos um dos 8 parâmetros de restrição  ❗",
-    riskScoreObject.blackListed.score,
-    riskScoreObject
-  );
-
-  return riskScoreObject;
+    return riskScoreObject;
 };

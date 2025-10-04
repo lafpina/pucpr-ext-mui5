@@ -1,29 +1,19 @@
-import getZendeskTickets from '../api/getZendeskTickets'
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-//? Rule 09
+//? Rule 24 - Zendesk Rule
 export const zdk_ZendeskRule = async (orderObject, riskScoreObject) => {
-
-    riskScoreObject.zendeskTickets.qty = await getZendeskTickets(orderObject.clientEmail);
-
-
-    switch (true) {
-        case (riskScoreObject.zendeskTickets.qty > 1):
-            riskScoreObject.final -= 10;
-            riskScoreObject.zendeskTickets.score -= 10;
-            break
-        case (riskScoreObject.zendeskTickets.qty = 1):
-            riskScoreObject.final -= 5;
-            riskScoreObject.zendeskTickets.score -= 5;
-            break
-    }
-
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.zendeskTickets.score = 0;
+    riskScoreObject.zendeskTickets.qty = 0;
 
     riskScoreObject = buildRiskScoreLog(
         "r024",
         "ZDK",
-        `Cliente possui pelo menos ${riskScoreObject.zendeskTickets.qty} chamado(s) pelo Zendesk  🆗`,
-        riskScoreObject.zendeskTickets.score,
+        "Verificação de histórico Zendesk (implementação customizada)",
+        0,
         riskScoreObject
     );
 

@@ -94,7 +94,7 @@ export default function ScoreWindow(props) {
                   }}
                 >
                   <Box sx={{ color: '#455a64', m: 0.5, ml: 1, fontSize: 18 }}>
-                    Perfil
+                    Análise Sentimento
                   </Box>
                   <Box sx={{ color: 'SteelBlue', fontSize: 25, ml: 9.5, mt: 6 }}>
                     <IconizeRiskLevel riskLevel={orderDetail.scoreDesc} size="large" />

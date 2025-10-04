@@ -9,19 +9,19 @@ export const OrderValueCell = (props) => {
 
   useEffect(() => {
     orderDetail.coupon?.forEach((coupon) => {
-      if (coupon.includes("CDN") || coupon.includes("CDP") || coupon.includes("CFG")) {
-        setCouponName(coupon);
-      }
+      console.log('coupon:', coupon)
+      setCouponName(coupon);
     });
   }, [orderDetail.coupon]);
+
 
   return (
     <TableCell align="right">
       {setCurrency(orderDetail.valor)}
-      {/* Exibir Código do Cupom */}
+      {/* {/* Exibir Código do Cupom  */}
       {couponName ? (
         <StyledBadgeCoupon
-          anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
           badgeContent={couponName}
         />
       ) : null}

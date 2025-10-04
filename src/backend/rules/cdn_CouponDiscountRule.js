@@ -1,22 +1,20 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 6
+
+//? Rule 6 - Coupon Discount Rule
 export const cdn_CouponDiscountRule = (orderObject, riskScoreObject) => {
-  // Any coupon of discount other than Compre Junto will score positively
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.couponDiscount.score = 0;
 
-  orderObject.coupon.map((coupon) => {
-    if (coupon.includes("CDN") || coupon.includes("CDP") || coupon.includes('CFG')) {
-      riskScoreObject.final -= 15;
-      riskScoreObject.couponDiscount.score = -15;
-    }
-  })
+    riskScoreObject = buildRiskScoreLog(
+        "r006",
+        "CDN",
+        "Verificação de cupom de desconto (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  riskScoreObject = buildRiskScoreLog(
-    "r006",
-    "CDN",
-    "Emissão de Cupom de Desconto pela Área de Atendimento ao Cliente  🆗",
-    riskScoreObject.couponDiscount.score,
-    riskScoreObject
-  );
-
-  return riskScoreObject;
+    return riskScoreObject;
 };

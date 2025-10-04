@@ -1,21 +1,20 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-import isClientCPFValid from "../utils/isClientCpfValid";
 
-//? Rule 12
+//? Rule 12 - Document Validation Rule
 export const cpf_DocumentRule = (orderObject, riskScoreObject) => {
-  // set final score to its max if document is invalid
-  if (!isClientCPFValid(orderObject.cpf)) {
-    riskScoreObject.validCPF.score = 100;
-    riskScoreObject.final = 100;
-  }
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.validCPF.score = 0;
 
-  riskScoreObject = buildRiskScoreLog(
-    "r012",
-    "CPF",
-    "Documento inválido quanto ao seu formato  ❗",
-    riskScoreObject.validCpf.score,
-    riskScoreObject
-  );
+    riskScoreObject = buildRiskScoreLog(
+        "r012",
+        "CPF",
+        "Verificação de documento (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  return riskScoreObject;
+    return riskScoreObject;
 };

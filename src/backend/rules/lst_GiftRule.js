@@ -1,30 +1,20 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 7
+
+//? Rule 7 - Gift List Rule
 export const lst_GiftRule = (orderObject, riskScoreObject) => {
-  // Scores positively in the case of it's a Guest List Order identified by a List ID
-  if (orderObject.giftId) {
-    if (orderObject.value <= 10000) {
-      riskScoreObject.final -= 50;
-      riskScoreObject.giftGuest.score = -50;
-    } else if (orderObject.value <= 20000) {
-      riskScoreObject.final -= 40;
-      riskScoreObject.giftGuest.score = -40;
-    } else if (orderObject.value <= 30000) {
-      riskScoreObject.final -= 30;
-      riskScoreObject.giftGuest.score = -30;
-    } else {
-      riskScoreObject.final -= 20;
-      riskScoreObject.giftGuest.score = -20;
-    }
-  }
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.giftGuest.score = 0;
 
-  riskScoreObject = buildRiskScoreLog(
-    "r007",
-    "LST",
-    "Compra efetuada para uma Lista de Presentes Modelo Crédito  🆗",
-    riskScoreObject.giftGuest.score,
-    riskScoreObject
-  );
+    riskScoreObject = buildRiskScoreLog(
+        "r007",
+        "LST",
+        "Verificação de lista de presentes (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  return riskScoreObject;
+    return riskScoreObject;
 };

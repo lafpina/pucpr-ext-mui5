@@ -36,9 +36,9 @@ export const StyledBadgeIncompleteOrders = styled(Badge)(({ theme }) => ({
 
 export const StyledBadgeCoupon = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-        left: -65,
-        color: "white",
-        backgroundColor: "LightBlue",
+        left: -120,
+        color: "LightSteelBlue",
+        //backgroundColor: "Orange",
         top: 5,
         border: `4px solid ${theme.palette.background.paper}`,
         padding: "0 4px",

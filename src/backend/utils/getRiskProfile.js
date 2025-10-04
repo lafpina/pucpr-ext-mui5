@@ -264,18 +264,6 @@ export async function getRiskProfile(
     console.log(`CPF ${cpf} não é válido`);
   }
 
-  //? e-mail
-
-  // if (riskProfile.score > 85) {
-  //   if (clientEmail) {
-  //     if (!isClientEmailValid(clientEmail)) {
-  //       isEmailValid = false;
-  //       riskProfile.emailScore = +100;
-  //       riskProfile.score = riskProfile.score + 100;
-  //       console.log(`email ${clientEmail} não é válido`);
-  //     }
-  //   }
-  // }
 
   if (riskProfile.score > 100) {
     riskProfile.score = 100;
@@ -285,9 +273,7 @@ export async function getRiskProfile(
 
   riskProfile.description = determineRisk(riskProfile.score);
 
-  // if (orderId === "v957321frdp-01") {
-  //   console.log(`Risk Profile de ${clientName} ======> :`, riskProfile);
-  // }
+
 
   return riskProfile;
 }

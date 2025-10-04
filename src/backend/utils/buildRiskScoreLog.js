@@ -12,7 +12,7 @@ export const buildRiskScoreLog = (
     score: score,
   };
   riskScoreObject.riskScoreLog.push(riskScoreLogDetail);
-  // console.log(riskScoreLogDetail, riskScoreObject.final);
+
 
   return riskScoreObject;
 };

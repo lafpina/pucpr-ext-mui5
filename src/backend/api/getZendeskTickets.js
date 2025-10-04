@@ -14,13 +14,12 @@ async function getZendeskTickets(clientEmail) {
             mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
-                // Encode base64. Use Decode Base64 to unveal token
+
                 Authorization: `Basic ${process.env.ZENDESK_AUTH}`
             }
         })
         let data = await res.json();
-        // console.log('response', JSON.parse(JSON.stringify(data)))
-        //console.log('QTY TICKETS:', data.count)
+
         qtyTickets = data.count
 
     } catch (error) {

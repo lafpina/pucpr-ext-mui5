@@ -1,24 +1,20 @@
-import { isPhoneAreaCodeOk } from "../../../data/area-code-list";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 14
+
+//? Rule 14 - Area Code Rule
 export const ddd_AreaCodeRule = (orderObject, riskScoreObject) => {
-  if (
-    !isPhoneAreaCodeOk(
-      orderObject.phone.substr(3, 2),
-      orderObject.shippingState
-    )
-  ) {
-    riskScoreObject.areaCode.score += 5;
-    riskScoreObject.final += 5;
-  }
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.areaCode.score = 0;
 
-  riskScoreObject = buildRiskScoreLog(
-    "r014",
-    "DDD",
-    "DDD do telefone de cadastro do cliente incompatível com o Estado de Entrega  ❗",
-    riskScoreObject.areaCode.score,
-    riskScoreObject
-  );
+    riskScoreObject = buildRiskScoreLog(
+        "r014",
+        "DDD",
+        "Verificação de DDD (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  return riskScoreObject;
+    return riskScoreObject;
 };

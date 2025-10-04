@@ -1,12 +1,10 @@
-// import getOption from "../vtex-apis/get-option";
-// import getURL from "../vtex-apis/get-url";
 
 import getOption from "../api/getOption";
 import getURL from "../api/getURL";
 
 const getMasterdataClientEmail = async (vtexOrder) => {
   let vtexEmail = [];
-  let userProfileId = vtexOrder.clientProfileData.userProfileId;
+  let userProfileId = vtexOrder.clientProfileData?.userProfileId;
 
   let url = getURL("masterdata", userProfileId);
   let options = getOption("masterdata");

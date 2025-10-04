@@ -1,56 +1,23 @@
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
-//? Rule 08
+
+//? Rule 8 - Payment Method Rule
 export const pag_PaymentMethodRule = (orderObject, riskScoreObject) => {
-  // Score positively whether it's a deposit, pix or giftCard payment method
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.paymentMethod.creditCard.score = 0;
+    riskScoreObject.paymentMethod.promissory.score = 0;
+    riskScoreObject.paymentMethod.instantPayment.score = 0;
+    riskScoreObject.paymentMethod.giftCard.score = 0;
 
-  let text = 'Metodo de pagamento inclui '
-  let risk = true
+    riskScoreObject = buildRiskScoreLog(
+        "r008",
+        "PAG",
+        "Verificação de método de pagamento (implementação customizada)",
+        0,
+        riskScoreObject
+    );
 
-  if (orderObject.paymentGroupActive.creditCard) {
-    text = text.concat('Cartão de Crédito ')
-    risk = true
-    riskScoreObject.final += 15;
-    riskScoreObject.paymentMethod.creditCard.score += 15;
-  }
-  if (orderObject.paymentGroupActive.promissory) {
-    riskScoreObject.final -= 50;
-    text = text.concat('BOLETO BANCÁRIO ')
-    risk = false
-    riskScoreObject.paymentMethod.promissory.score = -50;
-  }
-  if (orderObject.paymentGroupActive.instantPayment) {
-    text = text.concat('PIX ')
-    risk = false
-    riskScoreObject.final -= 50;
-    riskScoreObject.paymentMethod.instantPayment.score = -50;
-  }
-  if (orderObject.paymentGroupActive.giftCard) {
-    text = text.concat('VALE ')
-    risk = false
-    riskScoreObject.final -= 50;
-    riskScoreObject.paymentMethod.giftCard.score = -50;
-  }
-
-
-  if (risk) {
-    text = text.concat('  ❗')
-  } else {
-    text = text.concat('  🆗')
-  }
-
-  const score =
-    riskScoreObject.paymentMethod.promissory.score +
-    riskScoreObject.paymentMethod.instantPayment.score +
-    riskScoreObject.paymentMethod.creditCard.score +
-    riskScoreObject.paymentMethod.giftCard.score;
-
-  riskScoreObject = buildRiskScoreLog(
-    "r008",
-    "PAG",
-    `${text} `,
-    score,
-    riskScoreObject
-  );
-
-  return riskScoreObject;
+    return riskScoreObject;
 };

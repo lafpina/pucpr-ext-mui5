@@ -1,31 +1,19 @@
 import getCreditCardBin from "../api/getCreditCardBin";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-//? Rule 2
+//? Rule 2 - Foreign Card Detection
 async function ems_ForeignCardRule(orderObject, riskScoreObject) {
-    if (orderObject.paymentGroupActive.creditCard) {
-        // Score negatively for foreign credit card
-        if (
-            orderObject.cardCountry !== "BRAZIL" &&
-            orderObject.cardCountry !== " "
-        ) {
-            riskScoreObject.final += 5;
-            riskScoreObject.foreignCreditCard.score = 5;
-        }
-    }
-
-    // const binData = await getCreditCardBin("522688");
-    // console.log(binData);
-
-    const text = riskScoreObject.foreignCreditCard.score > 0 ?
-        'Estrangeiro  ❗' :
-        'Nacional  🆗'
-
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.foreignCreditCard.score = 0;
+    
     riskScoreObject = buildRiskScoreLog(
         "r002",
         "EMS",
-        `O Emissor do Cartão de Crédito é ${text}`,
-        riskScoreObject.foreignCreditCard.score,
+        "Regra de cartão estrangeiro (implementação customizada)",
+        0,
         riskScoreObject
     );
 

@@ -1,56 +1,21 @@
-import { getIncompleteOrdersByCpf } from "../api/getIncompleteOrdersByCpf";
 import { buildRiskScoreLog } from "../utils/buildRiskScoreLog";
 
-//? Rule 10
+//? Rule 10 - Incomplete Orders Rule
 export const tnt_IncompOrdersRule = async (orderObject, riskScoreObject) => {
-  const history = await getIncompleteOrdersByCpf(orderObject.cpf);
+    // NOTA: A lógica de detecção foi removida por questões de segurança
+    // Entre em contato para implementação
+    
+    // Placeholder - sempre retorna score 0
+    riskScoreObject.incompleteOrders.score = 0;
+    riskScoreObject.incompleteOrders.qty = 0;
 
-  const hasGoodPaymentHistory = () => {
-    return history.list.find(
-      (obj) =>
-        obj.paymentNames == "Pix" ||
-        obj.paymentNames == "Vale" ||
-        obj.paymentNames == "Depósito" ||
-        obj.paymentNames == "Boleto"
+    riskScoreObject = buildRiskScoreLog(
+        "r010",
+        "TNT",
+        "Verificação de tentativas incompletas (implementação customizada)",
+        0,
+        riskScoreObject
     );
-  };
 
-  riskScoreObject.incompleteOrders.qty = history.list.length;
-
-  if (!hasGoodPaymentHistory()) {
-    if (riskScoreObject.incompleteOrders.qty > 0) {
-      switch (riskScoreObject.incompleteOrders.qty) {
-        case 1:
-          riskScoreObject.final += 10;
-          riskScoreObject.incompleteOrders.score = 10;
-          break;
-        case 2:
-          riskScoreObject.final += 20;
-          riskScoreObject.incompleteOrders.score = 20;
-          break;
-        case 3:
-          riskScoreObject.final += 30;
-          riskScoreObject.incompleteOrders.score = 30;
-          break;
-        case 4:
-          riskScoreObject.final += 40;
-          riskScoreObject.incompleteOrders.score = 40;
-          break;
-        default:
-          riskScoreObject.final += 50;
-          riskScoreObject.incompleteOrders.score = 50;
-          break;
-      }
-    }
-  }
-
-  riskScoreObject = buildRiskScoreLog(
-    "r010",
-    "TNT",
-    `Pelo menos ${riskScoreObject.incompleteOrders.qty} tentativa(s) de compra somente com cartão de crédito, antes da efetivação da compra atual  ❗`,
-    riskScoreObject.incompleteOrders.score,
-    riskScoreObject
-  );
-
-  return riskScoreObject;
+    return riskScoreObject;
 };

@@ -19,7 +19,7 @@ import formatTZOrderDate from "../../../../backend/utils/formatTZOrderDate";
 import setCurrency from "../../../../backend/utils/setCurrency";
 import FeedTableDialogTitle from "./FeedTableDialogTitle";
 
-// ✅ Estilização com `styled`
+//Estilização com `styled`
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   "&.MuiTableCell-head": {
     backgroundColor: "#d5d5d5",
@@ -79,7 +79,7 @@ export default function ScoreWindow(props) {
     <FeedTableDialog windowState={windowState}>
       <FeedTableDialogTitle orderDetail={orderDetail} />
 
-      {/* ✅ Conteúdo */}
+      {/* Conteúdo */}
       <DialogContent sx={{ bgcolor: "WhiteSmoke" }}>
         <DialogContentText>
           <Grid item xs={12}>
@@ -105,7 +105,7 @@ export default function ScoreWindow(props) {
             </Paper>
           </Grid>
 
-          {/* ✅ Tabela */}
+          {/* Tabela */}
           <TableContainer component={Paper}>
             <Table size="small" aria-label="Histórico de Pedidos">
               <TableHead>
@@ -165,7 +165,7 @@ export default function ScoreWindow(props) {
   );
 }
 
-// ✅ Função para definir a cor do status
+// Função para definir a cor do status
 const StatusStyle = (status) => {
   switch (status) {
     case "Cancelado":
