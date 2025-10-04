@@ -36,7 +36,7 @@ Solução desenvolvida por Luiz Pina (PUCPR) para auxiliar pequenos lojistas de 
 
 1. Clone o repositório
 ```bash
-git clone https://github.com/seu-usuario/vtex-fraud-prevention.git
+git clone https://github.com/lafpina/pucpr-ext-mui5.git
 cd vtex-fraud-prevention
 ```
 
@@ -125,13 +125,10 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 
 Este projeto é open-source e está disponível sob a licença MIT.
 
-## 👥 Autores
+## 👥 Autor
 
-- **Luiz Pina** - Desenvolvimento
+- **Luiz Pina - Pontifícia Universidade Católica do Paraná (PUCPR)** 
 
-## 🏢 Parceria
-
-Projeto desenvolvido por Luiz Pina.
 
 ## 📧 Contato
 
